@@ -1,19 +1,10 @@
 package com.democrat.ancortodemocrat.element;
 
-import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlType;
-import javax.xml.bind.annotation.XmlValue;
 
-//@XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "", propOrder = {
-    "value"
-})
 public class Term {
 
-    @XmlValue
-    protected String value;
-    @XmlAttribute(name = "id")
-    protected String id;
+    private String value;
+    private String id;
 
     /**
      * Gets the value of the value property.

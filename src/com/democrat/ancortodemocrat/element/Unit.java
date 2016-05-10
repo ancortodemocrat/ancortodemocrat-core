@@ -18,10 +18,11 @@ public class Unit {
 	 * 
 	 * @return
 	 *     possible object is
-	 *     {@link Annotations.Unit.Metadata }
+	 *     {@link MetadataUnit }
 	 *     
 	 */
-	public MetadataUnit getMetadataUnit() {
+	@XmlElement(name="metadata")
+	public MetadataUnit getMetadata() {
 		return metadata;
 	}
 
@@ -30,10 +31,11 @@ public class Unit {
 	 * 
 	 * @param value
 	 *     allowed object is
-	 *     {@link Annotations.Unit.Metadata }
+	 *     {@link MetadataUnit }
 	 *     
 	 */
-	public void setMetadataUnit(MetadataUnit value) {
+
+	public void setMetadata(MetadataUnit value) {
 		this.metadata = value;
 	}
 
@@ -42,7 +44,7 @@ public class Unit {
 	 * 
 	 * @return
 	 *     possible object is
-	 *     {@link Annotations.Unit.Characterisation }
+	 *     {@link Characterisation }
 	 *     
 	 */
 	public Characterisation getCharacterisation() {
@@ -54,7 +56,7 @@ public class Unit {
 	 * 
 	 * @param value
 	 *     allowed object is
-	 *     {@link Annotations.Unit.Characterisation }
+	 *     {@link Characterisation }
 	 *     
 	 */
 	public void setCharacterisation(Characterisation value) {
@@ -66,10 +68,11 @@ public class Unit {
 	 * 
 	 * @return
 	 *     possible object is
-	 *     {@link Annotations.Unit.Positioning }
+	 *     {@link PositioningUnit }
 	 *     
 	 */
-	public PositioningUnit getPositioningUnit() {
+	@XmlElement(name="positioning")
+	public PositioningUnit getPositioning() {
 		return positioning;
 	}
 
@@ -78,10 +81,10 @@ public class Unit {
 	 * 
 	 * @param value
 	 *     allowed object is
-	 *     {@link Annotations.Unit.Positioning }
+	 *     {@link PositioningUnit }
 	 *     
 	 */
-	public void setPositioningUnit(PositioningUnit value) {
+	public void setPositioning(PositioningUnit value) {
 		this.positioning = value;
 	}
 
@@ -93,6 +96,7 @@ public class Unit {
 	 *     {@link String }
 	 *     
 	 */
+	@XmlAttribute
 	public String getId() {
 		return id;
 	}

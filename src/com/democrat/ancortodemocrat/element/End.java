@@ -8,7 +8,8 @@ import javax.xml.bind.annotation.XmlType;
 
 public class End {
 
-    private SinglePosition singlePosition;
+
+	private SinglePosition singlePosition;
 
     /**
      * Gets the value of the singlePosition property.

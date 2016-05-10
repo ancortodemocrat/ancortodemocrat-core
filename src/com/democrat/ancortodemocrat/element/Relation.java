@@ -1,10 +1,5 @@
 package com.democrat.ancortodemocrat.element;
 
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlType;
-
 //@XmlAccessorType(XmlAccessType.FIELD)
 
 public class Relation {
@@ -70,7 +65,7 @@ public class Relation {
      *     {@link Annotations.Relation.Positioning }
      *     
      */
-    public PositioningRelation getPositioningRelation() {
+    public PositioningRelation getPositioning() {
         return positioning;
     }
 
@@ -82,7 +77,7 @@ public class Relation {
      *     {@link Annotations.Relation.Positioning }
      *     
      */
-    public void setPositioningRelation(PositioningRelation value) {
+    public void setPositioning(PositioningRelation value) {
         this.positioning = value;
     }
 
@@ -109,5 +104,6 @@ public class Relation {
     public void setId(String value) {
         this.id = value;
     }
+    
 
 }

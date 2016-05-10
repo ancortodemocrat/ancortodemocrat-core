@@ -37,8 +37,7 @@ public class Annotation {
      *     {@link Annotations.Metadata }
      *     
      */
-    @XmlElement(name="metadata")
-    public void setMetadataAnnotation(MetadataAnnotation value) {
+    public void setMetadata(MetadataAnnotation value) {
         this.metadata = value;
     }
 

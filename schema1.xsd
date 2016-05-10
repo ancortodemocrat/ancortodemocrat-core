@@ -5,8 +5,6 @@
 
   <xs:element name="metadata" nillable="true" type="xs:anyType"/>
 
-  <xs:element name="positioning" nillable="true" type="xs:anyType"/>
-
   <xs:complexType name="annotation">
     <xs:sequence>
       <xs:element ref="metadata" minOccurs="0"/>
@@ -27,14 +25,14 @@
       <xs:element name="characterisation" type="characterisation" minOccurs="0"/>
       <xs:element name="id" type="xs:string" minOccurs="0"/>
       <xs:element name="metadataUnit" type="metadataUnit" minOccurs="0"/>
-      <xs:element name="positioningRelation" type="positioningRelation" minOccurs="0"/>
+      <xs:element name="positioning" type="positioningRelation" minOccurs="0"/>
     </xs:sequence>
   </xs:complexType>
 
   <xs:complexType name="characterisation">
     <xs:sequence>
       <xs:element name="featureSet" type="featureSet" minOccurs="0"/>
-      <xs:element name="type" type="xs:string" minOccurs="0"/>
+      <xs:element name="type" type="type" minOccurs="0"/>
     </xs:sequence>
   </xs:complexType>
 
@@ -51,6 +49,12 @@
     <xs:attribute name="name" type="xs:string"/>
   </xs:complexType>
 
+  <xs:complexType name="type">
+    <xs:sequence>
+      <xs:element name="value" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
   <xs:complexType name="metadataUnit">
     <xs:sequence>
       <xs:element name="author" type="xs:string" minOccurs="0"/>
@@ -61,16 +65,25 @@
   </xs:complexType>
 
   <xs:complexType name="positioningRelation">
-    <xs:sequence/>
+    <xs:sequence>
+      <xs:element name="term" type="term" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="term">
+    <xs:sequence>
+      <xs:element name="id" type="xs:string" minOccurs="0"/>
+      <xs:element name="value" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
   </xs:complexType>
 
   <xs:complexType name="unit">
     <xs:sequence>
       <xs:element name="characterisation" type="characterisation" minOccurs="0"/>
-      <xs:element name="id" type="xs:string" minOccurs="0"/>
-      <xs:element name="metadataUnit" type="metadataUnit" minOccurs="0"/>
-      <xs:element name="positioningUnit" type="positioningUnit" minOccurs="0"/>
+      <xs:element ref="metadata" minOccurs="0"/>
+      <xs:element name="positioning" type="positioningUnit" minOccurs="0"/>
     </xs:sequence>
+    <xs:attribute name="id" type="xs:string"/>
   </xs:complexType>
 
   <xs:complexType name="positioningUnit">
@@ -88,9 +101,9 @@
 
   <xs:complexType name="singlePosition">
     <xs:sequence>
-      <xs:element name="index" type="xs:short" minOccurs="0"/>
       <xs:element name="value" type="xs:string" minOccurs="0"/>
     </xs:sequence>
+    <xs:attribute name="index" type="xs:long"/>
   </xs:complexType>
 
   <xs:complexType name="start">

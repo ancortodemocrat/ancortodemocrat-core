@@ -10,7 +10,7 @@ import javax.xml.bind.annotation.XmlValue;
 public class SinglePosition {
 
     private String value;
-    private Short index;
+    private Long index;
 
     /**
      * Gets the value of the value property.
@@ -44,7 +44,8 @@ public class SinglePosition {
      *     {@link Short }
      *     
      */
-    public Short getIndex() {
+    @XmlAttribute
+    public Long getIndex() {
         return index;
     }
 
@@ -56,7 +57,7 @@ public class SinglePosition {
      *     {@link Short }
      *     
      */
-    public void setIndex(Short value) {
+    public void setIndex(Long value) {
         this.index = value;
     }
 

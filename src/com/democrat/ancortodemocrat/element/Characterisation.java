@@ -8,7 +8,7 @@ import javax.xml.bind.annotation.XmlType;
 
 public class Characterisation {
 
-    private String type;
+    private Type type;
     private FeatureSet featureSet;
 
     /**
@@ -19,7 +19,8 @@ public class Characterisation {
      *     {@link String }
      *     
      */
-    public String getType() {
+    @XmlElement
+    public Type getType() {
         return type;
     }
 
@@ -31,7 +32,7 @@ public class Characterisation {
      *     {@link String }
      *     
      */
-    public void setType(String value) {
+    public void setType(Type value) {
         this.type = value;
     }
 
@@ -43,6 +44,7 @@ public class Characterisation {
      *     {@link Annotations.Relation.Characterisation.FeatureSet }
      *     
      */
+    @XmlElement
     public FeatureSet getFeatureSet() {
         return featureSet;
     }

@@ -3,13 +3,8 @@ package com.democrat.ancortodemocrat.element;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlType;
+import javax.xml.bind.annotation.XmlElement;
 
-
-//@XmlAccessorType(XmlAccessType.FIELD)
-
-@XmlRootElement(name="positioning")
 public class PositioningRelation {
 	
 	private List<Term> term;
@@ -36,10 +31,17 @@ public class PositioningRelation {
 	 * 
 	 * 
 	 */
+	@XmlElement(name="term")
 	public List<Term> getTerm() {
 		if (term == null) {
 			term = new ArrayList<Term>();
 		}
 		return this.term;
 	}
+
+	public void setTerm(List<Term> term) {
+		this.term = term;
+	}
+	
+	
 }
