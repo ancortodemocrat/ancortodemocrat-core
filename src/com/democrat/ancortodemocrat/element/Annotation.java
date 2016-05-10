@@ -7,10 +7,10 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement(name = "annotations")
-public class Annotations {
+public class Annotation {
 
     @XmlElement(required = true)
-    protected Metadata metadata;
+    protected MetadataAnnotation metadata;
     protected List<Unit> unit;
     protected List<Relation> relation;
 
@@ -22,7 +22,7 @@ public class Annotations {
      *     {@link Annotations.Metadata }
      *     
      */
-    public Metadata getMetadata() {
+    public MetadataAnnotation getMetadataAnnotation() {
         return metadata;
     }
 
@@ -34,7 +34,7 @@ public class Annotations {
      *     {@link Annotations.Metadata }
      *     
      */
-    public void setMetadata(Metadata value) {
+    public void setMetadataAnnotation(MetadataAnnotation value) {
         this.metadata = value;
     }
 

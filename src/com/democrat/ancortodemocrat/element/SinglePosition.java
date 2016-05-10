@@ -5,33 +5,16 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.XmlValue;
 
-/**
- * <p>Java class for anonymous complex type.
- * 
- * <p>The following schema fragment specifies the expected content contained within this class.
- * 
- * <pre>
- * &lt;complexType>
- *   &lt;simpleContent>
- *     &lt;extension base="&lt;http://www.w3.org/2001/XMLSchema>string">
- *       &lt;attribute name="corpusHashcode" type="{http://www.w3.org/2001/XMLSchema}string" />
- *     &lt;/extension>
- *   &lt;/simpleContent>
- * &lt;/complexType>
- * </pre>
- * 
- * 
- */
 //@XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = {
     "value"
 })
-public class Metadata {
+public class SinglePosition {
 
     @XmlValue
     protected String value;
-    @XmlAttribute(name = "corpusHashcode")
-    protected String corpusHashcode;
+    @XmlAttribute(name = "index")
+    protected Short index;
 
     /**
      * Gets the value of the value property.
@@ -58,27 +41,27 @@ public class Metadata {
     }
 
     /**
-     * Gets the value of the corpusHashcode property.
+     * Gets the value of the index property.
      * 
      * @return
      *     possible object is
-     *     {@link String }
+     *     {@link Short }
      *     
      */
-    public String getCorpusHashcode() {
-        return corpusHashcode;
+    public Short getIndex() {
+        return index;
     }
 
     /**
-     * Sets the value of the corpusHashcode property.
+     * Sets the value of the index property.
      * 
      * @param value
      *     allowed object is
-     *     {@link String }
+     *     {@link Short }
      *     
      */
-    public void setCorpusHashcode(String value) {
-        this.corpusHashcode = value;
+    public void setIndex(Short value) {
+        this.index = value;
     }
 
 }

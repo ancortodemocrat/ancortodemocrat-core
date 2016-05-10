@@ -14,11 +14,11 @@ import javax.xml.bind.annotation.XmlType;
 public class Relation {
 
     @XmlElement(required = true)
-    protected Relation.Metadata metadata;
+    protected MetadataUnit metadata;
     @XmlElement(required = true)
     protected Characterisation characterisation;
     @XmlElement(required = true)
-    protected Positioning positioning;
+    protected PositioningRelation positioning;
     @XmlAttribute(name = "id")
     protected String id;
 
@@ -30,7 +30,7 @@ public class Relation {
      *     {@link Annotations.Relation.Metadata }
      *     
      */
-    public Unit.Metadata getMetadata() {
+    public MetadataUnit getMetadataUnit() {
         return metadata;
     }
 
@@ -42,7 +42,7 @@ public class Relation {
      *     {@link Annotations.Relation.Metadata }
      *     
      */
-    public void setMetadata(Unit.Metadata value) {
+    public void setMetadataUnit(MetadataUnit value) {
         this.metadata = value;
     }
 
@@ -78,7 +78,7 @@ public class Relation {
      *     {@link Annotations.Relation.Positioning }
      *     
      */
-    public Positioning getPositioning() {
+    public PositioningRelation getPositioningRelation() {
         return positioning;
     }
 
@@ -90,7 +90,7 @@ public class Relation {
      *     {@link Annotations.Relation.Positioning }
      *     
      */
-    public void setPositioning(Positioning value) {
+    public void setPositioningRelation(PositioningRelation value) {
         this.positioning = value;
     }
 
