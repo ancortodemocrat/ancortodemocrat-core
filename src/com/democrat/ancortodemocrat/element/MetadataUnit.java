@@ -5,22 +5,15 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
 //@XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "", propOrder = {
-    "author",
-    "creationDate",
-    "lastModifier",
-    "lastModificationDate"
-})
+
 @XmlRootElement(name="metadata")
 public class MetadataUnit {
 
-    @XmlElement(required = true)
-    protected String author;
-    @XmlElement(name = "creation-date")
-    protected long creationDate;
-    @XmlElement(required = true)
-    protected String lastModifier;
-    protected long lastModificationDate;
+
+    private String author;
+    private long creationDate;
+    private String lastModifier;
+    private long lastModificationDate;
 
     /**
      * Gets the value of the author property.

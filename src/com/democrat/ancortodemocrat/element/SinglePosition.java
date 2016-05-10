@@ -6,15 +6,11 @@ import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.XmlValue;
 
 //@XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "", propOrder = {
-    "value"
-})
+
 public class SinglePosition {
 
-    @XmlValue
-    protected String value;
-    @XmlAttribute(name = "index")
-    protected Short index;
+    private String value;
+    private Short index;
 
     /**
      * Gets the value of the value property.

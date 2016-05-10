@@ -5,15 +5,10 @@ import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.XmlValue;
 
 //@XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "", propOrder = {
-    "value"
-})
 public class Feature {
 
-    @XmlValue
-    protected String value;
-    @XmlAttribute(name = "name")
-    protected String name;
+    private String value;
+    private String name;
 
     /**
      * Gets the value of the value property.
@@ -47,6 +42,7 @@ public class Feature {
      *     {@link String }
      *     
      */
+    @XmlAttribute
     public String getName() {
         return name;
     }

@@ -5,24 +5,13 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
-@XmlType(name = "", propOrder = {
-		"metadata",
-		"characterisation",
-		"positioning"
-})
-
-
 //@XmlAccessorType(XmlAccessType.FIELD)
 public class Unit {
 
-	@XmlElement(required = true)
-	protected MetadataUnit metadata;
-	@XmlElement(required = true)
-	protected Characterisation characterisation;
-	@XmlElement(required = true)
-	protected PositioningUnit positioning;
-	@XmlAttribute(name = "id")
-	protected String id;
+	private MetadataUnit metadata;
+	private Characterisation characterisation;
+	private PositioningUnit positioning;
+	private String id;
 
 	/**
 	 * Gets the value of the metadata property.

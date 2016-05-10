@@ -5,16 +5,11 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
 //@XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "", propOrder = {
-    "type",
-    "featureSet"
-})
+
 public class Characterisation {
 
-    @XmlElement(required = true)
-    protected String type;
-    @XmlElement(required = true)
-    protected FeatureSet featureSet;
+    private String type;
+    private FeatureSet featureSet;
 
     /**
      * Gets the value of the type property.

@@ -7,17 +7,12 @@ import javax.xml.bind.annotation.XmlType;
 
 
 //@XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "", propOrder = {
-		"start",
-		"end"
-})
+
 @XmlRootElement(name="positioning")
 public class PositioningUnit {
 
-	@XmlElement(required = true)
-	protected Start start;
-	@XmlElement(required = true)
-	protected End end;
+	private Start start;
+	private End end;
 
 	/**
 	 * Gets the value of the start property.

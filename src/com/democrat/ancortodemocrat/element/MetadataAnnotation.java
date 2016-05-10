@@ -24,16 +24,12 @@ import javax.xml.bind.annotation.XmlValue;
  * 
  */
 //@XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "", propOrder = {
-    "value"
-})
 @XmlRootElement(name="metadata")
 public class MetadataAnnotation {
 
-    @XmlValue
-    protected String value;
-    @XmlAttribute(name = "corpusHashcode")
-    protected String corpusHashcode;
+   
+    private String value;
+    private String corpusHashcode;
 
     /**
      * Gets the value of the value property.

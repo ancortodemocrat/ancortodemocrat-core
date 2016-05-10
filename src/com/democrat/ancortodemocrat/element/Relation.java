@@ -6,21 +6,13 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
 //@XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "", propOrder = {
-    "metadata",
-    "characterisation",
-    "positioning"
-})
+
 public class Relation {
 
-    @XmlElement(required = true)
-    protected MetadataUnit metadata;
-    @XmlElement(required = true)
-    protected Characterisation characterisation;
-    @XmlElement(required = true)
-    protected PositioningRelation positioning;
-    @XmlAttribute(name = "id")
-    protected String id;
+    private MetadataUnit metadata;
+    private Characterisation characterisation;
+    private PositioningRelation positioning;
+    private String id;
 
     /**
      * Gets the value of the metadata property.

@@ -8,13 +8,11 @@ import javax.xml.bind.annotation.XmlType;
 
 
 //@XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "", propOrder = {
-		"term"
-})
+
 @XmlRootElement(name="positioning")
 public class PositioningRelation {
 	
-	protected List<Term> term;
+	private List<Term> term;
 
 	/**
 	 * Gets the value of the term property.

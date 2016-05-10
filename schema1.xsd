@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<xs:schema version="1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+  <xs:element name="annotations" type="annotation"/>
+
+  <xs:element name="metadata" nillable="true" type="xs:anyType"/>
+
+  <xs:element name="positioning" nillable="true" type="xs:anyType"/>
+
+  <xs:complexType name="annotation">
+    <xs:sequence>
+      <xs:element ref="metadata" minOccurs="0"/>
+      <xs:element name="relation" type="relation" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="unit" type="unit" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="metadataAnnotation">
+    <xs:sequence>
+      <xs:element name="corpusHashcode" type="xs:string" minOccurs="0"/>
+      <xs:element name="value" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="relation">
+    <xs:sequence>
+      <xs:element name="characterisation" type="characterisation" minOccurs="0"/>
+      <xs:element name="id" type="xs:string" minOccurs="0"/>
+      <xs:element name="metadataUnit" type="metadataUnit" minOccurs="0"/>
+      <xs:element name="positioningRelation" type="positioningRelation" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="characterisation">
+    <xs:sequence>
+      <xs:element name="featureSet" type="featureSet" minOccurs="0"/>
+      <xs:element name="type" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="featureSet">
+    <xs:sequence>
+      <xs:element name="feature" type="feature" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="feature">
+    <xs:sequence>
+      <xs:element name="value" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+    <xs:attribute name="name" type="xs:string"/>
+  </xs:complexType>
+
+  <xs:complexType name="metadataUnit">
+    <xs:sequence>
+      <xs:element name="author" type="xs:string" minOccurs="0"/>
+      <xs:element name="creationDate" type="xs:long"/>
+      <xs:element name="lastModificationDate" type="xs:long"/>
+      <xs:element name="lastModifier" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="positioningRelation">
+    <xs:sequence/>
+  </xs:complexType>
+
+  <xs:complexType name="unit">
+    <xs:sequence>
+      <xs:element name="characterisation" type="characterisation" minOccurs="0"/>
+      <xs:element name="id" type="xs:string" minOccurs="0"/>
+      <xs:element name="metadataUnit" type="metadataUnit" minOccurs="0"/>
+      <xs:element name="positioningUnit" type="positioningUnit" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="positioningUnit">
+    <xs:sequence>
+      <xs:element name="end" type="end" minOccurs="0"/>
+      <xs:element name="start" type="start" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="end">
+    <xs:sequence>
+      <xs:element name="singlePosition" type="singlePosition" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="singlePosition">
+    <xs:sequence>
+      <xs:element name="index" type="xs:short" minOccurs="0"/>
+      <xs:element name="value" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="start">
+    <xs:sequence>
+      <xs:element name="singlePosition" type="singlePosition" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+</xs:schema>
+

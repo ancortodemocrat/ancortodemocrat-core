@@ -3,16 +3,19 @@ package com.democrat.ancortodemocrat.element;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlType;
+import javax.xml.bind.annotation.XmlValue;
 
 @XmlRootElement(name = "annotations")
 public class Annotation {
 
-    @XmlElement(required = true)
-    protected MetadataAnnotation metadata;
-    protected List<Unit> unit;
-    protected List<Relation> relation;
+    
+    private MetadataAnnotation metadata;
+    private List<Unit> unit;
+    private List<Relation> relation;
 
     /**
      * Gets the value of the metadata property.
@@ -22,7 +25,7 @@ public class Annotation {
      *     {@link Annotations.Metadata }
      *     
      */
-    public MetadataAnnotation getMetadataAnnotation() {
+    public MetadataAnnotation getMetadata() {
         return metadata;
     }
 
@@ -34,6 +37,7 @@ public class Annotation {
      *     {@link Annotations.Metadata }
      *     
      */
+    @XmlElement(name="metadata")
     public void setMetadataAnnotation(MetadataAnnotation value) {
         this.metadata = value;
     }
@@ -60,6 +64,7 @@ public class Annotation {
      * 
      * 
      */
+    @XmlElement(name="unit")
     public List<Unit> getUnit() {
         if (unit == null) {
             unit = new ArrayList<Unit>();
@@ -89,6 +94,7 @@ public class Annotation {
      * 
      * 
      */
+    @XmlElement(name="relation")
     public List<Relation> getRelation() {
         if (relation == null) {
             relation = new ArrayList<Relation>();

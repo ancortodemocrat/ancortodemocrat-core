@@ -3,15 +3,14 @@ package com.democrat.ancortodemocrat.element;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
 //@XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "", propOrder = {
-    "feature"
-})
+
 public class FeatureSet {
 
-    protected List<Feature> feature;
+    private List<Feature> feature;
 
     /**
      * Gets the value of the feature property.
@@ -35,6 +34,7 @@ public class FeatureSet {
      * 
      * 
      */
+    @XmlElement(name="feature")
     public List<Feature> getFeature() {
         if (feature == null) {
             feature = new ArrayList<Feature>();
