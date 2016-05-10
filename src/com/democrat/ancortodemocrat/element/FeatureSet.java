@@ -1,10 +1,15 @@
 package com.democrat.ancortodemocrat.element;
 
-@XmlAccessorType(XmlAccessType.FIELD)
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.xml.bind.annotation.XmlType;
+
+//@XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = {
     "feature"
 })
-public static class FeatureSet {
+public class FeatureSet {
 
     protected List<Feature> feature;
 
@@ -32,7 +37,7 @@ public static class FeatureSet {
      */
     public List<Feature> getFeature() {
         if (feature == null) {
-            feature = new ArrayList<Annotations.Relation.Characterisation.FeatureSet.Feature>();
+            feature = new ArrayList<Feature>();
         }
         return this.feature;
     }

@@ -1,19 +1,25 @@
 package com.democrat.ancortodemocrat.element;
 
-@XmlAccessorType(XmlAccessType.FIELD)
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlType;
+
 @XmlType(name = "", propOrder = {
     "metadata",
     "characterisation",
     "positioning"
 })
-public static class Unit {
+
+
+//@XmlAccessorType(XmlAccessType.FIELD)
+public class Unit {
 
     @XmlElement(required = true)
-    protected Annotations.Unit.Metadata metadata;
+    protected Unit.Metadata metadata;
     @XmlElement(required = true)
-    protected Annotations.Unit.Characterisation characterisation;
+    protected Characterisation characterisation;
     @XmlElement(required = true)
-    protected Annotations.Unit.Positioning positioning;
+    protected Positioning positioning;
     @XmlAttribute(name = "id")
     protected String id;
 
@@ -25,7 +31,7 @@ public static class Unit {
      *     {@link Annotations.Unit.Metadata }
      *     
      */
-    public Annotations.Unit.Metadata getMetadata() {
+    public Unit.Metadata getMetadata() {
         return metadata;
     }
 
@@ -37,7 +43,7 @@ public static class Unit {
      *     {@link Annotations.Unit.Metadata }
      *     
      */
-    public void setMetadata(Annotations.Unit.Metadata value) {
+    public void setMetadata(Unit.Metadata value) {
         this.metadata = value;
     }
 
@@ -49,7 +55,7 @@ public static class Unit {
      *     {@link Annotations.Unit.Characterisation }
      *     
      */
-    public Annotations.Unit.Characterisation getCharacterisation() {
+    public Characterisation getCharacterisation() {
         return characterisation;
     }
 
@@ -61,7 +67,7 @@ public static class Unit {
      *     {@link Annotations.Unit.Characterisation }
      *     
      */
-    public void setCharacterisation(Annotations.Unit.Characterisation value) {
+    public void setCharacterisation(Characterisation value) {
         this.characterisation = value;
     }
 
@@ -73,7 +79,7 @@ public static class Unit {
      *     {@link Annotations.Unit.Positioning }
      *     
      */
-    public Annotations.Unit.Positioning getPositioning() {
+    public Positioning getPositioning() {
         return positioning;
     }
 
@@ -85,7 +91,7 @@ public static class Unit {
      *     {@link Annotations.Unit.Positioning }
      *     
      */
-    public void setPositioning(Annotations.Unit.Positioning value) {
+    public void setPositioning(Positioning value) {
         this.positioning = value;
     }
 

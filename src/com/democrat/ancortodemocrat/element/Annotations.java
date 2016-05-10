@@ -3,6 +3,9 @@ package com.democrat.ancortodemocrat.element;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+
 @XmlRootElement(name = "annotations")
 public class Annotations {
 
@@ -88,7 +91,7 @@ public class Annotations {
      */
     public List<Relation> getRelation() {
         if (relation == null) {
-            relation = new ArrayList<Annotations.Relation>();
+            relation = new ArrayList<Relation>();
         }
         return this.relation;
     }

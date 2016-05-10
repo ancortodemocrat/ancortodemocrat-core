@@ -1,11 +1,15 @@
 package com.democrat.ancortodemocrat.element;
 
-@XmlAccessorType(XmlAccessType.FIELD)
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlType;
+
+//@XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = {
     "type",
     "featureSet"
 })
-public static class Characterisation {
+public class Characterisation {
 
     @XmlElement(required = true)
     protected String type;
@@ -44,7 +48,7 @@ public static class Characterisation {
      *     {@link Annotations.Relation.Characterisation.FeatureSet }
      *     
      */
-    public Annotations.Relation.Characterisation.FeatureSet getFeatureSet() {
+    public FeatureSet getFeatureSet() {
         return featureSet;
     }
 
@@ -56,7 +60,7 @@ public static class Characterisation {
      *     {@link Annotations.Relation.Characterisation.FeatureSet }
      *     
      */
-    public void setFeatureSet(Annotations.Relation.Characterisation.FeatureSet value) {
+    public void setFeatureSet(FeatureSet value) {
         this.featureSet = value;
     }
 }

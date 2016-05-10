@@ -1,18 +1,24 @@
 package com.democrat.ancortodemocrat.element;
-@XmlAccessorType(XmlAccessType.FIELD)
+
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlType;
+
+//@XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = {
     "metadata",
     "characterisation",
     "positioning"
 })
-public static class Relation {
+public class Relation {
 
     @XmlElement(required = true)
-    protected Annotations.Relation.Metadata metadata;
+    protected Relation.Metadata metadata;
     @XmlElement(required = true)
-    protected Annotations.Relation.Characterisation characterisation;
+    protected Characterisation characterisation;
     @XmlElement(required = true)
-    protected Annotations.Relation.Positioning positioning;
+    protected Positioning positioning;
     @XmlAttribute(name = "id")
     protected String id;
 
@@ -24,7 +30,7 @@ public static class Relation {
      *     {@link Annotations.Relation.Metadata }
      *     
      */
-    public Annotations.Relation.Metadata getMetadata() {
+    public Unit.Metadata getMetadata() {
         return metadata;
     }
 
@@ -36,7 +42,7 @@ public static class Relation {
      *     {@link Annotations.Relation.Metadata }
      *     
      */
-    public void setMetadata(Annotations.Relation.Metadata value) {
+    public void setMetadata(Unit.Metadata value) {
         this.metadata = value;
     }
 
@@ -48,7 +54,7 @@ public static class Relation {
      *     {@link Annotations.Relation.Characterisation }
      *     
      */
-    public Annotations.Relation.Characterisation getCharacterisation() {
+    public Characterisation getCharacterisation() {
         return characterisation;
     }
 
@@ -60,7 +66,7 @@ public static class Relation {
      *     {@link Annotations.Relation.Characterisation }
      *     
      */
-    public void setCharacterisation(Annotations.Relation.Characterisation value) {
+    public void setCharacterisation(Characterisation value) {
         this.characterisation = value;
     }
 
@@ -72,7 +78,7 @@ public static class Relation {
      *     {@link Annotations.Relation.Positioning }
      *     
      */
-    public Annotations.Relation.Positioning getPositioning() {
+    public Positioning getPositioning() {
         return positioning;
     }
 
@@ -84,7 +90,7 @@ public static class Relation {
      *     {@link Annotations.Relation.Positioning }
      *     
      */
-    public void setPositioning(Annotations.Relation.Positioning value) {
+    public void setPositioning(Positioning value) {
         this.positioning = value;
     }
 

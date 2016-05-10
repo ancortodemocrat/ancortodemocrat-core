@@ -1,5 +1,10 @@
 package com.democrat.ancortodemocrat.element;
 
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlType;
+import javax.xml.bind.annotation.XmlValue;
+
 /**
  * <p>Java class for anonymous complex type.
  * 
@@ -17,11 +22,11 @@ package com.democrat.ancortodemocrat.element;
  * 
  * 
  */
-@XmlAccessorType(XmlAccessType.FIELD)
+//@XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = {
     "value"
 })
-public static class Metadata {
+public class Metadata {
 
     @XmlValue
     protected String value;
