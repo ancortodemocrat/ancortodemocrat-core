@@ -9,7 +9,9 @@ import org.apache.log4j.Logger;
 
 import com.democrat.ancortodemocrat.element.Annotation;
 import com.democrat.ancortodemocrat.element.Cluster;
+import com.democrat.ancortodemocrat.element.PositioningRelation;
 import com.democrat.ancortodemocrat.element.Relation;
+import com.democrat.ancortodemocrat.element.Unit;
 
 public class ConversionWorker {
 	
@@ -34,8 +36,8 @@ public class ConversionWorker {
 			logger.info("File converted: "+a+"/"+this.annotations.size());
 			Annotation annotation = this.annotations.get(a);
 			this.currentAnnotation = annotation;
-			this.convertRelationToChain( annotation.getRelation() );
-			this.convertFeature( annotation.getRelation() );
+			this.convertRelationToChain( annotation );
+			this.convertFeature( annotation );
 		}
 	}
 	
@@ -44,22 +46,39 @@ public class ConversionWorker {
 	 * and convert it in chain
 	 * @param relation
 	 */
-	private List<Relation> convertRelationToChain( Cluster cluster ){
+	private void convertRelationToChain( Annotation annotation ){
 		List<Relation> newRelations = new ArrayList<Relation>();
-		List<Relation> relations = cluster.getRelation();
+		List<Relation> relations = annotation.getRelation();
 		
 		for(int r = 0; r < relations.size(); r++){
 			Relation relation = relations.get( r );
-			//e.g 
-			//we test if (isNew, relation between these two unit, relation between pre unit)
-			if( relation.getPreUnit( this.currentAnnotation ).isNew() ){
-				//(YES, -, -)
-				//we don't care the type doesnt change
-				relations.add( relation );
-			}else if( relation)
+			Relation newRelation = new Relation();
+			newRelation.setMetadataUnit( relation.getMetadataUnit() );
+			newRelation.setId( relation.getId() );
+			newRelation.setCharacterisation( relation.getCharacterisation() );
+			newRelation.setPositioning( relation.getPositioning() );
+			
+			PositioningRelation positioning = newRelation.getPositioning();
+			if( positioning != null){
+				if(positioning.getTerm().size() > 1){
+					//we are checking the two pointers in the current relation
+					//if one point on the first element (new = yes) 
+					//so replace this point with the unit the more closer before
+					//so the unit in fist mention of the pre relation of this unit
+					Unit unit = relation.getPreRelation( annotation ).getUnit( annotation );
+					if( positioning.getTerm().get( 0 ).getUnit( annotation ).isNew() ){
+						newRelation.getPositioning().getTerm().get( 0 ).setId( unit.getId()  );
+					}else if( positioning.getTerm().get( 1 ).getUnit( annotation ).isNew() ){
+						newRelation.getPositioning().getTerm().get( 1 ).setId( unit.getId()  );
+					}					
+					
+				}
+			}
+			
+			newRelations.add( newRelation );
 		}
 		
-		return newRelations;
+		annotation.setRelation( newRelations );
 	}
 	
 	/**
@@ -71,7 +90,7 @@ public class ConversionWorker {
 	 * </ul>
 	 * @param relations
 	 */
-	private void convertFeature( List<Relation> relations ){
+	private void convertFeature( Annotation annotation ){
 		
 	}
 	

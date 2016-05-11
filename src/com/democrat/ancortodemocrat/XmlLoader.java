@@ -17,9 +17,9 @@ public class XmlLoader {
 	 * @param xmlFile
 	 * @return
 	 */
-	public static Annotation loadAnnotationFromFile(String xmlFile) {
+	public static Annotation loadAnnotationFromFile(String xmlFileName) {
 
-		InputStream xmlStream = AncorToDemocrat.class.getClassLoader().getResourceAsStream(xmlFile);
+		InputStream xmlStream = AncorToDemocrat.class.getClassLoader().getResourceAsStream( xmlFileName );
 
 		return JAXB.unmarshal(xmlStream, Annotation.class); 
 

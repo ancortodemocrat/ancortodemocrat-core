@@ -17,18 +17,19 @@ public class Cluster {
 	 * @param relation
 	 */
 	public Cluster( Relation relation ){
-		
+		this.relations = new ArrayList<Relation>();
+		this.relations.add( relation );
 	}
 
 	public Cluster( List<Relation> relations ){
-
+		this.relations = relations;
 	}
 
 	public List<Cluster> findFromAnnotation( Annotation annotation ){
 		List<Cluster> clusters = new ArrayList<Cluster>();
 
-		//we found every new to determine the first relation 
-		//this one will be the first element of cluster
+		//we found every new (field) to determine the first relation 
+		//this one will be the first element of the cluster
 		for(Unit unit : annotation.getUnit()){
 			if( unit.isNew() ){
 				//we search the first relation, the closer of unit
@@ -50,7 +51,7 @@ public class Cluster {
 				}
 				//first relation founded if relationMoreCloser not null
 				if(relationMoreCloser != null){
-					
+					clusters.add( new Cluster( relationMoreCloser ) );
 				}
 			}
 		}

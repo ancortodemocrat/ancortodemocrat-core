@@ -1,5 +1,7 @@
 package com.democrat.ancortodemocrat.element;
 
+import java.util.List;
+
 import javax.xml.bind.annotation.XmlRootElement;
 
 //@XmlAccessorType(XmlAccessType.FIELD)
@@ -154,13 +156,50 @@ public class Relation {
     	return lastUnit;
     }
     
+    /**
+     * work only in first mention
+     * if you are in chain, use {@link Cluster.class}
+     * return the pre relation
+     * if return null, this relation is the first
+     * @param annotation
+     * @return
+     */
+    public Relation getPreRelation( Annotation annotation ){
+    	long position = this.getUnit( annotation ).getPositioning().getStart().getSinglePosition().getIndex();
+    	String idNewUnit = this.getPreUnit( annotation ).getId();
+    	
+    	Relation relationWanted = null;
+    	
+    	//the pre relation is the relation who have one term:
+    	//term id == idNewUnit
+    	//and her position is the lower than this one (the unit)
+    	List<Relation> relations = annotation.getRelation();
+    	for(int r = 0; r < relations.size(); r++){
+    		if( relations.get( r ).getPreUnit( annotation ).getId().equals( idNewUnit )){
+    			//termid == idNewunit
+    			//these two units have the same parent (first mention)
+    			long currentPosition = relations.get( r ).getUnit( annotation ).getPositioning().getStart().getSinglePosition().getIndex();
+    			if(relationWanted == null && position - currentPosition > 0){
+    				relationWanted = relations.get( r );
+    			}else if(position - currentPosition > 0 &&
+    				position - currentPosition < relationWanted.getUnit( annotation ).getPositioning().getStart().getSinglePosition().getIndex() ){
+    				//the more closer and just before, not after
+    				relationWanted = relations.get( r );
+    			}
+    		}
+    		
+    	}
+    	return relationWanted;
+    }
+    
+  
     
     public boolean containsUnit(Unit unit){
     	PositioningRelation position = this.getPositioning();
     	if(position != null){
     		if(unit.getId() == position.getTerm().get( 0 ).getId() ||
     				unit.getId() == position.getTerm().get( 1 ).getId() ){
-    			//this relation refer with this unit
+    			//this relation refer this unit
     			return true;
     		}
     	}

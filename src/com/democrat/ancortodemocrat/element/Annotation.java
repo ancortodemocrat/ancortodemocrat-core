@@ -69,7 +69,13 @@ public class Annotation {
         return this.unit;
     }
     
-    /**
+    
+    
+    public void setRelation(List<Relation> relation) {
+		this.relation = relation;
+	}
+
+	/**
      * with the annotator name
      * @param id
      * @return Return the Unit corresponding, if not found return null
