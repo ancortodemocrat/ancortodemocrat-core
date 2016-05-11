@@ -1,5 +1,7 @@
 package com.democrat.ancortodemocrat.element;
 
+import java.util.List;
+
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 
@@ -111,7 +113,24 @@ public class Unit {
 	public void setId(String value) {
 		this.id = value;
 	}
+	
+	public boolean isNew(){
+		if( getFeature("new").equalsIgnoreCase( "yes") ){
+			return true;
+		}
+		return false;
+	}
 
+	public String getFeature(String featureName){
+		Characterisation charact = this.getCharacterisation();
+		List<Feature> features = charact.getFeatureSet().getFeature();
+		for(int f = 0; f < features.size(); f++){
+			if(features.get( f ).getName().equalsIgnoreCase( featureName )){
+				return features.get( f ).getValue();
+			}
+		}
+		return null;
+	}
 
 
 }

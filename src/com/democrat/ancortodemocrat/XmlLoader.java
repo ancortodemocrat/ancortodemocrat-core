@@ -12,38 +12,16 @@ import com.democrat.ancortodemocrat.element.Unit;
 public class XmlLoader {
 
 
-	public static void loadAnnotationFromFile(String xmlFile) { 
-
+	/**
+	 * Load all anotation from xml file (.aa Glozz) 
+	 * @param xmlFile
+	 * @return
+	 */
+	public static Annotation loadAnnotationFromFile(String xmlFile) {
 
 		InputStream xmlStream = AncorToDemocrat.class.getClassLoader().getResourceAsStream(xmlFile);
 
-		Annotation annotations = JAXB.unmarshal(xmlStream, Annotation.class); 
-
-		for (Unit unit : annotations.getUnit()) { 
-
-			System.out.println(unit.getId());
-			/**
-				String groupName = group.getName(); 
-
-				Map<String, String> queryGroup = new LinkedHashMap<String, String>(); 
-
-				queriesGroup.put(groupName, queryGroup); 
-
-				for (Query query : group.getQueries()) { 
-
-					String queryName = query.getName(); 
-
-					String sqlQuery = query.getQuery(); 
-
-					queryGroup.put(queryName, sqlQuery.trim()); 
-
-				} 
-			 **/
-
-		}
-		for(Relation relation : annotations.getRelation()){
-
-		}
+		return JAXB.unmarshal(xmlStream, Annotation.class); 
 
 	}
 

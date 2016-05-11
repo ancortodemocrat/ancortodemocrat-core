@@ -109,5 +109,63 @@ public class Relation {
         this.id = value;
     }
     
+    
+    /**
+     * Return the unit where point the relation 
+     * @return
+     */
+    public Unit getPreUnit( Annotation annotation ){
+    	PositioningRelation position = this.getPositioning();
+    	Unit lastUnit = null;
+    	if(position != null){
+        	lastUnit = position.getTerm().get(0).getUnit( annotation );
+    		for(int t = 1; t < position.getTerm().size(); t++){
+    			Unit currentUnit = position.getTerm().get(t).getUnit( annotation );
+    			PositioningUnit positionUnit = currentUnit.getPositioning();
+    			if(positionUnit.getStart().getSinglePosition().getIndex() < lastUnit.getPositioning().getStart().getSinglePosition().getIndex()){
+    				//we compare the position in the file (text source) of the two units, if the current is upper than the last
+    				//so we switch
+    				lastUnit = currentUnit;
+    			}
+    		}
+    	}
+    	return lastUnit;
+    }
+    
+    /**
+     * Return the current unit annoted
+     * @return
+     */
+    public Unit getUnit( Annotation annotation ){
+    	PositioningRelation position = this.getPositioning();
+    	Unit lastUnit = null;
+    	if(position != null){
+        	lastUnit = position.getTerm().get(0).getUnit( annotation );
+    		for(int t = 1; t < position.getTerm().size(); t++){
+    			Unit currentUnit = position.getTerm().get(t).getUnit( annotation );
+    			PositioningUnit positionUnit = currentUnit.getPositioning();
+    			if(positionUnit.getStart().getSinglePosition().getIndex() > lastUnit.getPositioning().getStart().getSinglePosition().getIndex()){
+    				//we compare the position in the file (text source) of the two units, if the current is lower than the last
+    				//so we switch
+    				lastUnit = currentUnit;
+    			}
+    		}
+    	}
+    	return lastUnit;
+    }
+    
+    
+    public boolean containsUnit(Unit unit){
+    	PositioningRelation position = this.getPositioning();
+    	if(position != null){
+    		if(unit.getId() == position.getTerm().get( 0 ).getId() ||
+    				unit.getId() == position.getTerm().get( 1 ).getId() ){
+    			//this relation refer with this unit
+    			return true;
+    		}
+    	}
+    	return false;
+    	
+    }
 
 }

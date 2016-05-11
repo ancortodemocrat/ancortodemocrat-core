@@ -33,9 +33,8 @@ public class AncorToDemocrat {
 		
 		
 		//test to load xml file
-		XmlLoader.loadAnnotationFromFile("test.xml");
-		
-		
+		Annotation annotation = XmlLoader.loadAnnotationFromFile("test.xml");
+
 		
 	}
 	

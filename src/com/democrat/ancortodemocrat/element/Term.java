@@ -53,5 +53,9 @@ public class Term {
     public void setId(String value) {
         this.id = value;
     }
+    
+    public Unit getUnit(Annotation annotation){
+    	return annotation.getUnitById( this.getId() );
+    }
 
 }

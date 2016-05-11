@@ -1,0 +1,71 @@
+package com.democrat.ancortodemocrat.element;
+
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * Represent a list of mentions for one subject
+ * based one the field NEW
+ * the first one is/should be the NEW unit
+ */
+public class Cluster {
+
+	private List<Relation> relations;
+	
+	/**
+	 * init a cluster with the FIRST relation 
+	 * @param relation
+	 */
+	public Cluster( Relation relation ){
+		
+	}
+
+	public Cluster( List<Relation> relations ){
+
+	}
+
+	public List<Cluster> findFromAnnotation( Annotation annotation ){
+		List<Cluster> clusters = new ArrayList<Cluster>();
+
+		//we found every new to determine the first relation 
+		//this one will be the first element of cluster
+		for(Unit unit : annotation.getUnit()){
+			if( unit.isNew() ){
+				//we search the first relation, the closer of unit
+				//we iterate every relation containing termID == unitID
+				List<Relation> relations = annotation.getRelation();
+				Relation relationMoreCloser = null;
+				for(int r = 0; r < relations.size(); r++){
+					if(relations.get( r ).containsUnit( unit )){
+						//relation with the unit concerned
+						if( relationMoreCloser == null){
+							relationMoreCloser = relations.get( r );
+						}else if(relations.get( r ).getUnit( annotation ).getPositioning().getStart().getSinglePosition().getIndex() < 
+								relationMoreCloser.getUnit( annotation ).getPositioning().getStart().getSinglePosition().getIndex() ){
+							//if this relation is before (in txt source) than the last founded
+							//switched
+							relationMoreCloser = relations.get( r );
+						}
+					}
+				}
+				//first relation founded if relationMoreCloser not null
+				if(relationMoreCloser != null){
+					
+				}
+			}
+		}
+
+		return clusters;
+	}
+
+	public List<Relation> getRelation() {
+		return relations;
+	}
+
+	public void setRelations(List<Relation> relations) {
+		this.relations = relations;
+	}
+
+
+
+}

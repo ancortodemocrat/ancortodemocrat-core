@@ -2,7 +2,7 @@ package com.democrat.ancortodemocrat.element;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
-//@XmlAccessorType(XmlAccessType.FIELD)
+
 
 @XmlRootElement(name="metadata")
 public class MetadataUnit {

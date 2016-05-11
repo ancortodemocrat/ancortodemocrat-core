@@ -127,4 +127,23 @@ public class Annotation {
         }
         return this.relation;
     }
+    
+    /**
+     * Remove unit with TXT_IMPORTER as id
+     */
+    public void removeTxtImporter(){
+    	for(int u = 0; u < this.unit.size(); u++){
+    		if(this.unit.get(u).getId().startsWith( "TXT_IMPORTER" )){
+    			this.unit.remove(u);
+    			u--;
+    		}
+    	}
+    }
+
+	@Override
+	public String toString() {
+		return "Annotation [metadata=" + metadata + ", unit=" + unit + ", relation=" + relation + "]";
+	}
+    
+    
 }
