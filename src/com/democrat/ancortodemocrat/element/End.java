@@ -1,9 +1,5 @@
 package com.democrat.ancortodemocrat.element;
 
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlType;
-
 //@XmlAccessorType(XmlAccessType.FIELD)
 
 public class End {

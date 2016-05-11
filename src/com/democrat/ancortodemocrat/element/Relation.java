@@ -1,7 +1,11 @@
 package com.democrat.ancortodemocrat.element;
 
+import javax.xml.bind.annotation.XmlRootElement;
+
 //@XmlAccessorType(XmlAccessType.FIELD)
 
+
+@XmlRootElement(name="relation")
 public class Relation {
 
     private MetadataUnit metadata;

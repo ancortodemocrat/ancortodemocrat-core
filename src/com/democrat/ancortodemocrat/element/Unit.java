@@ -1,9 +1,7 @@
 package com.democrat.ancortodemocrat.element;
 
-import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlType;
 
 //@XmlAccessorType(XmlAccessType.FIELD)
 public class Unit {
@@ -47,6 +45,7 @@ public class Unit {
 	 *     {@link Characterisation }
 	 *     
 	 */
+	@XmlElement(name="characterisation")
 	public Characterisation getCharacterisation() {
 		return characterisation;
 	}

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<xs:schema version="1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+
+
+	<xs:element name="queries" type="queries" />
+
+
+
+	<xs:complexType name="queries">
+
+		<xs:sequence>
+
+			<xs:element name="group" type="queryGroup" minOccurs="0"
+				maxOccurs="unbounded" />
+
+		</xs:sequence>
+
+	</xs:complexType>
+
+
+
+	<xs:complexType name="queryGroup">
+
+		<xs:sequence>
+
+			<xs:element name="query" type="query" minOccurs="0"
+				maxOccurs="unbounded" />
+
+		</xs:sequence>
+
+		<xs:attribute name="name" type="xs:string" />
+
+	</xs:complexType>
+
+
+
+	<xs:complexType name="query">
+
+		<xs:simpleContent>
+
+			<xs:extension base="xs:string">
+
+				<xs:attribute name="name" type="xs:string" />
+
+			</xs:extension>
+
+		</xs:simpleContent>
+
+	</xs:complexType>
+
+</xs:schema> 

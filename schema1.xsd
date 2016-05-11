@@ -3,12 +3,18 @@
 
   <xs:element name="annotations" type="annotation"/>
 
+  <xs:element name="characterisation" type="characterisation"/>
+
   <xs:element name="metadata" nillable="true" type="xs:anyType"/>
+
+  <xs:element name="positioning" nillable="true" type="xs:anyType"/>
+
+  <xs:element name="relation" type="relation"/>
 
   <xs:complexType name="annotation">
     <xs:sequence>
       <xs:element ref="metadata" minOccurs="0"/>
-      <xs:element name="relation" type="relation" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element ref="relation" minOccurs="0" maxOccurs="unbounded"/>
       <xs:element name="unit" type="unit" minOccurs="0" maxOccurs="unbounded"/>
     </xs:sequence>
   </xs:complexType>
@@ -22,16 +28,16 @@
 
   <xs:complexType name="relation">
     <xs:sequence>
-      <xs:element name="characterisation" type="characterisation" minOccurs="0"/>
+      <xs:element ref="characterisation" minOccurs="0"/>
       <xs:element name="id" type="xs:string" minOccurs="0"/>
       <xs:element name="metadataUnit" type="metadataUnit" minOccurs="0"/>
-      <xs:element name="positioning" type="positioningRelation" minOccurs="0"/>
+      <xs:element ref="positioning" minOccurs="0"/>
     </xs:sequence>
   </xs:complexType>
 
   <xs:complexType name="characterisation">
     <xs:sequence>
-      <xs:element name="featureSet" type="featureSet" minOccurs="0"/>
+      <xs:element name="featureset" type="featureSet" minOccurs="0"/>
       <xs:element name="type" type="type" minOccurs="0"/>
     </xs:sequence>
   </xs:complexType>
@@ -78,11 +84,11 @@
   </xs:complexType>
 
   <xs:complexType name="unit">
-    <xs:sequence>
-      <xs:element name="characterisation" type="characterisation" minOccurs="0"/>
+    <xs:choice>
+      <xs:element ref="characterisation" minOccurs="0"/>
       <xs:element ref="metadata" minOccurs="0"/>
-      <xs:element name="positioning" type="positioningUnit" minOccurs="0"/>
-    </xs:sequence>
+      <xs:element ref="positioning" minOccurs="0"/>
+    </xs:choice>
     <xs:attribute name="id" type="xs:string"/>
   </xs:complexType>
 

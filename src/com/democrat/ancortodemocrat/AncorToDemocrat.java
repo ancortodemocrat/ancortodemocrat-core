@@ -16,7 +16,9 @@ import com.democrat.ancortodemocrat.element.Annotation;
 public class AncorToDemocrat {
 
 	public static void main(String[] args) {
-		SchemaOutput.generate();
+		//trying generate xsd schema and verify one xml .aa from glozz
+		//SchemaOutput.generate();
+		/**
 		JAXBContext context = null;
 		try {
 			context = JAXBContext.newInstance(Annotation.class);
@@ -26,6 +28,15 @@ public class AncorToDemocrat {
 		}
 		boolean toast = xmlValidation(context, "test.xml");
 		System.out.println("==>"+toast);
+		**/
+		
+		
+		
+		//test to load xml file
+		XmlLoader.loadAnnotationFromFile("test.xml");
+		
+		
+		
 	}
 	
 	/**

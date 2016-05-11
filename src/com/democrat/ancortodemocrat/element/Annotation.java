@@ -3,11 +3,8 @@ package com.democrat.ancortodemocrat.element;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlType;
-import javax.xml.bind.annotation.XmlValue;
 
 @XmlRootElement(name = "annotations")
 public class Annotation {
@@ -25,6 +22,7 @@ public class Annotation {
      *     {@link Annotations.Metadata }
      *     
      */
+    @XmlElement(name="metadata")
     public MetadataAnnotation getMetadata() {
         return metadata;
     }
@@ -69,6 +67,35 @@ public class Annotation {
             unit = new ArrayList<Unit>();
         }
         return this.unit;
+    }
+    
+    /**
+     * with the annotator name
+     * @param id
+     * @return Return the Unit corresponding, if not found return null
+     */
+    public Unit getUnitById(String id){
+    	for(Unit unit : this.unit){
+    		if(unit.getId().equals(id)){
+    			return unit;
+    		}
+    	}
+    	return null;
+    }
+    
+    /**
+     * search an unit just with the number, ignore 
+     * the annotator name
+     * @param id
+     * @return Return the Unit corresponding, if not found return null
+     */
+    public Unit getUnitByIdWithoutName(String id){
+    	for(Unit unit : this.unit){
+    		if(unit.getId().split("_")[1].equals(id)){
+    			return unit;
+    		}
+    	}
+    	return null;
     }
 
     /**

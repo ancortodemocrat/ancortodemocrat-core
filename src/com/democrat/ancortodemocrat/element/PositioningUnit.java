@@ -1,6 +1,9 @@
 package com.democrat.ancortodemocrat.element;
 
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 
+@XmlRootElement(name="positioning")
 public class PositioningUnit {
 
 	private Start start;
@@ -14,6 +17,7 @@ public class PositioningUnit {
 	 *     {@link Start }
 	 *     
 	 */
+	@XmlElement
 	public Start getStart() {
 		return start;
 	}
@@ -38,6 +42,7 @@ public class PositioningUnit {
 	 *     {@link End }
 	 *     
 	 */
+	@XmlElement
 	public End getEnd() {
 		return end;
 	}
