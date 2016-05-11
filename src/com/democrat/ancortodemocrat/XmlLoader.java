@@ -21,6 +21,7 @@ public class XmlLoader {
 
 		InputStream xmlStream = AncorToDemocrat.class.getClassLoader().getResourceAsStream( xmlFileName );
 
+		
 		return JAXB.unmarshal(xmlStream, Annotation.class); 
 
 	}

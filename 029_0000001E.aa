@@ -1,0 +1,368 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<annotations>
+    <metadata/>
+    <unit id="gpascault_1349705287929">
+        <characterisation>
+            <featureSet>
+                <feature name="GEN_REF">SPEC</feature>
+                <feature name="NEW">NO</feature>
+                <feature name="EN">PERS</feature>
+                <feature name="DEF">DEF_SPLE</feature>
+                <feature name="GP">NO</feature>
+                <feature name="GENRE">UNK</feature>
+                <feature name="NB">SG</feature>
+            </featureSet>
+            <type/>
+        </characterisation>
+        <metadata>
+            <author>gpascault</author>
+            <creationDate>0</creationDate>
+            <lastModificationDate>1349715856857</lastModificationDate>
+            <lastModifier>jmuzerelle</lastModifier>
+        </metadata>
+        <positioning>
+            <end>
+                <singlePosition index="603"/>
+            </end>
+            <start>
+                <singlePosition index="601"/>
+            </start>
+        </positioning>
+    </unit>
+    <unit id="gpascault_1349705358745">
+        <characterisation>
+            <featureSet>
+                <feature name="NEW">YES</feature>
+                <feature name="GEN_REF">SPEC</feature>
+                <feature name="EN">NO</feature>
+                <feature name="DEF">INDEF</feature>
+                <feature name="GP">NO</feature>
+                <feature name="GENRE">M</feature>
+                <feature name="NB">SG</feature>
+            </featureSet>
+            <type/>
+        </characterisation>
+        <metadata>
+            <author>gpascault</author>
+            <creationDate>0</creationDate>
+            <lastModificationDate>1370011327903</lastModificationDate>
+            <lastModifier>jmuzerelle</lastModifier>
+        </metadata>
+        <positioning>
+            <end>
+                <singlePosition index="646"/>
+            </end>
+            <start>
+                <singlePosition index="624"/>
+            </start>
+        </positioning>
+    </unit>
+    <unit id="gpascault_1349705459762">
+        <characterisation>
+            <featureSet>
+                <feature name="GEN_REF">SPEC</feature>
+                <feature name="NEW">NO</feature>
+                <feature name="EN">PERS</feature>
+                <feature name="DEF">DEF_SPLE</feature>
+                <feature name="GP">NO</feature>
+                <feature name="GENRE">UNK</feature>
+                <feature name="NB">SG</feature>
+            </featureSet>
+            <type/>
+        </characterisation>
+        <metadata>
+            <author>gpascault</author>
+            <creationDate>0</creationDate>
+            <lastModificationDate>1349705480796</lastModificationDate>
+            <lastModifier>gpascault</lastModifier>
+        </metadata>
+        <positioning>
+            <end>
+                <singlePosition index="816"/>
+            </end>
+            <start>
+                <singlePosition index="814"/>
+            </start>
+        </positioning>
+    </unit>
+    <unit id="gpascault_1349705484645">
+        <characterisation>
+            <featureSet>
+                <feature name="GEN_REF">SPEC</feature>
+                <feature name="NEW">NO</feature>
+                <feature name="EN">PERS</feature>
+                <feature name="DEF">DEF_SPLE</feature>
+                <feature name="GP">YES</feature>
+                <feature name="GENRE">UNK</feature>
+                <feature name="NB">SG</feature>
+            </featureSet>
+            <type/>
+        </characterisation>
+        <metadata>
+            <author>gpascault</author>
+            <creationDate>0</creationDate>
+            <lastModificationDate>1349716019730</lastModificationDate>
+            <lastModifier>jmuzerelle</lastModifier>
+        </metadata>
+        <positioning>
+            <end>
+                <singlePosition index="829"/>
+            </end>
+            <start>
+                <singlePosition index="825"/>
+            </start>
+        </positioning>
+    </unit>
+    <unit id="gpascault_1349705517765">
+        <characterisation>
+            <featureSet>
+                <feature name="GEN_REF">SPEC</feature>
+                <feature name="NEW">NO</feature>
+                <feature name="EN">PERS</feature>
+                <feature name="DEF">DEF_SPLE</feature>
+                <feature name="GP">NO</feature>
+                <feature name="GENRE">UNK</feature>
+                <feature name="NB">SG</feature>
+            </featureSet>
+            <type/>
+        </characterisation>
+        <metadata>
+            <author>gpascault</author>
+            <creationDate>0</creationDate>
+            <lastModificationDate>1349705526770</lastModificationDate>
+            <lastModifier>gpascault</lastModifier>
+        </metadata>
+        <positioning>
+            <end>
+                <singlePosition index="856"/>
+            </end>
+            <start>
+                <singlePosition index="852"/>
+            </start>
+        </positioning>
+    </unit>
+    <unit id="gpascault_1349705616658">
+        <characterisation>
+            <featureSet>
+                <feature name="NEW">YES</feature>
+                <feature name="GEN_REF">SPEC</feature>
+                <feature name="EN">NO</feature>
+                <feature name="DEF">INDEF</feature>
+                <feature name="GP">NO</feature>
+                <feature name="GENRE">M</feature>
+                <feature name="NB">SG</feature>
+            </featureSet>
+            <type/>
+        </characterisation>
+        <metadata>
+            <author>gpascault</author>
+            <creationDate>0</creationDate>
+            <lastModificationDate>1370011339765</lastModificationDate>
+            <lastModifier>jmuzerelle</lastModifier>
+        </metadata>
+        <positioning>
+            <end>
+                <singlePosition index="872"/>
+            </end>
+            <start>
+                <singlePosition index="863"/>
+            </start>
+        </positioning>
+    </unit>
+    <unit id="gpascault_1349705890555">
+        <characterisation>
+            <featureSet>
+                <feature name="GEN_REF">GENE</feature>
+                <feature name="NEW">YES</feature>
+                <feature name="EN">NO</feature>
+                <feature name="DEF">DEF_SPLE</feature>
+                <feature name="GP">YES</feature>
+                <feature name="GENRE">M</feature>
+                <feature name="NB">SG</feature>
+            </featureSet>
+            <type/>
+        </characterisation>
+        <metadata>
+            <author>gpascault</author>
+            <creationDate>0</creationDate>
+            <lastModificationDate>1349705933507</lastModificationDate>
+            <lastModifier>gpascault</lastModifier>
+        </metadata>
+        <positioning>
+            <end>
+                <singlePosition index="942"/>
+            </end>
+            <start>
+                <singlePosition index="937"/>
+            </start>
+        </positioning>
+    </unit>
+    <unit id="gpascault_1349705942498">
+        <characterisation>
+            <featureSet>
+                <feature name="GEN_REF">SPEC</feature>
+                <feature name="NEW">NO</feature>
+                <feature name="EN">PERS</feature>
+                <feature name="DEF">DEF_SPLE</feature>
+                <feature name="GP">NO</feature>
+                <feature name="GENRE">UNK</feature>
+                <feature name="NB">SG</feature>
+            </featureSet>
+            <type/>
+        </characterisation>
+        <metadata>
+            <author>gpascault</author>
+            <creationDate>0</creationDate>
+            <lastModificationDate>1349705972392</lastModificationDate>
+            <lastModifier>gpascault</lastModifier>
+        </metadata>
+        <positioning>
+            <end>
+                <singlePosition index="1044"/>
+            </end>
+            <start>
+                <singlePosition index="1042"/>
+            </start>
+        </positioning>
+    </unit>
+    <unit id="jmuzerelle_1349715839537">
+        <characterisation>
+            <featureSet>
+                <feature name="NEW">YES</feature>
+                <feature name="GEN_REF">SPEC</feature>
+                <feature name="EN">ORG</feature>
+                <feature name="DEF">DEF_SPLE</feature>
+                <feature name="GP">NO</feature>
+                <feature name="GENRE">F</feature>
+                <feature name="NB">SG</feature>
+            </featureSet>
+            <type/>
+        </characterisation>
+        <metadata>
+            <author>jmuzerelle</author>
+            <creationDate>0</creationDate>
+            <lastModificationDate>1349715845227</lastModificationDate>
+            <lastModifier>jmuzerelle</lastModifier>
+        </metadata>
+        <positioning>
+            <end>
+                <singlePosition index="494"/>
+            </end>
+            <start>
+                <singlePosition index="489"/>
+            </start>
+        </positioning>
+    </unit>
+    <unit id="gpascault_1349705854946">
+        <characterisation>
+            <featureSet>
+                <feature name="GEN_REF">SPEC</feature>
+                <feature name="NEW">YES</feature>
+                <feature name="EN">NO</feature>
+                <feature name="DEF">DEF_SPLE</feature>
+                <feature name="GP">YES</feature>
+                <feature name="GENRE">F</feature>
+                <feature name="NB">SG</feature>
+            </featureSet>
+            <type/>
+        </characterisation>
+        <metadata>
+            <author>gpascault</author>
+            <creationDate>0</creationDate>
+            <lastModificationDate>1349716094935</lastModificationDate>
+            <lastModifier>jmuzerelle</lastModifier>
+        </metadata>
+        <positioning>
+            <end>
+                <singlePosition index="942"/>
+            </end>
+            <start>
+                <singlePosition index="919"/>
+            </start>
+        </positioning>
+    </unit>
+    <unit id="gpascault_1349705799061">
+        <characterisation>
+            <featureSet>
+                <feature name="GEN_REF">SPEC</feature>
+                <feature name="NEW">YES</feature>
+                <feature name="EN">NO</feature>
+                <feature name="DEF">DEF_SPLE</feature>
+                <feature name="GP">YES</feature>
+                <feature name="GENRE">M</feature>
+                <feature name="NB">PL</feature>
+            </featureSet>
+            <type/>
+        </characterisation>
+        <metadata>
+            <author>gpascault</author>
+            <creationDate>0</creationDate>
+            <lastModificationDate>1349705845653</lastModificationDate>
+            <lastModifier>gpascault</lastModifier>
+        </metadata>
+        <positioning>
+            <end>
+                <singlePosition index="942"/>
+            </end>
+            <start>
+                <singlePosition index="902"/>
+            </start>
+        </positioning>
+    </unit>
+    <unit id="gpascault_1349705730682">
+        <characterisation>
+            <featureSet>
+                <feature name="GEN_REF">SPEC</feature>
+                <feature name="NEW">YES</feature>
+                <feature name="EN">NO</feature>
+                <feature name="DEF">DEF_SPLE</feature>
+                <feature name="GP">NO</feature>
+                <feature name="GENRE">M</feature>
+                <feature name="NB">PL</feature>
+            </featureSet>
+            <type/>
+        </characterisation>
+        <metadata>
+            <author>gpascault</author>
+            <creationDate>0</creationDate>
+            <lastModificationDate>1349705780272</lastModificationDate>
+            <lastModifier>gpascault</lastModifier>
+        </metadata>
+        <positioning>
+            <end>
+                <singlePosition index="942"/>
+            </end>
+            <start>
+                <singlePosition index="888"/>
+            </start>
+        </positioning>
+    </unit>
+    <unit id="jmuzerelle_1349716215551">
+        <characterisation>
+            <featureSet>
+                <feature name="NEW">NO</feature>
+                <feature name="GEN_REF">SPEC</feature>
+                <feature name="EN">NO</feature>
+                <feature name="DEF">INDEF</feature>
+                <feature name="GP">NO</feature>
+                <feature name="GENRE">M</feature>
+                <feature name="NB">SG</feature>
+            </featureSet>
+            <type/>
+        </characterisation>
+        <metadata>
+            <author>jmuzerelle</author>
+            <creationDate>0</creationDate>
+            <lastModificationDate>1349716218661</lastModificationDate>
+            <lastModifier>jmuzerelle</lastModifier>
+        </metadata>
+        <positioning>
+            <end>
+                <singlePosition index="1297"/>
+            </end>
+            <start>
+                <singlePosition index="1284"/>
+            </start>
+        </positioning>
+    </unit>
+</annotations>

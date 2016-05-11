@@ -46,7 +46,7 @@ public class Characterisation {
      *     {@link Annotations.Relation.Characterisation.FeatureSet }
      *     
      */
-    @XmlElement(name="featureset")
+    @XmlElement(name="featureSet")
     public FeatureSet getFeatureSet() {
         return featureSet;
     }

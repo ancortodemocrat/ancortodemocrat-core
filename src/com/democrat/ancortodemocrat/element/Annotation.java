@@ -6,15 +6,33 @@ import java.util.List;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import org.apache.log4j.Logger;
+
+import com.democrat.ancortodemocrat.ConversionWorker;
+
 @XmlRootElement(name = "annotations")
 public class Annotation {
 
+
+	private static Logger logger = Logger.getLogger(Annotation.class);
     
     private MetadataAnnotation metadata;
     private List<Unit> unit;
     private List<Relation> relation;
+    private List<Schema> schema;
+    
+    
+    
+    @XmlElement(name="schema")
+    public List<Schema> getSchema() {
+		return schema;
+	}
 
-    /**
+	public void setSchema(List<Schema> schema) {
+		this.schema = schema;
+	}
+
+	/**
      * Gets the value of the metadata property.
      * 
      * @return
@@ -82,8 +100,14 @@ public class Annotation {
      */
     public Unit getUnitById(String id){
     	for(Unit unit : this.unit){
-    		if(unit.getId().equals(id)){
+    		if(unit.getId().equals( id )){
     			return unit;
+    		}
+    	}
+    	//maybe in schemas
+    	for(Schema schema : this.schema){
+    		if(schema.getId().equals( id )){
+    			return schema;
     		}
     	}
     	return null;
@@ -148,7 +172,16 @@ public class Annotation {
 
 	@Override
 	public String toString() {
-		return "Annotation [metadata=" + metadata + ", unit=" + unit + ", relation=" + relation + "]";
+		String str = "Annotation :";
+		str += System.lineSeparator();
+		
+		str += "    Relations:";
+		
+		str += System.lineSeparator();
+		for(Relation r : this.getRelation()){
+			str += "    --> "+r.getId() + System.lineSeparator();
+		}
+		return str;
 	}
     
     

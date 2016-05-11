@@ -5,6 +5,8 @@
 
   <xs:element name="characterisation" type="characterisation"/>
 
+  <xs:element name="embedded-unit" type="embeddedUnit"/>
+
   <xs:element name="metadata" nillable="true" type="xs:anyType"/>
 
   <xs:element name="positioning" nillable="true" type="xs:anyType"/>
@@ -15,6 +17,7 @@
     <xs:sequence>
       <xs:element ref="metadata" minOccurs="0"/>
       <xs:element ref="relation" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="schema" type="schema" minOccurs="0" maxOccurs="unbounded"/>
       <xs:element name="unit" type="unit" minOccurs="0" maxOccurs="unbounded"/>
     </xs:sequence>
   </xs:complexType>
@@ -29,15 +32,15 @@
   <xs:complexType name="relation">
     <xs:sequence>
       <xs:element ref="characterisation" minOccurs="0"/>
-      <xs:element name="id" type="xs:string" minOccurs="0"/>
-      <xs:element name="metadataUnit" type="metadataUnit" minOccurs="0"/>
+      <xs:element ref="metadata" minOccurs="0"/>
       <xs:element ref="positioning" minOccurs="0"/>
     </xs:sequence>
+    <xs:attribute name="id" type="xs:string"/>
   </xs:complexType>
 
   <xs:complexType name="characterisation">
     <xs:sequence>
-      <xs:element name="featureset" type="featureSet" minOccurs="0"/>
+      <xs:element name="featureSet" type="featureSet" minOccurs="0"/>
       <xs:element name="type" type="type" minOccurs="0"/>
     </xs:sequence>
   </xs:complexType>
@@ -49,10 +52,11 @@
   </xs:complexType>
 
   <xs:complexType name="feature">
-    <xs:sequence>
-      <xs:element name="value" type="xs:string" minOccurs="0"/>
-    </xs:sequence>
-    <xs:attribute name="name" type="xs:string"/>
+    <xs:simpleContent>
+      <xs:extension base="xs:string">
+        <xs:attribute name="name" type="xs:string"/>
+      </xs:extension>
+    </xs:simpleContent>
   </xs:complexType>
 
   <xs:complexType name="type">
@@ -77,19 +81,39 @@
   </xs:complexType>
 
   <xs:complexType name="term">
-    <xs:sequence>
-      <xs:element name="id" type="xs:string" minOccurs="0"/>
-      <xs:element name="value" type="xs:string" minOccurs="0"/>
-    </xs:sequence>
+    <xs:sequence/>
+    <xs:attribute name="id" type="xs:string"/>
+  </xs:complexType>
+
+  <xs:complexType name="schema">
+    <xs:complexContent>
+      <xs:extension base="unit">
+        <xs:sequence>
+          <xs:element name="positioning" type="positioningSchema" minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
   </xs:complexType>
 
   <xs:complexType name="unit">
-    <xs:choice>
+    <xs:sequence>
       <xs:element ref="characterisation" minOccurs="0"/>
       <xs:element ref="metadata" minOccurs="0"/>
       <xs:element ref="positioning" minOccurs="0"/>
-    </xs:choice>
+    </xs:sequence>
     <xs:attribute name="id" type="xs:string"/>
+  </xs:complexType>
+
+  <xs:complexType name="positioningSchema">
+    <xs:sequence>
+      <xs:element ref="embedded-unit" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="embeddedUnit">
+    <xs:sequence>
+      <xs:element name="id" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
   </xs:complexType>
 
   <xs:complexType name="positioningUnit">

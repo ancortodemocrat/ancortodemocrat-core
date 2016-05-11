@@ -9,15 +9,23 @@ import javax.xml.bind.Unmarshaller;
 import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
 
+import org.apache.log4j.BasicConfigurator;
 import org.xml.sax.SAXException;
 
 import com.democrat.ancortodemocrat.element.Annotation;
+import com.democrat.ancortodemocrat.element.Relation;
+import com.democrat.ancortodemocrat.element.Term;
 
 public class AncorToDemocrat {
 
 	public static void main(String[] args) {
+		
+		
+		//configure logger
+		BasicConfigurator.configure();
+		
 		//trying generate xsd schema and verify one xml .aa from glozz
-		//SchemaOutput.generate();
+		SchemaOutput.generate();
 		/**
 		JAXBContext context = null;
 		try {
@@ -34,8 +42,13 @@ public class AncorToDemocrat {
 		
 		//test to load xml file
 		Annotation annotation = XmlLoader.loadAnnotationFromFile("test.xml");
+		
+		annotation.removeTxtImporter();
+		System.out.println(annotation);
 		ConversionWorker conversion = new ConversionWorker( annotation );
-		conversion.work();
+
+		System.out.println(annotation);
+		XmlWriter.writeXml(annotation, "test_to_chain.aa");
 		
 	}
 	

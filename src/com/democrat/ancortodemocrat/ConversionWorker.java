@@ -33,11 +33,11 @@ public class ConversionWorker {
 	
 	public void work(){
 		for( int a = 0; a < this.annotations.size(); a++ ){
-			logger.info("File converted: "+a+"/"+this.annotations.size());
 			Annotation annotation = this.annotations.get(a);
 			this.currentAnnotation = annotation;
 			this.convertRelationToChain( annotation );
 			this.convertFeature( annotation );
+			logger.info("File converted: "+(a + 1)+"/"+this.annotations.size());
 		}
 	}
 	
@@ -53,7 +53,7 @@ public class ConversionWorker {
 		for(int r = 0; r < relations.size(); r++){
 			Relation relation = relations.get( r );
 			Relation newRelation = new Relation();
-			newRelation.setMetadataUnit( relation.getMetadataUnit() );
+			newRelation.setMetadata( relation.getMetadata() );
 			newRelation.setId( relation.getId() );
 			newRelation.setCharacterisation( relation.getCharacterisation() );
 			newRelation.setPositioning( relation.getPositioning() );
@@ -65,7 +65,13 @@ public class ConversionWorker {
 					//if one point on the first element (new = yes) 
 					//so replace this point with the unit the more closer before
 					//so the unit in fist mention of the pre relation of this unit
-					Unit unit = relation.getPreRelation( annotation ).getUnit( annotation );
+					Relation preRelation = relation.getPreRelation( annotation );
+					if( preRelation == null){
+						//first relation
+						newRelations.add( newRelation );
+						continue;
+					}
+					Unit unit = preRelation.getUnit( annotation );
 					if( positioning.getTerm().get( 0 ).getUnit( annotation ).isNew() ){
 						newRelation.getPositioning().getTerm().get( 0 ).setId( unit.getId()  );
 					}else if( positioning.getTerm().get( 1 ).getUnit( annotation ).isNew() ){

@@ -5,8 +5,13 @@ import java.util.List;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 
+import org.apache.log4j.Logger;
+
 //@XmlAccessorType(XmlAccessType.FIELD)
 public class Unit {
+	
+
+	private static Logger logger = Logger.getLogger(Annotation.class);
 
 	private MetadataUnit metadata;
 	private Characterisation characterisation;
@@ -115,7 +120,8 @@ public class Unit {
 	}
 	
 	public boolean isNew(){
-		if( getFeature("new").equalsIgnoreCase( "yes") ){
+		String value = getFeature("NEW");
+		if(value != null && value.equalsIgnoreCase( "yes") ){
 			return true;
 		}
 		return false;
