@@ -23,10 +23,8 @@
   </xs:complexType>
 
   <xs:complexType name="metadataAnnotation">
-    <xs:sequence>
-      <xs:element name="corpusHashcode" type="xs:string" minOccurs="0"/>
-      <xs:element name="value" type="xs:string" minOccurs="0"/>
-    </xs:sequence>
+    <xs:sequence/>
+    <xs:attribute name="corpusHashcode" type="xs:string"/>
   </xs:complexType>
 
   <xs:complexType name="relation">
@@ -59,16 +57,14 @@
     </xs:simpleContent>
   </xs:complexType>
 
-  <xs:complexType name="type">
-    <xs:sequence>
-      <xs:element name="value" type="xs:string" minOccurs="0"/>
-    </xs:sequence>
-  </xs:complexType>
+  <xs:simpleType name="type">
+    <xs:restriction base="xs:string"/>
+  </xs:simpleType>
 
   <xs:complexType name="metadataUnit">
     <xs:sequence>
       <xs:element name="author" type="xs:string" minOccurs="0"/>
-      <xs:element name="creationDate" type="xs:long"/>
+      <xs:element name="creation-date" type="xs:long"/>
       <xs:element name="lastModificationDate" type="xs:long"/>
       <xs:element name="lastModifier" type="xs:string" minOccurs="0"/>
     </xs:sequence>

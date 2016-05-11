@@ -43,7 +43,7 @@ public class AncorToDemocrat {
 		//test to load xml file
 		Annotation annotation = XmlLoader.loadAnnotationFromFile("test.xml");
 		
-		annotation.removeTxtImporter();
+		//annotation.removeTxtImporter();
 		System.out.println(annotation);
 		ConversionWorker conversion = new ConversionWorker( annotation );
 

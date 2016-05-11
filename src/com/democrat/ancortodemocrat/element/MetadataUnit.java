@@ -1,5 +1,6 @@
 package com.democrat.ancortodemocrat.element;
 
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 
@@ -41,6 +42,7 @@ public class MetadataUnit {
      * Gets the value of the creationDate property.
      * 
      */
+    @XmlElement(name="creation-date")
     public long getCreationDate() {
         return creationDate;
     }
