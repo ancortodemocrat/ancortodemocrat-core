@@ -28,7 +28,7 @@ public class FileManager {
 	}
 
 	private void init(){
-
+		//path.txt
 		File filePath = new File("path.txt");
 		//if path doesnt exist
 		if( ! filePath.exists() ){
@@ -48,6 +48,13 @@ public class FileManager {
 				e.printStackTrace();
 			}
 		}
+		
+		//generated folder
+		File folderGenerated = new File("generated");
+		//if path doesnt exist
+		if( ! folderGenerated.exists() && ! folderGenerated.isDirectory() ){
+			folderGenerated.mkdir();
+		}
 	}
 
 	/**
@@ -56,20 +63,17 @@ public class FileManager {
 	 * @param ext only the extension without the dot
 	 * @return
 	 */
-	public ArrayList<File> fileFromFolder(String path, String ext){
-
-		File folder = new File(path);
+	public ArrayList<String> getFileFromFolder(File folder, String ext){
 
 		if( ! folder.isDirectory() ){
 			throw new IllegalArgumentException("Bad path, folder path expected");
 		}
 
 		File[] files = folder.listFiles();
-		ArrayList<File> list = new ArrayList<File>();
+		ArrayList<String> list = new ArrayList<String>();
 		for(int f = 0; f < files.length; f++){
 			if(files[f].getName().endsWith("."+ext)){
-				list.add( files[f] );
-				System.out.println(files[f].getName());
+				list.add( files[f].getName() );
 			}
 		}
 		return list;
@@ -107,5 +111,38 @@ public class FileManager {
 		}
 		return list;
 	}
+	
+	
+	/**
+	 * return the name of every file in aa_fichier folder
+	 * @param corpus
+	 * @return
+	 */
+	public List<String> loadAaFile(Corpus corpus){
+		
+		File folder = new File( corpus.getPath() + "/aa_fichiers" );
+		if( folder.exists() ){
+			return this.getFileFromFolder(folder, "aa");
+		}else{
+			logger.error("Folder doesn't exists: "+corpus.getPath() );
+		}
+		return null;
+	}
+	
+	/**
+	 * return the name of every file in ac_fichier folder
+	 * @param corpus
+	 * @return
+	 */
+	public List<String> loadAcFile(Corpus corpus){
+		File folder = new File( corpus.getPath() + "/aa_fichiers" );
+		if( folder.exists() ){
+			return this.getFileFromFolder(folder, "ac");
+		}else{
+			logger.error("Folder doesn't exists: "+corpus.getPath() );
+		}
+		return null;
+	}
+	
 
 }

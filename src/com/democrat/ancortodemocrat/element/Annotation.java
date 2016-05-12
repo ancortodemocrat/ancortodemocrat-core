@@ -8,8 +8,6 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 import org.apache.log4j.Logger;
 
-import com.democrat.ancortodemocrat.ConversionWorker;
-
 @XmlRootElement(name = "annotations")
 public class Annotation {
 
@@ -20,9 +18,18 @@ public class Annotation {
     private List<Relation> relation;
     private List<Schema> schema;
     
+    private String fileName;
     
     
-    @XmlElement(name="schema")
+    public String getFileName() {
+		return fileName;
+	}
+
+	public void setFileName(String fileName) {
+		this.fileName = fileName;
+	}
+
+	@XmlElement(name="schema")
     public List<Schema> getSchema() {
 		return schema;
 	}

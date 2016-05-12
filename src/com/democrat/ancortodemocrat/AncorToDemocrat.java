@@ -2,6 +2,8 @@ package com.democrat.ancortodemocrat;
 
 import java.io.File;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -10,14 +12,15 @@ import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
 
 import org.apache.log4j.BasicConfigurator;
+import org.apache.log4j.Logger;
 import org.xml.sax.SAXException;
 
-import com.democrat.ancortodemocrat.element.Annotation;
 import com.democrat.ancortodemocrat.element.Relation;
-import com.democrat.ancortodemocrat.element.Term;
+
 
 public class AncorToDemocrat {
 
+	private static Logger logger = Logger.getLogger(AncorToDemocrat.class);
 	public static FileManager fileManager;
 
 	public static void main(String[] args) {
@@ -26,7 +29,24 @@ public class AncorToDemocrat {
 		BasicConfigurator.configure();
 		
 		fileManager = new FileManager();
-		fileManager.loadPathFile();
+		
+		//loading corpus
+		List<String> corpusPath = fileManager.loadPathFile();
+		List<Corpus> corpusList = new ArrayList<Corpus>();
+		for(String path : corpusPath){
+			corpusList.add( new Corpus( path ));
+		}
+		
+		//loading annotation of corpus
+		for(Corpus corpus : corpusList){
+			corpus.loadAnnotation();
+		}
+		
+		//conversion each corpus
+		for(Corpus corpus : corpusList){
+			ConversionWorker conversionWorker = new ConversionWorker( corpus.getAnnotation() );
+			conversionWorker.work();
+		}
 		
 		
 		//trying generate xsd schema and verify one xml .aa from glozz
@@ -42,17 +62,6 @@ public class AncorToDemocrat {
 		boolean toast = xmlValidation(context, "test.xml");
 		System.out.println("==>"+toast);
 		**/
-		
-		
-		//test to load xml file
-		Annotation annotation = XmlLoader.loadAnnotationFromFile("test.xml");
-		
-		//annotation.removeTxtImporter();
-		
-		ConversionWorker conversion = new ConversionWorker( annotation );
-		
-
-		//XmlWriter.writeXml(annotation, "test_to_chain.aa");
 		
 	}
 	

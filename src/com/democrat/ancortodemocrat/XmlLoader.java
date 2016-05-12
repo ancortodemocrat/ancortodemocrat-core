@@ -1,13 +1,13 @@
 package com.democrat.ancortodemocrat;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.InputStream;
 
 import javax.xml.bind.JAXB;
 
 import com.democrat.ancortodemocrat.element.Annotation;
-import com.democrat.ancortodemocrat.element.PositioningUnit;
-import com.democrat.ancortodemocrat.element.Relation;
-import com.democrat.ancortodemocrat.element.Unit;
 
 public class XmlLoader {
 
@@ -18,8 +18,13 @@ public class XmlLoader {
 	 * @return
 	 */
 	public static Annotation loadAnnotationFromFile(String xmlFileName) {
-
-		InputStream xmlStream = AncorToDemocrat.class.getClassLoader().getResourceAsStream( xmlFileName );
+		InputStream xmlStream = null;
+		try {
+			xmlStream = new FileInputStream( new File( xmlFileName ) );
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 		
 		return JAXB.unmarshal(xmlStream, Annotation.class); 

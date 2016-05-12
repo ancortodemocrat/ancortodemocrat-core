@@ -22,12 +22,10 @@ public class ConversionWorker {
 	public ConversionWorker( Annotation annotation ){
 		this.annotations = new ArrayList<Annotation>();
 		this.annotations.add(annotation);
-		this.work();
 	}
 	
 	public ConversionWorker( List<Annotation> annotations ){
 		this.annotations = annotations;
-		this.work();
 	}
 	
 	public void work(){
