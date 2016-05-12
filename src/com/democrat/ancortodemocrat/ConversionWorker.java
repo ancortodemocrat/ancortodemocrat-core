@@ -52,13 +52,9 @@ public class ConversionWorker {
 		
 		for(int r = 0; r < relations.size(); r++){
 			Relation relation = relations.get( r );
-			Relation newRelation = new Relation();
-			newRelation.setMetadata( relation.getMetadata() );
-			newRelation.setId( relation.getId() );
-			newRelation.setCharacterisation( relation.getCharacterisation() );
-			newRelation.setPositioning( relation.getPositioning() );
+			Relation newRelation = Relation.newInstance( relation );
 			
-			PositioningRelation positioning = newRelation.getPositioning();
+			PositioningRelation positioning = relation.getPositioning();
 			if( positioning != null){
 				if(positioning.getTerm().size() > 1){
 					//we are checking the two pointers in the current relation
@@ -74,11 +70,30 @@ public class ConversionWorker {
 					Unit unit = preRelation.getUnit( annotation );
 					if( positioning.getTerm().get( 0 ).getUnit( annotation ).isNew() ){
 						newRelation.getPositioning().getTerm().get( 0 ).setId( unit.getId()  );
+						logger.debug("change 0");
 					}else if( positioning.getTerm().get( 1 ).getUnit( annotation ).isNew() ){
+						logger.debug("newRelation:");
+						logger.debug(newRelation);
+
+						logger.debug("relation:");
+						logger.debug(relation);
+						logger.debug("_____change 1");
 						newRelation.getPositioning().getTerm().get( 1 ).setId( unit.getId()  );
-					}					
+						logger.debug("_____change 1");
+						
+
+						logger.debug("newRelation:");
+						logger.debug(newRelation);
+
+						logger.debug("relation:");
+						logger.debug(relation);
+					}	
+					//logger.debug( annotation );
+					logger.debug("==============================================");				
 					
 				}
+			}else{
+				logger.debug("positioning null");
 			}
 			
 			newRelations.add( newRelation );

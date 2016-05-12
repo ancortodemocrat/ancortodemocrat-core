@@ -46,5 +46,15 @@ public class PositioningRelation {
 		this.term = term;
 	}
 	
+	public String toString(){
+		String str = "[PositioningRelation]";
+		for(Term term : this.getTerm()){
+			str += System.lineSeparator();
+			str += "     " + term.getId();
+		}
+		
+		return str;
+	}
+	
 	
 }

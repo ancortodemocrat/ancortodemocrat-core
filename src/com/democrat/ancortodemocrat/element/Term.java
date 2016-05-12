@@ -6,7 +6,17 @@ import javax.xml.bind.annotation.XmlElement;
 public class Term {
 
     private String id;
+    
+    public Term(String id){
+    	this.id = id;
+    }
 
+    
+    public Term(){
+    	
+    }
+    
+    
     /**
      * Gets the value of the id property.
      * 

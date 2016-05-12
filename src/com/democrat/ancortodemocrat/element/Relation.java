@@ -1,5 +1,6 @@
 package com.democrat.ancortodemocrat.element;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.xml.bind.annotation.XmlAttribute;
@@ -13,7 +14,7 @@ import org.apache.log4j.Logger;
 
 @XmlRootElement(name="relation")
 public class Relation {
-	
+
 
 	private static Logger logger = Logger.getLogger(Relation.class);
 
@@ -22,6 +23,40 @@ public class Relation {
 	private Characterisation characterisation;
 	private PositioningRelation positioning;
 	private String id;
+	
+	public Relation(){
+		
+	}
+	
+	/**
+	 * copy of anotherRelation
+	 * with unmutable object
+	 * @param anotherRelation
+	 * @return
+	 */
+	public static Relation newInstance (Relation anotherRelation){
+		Relation relation = new Relation();
+		
+		MetadataUnit metadata = anotherRelation.getMetadata();
+		relation.metadata = metadata;
+		
+		Characterisation characterisation = anotherRelation.getCharacterisation();
+		//TODO load unmutable characterisation
+		relation.characterisation = characterisation;
+		
+		PositioningRelation positioning = new PositioningRelation();
+		List<Term> terms = anotherRelation.getPositioning().getTerm();
+
+		positioning.setTerm( new ArrayList<Term>());
+		for(int t = 0; t < terms.size(); t++){
+			positioning.getTerm().add(new Term( new String(terms.get( t ).getId() ) ) );
+		}
+		
+		relation.positioning = positioning;
+		
+		relation.id = anotherRelation.id;
+		return relation;
+	}
 
 	/**
 	 * Gets the value of the metadata property.
@@ -176,30 +211,48 @@ public class Relation {
 	public Relation getPreRelation( Annotation annotation ){
 		long position = this.getUnit( annotation ).getPositioning().getStart().getSinglePosition().getIndex();
 		String idNewUnit = this.getPreUnit( annotation ).getId();
-
 		Relation relationWanted = null;
 
 		//the pre relation is the relation who have one term:
 		//term id == idNewUnit
 		//and her position is the lower than this one (the unit)
+		logger.debug("==> position: "+position);
 		List<Relation> relations = annotation.getRelation();
 		for(int r = 0; r < relations.size(); r++){
+
+			if(relationWanted != null){
+				logger.debug("comparaison: "+relationWanted.getUnit( annotation ).getPositioning().getStart().getSinglePosition().getIndex());
+
+				long currentPosition = relations.get( r ).getUnit( annotation ).getPositioning().getStart().getSinglePosition().getIndex();
+				logger.debug("currentPosition "+currentPosition);
+			}
+			if(relations.get( r ).equals( this )){
+				logger.debug("next");
+				continue;
+			}
+
 			if( relations.get( r ).getPreUnit( annotation ).getId().equals( idNewUnit )){
 				//termid == idNewunit
 				//these two units have the same parent (first mention)
 				if( relations.get( r ).getUnit( annotation ) instanceof Schema){
 					logger.debug("yoloy");
 					//TODO manage with schema, first element/ NEW
-					return null;
+					continue;
 				}
 				long currentPosition = relations.get( r ).getUnit( annotation ).getPositioning().getStart().getSinglePosition().getIndex();
 				if(relationWanted == null && position - currentPosition > 0){
 					relationWanted = relations.get( r );
+					logger.debug(":___plus proche: "+currentPosition);
 				}else if(position - currentPosition > 0 &&
-						position - currentPosition < relationWanted.getUnit( annotation ).getPositioning().getStart().getSinglePosition().getIndex() ){
+						(position - currentPosition) < 
+						(position - relationWanted.getUnit( annotation ).getPositioning().getStart().getSinglePosition().getIndex()) ){
 					//the more closer and just before, not after
+					logger.debug("plus proche: "+(currentPosition));
 					relationWanted = relations.get( r );
 				}
+			}else{
+
+				logger.debug("don't point new");
 			}
 
 		}
@@ -220,5 +273,21 @@ public class Relation {
 		return false;
 
 	}
+
+	@Override
+	public String toString() {
+		String str = "Relation [id=" + id + "]";
+		str += System.lineSeparator();
+		str += "    "+this.metadata;
+		str += System.lineSeparator();
+		str += "    "+this.characterisation;
+		str += System.lineSeparator();
+		str += "    "+this.getPositioning();
+		str += System.lineSeparator();
+
+		return str;
+	}
+
+
 
 }

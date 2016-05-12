@@ -179,7 +179,7 @@ public class Annotation {
 		
 		str += System.lineSeparator();
 		for(Relation r : this.getRelation()){
-			str += "    --> "+r.getId() + System.lineSeparator();
+			str += "    --> "+ r + System.lineSeparator();
 		}
 		return str;
 	}
