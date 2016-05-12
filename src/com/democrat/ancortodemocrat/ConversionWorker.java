@@ -18,7 +18,6 @@ public class ConversionWorker {
 	private static Logger logger = Logger.getLogger(ConversionWorker.class);
 	
 	private List<Annotation> annotations;
-	private Annotation currentAnnotation;
 	
 	public ConversionWorker( Annotation annotation ){
 		this.annotations = new ArrayList<Annotation>();
@@ -34,7 +33,6 @@ public class ConversionWorker {
 	public void work(){
 		for( int a = 0; a < this.annotations.size(); a++ ){
 			Annotation annotation = this.annotations.get(a);
-			this.currentAnnotation = annotation;
 			this.convertRelationToChain( annotation );
 			this.convertFeature( annotation );
 			logger.info("File converted: "+(a + 1)+"/"+this.annotations.size());
@@ -70,30 +68,11 @@ public class ConversionWorker {
 					Unit unit = preRelation.getUnit( annotation );
 					if( positioning.getTerm().get( 0 ).getUnit( annotation ).isNew() ){
 						newRelation.getPositioning().getTerm().get( 0 ).setId( unit.getId()  );
-						logger.debug("change 0");
 					}else if( positioning.getTerm().get( 1 ).getUnit( annotation ).isNew() ){
-						logger.debug("newRelation:");
-						logger.debug(newRelation);
-
-						logger.debug("relation:");
-						logger.debug(relation);
-						logger.debug("_____change 1");
 						newRelation.getPositioning().getTerm().get( 1 ).setId( unit.getId()  );
-						logger.debug("_____change 1");
-						
-
-						logger.debug("newRelation:");
-						logger.debug(newRelation);
-
-						logger.debug("relation:");
-						logger.debug(relation);
-					}	
-					//logger.debug( annotation );
-					logger.debug("==============================================");				
+					}			
 					
 				}
-			}else{
-				logger.debug("positioning null");
 			}
 			
 			newRelations.add( newRelation );

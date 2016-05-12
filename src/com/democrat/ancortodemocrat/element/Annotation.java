@@ -13,7 +13,6 @@ import com.democrat.ancortodemocrat.ConversionWorker;
 @XmlRootElement(name = "annotations")
 public class Annotation {
 
-
 	private static Logger logger = Logger.getLogger(Annotation.class);
     
     private MetadataAnnotation metadata;

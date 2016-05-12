@@ -216,18 +216,10 @@ public class Relation {
 		//the pre relation is the relation who have one term:
 		//term id == idNewUnit
 		//and her position is the lower than this one (the unit)
-		logger.debug("==> position: "+position);
 		List<Relation> relations = annotation.getRelation();
 		for(int r = 0; r < relations.size(); r++){
 
-			if(relationWanted != null){
-				logger.debug("comparaison: "+relationWanted.getUnit( annotation ).getPositioning().getStart().getSinglePosition().getIndex());
-
-				long currentPosition = relations.get( r ).getUnit( annotation ).getPositioning().getStart().getSinglePosition().getIndex();
-				logger.debug("currentPosition "+currentPosition);
-			}
 			if(relations.get( r ).equals( this )){
-				logger.debug("next");
 				continue;
 			}
 
@@ -242,17 +234,12 @@ public class Relation {
 				long currentPosition = relations.get( r ).getUnit( annotation ).getPositioning().getStart().getSinglePosition().getIndex();
 				if(relationWanted == null && position - currentPosition > 0){
 					relationWanted = relations.get( r );
-					logger.debug(":___plus proche: "+currentPosition);
 				}else if(position - currentPosition > 0 &&
 						(position - currentPosition) < 
 						(position - relationWanted.getUnit( annotation ).getPositioning().getStart().getSinglePosition().getIndex()) ){
 					//the more closer and just before, not after
-					logger.debug("plus proche: "+(currentPosition));
 					relationWanted = relations.get( r );
 				}
-			}else{
-
-				logger.debug("don't point new");
 			}
 
 		}

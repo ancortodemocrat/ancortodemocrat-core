@@ -18,14 +18,19 @@ import com.democrat.ancortodemocrat.element.Term;
 
 public class AncorToDemocrat {
 
+	public static FileManager fileManager;
+
 	public static void main(String[] args) {
-		
-		
+
 		//configure logger
 		BasicConfigurator.configure();
 		
+		fileManager = new FileManager();
+		fileManager.loadPathFile();
+		
+		
 		//trying generate xsd schema and verify one xml .aa from glozz
-		SchemaOutput.generate();
+		//SchemaOutput.generate();
 		/**
 		JAXBContext context = null;
 		try {
@@ -39,16 +44,15 @@ public class AncorToDemocrat {
 		**/
 		
 		
-		
 		//test to load xml file
 		Annotation annotation = XmlLoader.loadAnnotationFromFile("test.xml");
 		
 		//annotation.removeTxtImporter();
-		System.out.println(annotation);
+		
 		ConversionWorker conversion = new ConversionWorker( annotation );
+		
 
-		System.out.println(annotation);
-		XmlWriter.writeXml(annotation, "test_to_chain.aa");
+		//XmlWriter.writeXml(annotation, "test_to_chain.aa");
 		
 	}
 	
