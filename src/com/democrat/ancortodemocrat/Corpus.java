@@ -37,8 +37,10 @@ public class Corpus {
 	}
 	
 	public void export(){
+		AncorToDemocrat.fileManager.mkdir("generated/" + this.getName());
+		AncorToDemocrat.fileManager.mkdir("generated/" + this.getName() + "/aa_fichiers/");
 		for(Annotation a : this.annotation){
-			XmlWriter.writeXml(a, "generated/" + this.getName() + "/aa_fichiers/" + a.getFileName() + ".aa");
+			XmlWriter.writeXml(a, "generated/" + this.getName() + "/aa_fichiers/" + a.getFileName());
 		}
 	}
 	
@@ -51,7 +53,9 @@ public class Corpus {
 			File xmlFile = new File(path + str.substring( 0, str.length() - 3) + ".xml");
 			
 			file.renameTo(xmlFile);
-			this.annotation.add( XmlLoader.loadAnnotationFromFile( xmlFile.getAbsolutePath() ) );
+			Annotation annotation = XmlLoader.loadAnnotationFromFile( xmlFile.getAbsolutePath() );
+			annotation.setFileName( str );
+			this.annotation.add( annotation );
 			xmlFile.renameTo(new File(path + str));
 		}
 	}

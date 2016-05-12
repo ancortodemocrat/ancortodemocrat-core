@@ -112,6 +112,13 @@ public class FileManager {
 		return list;
 	}
 	
+	public void mkdir(String path){
+		File folder = new File( path );
+		if( ! folder.exists() || ! folder.isDirectory() ){
+			folder.mkdir();
+		}
+	}
+	
 	
 	/**
 	 * return the name of every file in aa_fichier folder
@@ -126,7 +133,7 @@ public class FileManager {
 		}else{
 			logger.error("Folder doesn't exists: "+corpus.getPath() );
 		}
-		return null;
+		return new ArrayList<String>();
 	}
 	
 	/**

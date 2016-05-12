@@ -33,7 +33,7 @@ public class ConversionWorker {
 			Annotation annotation = this.annotations.get(a);
 			this.convertRelationToChain( annotation );
 			this.convertFeature( annotation );
-			logger.info("File converted: "+(a + 1)+"/"+this.annotations.size());
+			logger.info("File converted: "+(a + 1)+"/"+this.annotations.size() + " : " + annotation.getFileName());
 		}
 	}
 	

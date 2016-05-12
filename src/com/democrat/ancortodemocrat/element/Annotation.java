@@ -116,6 +116,7 @@ public class Annotation {
     			return schema;
     		}
     	}
+    	logger.error("unit/schema not found: "+id);
     	return null;
     }
     

@@ -1,5 +1,5 @@
 #Vous pouvez mettre des commentaires comme ceci
 #Ajouter le(s) chemin(s) absolu(s) que vous souhaitez des corpus que vous souhaitez.
 #chaque corpus doit comporter un dossier 'aa_fichiers' et 'ac_fichiers'
-C:\Users\buggr\Documents\stage\corpus_UBS
-C:\Users\buggr\Documents\stage\corpus_OTG
+C:\Users\buggr\Documents\stage\ancor\corpus_UBS
+C:\Users\buggr\Documents\stage\ancor\corpus_OTG

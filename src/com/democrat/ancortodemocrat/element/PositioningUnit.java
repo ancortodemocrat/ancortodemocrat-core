@@ -59,4 +59,17 @@ public class PositioningUnit {
 		this.end = value;
 	}
 
+	@Override
+	public String toString() {
+		String str = "PositioningUnit";
+		
+		str += System.lineSeparator();
+		
+		str += "    " + this.getStart();
+		
+		return str;
+	}
+	
+	
+
 }

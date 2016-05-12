@@ -48,6 +48,12 @@ public class AncorToDemocrat {
 			conversionWorker.work();
 		}
 		
+		//writing generated files
+		for(Corpus corpus : corpusList){
+			corpus.export();
+		}
+		
+		
 		
 		//trying generate xsd schema and verify one xml .aa from glozz
 		//SchemaOutput.generate();

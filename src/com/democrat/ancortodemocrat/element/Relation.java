@@ -168,6 +168,9 @@ public class Relation {
 		if(position != null){
 			if(position.getTerm().size() > 1){
 				Unit unit = position.getTerm().get( 1 ).getUnit( annotation );
+				if(unit == null){
+					return null;
+				}
 				if(unit.isNew() ){
 					//this one is good
 					return unit;
@@ -189,6 +192,10 @@ public class Relation {
 		if(position != null){
 			if(position.getTerm().size() > 1){
 				Unit unit = position.getTerm().get( 0 ).getUnit( annotation );
+				if(unit == null){
+					//relation --> relation
+					return null;
+				}
 				if(unit.isNew() ){
 					//the other is the good
 					return position.getTerm().get( 1 ).getUnit( annotation );
@@ -209,7 +216,23 @@ public class Relation {
 	 * @return
 	 */
 	public Relation getPreRelation( Annotation annotation ){
-		long position = this.getUnit( annotation ).getPositioning().getStart().getSinglePosition().getIndex();
+		Unit unit = this.getUnit( annotation );
+		
+		if(unit instanceof Schema){
+			
+			//TODO manage schema position
+			return null;
+		}else if(unit == null){
+			//relation --> relation
+			return null;
+		}
+		
+		long position = unit.getPositioning().getStart().getSinglePosition().getIndex();
+		
+		if(this.getPreUnit( annotation ) == null){
+			//relation --> relation
+			return null;
+		}
 		String idNewUnit = this.getPreUnit( annotation ).getId();
 		Relation relationWanted = null;
 
@@ -219,7 +242,12 @@ public class Relation {
 		List<Relation> relations = annotation.getRelation();
 		for(int r = 0; r < relations.size(); r++){
 
-			if(relations.get( r ).equals( this )){
+			if(relations.get( r ).equals( this ) || relations.get( r ).getUnit( annotation ) == null){
+				continue;
+			}
+			
+			if( relations.get( r ).getPreUnit( annotation ) == null ){
+				//TODO manage: relation --> relation
 				continue;
 			}
 
@@ -227,7 +255,6 @@ public class Relation {
 				//termid == idNewunit
 				//these two units have the same parent (first mention)
 				if( relations.get( r ).getUnit( annotation ) instanceof Schema){
-					logger.debug("yoloy");
 					//TODO manage with schema, first element/ NEW
 					continue;
 				}
