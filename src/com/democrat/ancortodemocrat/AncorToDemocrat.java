@@ -40,6 +40,7 @@ public class AncorToDemocrat {
 		//loading annotation of corpus
 		for(Corpus corpus : corpusList){
 			corpus.loadAnnotation();
+			//logger.debug(corpus.getAnnotation());
 		}
 		
 		//conversion each corpus

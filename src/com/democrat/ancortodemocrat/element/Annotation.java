@@ -189,6 +189,14 @@ public class Annotation {
 		String str = "Annotation :";
 		str += System.lineSeparator();
 		
+		str += "    Schemas:";
+		
+
+		str += System.lineSeparator();
+		for(Schema s : this.getSchema()){
+			str += "    --> "+ s + System.lineSeparator();
+		}
+		
 		str += "    Relations:";
 		
 		str += System.lineSeparator();

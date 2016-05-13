@@ -142,15 +142,16 @@ public class Relation extends Element {
 		if(position != null){
 			if(position.getTerm().size() > 1){
 				Element element = position.getTerm().get( 1 ).getElement( annotation );
-				if(element == null){
-					return null;
-				}else if(element instanceof Unit){
+				if(element != null && element instanceof Unit){
 					if(((Unit) element).isNew( annotation ) ){
 						//this one is good
 						return element;
 					}else{
 						return position.getTerm().get( 0 ).getElement( annotation );
 					}
+				}else if(element != null && element instanceof Relation){
+					//TODO check if relation
+					return element;
 				}
 			}
 		}

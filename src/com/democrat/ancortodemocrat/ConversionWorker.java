@@ -52,13 +52,18 @@ public class ConversionWorker {
 			Relation newRelation = Relation.newInstance( relation );
 
 			PositioningRelation positioning = relation.getPositioning();
+
+			logger.debug("preRelation null:" + relation.getPreElement( annotation ).getClass());
+			logger.debug("id : "+relation.getPreElement( annotation ).getId());
 			if( positioning != null){
+
 				if(positioning.getTerm().size() > 1){
 					//we are checking the two pointers in the current relation
 					//if one point on the first element (new = yes) 
 					//so replace this point with the unit the more closer before
 					//so the unit in fist mention of the pre relation of this unit
 					Relation preRelation = relation.getPreRelation( annotation );
+					
 					if( preRelation == null){
 						//first relation
 						newRelations.add( newRelation );
@@ -68,12 +73,10 @@ public class ConversionWorker {
 					if(element instanceof Unit){
 						Element termElement = positioning.getTerm().get( 0 ).getElement( annotation );
 						if(termElement instanceof Unit){
-							logger.debug("change 0"+((Unit) termElement).isNew( annotation ));
 							if( ((Unit) termElement).isNew( annotation ) ){
 								newRelation.getPositioning().getTerm().get( 0 ).setId( element.getId()  );
 							}
 						}if(positioning.getTerm().get( 1 ).getElement( annotation ) instanceof Unit){
-							logger.debug("change 1");
 							if( ((Unit) positioning.getTerm().get( 1 ).getElement( annotation )).isNew( annotation ) ){
 								newRelation.getPositioning().getTerm().get( 1 ).setId( element.getId()  );
 							}
