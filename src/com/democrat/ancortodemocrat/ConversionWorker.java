@@ -10,8 +10,10 @@ import org.apache.log4j.Logger;
 import com.democrat.ancortodemocrat.element.Annotation;
 import com.democrat.ancortodemocrat.element.Cluster;
 import com.democrat.ancortodemocrat.element.Element;
+import com.democrat.ancortodemocrat.element.Feature;
 import com.democrat.ancortodemocrat.element.PositioningRelation;
 import com.democrat.ancortodemocrat.element.Relation;
+import com.democrat.ancortodemocrat.element.Type;
 import com.democrat.ancortodemocrat.element.Unit;
 
 public class ConversionWorker {
@@ -92,16 +94,48 @@ public class ConversionWorker {
 	}
 
 	/**
-	 * recalculates every relation with their term 
-	 * to determine these features
+	 * recalculates the characterisation(type) and features of the relation
 	 * <ul>
 	 * <li>NB</li>
 	 * <li>GENRE</li>
 	 * </ul>
+	 * in comparaison with the preRelation not converted
 	 * @param relations
 	 */
-	private void convertFeature( Annotation annotation ){
+	private void convertCharacterisation( Annotation annotation, Relation relation, Relation preRelation ){
+		String currentType = relation.getCharacterisation().getType().getValue();
+		String preType = preRelation.getCharacterisation().getType().getValue();
+		
+		if(currentType.equalsIgnoreCase( "DIRECTE" ) && preType.equalsIgnoreCase( "INDIRECTE" )){
+			//(NO, DIR, IND) --> DIR
+			relation.getCharacterisation().setType( new Type("INDIRECTE") );
+		}else if(currentType.equalsIgnoreCase("DIR") && preType.equalsIgnoreCase( "PR" )){
+			//(NO, DIR, PR) --> IND
+		}
+		
+		
+		
+		//type
+		//nb
+		Element element = relation.getElement( annotation );
+		Element preElement = relation.getPreElement( annotation );
+		if(element instanceof Unit && preElement instanceof Unit){
+			Unit unit = (Unit) element;
+			Unit preUnit = (Unit) preElement;
+			String currentNb = unit.getFeature( "NB" );
+			String preNb = unit.getFeature( "NB" );
 
+
+			String currentGenre = unit.getFeature( "GENRE" );
+			String preGenre = unit.getFeature( "GENRE" );
+			
+			
+		}
+		
+	}
+	
+	private void convertCharacterisation( Annotation annotation, Relation relation){
+		this.convertFeature( annotation, relation, relation.getPreRelation( annotation ));
 	}
 
 

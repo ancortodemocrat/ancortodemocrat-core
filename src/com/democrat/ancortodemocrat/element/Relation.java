@@ -282,5 +282,17 @@ public class Relation extends Element {
 	}
 
 
+	public String getFeature(String featureName){
+		Characterisation charact = this.getCharacterisation();
+		List<Feature> features = charact.getFeatureSet().getFeature();
+		for(int f = 0; f < features.size(); f++){
+			if(features.get( f ).getName().equalsIgnoreCase( featureName )){
+				return features.get( f ).getValue();
+			}
+		}
+		return null;
+	}
+
+
 
 }
