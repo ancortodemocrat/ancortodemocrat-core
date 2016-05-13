@@ -43,7 +43,6 @@ public class Schema extends Unit{
 		for(int u = 0; u < units.size(); u++){
 			Element element = units.get( u ).getElement( annotation );
 			if(element instanceof Unit){
-				logger.debug("isNew "+isNew);
 				isNew = isNew || ((Unit) element).isNew( annotation );
 			}
 		}

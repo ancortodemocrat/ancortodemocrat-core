@@ -99,7 +99,7 @@ public class FileManager {
 		logger.info("Path read:");
 		try {
 			while ( ( line = reader.readLine() ) != null) {
-				if( ! line.startsWith("#") ){
+				if( ! line.startsWith("#") && ! line.isEmpty() ){
 					list.add( line );
 					logger.info("> "+line);
 				}

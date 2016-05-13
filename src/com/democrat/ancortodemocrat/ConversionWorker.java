@@ -18,23 +18,21 @@ public class ConversionWorker {
 
 	private static Logger logger = Logger.getLogger(ConversionWorker.class);
 
-	private List<Annotation> annotations;
+	private Corpus corpus;
 
-	public ConversionWorker( Annotation annotation ){
-		this.annotations = new ArrayList<Annotation>();
-		this.annotations.add(annotation);
-	}
-
-	public ConversionWorker( List<Annotation> annotations ){
-		this.annotations = annotations;
+	public ConversionWorker( Corpus corpus ){
+		this.corpus = corpus;
 	}
 
 	public void work(){
-		for( int a = 0; a < this.annotations.size(); a++ ){
-			Annotation annotation = this.annotations.get(a);
+		logger.info("Start converting: " + corpus.getName() );
+		
+		for( int a = 0; a < this.corpus.getAnnotation().size(); a++ ){
+
+			logger.info("--> Converting file: "+(a + 1)+"/"+this.corpus.getAnnotation().size() + " : " + this.corpus.getAnnotation().get( a ).getFileName() );
+			Annotation annotation = this.corpus.getAnnotation().get(a);
 			this.convertRelationToChain( annotation );
 			this.convertFeature( annotation );
-			logger.info("File converted: "+(a + 1)+"/"+this.annotations.size() + " : " + annotation.getFileName());
 		}
 	}
 
@@ -53,8 +51,6 @@ public class ConversionWorker {
 
 			PositioningRelation positioning = relation.getPositioning();
 
-			logger.debug("preRelation null:" + relation.getPreElement( annotation ).getClass());
-			logger.debug("id : "+relation.getPreElement( annotation ).getId());
 			if( positioning != null){
 
 				if(positioning.getTerm().size() > 1){

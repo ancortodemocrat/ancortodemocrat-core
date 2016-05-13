@@ -13,6 +13,7 @@ import javax.xml.validation.SchemaFactory;
 
 import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.Logger;
+import org.apache.log4j.xml.DOMConfigurator;
 import org.xml.sax.SAXException;
 
 import com.democrat.ancortodemocrat.element.Relation;
@@ -26,7 +27,7 @@ public class AncorToDemocrat {
 	public static void main(String[] args) {
 
 		//configure logger
-		BasicConfigurator.configure();
+		DOMConfigurator.configure("cfg/log4j-config.xml");
 		
 		fileManager = new FileManager();
 		
@@ -39,18 +40,21 @@ public class AncorToDemocrat {
 		
 		//loading annotation of corpus
 		for(Corpus corpus : corpusList){
+			logger.info("Loading annotation on: " + corpus.getName() );
 			corpus.loadAnnotation();
 			//logger.debug(corpus.getAnnotation());
 		}
 		
 		//conversion each corpus
 		for(Corpus corpus : corpusList){
-			ConversionWorker conversionWorker = new ConversionWorker( corpus.getAnnotation() );
+			ConversionWorker conversionWorker = new ConversionWorker( corpus );
 			conversionWorker.work();
 		}
 		
 		//writing generated files
+		logger.info("Writing new annotations !");
 		for(Corpus corpus : corpusList){
+			logger.info("Writing: " + corpus.getName() + "..");
 			corpus.export();
 		}
 		

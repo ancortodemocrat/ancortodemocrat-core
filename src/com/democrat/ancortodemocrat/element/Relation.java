@@ -169,7 +169,8 @@ public class Relation extends Element {
 			if(position.getTerm().size() > 1){
 				Element element = position.getTerm().get( 0 ).getElement( annotation );
 				if(element instanceof Relation){
-					//relation --> relation
+					//TODO relation --> relation
+					//logger.debug(" relation TO relation idRelation " + this.getId());
 					return null;
 				}else if(element instanceof Unit){
 					if(((Unit) element).isNew( annotation ) ){
@@ -181,6 +182,7 @@ public class Relation extends Element {
 				}
 			}
 		}
+		logger.debug("element null on relation: "+this.getId());
 		return null;
 	}
 	
@@ -196,7 +198,9 @@ public class Relation extends Element {
 	 */
 	public Relation getPreRelation( Annotation annotation ){
 		Element element = this.getElement( annotation );
-
+		if(element == null){
+			return null;
+		}
 		long position = 0;
 		if(element instanceof Relation){
 			//TODO relation to relation check
