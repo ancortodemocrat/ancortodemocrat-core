@@ -13,7 +13,7 @@ import org.apache.log4j.Logger;
 
 
 @XmlRootElement(name="relation")
-public class Relation {
+public class Relation extends Element {
 
 
 	private static Logger logger = Logger.getLogger(Relation.class);
@@ -22,12 +22,11 @@ public class Relation {
 	private MetadataUnit metadata;
 	private Characterisation characterisation;
 	private PositioningRelation positioning;
-	private String id;
-	
+
 	public Relation(){
-		
+
 	}
-	
+
 	/**
 	 * copy of anotherRelation
 	 * with unmutable object
@@ -36,14 +35,14 @@ public class Relation {
 	 */
 	public static Relation newInstance (Relation anotherRelation){
 		Relation relation = new Relation();
-		
+
 		MetadataUnit metadata = anotherRelation.getMetadata();
 		relation.metadata = metadata;
-		
+
 		Characterisation characterisation = anotherRelation.getCharacterisation();
 		//TODO load unmutable characterisation
 		relation.characterisation = characterisation;
-		
+
 		PositioningRelation positioning = new PositioningRelation();
 		List<Term> terms = anotherRelation.getPositioning().getTerm();
 
@@ -51,10 +50,10 @@ public class Relation {
 		for(int t = 0; t < terms.size(); t++){
 			positioning.getTerm().add(new Term( new String(terms.get( t ).getId() ) ) );
 		}
-		
+
 		relation.positioning = positioning;
-		
-		relation.id = anotherRelation.id;
+
+		relation.setId( anotherRelation.getId() );
 		return relation;
 	}
 
@@ -133,49 +132,25 @@ public class Relation {
 		this.positioning = value;
 	}
 
-	/**
-	 * Gets the value of the id property.
-	 * 
-	 * @return
-	 *     possible object is
-	 *     {@link String }
-	 *     
-	 */
-	@XmlAttribute
-	public String getId() {
-		return id;
-	}
-
-	/**
-	 * Sets the value of the id property.
-	 * 
-	 * @param value
-	 *     allowed object is
-	 *     {@link String }
-	 *     
-	 */
-	public void setId(String value) {
-		this.id = value;
-	}
-
 
 	/**
 	 * Return the unit where point the relation 
 	 * @return
 	 */
-	public Unit getPreUnit( Annotation annotation ){
+	public Element getPreElement( Annotation annotation ){
 		PositioningRelation position = this.getPositioning();
 		if(position != null){
 			if(position.getTerm().size() > 1){
-				Unit unit = position.getTerm().get( 1 ).getUnit( annotation );
-				if(unit == null){
+				Element element = position.getTerm().get( 1 ).getElement( annotation );
+				if(element == null){
 					return null;
-				}
-				if(unit.isNew() ){
-					//this one is good
-					return unit;
-				}else{
-					return position.getTerm().get( 0 ).getUnit( annotation );
+				}else if(element instanceof Unit){
+					if(((Unit) element).isNew( annotation ) ){
+						//this one is good
+						return element;
+					}else{
+						return position.getTerm().get( 0 ).getElement( annotation );
+					}
 				}
 			}
 		}
@@ -187,53 +162,55 @@ public class Relation {
 	 * Return the current unit annoted
 	 * @return
 	 */
-	public Unit getUnit( Annotation annotation ){
+	public Element getElement( Annotation annotation ){
 		PositioningRelation position = this.getPositioning();
 		if(position != null){
 			if(position.getTerm().size() > 1){
-				Unit unit = position.getTerm().get( 0 ).getUnit( annotation );
-				if(unit == null){
+				Element element = position.getTerm().get( 0 ).getElement( annotation );
+				if(element instanceof Relation){
 					//relation --> relation
 					return null;
-				}
-				if(unit.isNew() ){
-					//the other is the good
-					return position.getTerm().get( 1 ).getUnit( annotation );
-				}else{
-					return unit;
+				}else if(element instanceof Unit){
+					if(((Unit) element).isNew( annotation ) ){
+						//the other is the good
+						return position.getTerm().get( 1 ).getElement( annotation );
+					}else{
+						return element;
+					}
 				}
 			}
 		}
 		return null;
 	}
+	
 
 	/**
 	 * work only in first mention
 	 * if you are in chain, use {@link Cluster.class}
-	 * return the pre relation
+	 * return the pre relation, it's the relation the more closer than this one
+	 * just before
 	 * if return null, this relation is the first
 	 * @param annotation
 	 * @return
 	 */
 	public Relation getPreRelation( Annotation annotation ){
-		Unit unit = this.getUnit( annotation );
-		
-		if(unit instanceof Schema){
-			
-			//TODO manage schema position
-			return null;
-		}else if(unit == null){
-			//relation --> relation
-			return null;
+		Element element = this.getElement( annotation );
+
+		long position = 0;
+		if(element instanceof Relation){
+			//TODO relation to relation check
+			return (Relation) element;
+		}else{ //UNIT OR SCHEMA
+			position = ((Unit) element).getStart( annotation );
 		}
-		
-		long position = unit.getPositioning().getStart().getSinglePosition().getIndex();
-		
-		if(this.getPreUnit( annotation ) == null){
-			//relation --> relation
-			return null;
+
+		Element preElement = this.getPreElement( annotation ) ;
+		if(preElement instanceof Relation){
+			//TODO check relation to relation
+			return (Relation) preElement;
 		}
-		String idNewUnit = this.getPreUnit( annotation ).getId();
+		//after that the preElement is a Unit
+		String idNewUnit = preElement.getId();
 		Relation relationWanted = null;
 
 		//the pre relation is the relation who have one term:
@@ -242,28 +219,25 @@ public class Relation {
 		List<Relation> relations = annotation.getRelation();
 		for(int r = 0; r < relations.size(); r++){
 
-			if(relations.get( r ).equals( this ) || relations.get( r ).getUnit( annotation ) == null){
+			if(relations.get( r ).equals( this ) || relations.get( r ).getElement( annotation ) == null){
 				continue;
 			}
-			
-			if( relations.get( r ).getPreUnit( annotation ) == null ){
+			Element currentPreElement = relations.get( r ).getPreElement( annotation );
+			if( currentPreElement instanceof Relation ){
 				//TODO manage: relation --> relation
 				continue;
 			}
-
-			if( relations.get( r ).getPreUnit( annotation ).getId().equals( idNewUnit )){
+			//here currentPrelement can be casted to Unit
+			if( currentPreElement.getId().equals( idNewUnit )){
 				//termid == idNewunit
 				//these two units have the same parent (first mention)
-				if( relations.get( r ).getUnit( annotation ) instanceof Schema){
-					//TODO manage with schema, first element/ NEW
-					continue;
-				}
-				long currentPosition = relations.get( r ).getUnit( annotation ).getPositioning().getStart().getSinglePosition().getIndex();
+				Unit currentUnit = (Unit) relations.get( r ).getElement( annotation );
+				long currentPosition = (currentUnit).getStart( annotation );
 				if(relationWanted == null && position - currentPosition > 0){
 					relationWanted = relations.get( r );
 				}else if(position - currentPosition > 0 &&
 						(position - currentPosition) < 
-						(position - relationWanted.getUnit( annotation ).getPositioning().getStart().getSinglePosition().getIndex()) ){
+						(position - ((Unit) relationWanted.getElement( annotation )).getStart( annotation )) ){
 					//the more closer and just before, not after
 					relationWanted = relations.get( r );
 				}
@@ -290,7 +264,7 @@ public class Relation {
 
 	@Override
 	public String toString() {
-		String str = "Relation [id=" + id + "]";
+		String str = "Relation [id=" + this.getId() + "]";
 		str += System.lineSeparator();
 		str += "    "+this.metadata;
 		str += System.lineSeparator();

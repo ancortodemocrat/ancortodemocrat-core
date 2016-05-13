@@ -1,14 +1,10 @@
 package com.democrat.ancortodemocrat.element;
 
-import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlElement;
 
-public class Term {
+public class Term extends Element{
 
-    private String id;
-    
     public Term(String id){
-    	this.id = id;
+    	super.setId( id );
     }
 
     
@@ -17,33 +13,8 @@ public class Term {
     }
     
     
-    /**
-     * Gets the value of the id property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    @XmlAttribute(name="id")
-    public String getId() {
-        return id;
-    }
-
-    /**
-     * Sets the value of the id property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setId(String value) {
-        this.id = value;
-    }
-    
-    public Unit getUnit(Annotation annotation){
-    	return annotation.getUnitById( this.getId() );
+    public Element getElement(Annotation annotation){
+    	return annotation.getElementById( this.getId() );
     }
 
 }

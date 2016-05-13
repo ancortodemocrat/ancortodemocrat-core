@@ -20,6 +20,7 @@ public class Annotation {
     
     private String fileName;
     
+
     
     public String getFileName() {
 		return fileName;
@@ -104,7 +105,7 @@ public class Annotation {
      * @param id
      * @return Return the Unit corresponding, if not found return null
      */
-    public Unit getUnitById(String id){
+    public Element getElementById(String id){
     	for(Unit unit : this.unit){
     		if(unit.getId().equals( id )){
     			return unit;
@@ -116,7 +117,13 @@ public class Annotation {
     			return schema;
     		}
     	}
-    	logger.error("unit/schema not found: "+id);
+    	//if is not a schema or an unit
+    	//we have a relation to a schema
+    	for(Relation relation : this.getRelation()){
+    		if(relation.getId().equals( id )){
+    			return relation;
+    		}
+    	}
     	return null;
     }
     

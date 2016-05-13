@@ -11,7 +11,7 @@ import java.util.List;
 public class Cluster {
 
 	private List<Relation> relations;
-	
+
 	/**
 	 * init a cluster with the FIRST relation 
 	 * @param relation
@@ -31,7 +31,7 @@ public class Cluster {
 		//we found every new (field) to determine the first relation 
 		//this one will be the first element of the cluster
 		for(Unit unit : annotation.getUnit()){
-			if( unit.isNew() ){
+			if( unit.isNew( annotation ) ){
 				//we search the first relation, the closer of unit
 				//we iterate every relation containing termID == unitID
 				List<Relation> relations = annotation.getRelation();
@@ -39,13 +39,17 @@ public class Cluster {
 				for(int r = 0; r < relations.size(); r++){
 					if(relations.get( r ).containsUnit( unit )){
 						//relation with the unit concerned
+						Element currentElement = relations.get( r ).getElement( annotation );
 						if( relationMoreCloser == null){
 							relationMoreCloser = relations.get( r );
-						}else if(relations.get( r ).getUnit( annotation ).getPositioning().getStart().getSinglePosition().getIndex() < 
-								relationMoreCloser.getUnit( annotation ).getPositioning().getStart().getSinglePosition().getIndex() ){
-							//if this relation is before (in txt source) than the last founded
-							//switched
-							relationMoreCloser = relations.get( r );
+						}else if(currentElement instanceof Unit){
+							Element elementOfRelation = relationMoreCloser.getElement( annotation );
+							if(((Unit) currentElement).getStart( annotation ) < 
+									((Unit) elementOfRelation).getStart( annotation ) ){
+								//if this relation is before (in txt source) than the last founded
+								//switched
+								relationMoreCloser = relations.get( r );
+							}
 						}
 					}
 				}

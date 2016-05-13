@@ -11,7 +11,6 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class PositioningRelation {
 	
 	private List<Term> term;
-
 	/**
 	 * Gets the value of the term property.
 	 * 
@@ -55,6 +54,6 @@ public class PositioningRelation {
 		
 		return str;
 	}
-	
+
 	
 }

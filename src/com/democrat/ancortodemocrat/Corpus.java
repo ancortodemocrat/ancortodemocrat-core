@@ -47,16 +47,12 @@ public class Corpus {
 	public void loadAnnotation(){
 		List<String> annotationFile = AncorToDemocrat.fileManager.loadAaFile( this );
 		for(String str : annotationFile){
-			String path = this.getPath() + "/aa_fichiers/";
-			File file = new File(path + str);
-			
-			File xmlFile = new File(path + str.substring( 0, str.length() - 3) + ".xml");
-			
-			file.renameTo(xmlFile);
-			Annotation annotation = XmlLoader.loadAnnotationFromFile( xmlFile.getAbsolutePath() );
+			File file = new File(this.getPath() + "/aa_fichiers/" + str);
+
+			Annotation annotation = XmlLoader.loadAnnotationFromFile( file.getAbsolutePath() );
 			annotation.setFileName( str );
 			this.annotation.add( annotation );
-			xmlFile.renameTo(new File(path + str));
+
 		}
 	}
 

@@ -4,20 +4,22 @@ import java.util.List;
 
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 import org.apache.log4j.Logger;
 
 //@XmlAccessorType(XmlAccessType.FIELD)
-public class Unit {
+@XmlRootElement(name="unit")
+public class Unit extends Element {
 	
-
 	private static Logger logger = Logger.getLogger(Annotation.class);
 
 	private MetadataUnit metadata;
 	private Characterisation characterisation;
 	private PositioningUnit positioning;
-	private String id;
 
+	
 	/**
 	 * Gets the value of the metadata property.
 	 * 
@@ -93,33 +95,8 @@ public class Unit {
 	public void setPositioning(PositioningUnit value) {
 		this.positioning = value;
 	}
-
-	/**
-	 * Gets the value of the id property.
-	 * 
-	 * @return
-	 *     possible object is
-	 *     {@link String }
-	 *     
-	 */
-	@XmlAttribute
-	public String getId() {
-		return id;
-	}
-
-	/**
-	 * Sets the value of the id property.
-	 * 
-	 * @param value
-	 *     allowed object is
-	 *     {@link String }
-	 *     
-	 */
-	public void setId(String value) {
-		this.id = value;
-	}
 	
-	public boolean isNew(){
+	public boolean isNew( Annotation annotation ){
 		String value = getFeature("NEW");
 		if(value != null && value.equalsIgnoreCase( "yes") ){
 			return true;
@@ -138,5 +115,11 @@ public class Unit {
 		return null;
 	}
 
+	
+	public long getStart(  Annotation annotation  ){
+		return this.getPositioning().getStart().getSinglePosition().getIndex();
+	}
+	
+	
 
 }

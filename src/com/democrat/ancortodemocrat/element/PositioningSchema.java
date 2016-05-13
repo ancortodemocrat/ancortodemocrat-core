@@ -2,20 +2,23 @@ package com.democrat.ancortodemocrat.element;
 
 import java.util.List;
 
-import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlElement;import javax.xml.bind.annotation.XmlRootElement;
 
+@XmlRootElement(name="positioning")
 public class PositioningSchema {
 	
-	private List<EmbeddedUnit> embeddedUnits;
+	private List<EmbeddedUnit> embeddedUnit;
+
 
 	@XmlElement(name="embedded-unit")
-	public List<EmbeddedUnit> getEmbeddedUnits() {
-		return embeddedUnits;
+	public List<EmbeddedUnit> getEmbeddedUnit() {
+		return embeddedUnit;
 	}
 
-	public void setEmbeddedUnits(List<EmbeddedUnit> embeddedUnits) {
-		this.embeddedUnits = embeddedUnits;
+	public void setEmbeddedUnit(List<EmbeddedUnit> embeddedUnit) {
+		this.embeddedUnit = embeddedUnit;
 	}
+	
 	
 	
 

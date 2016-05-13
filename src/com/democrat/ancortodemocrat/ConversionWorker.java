@@ -9,25 +9,26 @@ import org.apache.log4j.Logger;
 
 import com.democrat.ancortodemocrat.element.Annotation;
 import com.democrat.ancortodemocrat.element.Cluster;
+import com.democrat.ancortodemocrat.element.Element;
 import com.democrat.ancortodemocrat.element.PositioningRelation;
 import com.democrat.ancortodemocrat.element.Relation;
 import com.democrat.ancortodemocrat.element.Unit;
 
 public class ConversionWorker {
-	
+
 	private static Logger logger = Logger.getLogger(ConversionWorker.class);
-	
+
 	private List<Annotation> annotations;
-	
+
 	public ConversionWorker( Annotation annotation ){
 		this.annotations = new ArrayList<Annotation>();
 		this.annotations.add(annotation);
 	}
-	
+
 	public ConversionWorker( List<Annotation> annotations ){
 		this.annotations = annotations;
 	}
-	
+
 	public void work(){
 		for( int a = 0; a < this.annotations.size(); a++ ){
 			Annotation annotation = this.annotations.get(a);
@@ -36,7 +37,7 @@ public class ConversionWorker {
 			logger.info("File converted: "+(a + 1)+"/"+this.annotations.size() + " : " + annotation.getFileName());
 		}
 	}
-	
+
 	/**
 	 * Take a list of relation annoted in first mention, 
 	 * and convert it in chain
@@ -45,11 +46,11 @@ public class ConversionWorker {
 	private void convertRelationToChain( Annotation annotation ){
 		List<Relation> newRelations = new ArrayList<Relation>();
 		List<Relation> relations = annotation.getRelation();
-		
+
 		for(int r = 0; r < relations.size(); r++){
 			Relation relation = relations.get( r );
 			Relation newRelation = Relation.newInstance( relation );
-			
+
 			PositioningRelation positioning = relation.getPositioning();
 			if( positioning != null){
 				if(positioning.getTerm().size() > 1){
@@ -63,22 +64,34 @@ public class ConversionWorker {
 						newRelations.add( newRelation );
 						continue;
 					}
-					Unit unit = preRelation.getUnit( annotation );
-					if( positioning.getTerm().get( 0 ).getUnit( annotation ).isNew() ){
-						newRelation.getPositioning().getTerm().get( 0 ).setId( unit.getId()  );
-					}else if( positioning.getTerm().get( 1 ).getUnit( annotation ).isNew() ){
-						newRelation.getPositioning().getTerm().get( 1 ).setId( unit.getId()  );
-					}			
-					
+					Element element = preRelation.getElement( annotation );
+					if(element instanceof Unit){
+						Element termElement = positioning.getTerm().get( 0 ).getElement( annotation );
+						if(termElement instanceof Unit){
+							logger.debug("change 0"+((Unit) termElement).isNew( annotation ));
+							if( ((Unit) termElement).isNew( annotation ) ){
+								newRelation.getPositioning().getTerm().get( 0 ).setId( element.getId()  );
+							}
+						}if(positioning.getTerm().get( 1 ).getElement( annotation ) instanceof Unit){
+							logger.debug("change 1");
+							if( ((Unit) positioning.getTerm().get( 1 ).getElement( annotation )).isNew( annotation ) ){
+								newRelation.getPositioning().getTerm().get( 1 ).setId( element.getId()  );
+							}
+						}
+					}else{
+						//TODO relation to relation
+						logger.debug("Relation to relation..");
+					}
+
 				}
 			}
-			
+
 			newRelations.add( newRelation );
 		}
-		
+
 		annotation.setRelation( newRelations );
 	}
-	
+
 	/**
 	 * recalculates every relation with their term 
 	 * to determine these features
@@ -89,8 +102,8 @@ public class ConversionWorker {
 	 * @param relations
 	 */
 	private void convertFeature( Annotation annotation ){
-		
+
 	}
-	
+
 
 }
