@@ -10425,3 +10425,2095 @@
 2016-05-13 13:51:15 [INFO] ConversionWorker:32/ --> Converting file: 1/1 : toChain.aa
 2016-05-13 13:51:15 [INFO] AncorToDemocrat:55/ Writing new annotations !
 2016-05-13 13:51:15 [INFO] AncorToDemocrat:57/ Writing: corpusTest..
+2016-05-13 15:51:52 [INFO] FileManager:99/ Path read:
+2016-05-13 15:51:52 [INFO] FileManager:104/ > C:\Users\buggr\workspace\AncorToDemocrat\corpusTest
+2016-05-13 15:51:52 [INFO] AncorToDemocrat:43/ Loading annotation on: corpusTest
+2016-05-13 15:51:52 [INFO] ConversionWorker:30/ Start converting: corpusTest
+2016-05-13 15:51:52 [INFO] ConversionWorker:34/ --> Converting file: 1/1 : toChain.aa
+2016-05-13 15:51:52 [INFO] AncorToDemocrat:55/ Writing new annotations !
+2016-05-13 15:51:52 [INFO] AncorToDemocrat:57/ Writing: corpusTest..
+2016-05-17 10:01:19 [INFO] FileManager:99/ Path read:
+2016-05-17 10:01:19 [INFO] FileManager:104/ > C:\Users\buggr\workspace\AncorToDemocrat\corpusTest
+2016-05-17 10:01:19 [INFO] AncorToDemocrat:43/ Loading annotation on: corpusTest
+2016-05-17 10:04:46 [INFO] FileManager:99/ Path read:
+2016-05-17 10:04:46 [INFO] FileManager:104/ > C:\Users\buggr\workspace\AncorToDemocrat\corpusTest
+2016-05-17 10:04:46 [INFO] AncorToDemocrat:43/ Loading annotation on: corpusTest
+2016-05-17 10:04:46 [INFO] ConversionWorker:30/ Start converting: corpusTest
+2016-05-17 10:04:46 [INFO] ConversionWorker:34/ --> Converting file: 1/1 : toChain.aa
+2016-05-17 10:04:46 [INFO] AncorToDemocrat:55/ Writing new annotations !
+2016-05-17 10:04:46 [INFO] AncorToDemocrat:57/ Writing: corpusTest..
+2016-05-17 10:29:47 [INFO] FileManager:99/ Path read:
+2016-05-17 10:29:47 [INFO] FileManager:104/ > C:\Users\buggr\Documents\stage\ancor\corpus_OTG
+2016-05-17 10:29:47 [INFO] FileManager:104/ > C:\Users\buggr\Documents\stage\ancor\corpus_UBS
+2016-05-17 10:29:47 [INFO] AncorToDemocrat:43/ Loading annotation on: corpus_OTG
+2016-05-17 10:29:48 [INFO] AncorToDemocrat:43/ Loading annotation on: corpus_UBS
+2016-05-17 10:29:48 [INFO] ConversionWorker:30/ Start converting: corpus_OTG
+2016-05-17 10:29:48 [INFO] ConversionWorker:34/ --> Converting file: 1/315 : 1AG0141.aa
+2016-05-17 10:29:48 [INFO] ConversionWorker:34/ --> Converting file: 2/315 : 1AG0154.aa
+2016-05-17 10:29:48 [INFO] ConversionWorker:34/ --> Converting file: 3/315 : 1AG0155.aa
+2016-05-17 10:29:48 [INFO] ConversionWorker:34/ --> Converting file: 4/315 : 1AG0157.aa
+2016-05-17 10:29:48 [INFO] ConversionWorker:34/ --> Converting file: 5/315 : 1AG0359.aa
+2016-05-17 10:29:48 [INFO] ConversionWorker:34/ --> Converting file: 6/315 : 1AG0362.aa
+2016-05-17 10:29:48 [INFO] ConversionWorker:34/ --> Converting file: 7/315 : 1AG0364.aa
+2016-05-17 10:29:48 [INFO] ConversionWorker:34/ --> Converting file: 8/315 : 1AG0365.aa
+2016-05-17 10:29:48 [INFO] ConversionWorker:34/ --> Converting file: 9/315 : 1AG0367.aa
+2016-05-17 10:29:48 [INFO] ConversionWorker:34/ --> Converting file: 10/315 : 1AG0368.aa
+2016-05-17 10:29:48 [INFO] ConversionWorker:34/ --> Converting file: 11/315 : 1AG0390.aa
+2016-05-17 10:29:48 [INFO] ConversionWorker:34/ --> Converting file: 12/315 : 1AG0391.aa
+2016-05-17 10:29:48 [INFO] ConversionWorker:34/ --> Converting file: 13/315 : 1AG0499.aa
+2016-05-17 10:29:48 [INFO] ConversionWorker:34/ --> Converting file: 14/315 : 1AG0502.aa
+2016-05-17 10:29:48 [INFO] ConversionWorker:34/ --> Converting file: 15/315 : 1AG0508.aa
+2016-05-17 10:29:48 [INFO] ConversionWorker:34/ --> Converting file: 16/315 : 1AG0509.aa
+2016-05-17 10:29:48 [INFO] ConversionWorker:34/ --> Converting file: 17/315 : 1AG0511.aa
+2016-05-17 10:29:48 [INFO] ConversionWorker:34/ --> Converting file: 18/315 : 1AG0513.aa
+2016-05-17 10:29:48 [INFO] ConversionWorker:34/ --> Converting file: 19/315 : 1AG0521.aa
+2016-05-17 10:29:48 [INFO] ConversionWorker:34/ --> Converting file: 20/315 : 1AG0523.aa
+2016-05-17 10:29:48 [INFO] ConversionWorker:34/ --> Converting file: 21/315 : 1AG0527.aa
+2016-05-17 10:29:48 [INFO] ConversionWorker:34/ --> Converting file: 22/315 : 1AG0529.aa
+2016-05-17 10:29:48 [INFO] ConversionWorker:34/ --> Converting file: 23/315 : 1AG0531.aa
+2016-05-17 10:29:48 [INFO] ConversionWorker:34/ --> Converting file: 24/315 : 1AG0534.aa
+2016-05-17 10:29:48 [INFO] ConversionWorker:34/ --> Converting file: 25/315 : 1AG0536.aa
+2016-05-17 10:29:48 [INFO] ConversionWorker:34/ --> Converting file: 26/315 : 1AG0543.aa
+2016-05-17 10:29:48 [INFO] ConversionWorker:34/ --> Converting file: 27/315 : 1AG0545.aa
+2016-05-17 10:29:48 [INFO] ConversionWorker:34/ --> Converting file: 28/315 : 1AG0549.aa
+2016-05-17 10:29:48 [INFO] ConversionWorker:34/ --> Converting file: 29/315 : 1AG0552.aa
+2016-05-17 10:29:48 [INFO] ConversionWorker:34/ --> Converting file: 30/315 : 1AG0553.aa
+2016-05-17 10:29:48 [INFO] ConversionWorker:34/ --> Converting file: 31/315 : 1AG0554.aa
+2016-05-17 10:29:48 [INFO] ConversionWorker:34/ --> Converting file: 32/315 : 1AG0555.aa
+2016-05-17 10:29:48 [INFO] ConversionWorker:34/ --> Converting file: 33/315 : 1AG0558.aa
+2016-05-17 10:29:48 [INFO] ConversionWorker:34/ --> Converting file: 34/315 : 1AG0563.aa
+2016-05-17 10:32:36 [INFO] FileManager:99/ Path read:
+2016-05-17 10:32:36 [INFO] FileManager:104/ > C:\Users\buggr\Documents\stage\ancor\corpus_OTG
+2016-05-17 10:32:36 [INFO] FileManager:104/ > C:\Users\buggr\Documents\stage\ancor\corpus_UBS
+2016-05-17 10:32:36 [INFO] AncorToDemocrat:43/ Loading annotation on: corpus_OTG
+2016-05-17 10:32:37 [INFO] AncorToDemocrat:43/ Loading annotation on: corpus_UBS
+2016-05-17 10:32:37 [INFO] ConversionWorker:30/ Start converting: corpus_OTG
+2016-05-17 10:32:37 [INFO] ConversionWorker:34/ --> Converting file: 1/315 : 1AG0141.aa
+2016-05-17 10:32:37 [INFO] ConversionWorker:34/ --> Converting file: 2/315 : 1AG0154.aa
+2016-05-17 10:32:37 [INFO] ConversionWorker:34/ --> Converting file: 3/315 : 1AG0155.aa
+2016-05-17 10:32:37 [INFO] ConversionWorker:34/ --> Converting file: 4/315 : 1AG0157.aa
+2016-05-17 10:32:37 [INFO] ConversionWorker:34/ --> Converting file: 5/315 : 1AG0359.aa
+2016-05-17 10:32:37 [INFO] ConversionWorker:34/ --> Converting file: 6/315 : 1AG0362.aa
+2016-05-17 10:32:37 [INFO] ConversionWorker:34/ --> Converting file: 7/315 : 1AG0364.aa
+2016-05-17 10:32:37 [INFO] ConversionWorker:34/ --> Converting file: 8/315 : 1AG0365.aa
+2016-05-17 10:32:37 [INFO] ConversionWorker:34/ --> Converting file: 9/315 : 1AG0367.aa
+2016-05-17 10:32:37 [INFO] ConversionWorker:34/ --> Converting file: 10/315 : 1AG0368.aa
+2016-05-17 10:32:37 [INFO] ConversionWorker:34/ --> Converting file: 11/315 : 1AG0390.aa
+2016-05-17 10:32:37 [INFO] ConversionWorker:34/ --> Converting file: 12/315 : 1AG0391.aa
+2016-05-17 10:32:37 [INFO] ConversionWorker:34/ --> Converting file: 13/315 : 1AG0499.aa
+2016-05-17 10:32:37 [INFO] ConversionWorker:34/ --> Converting file: 14/315 : 1AG0502.aa
+2016-05-17 10:32:37 [INFO] ConversionWorker:34/ --> Converting file: 15/315 : 1AG0508.aa
+2016-05-17 10:32:37 [INFO] ConversionWorker:34/ --> Converting file: 16/315 : 1AG0509.aa
+2016-05-17 10:32:37 [INFO] ConversionWorker:34/ --> Converting file: 17/315 : 1AG0511.aa
+2016-05-17 10:32:37 [INFO] ConversionWorker:34/ --> Converting file: 18/315 : 1AG0513.aa
+2016-05-17 10:32:37 [INFO] ConversionWorker:34/ --> Converting file: 19/315 : 1AG0521.aa
+2016-05-17 10:32:37 [INFO] ConversionWorker:34/ --> Converting file: 20/315 : 1AG0523.aa
+2016-05-17 10:32:37 [INFO] ConversionWorker:34/ --> Converting file: 21/315 : 1AG0527.aa
+2016-05-17 10:32:37 [INFO] ConversionWorker:34/ --> Converting file: 22/315 : 1AG0529.aa
+2016-05-17 10:32:37 [INFO] ConversionWorker:34/ --> Converting file: 23/315 : 1AG0531.aa
+2016-05-17 10:32:37 [INFO] ConversionWorker:34/ --> Converting file: 24/315 : 1AG0534.aa
+2016-05-17 10:32:37 [INFO] ConversionWorker:34/ --> Converting file: 25/315 : 1AG0536.aa
+2016-05-17 10:32:37 [INFO] ConversionWorker:34/ --> Converting file: 26/315 : 1AG0543.aa
+2016-05-17 10:32:37 [INFO] ConversionWorker:34/ --> Converting file: 27/315 : 1AG0545.aa
+2016-05-17 10:32:37 [INFO] ConversionWorker:34/ --> Converting file: 28/315 : 1AG0549.aa
+2016-05-17 10:32:37 [INFO] ConversionWorker:34/ --> Converting file: 29/315 : 1AG0552.aa
+2016-05-17 10:32:37 [INFO] ConversionWorker:34/ --> Converting file: 30/315 : 1AG0553.aa
+2016-05-17 10:32:37 [INFO] ConversionWorker:34/ --> Converting file: 31/315 : 1AG0554.aa
+2016-05-17 10:32:37 [INFO] ConversionWorker:34/ --> Converting file: 32/315 : 1AG0555.aa
+2016-05-17 10:32:37 [INFO] ConversionWorker:34/ --> Converting file: 33/315 : 1AG0558.aa
+2016-05-17 10:32:37 [INFO] ConversionWorker:34/ --> Converting file: 34/315 : 1AG0563.aa
+2016-05-17 10:32:37 [INFO] ConversionWorker:34/ --> Converting file: 35/315 : 1AG0564.aa
+2016-05-17 10:32:37 [INFO] ConversionWorker:34/ --> Converting file: 36/315 : 1AG0565.aa
+2016-05-17 10:32:37 [INFO] ConversionWorker:34/ --> Converting file: 37/315 : 1AG0566.aa
+2016-05-17 10:32:37 [INFO] ConversionWorker:34/ --> Converting file: 38/315 : 1AG0570.aa
+2016-05-17 10:32:37 [INFO] ConversionWorker:34/ --> Converting file: 39/315 : 1AG0576.aa
+2016-05-17 10:32:37 [INFO] ConversionWorker:34/ --> Converting file: 40/315 : 1AG0577.aa
+2016-05-17 10:32:37 [INFO] ConversionWorker:34/ --> Converting file: 41/315 : 1AG0585.aa
+2016-05-17 10:32:37 [INFO] ConversionWorker:34/ --> Converting file: 42/315 : 1AG0618.aa
+2016-05-17 10:32:37 [INFO] ConversionWorker:34/ --> Converting file: 43/315 : 1AG0620.aa
+2016-05-17 10:32:37 [INFO] ConversionWorker:34/ --> Converting file: 44/315 : 1AG0624.aa
+2016-05-17 10:32:37 [INFO] ConversionWorker:34/ --> Converting file: 45/315 : 1AP0005.aa
+2016-05-17 10:32:37 [INFO] ConversionWorker:34/ --> Converting file: 46/315 : 1AP0007.aa
+2016-05-17 10:32:37 [INFO] ConversionWorker:34/ --> Converting file: 47/315 : 1AP0029.aa
+2016-05-17 10:32:37 [INFO] ConversionWorker:34/ --> Converting file: 48/315 : 1AP0033.aa
+2016-05-17 10:32:37 [INFO] ConversionWorker:34/ --> Converting file: 49/315 : 1AP0041.aa
+2016-05-17 10:32:37 [INFO] ConversionWorker:34/ --> Converting file: 50/315 : 1AP0054.aa
+2016-05-17 10:32:37 [INFO] ConversionWorker:34/ --> Converting file: 51/315 : 1AP0056.aa
+2016-05-17 10:32:37 [INFO] ConversionWorker:34/ --> Converting file: 52/315 : 1AP0060.aa
+2016-05-17 10:32:37 [INFO] ConversionWorker:34/ --> Converting file: 53/315 : 1AP0061.aa
+2016-05-17 10:32:37 [INFO] ConversionWorker:34/ --> Converting file: 54/315 : 1AP0069.aa
+2016-05-17 10:32:37 [INFO] ConversionWorker:34/ --> Converting file: 55/315 : 1AP0071.aa
+2016-05-17 10:32:37 [INFO] ConversionWorker:34/ --> Converting file: 56/315 : 1AP0073.aa
+2016-05-17 10:32:37 [INFO] ConversionWorker:34/ --> Converting file: 57/315 : 1AP0074.aa
+2016-05-17 10:32:37 [INFO] ConversionWorker:34/ --> Converting file: 58/315 : 1AP0078.aa
+2016-05-17 10:32:37 [INFO] ConversionWorker:34/ --> Converting file: 59/315 : 1AP0079.aa
+2016-05-17 10:32:37 [INFO] ConversionWorker:34/ --> Converting file: 60/315 : 1AP0080.aa
+2016-05-17 10:32:37 [INFO] ConversionWorker:34/ --> Converting file: 61/315 : 1AP0083.aa
+2016-05-17 10:32:37 [INFO] ConversionWorker:34/ --> Converting file: 62/315 : 1AP0084.aa
+2016-05-17 10:32:37 [INFO] ConversionWorker:34/ --> Converting file: 63/315 : 1AP0089.aa
+2016-05-17 10:32:37 [INFO] ConversionWorker:34/ --> Converting file: 64/315 : 1AP0096.aa
+2016-05-17 10:32:37 [INFO] ConversionWorker:34/ --> Converting file: 65/315 : 1AP0099.aa
+2016-05-17 10:32:37 [INFO] ConversionWorker:34/ --> Converting file: 66/315 : 1AP0115.aa
+2016-05-17 10:32:37 [INFO] ConversionWorker:34/ --> Converting file: 67/315 : 1AP0117.aa
+2016-05-17 10:32:37 [INFO] ConversionWorker:34/ --> Converting file: 68/315 : 1AP0119.aa
+2016-05-17 10:32:37 [INFO] ConversionWorker:34/ --> Converting file: 69/315 : 1AP0120.aa
+2016-05-17 10:32:37 [INFO] ConversionWorker:34/ --> Converting file: 70/315 : 1AP0129.aa
+2016-05-17 10:32:37 [INFO] ConversionWorker:34/ --> Converting file: 71/315 : 1AP0131.aa
+2016-05-17 10:32:37 [INFO] ConversionWorker:34/ --> Converting file: 72/315 : 1AP0133.aa
+2016-05-17 10:32:37 [INFO] ConversionWorker:34/ --> Converting file: 73/315 : 1AP0134.aa
+2016-05-17 10:32:37 [INFO] ConversionWorker:34/ --> Converting file: 74/315 : 1AP0137.aa
+2016-05-17 10:32:37 [INFO] ConversionWorker:34/ --> Converting file: 75/315 : 1AP0142.aa
+2016-05-17 10:32:37 [INFO] ConversionWorker:34/ --> Converting file: 76/315 : 1AP0143.aa
+2016-05-17 10:32:37 [INFO] ConversionWorker:34/ --> Converting file: 77/315 : 1AP0146.aa
+2016-05-17 10:32:37 [INFO] ConversionWorker:34/ --> Converting file: 78/315 : 1AP0149.aa
+2016-05-17 10:32:37 [INFO] ConversionWorker:34/ --> Converting file: 79/315 : 1AP0152.aa
+2016-05-17 10:32:37 [INFO] ConversionWorker:34/ --> Converting file: 80/315 : 1AP0168.aa
+2016-05-17 10:32:37 [INFO] ConversionWorker:34/ --> Converting file: 81/315 : 1AP0170.aa
+2016-05-17 10:32:37 [INFO] ConversionWorker:34/ --> Converting file: 82/315 : 1AP0171.aa
+2016-05-17 10:32:37 [INFO] ConversionWorker:34/ --> Converting file: 83/315 : 1AP0179.aa
+2016-05-17 10:32:37 [INFO] ConversionWorker:34/ --> Converting file: 84/315 : 1AP0182.aa
+2016-05-17 10:32:37 [INFO] ConversionWorker:34/ --> Converting file: 85/315 : 1AP0196.aa
+2016-05-17 10:32:37 [INFO] ConversionWorker:34/ --> Converting file: 86/315 : 1AP0197.aa
+2016-05-17 10:32:37 [INFO] ConversionWorker:34/ --> Converting file: 87/315 : 1AP0204.aa
+2016-05-17 10:32:37 [INFO] ConversionWorker:34/ --> Converting file: 88/315 : 1AP0206.aa
+2016-05-17 10:32:37 [INFO] ConversionWorker:34/ --> Converting file: 89/315 : 1AP0217.aa
+2016-05-17 10:32:37 [INFO] ConversionWorker:34/ --> Converting file: 90/315 : 1AP0218.aa
+2016-05-17 10:32:37 [INFO] ConversionWorker:34/ --> Converting file: 91/315 : 1AP0219.aa
+2016-05-17 10:32:37 [INFO] ConversionWorker:34/ --> Converting file: 92/315 : 1AP0226.aa
+2016-05-17 10:32:37 [INFO] ConversionWorker:34/ --> Converting file: 93/315 : 1AP0227.aa
+2016-05-17 10:32:37 [INFO] ConversionWorker:34/ --> Converting file: 94/315 : 1AP0228.aa
+2016-05-17 10:32:37 [INFO] ConversionWorker:34/ --> Converting file: 95/315 : 1AP0229.aa
+2016-05-17 10:32:37 [INFO] ConversionWorker:34/ --> Converting file: 96/315 : 1AP0230.aa
+2016-05-17 10:32:37 [INFO] ConversionWorker:34/ --> Converting file: 97/315 : 1AP0233.aa
+2016-05-17 10:32:37 [INFO] ConversionWorker:34/ --> Converting file: 98/315 : 1AP0234.aa
+2016-05-17 10:32:37 [INFO] ConversionWorker:34/ --> Converting file: 99/315 : 1AP0239.aa
+2016-05-17 10:32:37 [INFO] ConversionWorker:34/ --> Converting file: 100/315 : 1AP0240.aa
+2016-05-17 10:32:37 [INFO] ConversionWorker:34/ --> Converting file: 101/315 : 1AP0242.aa
+2016-05-17 10:32:37 [INFO] ConversionWorker:34/ --> Converting file: 102/315 : 1AP0243.aa
+2016-05-17 10:32:37 [INFO] ConversionWorker:34/ --> Converting file: 103/315 : 1AP0245.aa
+2016-05-17 10:32:37 [INFO] ConversionWorker:34/ --> Converting file: 104/315 : 1AP0246.aa
+2016-05-17 10:32:37 [INFO] ConversionWorker:34/ --> Converting file: 105/315 : 1AP0248.aa
+2016-05-17 10:32:37 [INFO] ConversionWorker:34/ --> Converting file: 106/315 : 1AP0255.aa
+2016-05-17 10:32:37 [INFO] ConversionWorker:34/ --> Converting file: 107/315 : 1AP0270.aa
+2016-05-17 10:32:37 [INFO] ConversionWorker:34/ --> Converting file: 108/315 : 1AP0273.aa
+2016-05-17 10:32:37 [INFO] ConversionWorker:34/ --> Converting file: 109/315 : 1AP0274.aa
+2016-05-17 10:32:37 [INFO] ConversionWorker:34/ --> Converting file: 110/315 : 1AP0275.aa
+2016-05-17 10:32:37 [INFO] ConversionWorker:34/ --> Converting file: 111/315 : 1AP0279.aa
+2016-05-17 10:32:37 [INFO] ConversionWorker:34/ --> Converting file: 112/315 : 1AP0286.aa
+2016-05-17 10:32:37 [INFO] ConversionWorker:34/ --> Converting file: 113/315 : 1AP0289.aa
+2016-05-17 10:32:37 [INFO] ConversionWorker:34/ --> Converting file: 114/315 : 1AP0294.aa
+2016-05-17 10:32:37 [INFO] ConversionWorker:34/ --> Converting file: 115/315 : 1AP0296.aa
+2016-05-17 10:32:37 [INFO] ConversionWorker:34/ --> Converting file: 116/315 : 1AP0308.aa
+2016-05-17 10:32:37 [INFO] ConversionWorker:34/ --> Converting file: 117/315 : 1AP0309.aa
+2016-05-17 10:32:37 [INFO] ConversionWorker:34/ --> Converting file: 118/315 : 1AP0310.aa
+2016-05-17 10:32:37 [INFO] ConversionWorker:34/ --> Converting file: 119/315 : 1AP0316.aa
+2016-05-17 10:32:37 [INFO] ConversionWorker:34/ --> Converting file: 120/315 : 1AP0317.aa
+2016-05-17 10:32:37 [INFO] ConversionWorker:34/ --> Converting file: 121/315 : 1AP0319.aa
+2016-05-17 10:32:37 [INFO] ConversionWorker:34/ --> Converting file: 122/315 : 1AP0322.aa
+2016-05-17 10:32:37 [INFO] ConversionWorker:34/ --> Converting file: 123/315 : 1AP0323.aa
+2016-05-17 10:32:37 [INFO] ConversionWorker:34/ --> Converting file: 124/315 : 1AP0324.aa
+2016-05-17 10:32:37 [INFO] ConversionWorker:34/ --> Converting file: 125/315 : 1AP0325.aa
+2016-05-17 10:32:37 [INFO] ConversionWorker:34/ --> Converting file: 126/315 : 1AP0329.aa
+2016-05-17 10:32:37 [INFO] ConversionWorker:34/ --> Converting file: 127/315 : 1AP0341.aa
+2016-05-17 10:32:37 [INFO] ConversionWorker:34/ --> Converting file: 128/315 : 1AP0366.aa
+2016-05-17 10:32:37 [INFO] ConversionWorker:34/ --> Converting file: 129/315 : 1AP0381.aa
+2016-05-17 10:32:37 [INFO] ConversionWorker:34/ --> Converting file: 130/315 : 1AP0384.aa
+2016-05-17 10:32:37 [INFO] ConversionWorker:34/ --> Converting file: 131/315 : 1AP0417.aa
+2016-05-17 10:32:37 [INFO] ConversionWorker:34/ --> Converting file: 132/315 : 1AP0496.aa
+2016-05-17 10:32:37 [INFO] ConversionWorker:34/ --> Converting file: 133/315 : 1AP0506.aa
+2016-05-17 10:32:37 [INFO] ConversionWorker:34/ --> Converting file: 134/315 : 1AP0507.aa
+2016-05-17 10:32:37 [INFO] ConversionWorker:34/ --> Converting file: 135/315 : 1AP0544.aa
+2016-05-17 10:32:37 [INFO] ConversionWorker:34/ --> Converting file: 136/315 : 1AP0596.aa
+2016-05-17 10:32:37 [INFO] ConversionWorker:34/ --> Converting file: 137/315 : 1AP0605.aa
+2016-05-17 10:32:37 [INFO] ConversionWorker:34/ --> Converting file: 138/315 : 1AP0606.aa
+2016-05-17 10:32:37 [INFO] ConversionWorker:34/ --> Converting file: 139/315 : 1AP0608.aa
+2016-05-17 10:32:37 [INFO] ConversionWorker:34/ --> Converting file: 140/315 : 1NR0591.aa
+2016-05-17 10:32:37 [INFO] ConversionWorker:34/ --> Converting file: 141/315 : 1NR0592.aa
+2016-05-17 10:32:37 [INFO] ConversionWorker:34/ --> Converting file: 142/315 : 1PF0048.aa
+2016-05-17 10:32:37 [INFO] ConversionWorker:34/ --> Converting file: 143/315 : 1PF0050.aa
+2016-05-17 10:32:37 [INFO] ConversionWorker:34/ --> Converting file: 144/315 : 1PF0052.aa
+2016-05-17 10:32:37 [INFO] ConversionWorker:34/ --> Converting file: 145/315 : 1PF0159.aa
+2016-05-17 10:32:37 [INFO] ConversionWorker:34/ --> Converting file: 146/315 : 1PF0162.aa
+2016-05-17 10:32:37 [INFO] ConversionWorker:34/ --> Converting file: 147/315 : 1PF0305.aa
+2016-05-17 10:32:37 [INFO] ConversionWorker:34/ --> Converting file: 148/315 : 1PF0306.aa
+2016-05-17 10:32:37 [INFO] ConversionWorker:34/ --> Converting file: 149/315 : 1PF0358.aa
+2016-05-17 10:32:37 [INFO] ConversionWorker:34/ --> Converting file: 150/315 : 1PF0392.aa
+2016-05-17 10:32:37 [INFO] ConversionWorker:34/ --> Converting file: 151/315 : 1PF0393.aa
+2016-05-17 10:32:37 [INFO] ConversionWorker:34/ --> Converting file: 152/315 : 1PF0414.aa
+2016-05-17 10:32:37 [INFO] ConversionWorker:34/ --> Converting file: 153/315 : 1PF0416.aa
+2016-05-17 10:32:37 [INFO] ConversionWorker:34/ --> Converting file: 154/315 : 1PF0418.aa
+2016-05-17 10:32:37 [INFO] ConversionWorker:34/ --> Converting file: 155/315 : 1PF0419.aa
+2016-05-17 10:32:37 [INFO] ConversionWorker:34/ --> Converting file: 156/315 : 1PF0420.aa
+2016-05-17 10:32:37 [INFO] ConversionWorker:34/ --> Converting file: 157/315 : 1PF0421.aa
+2016-05-17 10:32:37 [INFO] ConversionWorker:34/ --> Converting file: 158/315 : 1PF0423.aa
+2016-05-17 10:32:37 [INFO] ConversionWorker:34/ --> Converting file: 159/315 : 1PF0424.aa
+2016-05-17 10:32:37 [INFO] ConversionWorker:34/ --> Converting file: 160/315 : 1PF0427.aa
+2016-05-17 10:32:37 [INFO] ConversionWorker:34/ --> Converting file: 161/315 : 1PF0429.aa
+2016-05-17 10:32:37 [INFO] ConversionWorker:34/ --> Converting file: 162/315 : 1PF0432.aa
+2016-05-17 10:32:37 [INFO] ConversionWorker:34/ --> Converting file: 163/315 : 1PF0438.aa
+2016-05-17 10:32:37 [INFO] ConversionWorker:34/ --> Converting file: 164/315 : 1PF0439.aa
+2016-05-17 10:32:37 [INFO] ConversionWorker:34/ --> Converting file: 165/315 : 1PF0442.aa
+2016-05-17 10:32:37 [INFO] ConversionWorker:34/ --> Converting file: 166/315 : 1PF0444.aa
+2016-05-17 10:32:37 [INFO] ConversionWorker:34/ --> Converting file: 167/315 : 1PF0445.aa
+2016-05-17 10:32:37 [INFO] ConversionWorker:34/ --> Converting file: 168/315 : 1PF0447.aa
+2016-05-17 10:32:38 [INFO] ConversionWorker:34/ --> Converting file: 169/315 : 1PF0448.aa
+2016-05-17 10:32:38 [INFO] ConversionWorker:34/ --> Converting file: 170/315 : 1PF0449.aa
+2016-05-17 10:32:38 [INFO] ConversionWorker:34/ --> Converting file: 171/315 : 1PF0450.aa
+2016-05-17 10:32:38 [INFO] ConversionWorker:34/ --> Converting file: 172/315 : 1PF0454.aa
+2016-05-17 10:32:38 [INFO] ConversionWorker:34/ --> Converting file: 173/315 : 1PF0455.aa
+2016-05-17 10:32:38 [INFO] ConversionWorker:34/ --> Converting file: 174/315 : 1PF0457.aa
+2016-05-17 10:32:38 [INFO] ConversionWorker:34/ --> Converting file: 175/315 : 1PF0460.aa
+2016-05-17 10:32:38 [INFO] ConversionWorker:34/ --> Converting file: 176/315 : 1PF0462.aa
+2016-05-17 10:32:38 [INFO] ConversionWorker:34/ --> Converting file: 177/315 : 1PF0463.aa
+2016-05-17 10:32:38 [INFO] ConversionWorker:34/ --> Converting file: 178/315 : 1PF0464.aa
+2016-05-17 10:32:38 [INFO] ConversionWorker:34/ --> Converting file: 179/315 : 1PF0467.aa
+2016-05-17 10:32:38 [INFO] ConversionWorker:34/ --> Converting file: 180/315 : 1PF0468.aa
+2016-05-17 10:32:38 [INFO] ConversionWorker:34/ --> Converting file: 181/315 : 1PF0470.aa
+2016-05-17 10:32:38 [INFO] ConversionWorker:34/ --> Converting file: 182/315 : 1PF0472.aa
+2016-05-17 10:32:38 [INFO] ConversionWorker:34/ --> Converting file: 183/315 : 1PF0474.aa
+2016-05-17 10:32:38 [INFO] ConversionWorker:34/ --> Converting file: 184/315 : 1PF0479.aa
+2016-05-17 10:32:38 [INFO] ConversionWorker:34/ --> Converting file: 185/315 : 1PF0487.aa
+2016-05-17 10:32:38 [INFO] ConversionWorker:34/ --> Converting file: 186/315 : 1PF0490.aa
+2016-05-17 10:32:38 [INFO] ConversionWorker:34/ --> Converting file: 187/315 : 1PF0491.aa
+2016-05-17 10:32:38 [INFO] ConversionWorker:34/ --> Converting file: 188/315 : 1PF0494.aa
+2016-05-17 10:32:38 [INFO] ConversionWorker:34/ --> Converting file: 189/315 : 1PF0572.aa
+2016-05-17 10:32:38 [INFO] ConversionWorker:34/ --> Converting file: 190/315 : 1PF0638.aa
+2016-05-17 10:32:38 [INFO] ConversionWorker:34/ --> Converting file: 191/315 : 1PF0639.aa
+2016-05-17 10:32:38 [INFO] ConversionWorker:34/ --> Converting file: 192/315 : 1PF0641.aa
+2016-05-17 10:32:38 [INFO] ConversionWorker:34/ --> Converting file: 193/315 : 1PF0644.aa
+2016-05-17 10:32:38 [INFO] ConversionWorker:34/ --> Converting file: 194/315 : 1PF0646.aa
+2016-05-17 10:32:38 [INFO] ConversionWorker:34/ --> Converting file: 195/315 : 1PF0648.aa
+2016-05-17 10:32:38 [INFO] ConversionWorker:34/ --> Converting file: 196/315 : 1PF0649.aa
+2016-05-17 10:32:38 [INFO] ConversionWorker:34/ --> Converting file: 197/315 : 1PF0650.aa
+2016-05-17 10:32:38 [INFO] ConversionWorker:34/ --> Converting file: 198/315 : 1PF0654.aa
+2016-05-17 10:32:38 [INFO] ConversionWorker:34/ --> Converting file: 199/315 : 1SB0002.aa
+2016-05-17 10:32:38 [INFO] ConversionWorker:34/ --> Converting file: 200/315 : 1SB0009.aa
+2016-05-17 10:32:38 [INFO] ConversionWorker:34/ --> Converting file: 201/315 : 1SB0018.aa
+2016-05-17 10:32:38 [INFO] ConversionWorker:34/ --> Converting file: 202/315 : 1SB0022.aa
+2016-05-17 10:32:38 [INFO] ConversionWorker:34/ --> Converting file: 203/315 : 1SB0024.aa
+2016-05-17 10:32:38 [INFO] ConversionWorker:34/ --> Converting file: 204/315 : 1SB0027.aa
+2016-05-17 10:32:38 [INFO] ConversionWorker:34/ --> Converting file: 205/315 : 1SB0028.aa
+2016-05-17 10:32:38 [INFO] ConversionWorker:34/ --> Converting file: 206/315 : 1SB0030.aa
+2016-05-17 10:32:38 [INFO] ConversionWorker:34/ --> Converting file: 207/315 : 1SB0031.aa
+2016-05-17 10:32:38 [INFO] ConversionWorker:34/ --> Converting file: 208/315 : 1SB0042.aa
+2016-05-17 10:32:38 [DEBUG] ConversionWorker:93/ Relation to relation..
+2016-05-17 10:32:38 [DEBUG] ConversionWorker:93/ Relation to relation..
+2016-05-17 10:32:38 [INFO] ConversionWorker:34/ --> Converting file: 209/315 : 1SB0043.aa
+2016-05-17 10:32:38 [INFO] ConversionWorker:34/ --> Converting file: 210/315 : 1SB0087.aa
+2016-05-17 10:32:38 [INFO] ConversionWorker:34/ --> Converting file: 211/315 : 1SB0088.aa
+2016-05-17 10:32:38 [INFO] ConversionWorker:34/ --> Converting file: 212/315 : 1SB0111.aa
+2016-05-17 10:32:38 [INFO] ConversionWorker:34/ --> Converting file: 213/315 : 1SB0123.aa
+2016-05-17 10:32:38 [INFO] ConversionWorker:34/ --> Converting file: 214/315 : 1SB0124.aa
+2016-05-17 10:32:38 [INFO] ConversionWorker:34/ --> Converting file: 215/315 : 1SB0126.aa
+2016-05-17 10:32:38 [INFO] ConversionWorker:34/ --> Converting file: 216/315 : 1SB0164.aa
+2016-05-17 10:32:38 [INFO] ConversionWorker:34/ --> Converting file: 217/315 : 1SB0167.aa
+2016-05-17 10:32:38 [INFO] ConversionWorker:34/ --> Converting file: 218/315 : 1SB0172.aa
+2016-05-17 10:32:38 [INFO] ConversionWorker:34/ --> Converting file: 219/315 : 1SB0175.aa
+2016-05-17 10:32:38 [INFO] ConversionWorker:34/ --> Converting file: 220/315 : 1SB0177.aa
+2016-05-17 10:32:38 [INFO] ConversionWorker:34/ --> Converting file: 221/315 : 1SB0185.aa
+2016-05-17 10:32:38 [INFO] ConversionWorker:34/ --> Converting file: 222/315 : 1SB0186.aa
+2016-05-17 10:32:38 [INFO] ConversionWorker:34/ --> Converting file: 223/315 : 1SB0190.aa
+2016-05-17 10:32:38 [INFO] ConversionWorker:34/ --> Converting file: 224/315 : 1SB0208.aa
+2016-05-17 10:32:38 [INFO] ConversionWorker:34/ --> Converting file: 225/315 : 1SB0210.aa
+2016-05-17 10:32:38 [INFO] ConversionWorker:34/ --> Converting file: 226/315 : 1SB0211.aa
+2016-05-17 10:32:38 [INFO] ConversionWorker:34/ --> Converting file: 227/315 : 1SB0213.aa
+2016-05-17 10:32:38 [INFO] ConversionWorker:34/ --> Converting file: 228/315 : 1SB0214.aa
+2016-05-17 10:32:38 [INFO] ConversionWorker:34/ --> Converting file: 229/315 : 1SB0223.aa
+2016-05-17 10:32:38 [INFO] ConversionWorker:34/ --> Converting file: 230/315 : 1SB0231.aa
+2016-05-17 10:32:38 [INFO] ConversionWorker:34/ --> Converting file: 231/315 : 1SB0252.aa
+2016-05-17 10:32:38 [INFO] ConversionWorker:34/ --> Converting file: 232/315 : 1SB0253.aa
+2016-05-17 10:32:38 [INFO] ConversionWorker:34/ --> Converting file: 233/315 : 1SB0264.aa
+2016-05-17 10:32:38 [INFO] ConversionWorker:34/ --> Converting file: 234/315 : 1SB0265.aa
+2016-05-17 10:32:38 [INFO] ConversionWorker:34/ --> Converting file: 235/315 : 1SB0266.aa
+2016-05-17 10:32:38 [INFO] ConversionWorker:34/ --> Converting file: 236/315 : 1SB0284.aa
+2016-05-17 10:32:38 [INFO] ConversionWorker:34/ --> Converting file: 237/315 : 1SB0289.aa
+2016-05-17 10:32:38 [INFO] ConversionWorker:34/ --> Converting file: 238/315 : 1SB0300.aa
+2016-05-17 10:32:38 [INFO] ConversionWorker:34/ --> Converting file: 239/315 : 1SB0302.aa
+2016-05-17 10:32:38 [INFO] ConversionWorker:34/ --> Converting file: 240/315 : 1SB0311.aa
+2016-05-17 10:32:38 [INFO] ConversionWorker:34/ --> Converting file: 241/315 : 1SB0320.aa
+2016-05-17 10:32:38 [INFO] ConversionWorker:34/ --> Converting file: 242/315 : 1SB0338.aa
+2016-05-17 10:32:38 [INFO] ConversionWorker:34/ --> Converting file: 243/315 : 1SB0339.aa
+2016-05-17 10:32:38 [INFO] ConversionWorker:34/ --> Converting file: 244/315 : 1SB0344.aa
+2016-05-17 10:32:38 [INFO] ConversionWorker:34/ --> Converting file: 245/315 : 1SB0355.aa
+2016-05-17 10:32:38 [INFO] ConversionWorker:34/ --> Converting file: 246/315 : 1SB0379.aa
+2016-05-17 10:32:38 [INFO] ConversionWorker:34/ --> Converting file: 247/315 : 1SB0396.aa
+2016-05-17 10:32:38 [INFO] ConversionWorker:34/ --> Converting file: 248/315 : 1SB0397.aa
+2016-05-17 10:32:38 [INFO] ConversionWorker:34/ --> Converting file: 249/315 : 1SB0403.aa
+2016-05-17 10:32:38 [INFO] ConversionWorker:34/ --> Converting file: 250/315 : 1SB0405.aa
+2016-05-17 10:32:38 [INFO] ConversionWorker:34/ --> Converting file: 251/315 : 1SB0408.aa
+2016-05-17 10:32:38 [INFO] ConversionWorker:34/ --> Converting file: 252/315 : 1SB0411.aa
+2016-05-17 10:32:38 [INFO] ConversionWorker:34/ --> Converting file: 253/315 : 1SB0633.aa
+2016-05-17 10:32:38 [INFO] ConversionWorker:34/ --> Converting file: 254/315 : 1SO0488.aa
+2016-05-17 10:32:38 [INFO] ConversionWorker:34/ --> Converting file: 255/315 : 1SO0612.aa
+2016-05-17 10:32:38 [INFO] ConversionWorker:34/ --> Converting file: 256/315 : 1SO0623.aa
+2016-05-17 10:32:38 [INFO] ConversionWorker:34/ --> Converting file: 257/315 : 2AG0361.aa
+2016-05-17 10:32:38 [INFO] ConversionWorker:34/ --> Converting file: 258/315 : 2AG0363.aa
+2016-05-17 10:32:38 [INFO] ConversionWorker:34/ --> Converting file: 259/315 : 2AG0495.aa
+2016-05-17 10:32:38 [INFO] ConversionWorker:34/ --> Converting file: 260/315 : 2AG0519.aa
+2016-05-17 10:32:38 [INFO] ConversionWorker:34/ --> Converting file: 261/315 : 2AG0526.aa
+2016-05-17 10:32:38 [INFO] ConversionWorker:34/ --> Converting file: 262/315 : 2AG0535.aa
+2016-05-17 10:32:38 [INFO] ConversionWorker:34/ --> Converting file: 263/315 : 2AG0546.aa
+2016-05-17 10:32:38 [INFO] ConversionWorker:34/ --> Converting file: 264/315 : 2AG0561.aa
+2016-05-17 10:32:38 [INFO] ConversionWorker:34/ --> Converting file: 265/315 : 2AG0578.aa
+2016-05-17 10:32:38 [INFO] ConversionWorker:34/ --> Converting file: 266/315 : 2AG0584.aa
+2016-05-17 10:32:38 [INFO] ConversionWorker:34/ --> Converting file: 267/315 : 2AG0610.aa
+2016-05-17 10:32:38 [INFO] ConversionWorker:34/ --> Converting file: 268/315 : 2AG0619.aa
+2016-05-17 10:32:38 [INFO] ConversionWorker:34/ --> Converting file: 269/315 : 2AP0014.aa
+2016-05-17 10:32:38 [INFO] ConversionWorker:34/ --> Converting file: 270/315 : 2AP0034.aa
+2016-05-17 10:32:38 [INFO] ConversionWorker:34/ --> Converting file: 271/315 : 2AP0055.aa
+2016-05-17 10:32:38 [INFO] ConversionWorker:34/ --> Converting file: 272/315 : 2AP0058.aa
+2016-05-17 10:32:38 [INFO] ConversionWorker:34/ --> Converting file: 273/315 : 2AP0092.aa
+2016-05-17 10:32:38 [INFO] ConversionWorker:34/ --> Converting file: 274/315 : 2AP0144.aa
+2016-05-17 10:32:38 [INFO] ConversionWorker:34/ --> Converting file: 275/315 : 2AP0180.aa
+2016-05-17 10:32:38 [INFO] ConversionWorker:34/ --> Converting file: 276/315 : 2AP0195.aa
+2016-05-17 10:32:38 [INFO] ConversionWorker:34/ --> Converting file: 277/315 : 2AP0205.aa
+2016-05-17 10:32:38 [INFO] ConversionWorker:34/ --> Converting file: 278/315 : 2AP0225.aa
+2016-05-17 10:32:38 [INFO] ConversionWorker:34/ --> Converting file: 279/315 : 2AP0238.aa
+2016-05-17 10:32:38 [INFO] ConversionWorker:34/ --> Converting file: 280/315 : 2AP0247.aa
+2016-05-17 10:32:38 [INFO] ConversionWorker:34/ --> Converting file: 281/315 : 2AP0251.aa
+2016-05-17 10:32:38 [INFO] ConversionWorker:34/ --> Converting file: 282/315 : 2AP0259.aa
+2016-05-17 10:32:38 [INFO] ConversionWorker:34/ --> Converting file: 283/315 : 2AP0261.aa
+2016-05-17 10:32:38 [INFO] ConversionWorker:34/ --> Converting file: 284/315 : 2AP0280.aa
+2016-05-17 10:32:38 [INFO] ConversionWorker:34/ --> Converting file: 285/315 : 2AP0287.aa
+2016-05-17 10:32:38 [INFO] ConversionWorker:34/ --> Converting file: 286/315 : 2AP0292.aa
+2016-05-17 10:32:38 [INFO] ConversionWorker:34/ --> Converting file: 287/315 : 2AP0295.aa
+2016-05-17 10:32:38 [INFO] ConversionWorker:34/ --> Converting file: 288/315 : 2AP0307.aa
+2016-05-17 10:32:38 [INFO] ConversionWorker:34/ --> Converting file: 289/315 : 2AP0356.aa
+2016-05-17 10:32:38 [INFO] ConversionWorker:34/ --> Converting file: 290/315 : 2AP0505.aa
+2016-05-17 10:32:38 [INFO] ConversionWorker:34/ --> Converting file: 291/315 : 2AP0594.aa
+2016-05-17 10:32:38 [INFO] ConversionWorker:34/ --> Converting file: 292/315 : 2AP0595.aa
+2016-05-17 10:32:38 [INFO] ConversionWorker:34/ --> Converting file: 293/315 : 2AP0598.aa
+2016-05-17 10:32:38 [INFO] ConversionWorker:34/ --> Converting file: 294/315 : 2NR0593.aa
+2016-05-17 10:32:38 [INFO] ConversionWorker:34/ --> Converting file: 295/315 : 2PF0049.aa
+2016-05-17 10:32:38 [INFO] ConversionWorker:34/ --> Converting file: 296/315 : 2PF0413.aa
+2016-05-17 10:32:38 [INFO] ConversionWorker:34/ --> Converting file: 297/315 : 2PF0415.aa
+2016-05-17 10:32:38 [INFO] ConversionWorker:34/ --> Converting file: 298/315 : 2PF0425.aa
+2016-05-17 10:32:38 [INFO] ConversionWorker:34/ --> Converting file: 299/315 : 2PF0437.aa
+2016-05-17 10:32:38 [INFO] ConversionWorker:34/ --> Converting file: 300/315 : 2SB0001.aa
+2016-05-17 10:32:38 [INFO] ConversionWorker:34/ --> Converting file: 301/315 : 2SB0008.aa
+2016-05-17 10:32:38 [INFO] ConversionWorker:34/ --> Converting file: 302/315 : 2SB0016.aa
+2016-05-17 10:32:38 [INFO] ConversionWorker:34/ --> Converting file: 303/315 : 2SB0025.aa
+2016-05-17 10:32:38 [INFO] ConversionWorker:34/ --> Converting file: 304/315 : 2SB0165.aa
+2016-05-17 10:32:38 [INFO] ConversionWorker:34/ --> Converting file: 305/315 : 2SB0166.aa
+2016-05-17 10:32:38 [INFO] ConversionWorker:34/ --> Converting file: 306/315 : 2SB0212.aa
+2016-05-17 10:32:38 [INFO] ConversionWorker:34/ --> Converting file: 307/315 : 2SB0315.aa
+2016-05-17 10:32:38 [INFO] ConversionWorker:34/ --> Converting file: 308/315 : 3AP0038.aa
+2016-05-17 10:32:38 [INFO] ConversionWorker:34/ --> Converting file: 309/315 : 3AP0158.aa
+2016-05-17 10:32:38 [INFO] ConversionWorker:34/ --> Converting file: 310/315 : 3AP0249.aa
+2016-05-17 10:32:38 [INFO] ConversionWorker:34/ --> Converting file: 311/315 : 3AP0272.aa
+2016-05-17 10:32:38 [INFO] ConversionWorker:34/ --> Converting file: 312/315 : 3SB0011.aa
+2016-05-17 10:32:38 [INFO] ConversionWorker:34/ --> Converting file: 313/315 : 3SB0122.aa
+2016-05-17 10:32:38 [INFO] ConversionWorker:34/ --> Converting file: 314/315 : 4SB0209.aa
+2016-05-17 10:32:38 [INFO] ConversionWorker:34/ --> Converting file: 315/315 : 5AP0200.aa
+2016-05-17 10:32:38 [INFO] ConversionWorker:30/ Start converting: corpus_UBS
+2016-05-17 10:32:38 [INFO] ConversionWorker:34/ --> Converting file: 1/40 : 018_00000013.aa
+2016-05-17 10:32:38 [INFO] ConversionWorker:34/ --> Converting file: 2/40 : 019_00000014.aa
+2016-05-17 10:32:38 [INFO] ConversionWorker:34/ --> Converting file: 3/40 : 020_00000015.aa
+2016-05-17 10:32:38 [INFO] ConversionWorker:34/ --> Converting file: 4/40 : 022_00000017.aa
+2016-05-17 10:32:38 [INFO] ConversionWorker:34/ --> Converting file: 5/40 : 023_00000018.aa
+2016-05-17 10:32:38 [INFO] ConversionWorker:34/ --> Converting file: 6/40 : 024_00000019.aa
+2016-05-17 10:32:38 [INFO] ConversionWorker:34/ --> Converting file: 7/40 : 027_0000001c.aa
+2016-05-17 10:32:38 [INFO] ConversionWorker:34/ --> Converting file: 8/40 : 028_0000001d.aa
+2016-05-17 10:32:38 [INFO] ConversionWorker:34/ --> Converting file: 9/40 : 029_0000001e.aa
+2016-05-17 10:32:38 [INFO] ConversionWorker:34/ --> Converting file: 10/40 : 030_0000001f.aa
+2016-05-17 10:32:38 [INFO] ConversionWorker:34/ --> Converting file: 11/40 : 037_00000026.aa
+2016-05-17 10:32:38 [INFO] ConversionWorker:34/ --> Converting file: 12/40 : 038_00000027.aa
+2016-05-17 10:32:38 [INFO] ConversionWorker:34/ --> Converting file: 13/40 : 045_0000002e.aa
+2016-05-17 10:32:38 [INFO] ConversionWorker:34/ --> Converting file: 14/40 : 047_00000030.aa
+2016-05-17 10:32:38 [INFO] ConversionWorker:34/ --> Converting file: 15/40 : 048_00000031.aa
+2016-05-17 10:32:38 [INFO] ConversionWorker:34/ --> Converting file: 16/40 : 052_00000035.aa
+2016-05-17 10:32:38 [INFO] ConversionWorker:34/ --> Converting file: 17/40 : 053_00000036.aa
+2016-05-17 10:32:38 [INFO] ConversionWorker:34/ --> Converting file: 18/40 : 054_00000037.aa
+2016-05-17 10:32:38 [INFO] ConversionWorker:34/ --> Converting file: 19/40 : 055_00000038.aa
+2016-05-17 10:32:38 [INFO] ConversionWorker:34/ --> Converting file: 20/40 : 057_0000003a.aa
+2016-05-17 10:32:38 [INFO] ConversionWorker:34/ --> Converting file: 21/40 : 058_0000003b.aa
+2016-05-17 10:32:38 [INFO] ConversionWorker:34/ --> Converting file: 22/40 : 059_0000003c.aa
+2016-05-17 10:32:38 [INFO] ConversionWorker:34/ --> Converting file: 23/40 : 060_0000003d.aa
+2016-05-17 10:32:38 [INFO] ConversionWorker:34/ --> Converting file: 24/40 : 065_00000042.aa
+2016-05-17 10:32:38 [INFO] ConversionWorker:34/ --> Converting file: 25/40 : 067_00000044.aa
+2016-05-17 10:32:38 [INFO] ConversionWorker:34/ --> Converting file: 26/40 : 068_00000045.aa
+2016-05-17 10:32:38 [INFO] ConversionWorker:34/ --> Converting file: 27/40 : 072_00000049.aa
+2016-05-17 10:32:38 [INFO] ConversionWorker:34/ --> Converting file: 28/40 : 073_0000004a.aa
+2016-05-17 10:32:38 [INFO] ConversionWorker:34/ --> Converting file: 29/40 : 074_0000004b.aa
+2016-05-17 10:32:38 [INFO] ConversionWorker:34/ --> Converting file: 30/40 : 075_0000004c.aa
+2016-05-17 10:32:38 [INFO] ConversionWorker:34/ --> Converting file: 31/40 : 079_00000050.aa
+2016-05-17 10:32:38 [INFO] ConversionWorker:34/ --> Converting file: 32/40 : 083_00000054.aa
+2016-05-17 10:32:38 [INFO] ConversionWorker:34/ --> Converting file: 33/40 : 087_00000058.aa
+2016-05-17 10:32:38 [INFO] ConversionWorker:34/ --> Converting file: 34/40 : 090_0000005b.aa
+2016-05-17 10:32:38 [INFO] ConversionWorker:34/ --> Converting file: 35/40 : 096_00000061.aa
+2016-05-17 10:32:38 [INFO] ConversionWorker:34/ --> Converting file: 36/40 : 098_00000063.aa
+2016-05-17 10:32:38 [INFO] ConversionWorker:34/ --> Converting file: 37/40 : 101_00000066.aa
+2016-05-17 10:32:38 [INFO] ConversionWorker:34/ --> Converting file: 38/40 : 102_00000067.aa
+2016-05-17 10:32:38 [INFO] ConversionWorker:34/ --> Converting file: 39/40 : 104_00000069.aa
+2016-05-17 10:32:38 [INFO] ConversionWorker:34/ --> Converting file: 40/40 : 105_0000006a.aa
+2016-05-17 10:32:38 [INFO] AncorToDemocrat:55/ Writing new annotations !
+2016-05-17 10:32:38 [INFO] AncorToDemocrat:57/ Writing: corpus_OTG..
+2016-05-17 10:32:44 [INFO] AncorToDemocrat:57/ Writing: corpus_UBS..
+2016-05-17 10:34:55 [INFO] FileManager:99/ Path read:
+2016-05-17 10:34:55 [INFO] FileManager:104/ > C:\Users\buggr\Documents\stage\ancor\corpus_OTG
+2016-05-17 10:34:55 [INFO] FileManager:104/ > C:\Users\buggr\Documents\stage\ancor\corpus_UBS
+2016-05-17 10:34:55 [INFO] AncorToDemocrat:43/ Loading annotation on: corpus_OTG
+2016-05-17 10:34:56 [INFO] AncorToDemocrat:43/ Loading annotation on: corpus_UBS
+2016-05-17 10:34:56 [INFO] ConversionWorker:30/ Start converting: [corpus_OTG]
+2016-05-17 10:34:56 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 1/315 : 1AG0141.aa
+2016-05-17 10:34:56 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 2/315 : 1AG0154.aa
+2016-05-17 10:34:56 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 3/315 : 1AG0155.aa
+2016-05-17 10:34:56 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 4/315 : 1AG0157.aa
+2016-05-17 10:34:56 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 5/315 : 1AG0359.aa
+2016-05-17 10:34:56 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 6/315 : 1AG0362.aa
+2016-05-17 10:34:56 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 7/315 : 1AG0364.aa
+2016-05-17 10:34:56 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 8/315 : 1AG0365.aa
+2016-05-17 10:34:56 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 9/315 : 1AG0367.aa
+2016-05-17 10:34:56 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 10/315 : 1AG0368.aa
+2016-05-17 10:34:56 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 11/315 : 1AG0390.aa
+2016-05-17 10:34:56 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 12/315 : 1AG0391.aa
+2016-05-17 10:34:56 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 13/315 : 1AG0499.aa
+2016-05-17 10:34:56 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 14/315 : 1AG0502.aa
+2016-05-17 10:34:56 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 15/315 : 1AG0508.aa
+2016-05-17 10:34:56 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 16/315 : 1AG0509.aa
+2016-05-17 10:34:56 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 17/315 : 1AG0511.aa
+2016-05-17 10:34:56 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 18/315 : 1AG0513.aa
+2016-05-17 10:34:56 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 19/315 : 1AG0521.aa
+2016-05-17 10:34:56 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 20/315 : 1AG0523.aa
+2016-05-17 10:34:56 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 21/315 : 1AG0527.aa
+2016-05-17 10:34:56 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 22/315 : 1AG0529.aa
+2016-05-17 10:34:56 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 23/315 : 1AG0531.aa
+2016-05-17 10:34:56 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 24/315 : 1AG0534.aa
+2016-05-17 10:34:56 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 25/315 : 1AG0536.aa
+2016-05-17 10:34:56 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 26/315 : 1AG0543.aa
+2016-05-17 10:34:56 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 27/315 : 1AG0545.aa
+2016-05-17 10:34:56 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 28/315 : 1AG0549.aa
+2016-05-17 10:34:56 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 29/315 : 1AG0552.aa
+2016-05-17 10:34:56 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 30/315 : 1AG0553.aa
+2016-05-17 10:34:56 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 31/315 : 1AG0554.aa
+2016-05-17 10:34:56 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 32/315 : 1AG0555.aa
+2016-05-17 10:34:56 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 33/315 : 1AG0558.aa
+2016-05-17 10:34:56 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 34/315 : 1AG0563.aa
+2016-05-17 10:34:56 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 35/315 : 1AG0564.aa
+2016-05-17 10:34:56 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 36/315 : 1AG0565.aa
+2016-05-17 10:34:56 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 37/315 : 1AG0566.aa
+2016-05-17 10:34:56 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 38/315 : 1AG0570.aa
+2016-05-17 10:34:56 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 39/315 : 1AG0576.aa
+2016-05-17 10:34:56 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 40/315 : 1AG0577.aa
+2016-05-17 10:34:56 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 41/315 : 1AG0585.aa
+2016-05-17 10:34:56 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 42/315 : 1AG0618.aa
+2016-05-17 10:34:56 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 43/315 : 1AG0620.aa
+2016-05-17 10:34:56 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 44/315 : 1AG0624.aa
+2016-05-17 10:34:56 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 45/315 : 1AP0005.aa
+2016-05-17 10:34:56 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 46/315 : 1AP0007.aa
+2016-05-17 10:34:56 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 47/315 : 1AP0029.aa
+2016-05-17 10:34:56 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 48/315 : 1AP0033.aa
+2016-05-17 10:34:56 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 49/315 : 1AP0041.aa
+2016-05-17 10:34:56 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 50/315 : 1AP0054.aa
+2016-05-17 10:34:56 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 51/315 : 1AP0056.aa
+2016-05-17 10:34:56 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 52/315 : 1AP0060.aa
+2016-05-17 10:34:56 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 53/315 : 1AP0061.aa
+2016-05-17 10:34:56 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 54/315 : 1AP0069.aa
+2016-05-17 10:34:56 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 55/315 : 1AP0071.aa
+2016-05-17 10:34:56 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 56/315 : 1AP0073.aa
+2016-05-17 10:34:56 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 57/315 : 1AP0074.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 58/315 : 1AP0078.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 59/315 : 1AP0079.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 60/315 : 1AP0080.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 61/315 : 1AP0083.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 62/315 : 1AP0084.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 63/315 : 1AP0089.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 64/315 : 1AP0096.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 65/315 : 1AP0099.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 66/315 : 1AP0115.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 67/315 : 1AP0117.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 68/315 : 1AP0119.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 69/315 : 1AP0120.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 70/315 : 1AP0129.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 71/315 : 1AP0131.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 72/315 : 1AP0133.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 73/315 : 1AP0134.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 74/315 : 1AP0137.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 75/315 : 1AP0142.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 76/315 : 1AP0143.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 77/315 : 1AP0146.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 78/315 : 1AP0149.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 79/315 : 1AP0152.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 80/315 : 1AP0168.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 81/315 : 1AP0170.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 82/315 : 1AP0171.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 83/315 : 1AP0179.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 84/315 : 1AP0182.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 85/315 : 1AP0196.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 86/315 : 1AP0197.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 87/315 : 1AP0204.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 88/315 : 1AP0206.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 89/315 : 1AP0217.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 90/315 : 1AP0218.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 91/315 : 1AP0219.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 92/315 : 1AP0226.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 93/315 : 1AP0227.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 94/315 : 1AP0228.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 95/315 : 1AP0229.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 96/315 : 1AP0230.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 97/315 : 1AP0233.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 98/315 : 1AP0234.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 99/315 : 1AP0239.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 100/315 : 1AP0240.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 101/315 : 1AP0242.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 102/315 : 1AP0243.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 103/315 : 1AP0245.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 104/315 : 1AP0246.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 105/315 : 1AP0248.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 106/315 : 1AP0255.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 107/315 : 1AP0270.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 108/315 : 1AP0273.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 109/315 : 1AP0274.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 110/315 : 1AP0275.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 111/315 : 1AP0279.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 112/315 : 1AP0286.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 113/315 : 1AP0289.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 114/315 : 1AP0294.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 115/315 : 1AP0296.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 116/315 : 1AP0308.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 117/315 : 1AP0309.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 118/315 : 1AP0310.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 119/315 : 1AP0316.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 120/315 : 1AP0317.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 121/315 : 1AP0319.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 122/315 : 1AP0322.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 123/315 : 1AP0323.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 124/315 : 1AP0324.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 125/315 : 1AP0325.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 126/315 : 1AP0329.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 127/315 : 1AP0341.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 128/315 : 1AP0366.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 129/315 : 1AP0381.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 130/315 : 1AP0384.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 131/315 : 1AP0417.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 132/315 : 1AP0496.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 133/315 : 1AP0506.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 134/315 : 1AP0507.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 135/315 : 1AP0544.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 136/315 : 1AP0596.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 137/315 : 1AP0605.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 138/315 : 1AP0606.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 139/315 : 1AP0608.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 140/315 : 1NR0591.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 141/315 : 1NR0592.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 142/315 : 1PF0048.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 143/315 : 1PF0050.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 144/315 : 1PF0052.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 145/315 : 1PF0159.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 146/315 : 1PF0162.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 147/315 : 1PF0305.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 148/315 : 1PF0306.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 149/315 : 1PF0358.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 150/315 : 1PF0392.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 151/315 : 1PF0393.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 152/315 : 1PF0414.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 153/315 : 1PF0416.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 154/315 : 1PF0418.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 155/315 : 1PF0419.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 156/315 : 1PF0420.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 157/315 : 1PF0421.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 158/315 : 1PF0423.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 159/315 : 1PF0424.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 160/315 : 1PF0427.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 161/315 : 1PF0429.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 162/315 : 1PF0432.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 163/315 : 1PF0438.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 164/315 : 1PF0439.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 165/315 : 1PF0442.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 166/315 : 1PF0444.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 167/315 : 1PF0445.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 168/315 : 1PF0447.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 169/315 : 1PF0448.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 170/315 : 1PF0449.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 171/315 : 1PF0450.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 172/315 : 1PF0454.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 173/315 : 1PF0455.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 174/315 : 1PF0457.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 175/315 : 1PF0460.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 176/315 : 1PF0462.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 177/315 : 1PF0463.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 178/315 : 1PF0464.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 179/315 : 1PF0467.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 180/315 : 1PF0468.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 181/315 : 1PF0470.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 182/315 : 1PF0472.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 183/315 : 1PF0474.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 184/315 : 1PF0479.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 185/315 : 1PF0487.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 186/315 : 1PF0490.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 187/315 : 1PF0491.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 188/315 : 1PF0494.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 189/315 : 1PF0572.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 190/315 : 1PF0638.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 191/315 : 1PF0639.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 192/315 : 1PF0641.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 193/315 : 1PF0644.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 194/315 : 1PF0646.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 195/315 : 1PF0648.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 196/315 : 1PF0649.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 197/315 : 1PF0650.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 198/315 : 1PF0654.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 199/315 : 1SB0002.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 200/315 : 1SB0009.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 201/315 : 1SB0018.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 202/315 : 1SB0022.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 203/315 : 1SB0024.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 204/315 : 1SB0027.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 205/315 : 1SB0028.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 206/315 : 1SB0030.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 207/315 : 1SB0031.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 208/315 : 1SB0042.aa
+2016-05-17 10:34:57 [DEBUG] ConversionWorker:93/ Relation to relation..
+2016-05-17 10:34:57 [DEBUG] ConversionWorker:93/ Relation to relation..
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 209/315 : 1SB0043.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 210/315 : 1SB0087.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 211/315 : 1SB0088.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 212/315 : 1SB0111.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 213/315 : 1SB0123.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 214/315 : 1SB0124.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 215/315 : 1SB0126.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 216/315 : 1SB0164.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 217/315 : 1SB0167.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 218/315 : 1SB0172.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 219/315 : 1SB0175.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 220/315 : 1SB0177.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 221/315 : 1SB0185.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 222/315 : 1SB0186.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 223/315 : 1SB0190.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 224/315 : 1SB0208.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 225/315 : 1SB0210.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 226/315 : 1SB0211.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 227/315 : 1SB0213.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 228/315 : 1SB0214.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 229/315 : 1SB0223.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 230/315 : 1SB0231.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 231/315 : 1SB0252.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 232/315 : 1SB0253.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 233/315 : 1SB0264.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 234/315 : 1SB0265.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 235/315 : 1SB0266.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 236/315 : 1SB0284.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 237/315 : 1SB0289.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 238/315 : 1SB0300.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 239/315 : 1SB0302.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 240/315 : 1SB0311.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 241/315 : 1SB0320.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 242/315 : 1SB0338.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 243/315 : 1SB0339.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 244/315 : 1SB0344.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 245/315 : 1SB0355.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 246/315 : 1SB0379.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 247/315 : 1SB0396.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 248/315 : 1SB0397.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 249/315 : 1SB0403.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 250/315 : 1SB0405.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 251/315 : 1SB0408.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 252/315 : 1SB0411.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 253/315 : 1SB0633.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 254/315 : 1SO0488.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 255/315 : 1SO0612.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 256/315 : 1SO0623.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 257/315 : 2AG0361.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 258/315 : 2AG0363.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 259/315 : 2AG0495.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 260/315 : 2AG0519.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 261/315 : 2AG0526.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 262/315 : 2AG0535.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 263/315 : 2AG0546.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 264/315 : 2AG0561.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 265/315 : 2AG0578.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 266/315 : 2AG0584.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 267/315 : 2AG0610.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 268/315 : 2AG0619.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 269/315 : 2AP0014.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 270/315 : 2AP0034.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 271/315 : 2AP0055.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 272/315 : 2AP0058.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 273/315 : 2AP0092.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 274/315 : 2AP0144.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 275/315 : 2AP0180.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 276/315 : 2AP0195.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 277/315 : 2AP0205.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 278/315 : 2AP0225.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 279/315 : 2AP0238.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 280/315 : 2AP0247.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 281/315 : 2AP0251.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 282/315 : 2AP0259.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 283/315 : 2AP0261.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 284/315 : 2AP0280.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 285/315 : 2AP0287.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 286/315 : 2AP0292.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 287/315 : 2AP0295.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 288/315 : 2AP0307.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 289/315 : 2AP0356.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 290/315 : 2AP0505.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 291/315 : 2AP0594.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 292/315 : 2AP0595.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 293/315 : 2AP0598.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 294/315 : 2NR0593.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 295/315 : 2PF0049.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 296/315 : 2PF0413.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 297/315 : 2PF0415.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 298/315 : 2PF0425.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 299/315 : 2PF0437.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 300/315 : 2SB0001.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 301/315 : 2SB0008.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 302/315 : 2SB0016.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 303/315 : 2SB0025.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 304/315 : 2SB0165.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 305/315 : 2SB0166.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 306/315 : 2SB0212.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 307/315 : 2SB0315.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 308/315 : 3AP0038.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 309/315 : 3AP0158.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 310/315 : 3AP0249.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 311/315 : 3AP0272.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 312/315 : 3SB0011.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 313/315 : 3SB0122.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 314/315 : 4SB0209.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 315/315 : 5AP0200.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:30/ Start converting: [corpus_UBS]
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_UBS] Converting file: 1/40 : 018_00000013.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_UBS] Converting file: 2/40 : 019_00000014.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_UBS] Converting file: 3/40 : 020_00000015.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_UBS] Converting file: 4/40 : 022_00000017.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_UBS] Converting file: 5/40 : 023_00000018.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_UBS] Converting file: 6/40 : 024_00000019.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_UBS] Converting file: 7/40 : 027_0000001c.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_UBS] Converting file: 8/40 : 028_0000001d.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_UBS] Converting file: 9/40 : 029_0000001e.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_UBS] Converting file: 10/40 : 030_0000001f.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_UBS] Converting file: 11/40 : 037_00000026.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_UBS] Converting file: 12/40 : 038_00000027.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_UBS] Converting file: 13/40 : 045_0000002e.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_UBS] Converting file: 14/40 : 047_00000030.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_UBS] Converting file: 15/40 : 048_00000031.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_UBS] Converting file: 16/40 : 052_00000035.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_UBS] Converting file: 17/40 : 053_00000036.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_UBS] Converting file: 18/40 : 054_00000037.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_UBS] Converting file: 19/40 : 055_00000038.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_UBS] Converting file: 20/40 : 057_0000003a.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_UBS] Converting file: 21/40 : 058_0000003b.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_UBS] Converting file: 22/40 : 059_0000003c.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_UBS] Converting file: 23/40 : 060_0000003d.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_UBS] Converting file: 24/40 : 065_00000042.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_UBS] Converting file: 25/40 : 067_00000044.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_UBS] Converting file: 26/40 : 068_00000045.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_UBS] Converting file: 27/40 : 072_00000049.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_UBS] Converting file: 28/40 : 073_0000004a.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_UBS] Converting file: 29/40 : 074_0000004b.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_UBS] Converting file: 30/40 : 075_0000004c.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_UBS] Converting file: 31/40 : 079_00000050.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_UBS] Converting file: 32/40 : 083_00000054.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_UBS] Converting file: 33/40 : 087_00000058.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_UBS] Converting file: 34/40 : 090_0000005b.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_UBS] Converting file: 35/40 : 096_00000061.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_UBS] Converting file: 36/40 : 098_00000063.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_UBS] Converting file: 37/40 : 101_00000066.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_UBS] Converting file: 38/40 : 102_00000067.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_UBS] Converting file: 39/40 : 104_00000069.aa
+2016-05-17 10:34:57 [INFO] ConversionWorker:34/ [corpus_UBS] Converting file: 40/40 : 105_0000006a.aa
+2016-05-17 10:34:57 [INFO] AncorToDemocrat:55/ Writing new annotations !
+2016-05-17 10:34:57 [INFO] AncorToDemocrat:57/ Writing: corpus_OTG..
+2016-05-17 10:35:03 [INFO] AncorToDemocrat:57/ Writing: corpus_UBS..
+2016-05-17 10:53:40 [INFO] FileManager:99/ Path read:
+2016-05-17 10:53:40 [INFO] FileManager:104/ > C:\Users\buggr\Documents\stage\ancor\corpus_OTG
+2016-05-17 10:53:40 [INFO] FileManager:104/ > C:\Users\buggr\Documents\stage\ancor\corpus_UBS
+2016-05-17 10:53:40 [INFO] AncorToDemocrat:43/ Loading annotation on: corpus_OTG
+2016-05-17 10:53:41 [INFO] AncorToDemocrat:43/ Loading annotation on: corpus_UBS
+2016-05-17 10:53:41 [INFO] ConversionWorker:30/ Start converting: [corpus_OTG]
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 1/315 : 1AG0141.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 2/315 : 1AG0154.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 3/315 : 1AG0155.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 4/315 : 1AG0157.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 5/315 : 1AG0359.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 6/315 : 1AG0362.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 7/315 : 1AG0364.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 8/315 : 1AG0365.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 9/315 : 1AG0367.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 10/315 : 1AG0368.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 11/315 : 1AG0390.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 12/315 : 1AG0391.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 13/315 : 1AG0499.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 14/315 : 1AG0502.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 15/315 : 1AG0508.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 16/315 : 1AG0509.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 17/315 : 1AG0511.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 18/315 : 1AG0513.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 19/315 : 1AG0521.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 20/315 : 1AG0523.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 21/315 : 1AG0527.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 22/315 : 1AG0529.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 23/315 : 1AG0531.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 24/315 : 1AG0534.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 25/315 : 1AG0536.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 26/315 : 1AG0543.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 27/315 : 1AG0545.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 28/315 : 1AG0549.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 29/315 : 1AG0552.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 30/315 : 1AG0553.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 31/315 : 1AG0554.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 32/315 : 1AG0555.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 33/315 : 1AG0558.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 34/315 : 1AG0563.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 35/315 : 1AG0564.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 36/315 : 1AG0565.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 37/315 : 1AG0566.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 38/315 : 1AG0570.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 39/315 : 1AG0576.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 40/315 : 1AG0577.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 41/315 : 1AG0585.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 42/315 : 1AG0618.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 43/315 : 1AG0620.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 44/315 : 1AG0624.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 45/315 : 1AP0005.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 46/315 : 1AP0007.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 47/315 : 1AP0029.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 48/315 : 1AP0033.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 49/315 : 1AP0041.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 50/315 : 1AP0054.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 51/315 : 1AP0056.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 52/315 : 1AP0060.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 53/315 : 1AP0061.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 54/315 : 1AP0069.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 55/315 : 1AP0071.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 56/315 : 1AP0073.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 57/315 : 1AP0074.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 58/315 : 1AP0078.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 59/315 : 1AP0079.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 60/315 : 1AP0080.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 61/315 : 1AP0083.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 62/315 : 1AP0084.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 63/315 : 1AP0089.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 64/315 : 1AP0096.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 65/315 : 1AP0099.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 66/315 : 1AP0115.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 67/315 : 1AP0117.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 68/315 : 1AP0119.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 69/315 : 1AP0120.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 70/315 : 1AP0129.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 71/315 : 1AP0131.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 72/315 : 1AP0133.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 73/315 : 1AP0134.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 74/315 : 1AP0137.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 75/315 : 1AP0142.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 76/315 : 1AP0143.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 77/315 : 1AP0146.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 78/315 : 1AP0149.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 79/315 : 1AP0152.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 80/315 : 1AP0168.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 81/315 : 1AP0170.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 82/315 : 1AP0171.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 83/315 : 1AP0179.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 84/315 : 1AP0182.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 85/315 : 1AP0196.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 86/315 : 1AP0197.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 87/315 : 1AP0204.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 88/315 : 1AP0206.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 89/315 : 1AP0217.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 90/315 : 1AP0218.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 91/315 : 1AP0219.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 92/315 : 1AP0226.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 93/315 : 1AP0227.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 94/315 : 1AP0228.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 95/315 : 1AP0229.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 96/315 : 1AP0230.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 97/315 : 1AP0233.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 98/315 : 1AP0234.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 99/315 : 1AP0239.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 100/315 : 1AP0240.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 101/315 : 1AP0242.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 102/315 : 1AP0243.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 103/315 : 1AP0245.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 104/315 : 1AP0246.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 105/315 : 1AP0248.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 106/315 : 1AP0255.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 107/315 : 1AP0270.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 108/315 : 1AP0273.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 109/315 : 1AP0274.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 110/315 : 1AP0275.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 111/315 : 1AP0279.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 112/315 : 1AP0286.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 113/315 : 1AP0289.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 114/315 : 1AP0294.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 115/315 : 1AP0296.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 116/315 : 1AP0308.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 117/315 : 1AP0309.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 118/315 : 1AP0310.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 119/315 : 1AP0316.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 120/315 : 1AP0317.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 121/315 : 1AP0319.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 122/315 : 1AP0322.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 123/315 : 1AP0323.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 124/315 : 1AP0324.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 125/315 : 1AP0325.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 126/315 : 1AP0329.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 127/315 : 1AP0341.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 128/315 : 1AP0366.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 129/315 : 1AP0381.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 130/315 : 1AP0384.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 131/315 : 1AP0417.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 132/315 : 1AP0496.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 133/315 : 1AP0506.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 134/315 : 1AP0507.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 135/315 : 1AP0544.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 136/315 : 1AP0596.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 137/315 : 1AP0605.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 138/315 : 1AP0606.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 139/315 : 1AP0608.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 140/315 : 1NR0591.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 141/315 : 1NR0592.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 142/315 : 1PF0048.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 143/315 : 1PF0050.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 144/315 : 1PF0052.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 145/315 : 1PF0159.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 146/315 : 1PF0162.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 147/315 : 1PF0305.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 148/315 : 1PF0306.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 149/315 : 1PF0358.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 150/315 : 1PF0392.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 151/315 : 1PF0393.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 152/315 : 1PF0414.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 153/315 : 1PF0416.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 154/315 : 1PF0418.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 155/315 : 1PF0419.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 156/315 : 1PF0420.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 157/315 : 1PF0421.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 158/315 : 1PF0423.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 159/315 : 1PF0424.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 160/315 : 1PF0427.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 161/315 : 1PF0429.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 162/315 : 1PF0432.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 163/315 : 1PF0438.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 164/315 : 1PF0439.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 165/315 : 1PF0442.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 166/315 : 1PF0444.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 167/315 : 1PF0445.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 168/315 : 1PF0447.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 169/315 : 1PF0448.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 170/315 : 1PF0449.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 171/315 : 1PF0450.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 172/315 : 1PF0454.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 173/315 : 1PF0455.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 174/315 : 1PF0457.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 175/315 : 1PF0460.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 176/315 : 1PF0462.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 177/315 : 1PF0463.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 178/315 : 1PF0464.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 179/315 : 1PF0467.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 180/315 : 1PF0468.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 181/315 : 1PF0470.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 182/315 : 1PF0472.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 183/315 : 1PF0474.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 184/315 : 1PF0479.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 185/315 : 1PF0487.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 186/315 : 1PF0490.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 187/315 : 1PF0491.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 188/315 : 1PF0494.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 189/315 : 1PF0572.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 190/315 : 1PF0638.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 191/315 : 1PF0639.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 192/315 : 1PF0641.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 193/315 : 1PF0644.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 194/315 : 1PF0646.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 195/315 : 1PF0648.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 196/315 : 1PF0649.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 197/315 : 1PF0650.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 198/315 : 1PF0654.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 199/315 : 1SB0002.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 200/315 : 1SB0009.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 201/315 : 1SB0018.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 202/315 : 1SB0022.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 203/315 : 1SB0024.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 204/315 : 1SB0027.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 205/315 : 1SB0028.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 206/315 : 1SB0030.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 207/315 : 1SB0031.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 208/315 : 1SB0042.aa
+2016-05-17 10:53:41 [DEBUG] ConversionWorker:93/ Relation to relation..
+2016-05-17 10:53:41 [DEBUG] ConversionWorker:93/ Relation to relation..
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 209/315 : 1SB0043.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 210/315 : 1SB0087.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 211/315 : 1SB0088.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 212/315 : 1SB0111.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 213/315 : 1SB0123.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 214/315 : 1SB0124.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 215/315 : 1SB0126.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 216/315 : 1SB0164.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 217/315 : 1SB0167.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 218/315 : 1SB0172.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 219/315 : 1SB0175.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 220/315 : 1SB0177.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 221/315 : 1SB0185.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 222/315 : 1SB0186.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 223/315 : 1SB0190.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 224/315 : 1SB0208.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 225/315 : 1SB0210.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 226/315 : 1SB0211.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 227/315 : 1SB0213.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 228/315 : 1SB0214.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 229/315 : 1SB0223.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 230/315 : 1SB0231.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 231/315 : 1SB0252.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 232/315 : 1SB0253.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 233/315 : 1SB0264.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 234/315 : 1SB0265.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 235/315 : 1SB0266.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 236/315 : 1SB0284.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 237/315 : 1SB0289.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 238/315 : 1SB0300.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 239/315 : 1SB0302.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 240/315 : 1SB0311.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 241/315 : 1SB0320.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 242/315 : 1SB0338.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 243/315 : 1SB0339.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 244/315 : 1SB0344.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 245/315 : 1SB0355.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 246/315 : 1SB0379.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 247/315 : 1SB0396.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 248/315 : 1SB0397.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 249/315 : 1SB0403.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 250/315 : 1SB0405.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 251/315 : 1SB0408.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 252/315 : 1SB0411.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 253/315 : 1SB0633.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 254/315 : 1SO0488.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 255/315 : 1SO0612.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 256/315 : 1SO0623.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 257/315 : 2AG0361.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 258/315 : 2AG0363.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 259/315 : 2AG0495.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 260/315 : 2AG0519.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 261/315 : 2AG0526.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 262/315 : 2AG0535.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 263/315 : 2AG0546.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 264/315 : 2AG0561.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 265/315 : 2AG0578.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 266/315 : 2AG0584.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 267/315 : 2AG0610.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 268/315 : 2AG0619.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 269/315 : 2AP0014.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 270/315 : 2AP0034.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 271/315 : 2AP0055.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 272/315 : 2AP0058.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 273/315 : 2AP0092.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 274/315 : 2AP0144.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 275/315 : 2AP0180.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 276/315 : 2AP0195.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 277/315 : 2AP0205.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 278/315 : 2AP0225.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 279/315 : 2AP0238.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 280/315 : 2AP0247.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 281/315 : 2AP0251.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 282/315 : 2AP0259.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 283/315 : 2AP0261.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 284/315 : 2AP0280.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 285/315 : 2AP0287.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 286/315 : 2AP0292.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 287/315 : 2AP0295.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 288/315 : 2AP0307.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 289/315 : 2AP0356.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 290/315 : 2AP0505.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 291/315 : 2AP0594.aa
+2016-05-17 10:53:41 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 292/315 : 2AP0595.aa
+2016-05-17 10:53:42 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 293/315 : 2AP0598.aa
+2016-05-17 10:53:42 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 294/315 : 2NR0593.aa
+2016-05-17 10:53:42 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 295/315 : 2PF0049.aa
+2016-05-17 10:53:42 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 296/315 : 2PF0413.aa
+2016-05-17 10:53:42 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 297/315 : 2PF0415.aa
+2016-05-17 10:53:42 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 298/315 : 2PF0425.aa
+2016-05-17 10:53:42 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 299/315 : 2PF0437.aa
+2016-05-17 10:53:42 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 300/315 : 2SB0001.aa
+2016-05-17 10:53:42 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 301/315 : 2SB0008.aa
+2016-05-17 10:53:42 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 302/315 : 2SB0016.aa
+2016-05-17 10:53:42 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 303/315 : 2SB0025.aa
+2016-05-17 10:53:42 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 304/315 : 2SB0165.aa
+2016-05-17 10:53:42 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 305/315 : 2SB0166.aa
+2016-05-17 10:53:42 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 306/315 : 2SB0212.aa
+2016-05-17 10:53:42 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 307/315 : 2SB0315.aa
+2016-05-17 10:53:42 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 308/315 : 3AP0038.aa
+2016-05-17 10:53:42 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 309/315 : 3AP0158.aa
+2016-05-17 10:53:42 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 310/315 : 3AP0249.aa
+2016-05-17 10:53:42 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 311/315 : 3AP0272.aa
+2016-05-17 10:53:42 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 312/315 : 3SB0011.aa
+2016-05-17 10:53:42 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 313/315 : 3SB0122.aa
+2016-05-17 10:53:42 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 314/315 : 4SB0209.aa
+2016-05-17 10:53:42 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 315/315 : 5AP0200.aa
+2016-05-17 10:53:42 [INFO] ConversionWorker:30/ Start converting: [corpus_UBS]
+2016-05-17 10:53:42 [INFO] ConversionWorker:34/ [corpus_UBS] Converting file: 1/40 : 018_00000013.aa
+2016-05-17 10:53:42 [INFO] ConversionWorker:34/ [corpus_UBS] Converting file: 2/40 : 019_00000014.aa
+2016-05-17 10:53:42 [INFO] ConversionWorker:34/ [corpus_UBS] Converting file: 3/40 : 020_00000015.aa
+2016-05-17 10:53:42 [INFO] ConversionWorker:34/ [corpus_UBS] Converting file: 4/40 : 022_00000017.aa
+2016-05-17 10:53:42 [INFO] ConversionWorker:34/ [corpus_UBS] Converting file: 5/40 : 023_00000018.aa
+2016-05-17 10:53:42 [INFO] ConversionWorker:34/ [corpus_UBS] Converting file: 6/40 : 024_00000019.aa
+2016-05-17 10:53:42 [INFO] ConversionWorker:34/ [corpus_UBS] Converting file: 7/40 : 027_0000001c.aa
+2016-05-17 10:53:42 [INFO] ConversionWorker:34/ [corpus_UBS] Converting file: 8/40 : 028_0000001d.aa
+2016-05-17 10:53:42 [INFO] ConversionWorker:34/ [corpus_UBS] Converting file: 9/40 : 029_0000001e.aa
+2016-05-17 10:53:42 [INFO] ConversionWorker:34/ [corpus_UBS] Converting file: 10/40 : 030_0000001f.aa
+2016-05-17 10:53:42 [INFO] ConversionWorker:34/ [corpus_UBS] Converting file: 11/40 : 037_00000026.aa
+2016-05-17 10:53:42 [INFO] ConversionWorker:34/ [corpus_UBS] Converting file: 12/40 : 038_00000027.aa
+2016-05-17 10:53:42 [INFO] ConversionWorker:34/ [corpus_UBS] Converting file: 13/40 : 045_0000002e.aa
+2016-05-17 10:53:42 [INFO] ConversionWorker:34/ [corpus_UBS] Converting file: 14/40 : 047_00000030.aa
+2016-05-17 10:53:42 [INFO] ConversionWorker:34/ [corpus_UBS] Converting file: 15/40 : 048_00000031.aa
+2016-05-17 10:53:42 [INFO] ConversionWorker:34/ [corpus_UBS] Converting file: 16/40 : 052_00000035.aa
+2016-05-17 10:53:42 [INFO] ConversionWorker:34/ [corpus_UBS] Converting file: 17/40 : 053_00000036.aa
+2016-05-17 10:53:42 [INFO] ConversionWorker:34/ [corpus_UBS] Converting file: 18/40 : 054_00000037.aa
+2016-05-17 10:53:42 [INFO] ConversionWorker:34/ [corpus_UBS] Converting file: 19/40 : 055_00000038.aa
+2016-05-17 10:53:42 [INFO] ConversionWorker:34/ [corpus_UBS] Converting file: 20/40 : 057_0000003a.aa
+2016-05-17 10:53:42 [INFO] ConversionWorker:34/ [corpus_UBS] Converting file: 21/40 : 058_0000003b.aa
+2016-05-17 10:53:42 [INFO] ConversionWorker:34/ [corpus_UBS] Converting file: 22/40 : 059_0000003c.aa
+2016-05-17 10:53:42 [INFO] ConversionWorker:34/ [corpus_UBS] Converting file: 23/40 : 060_0000003d.aa
+2016-05-17 10:53:42 [INFO] ConversionWorker:34/ [corpus_UBS] Converting file: 24/40 : 065_00000042.aa
+2016-05-17 10:53:42 [INFO] ConversionWorker:34/ [corpus_UBS] Converting file: 25/40 : 067_00000044.aa
+2016-05-17 10:53:42 [INFO] ConversionWorker:34/ [corpus_UBS] Converting file: 26/40 : 068_00000045.aa
+2016-05-17 10:53:42 [INFO] ConversionWorker:34/ [corpus_UBS] Converting file: 27/40 : 072_00000049.aa
+2016-05-17 10:53:42 [INFO] ConversionWorker:34/ [corpus_UBS] Converting file: 28/40 : 073_0000004a.aa
+2016-05-17 10:53:42 [INFO] ConversionWorker:34/ [corpus_UBS] Converting file: 29/40 : 074_0000004b.aa
+2016-05-17 10:53:42 [INFO] ConversionWorker:34/ [corpus_UBS] Converting file: 30/40 : 075_0000004c.aa
+2016-05-17 10:53:42 [INFO] ConversionWorker:34/ [corpus_UBS] Converting file: 31/40 : 079_00000050.aa
+2016-05-17 10:53:42 [INFO] ConversionWorker:34/ [corpus_UBS] Converting file: 32/40 : 083_00000054.aa
+2016-05-17 10:53:42 [INFO] ConversionWorker:34/ [corpus_UBS] Converting file: 33/40 : 087_00000058.aa
+2016-05-17 10:53:42 [INFO] ConversionWorker:34/ [corpus_UBS] Converting file: 34/40 : 090_0000005b.aa
+2016-05-17 10:53:42 [INFO] ConversionWorker:34/ [corpus_UBS] Converting file: 35/40 : 096_00000061.aa
+2016-05-17 10:53:42 [INFO] ConversionWorker:34/ [corpus_UBS] Converting file: 36/40 : 098_00000063.aa
+2016-05-17 10:53:42 [INFO] ConversionWorker:34/ [corpus_UBS] Converting file: 37/40 : 101_00000066.aa
+2016-05-17 10:53:42 [INFO] ConversionWorker:34/ [corpus_UBS] Converting file: 38/40 : 102_00000067.aa
+2016-05-17 10:53:42 [INFO] ConversionWorker:34/ [corpus_UBS] Converting file: 39/40 : 104_00000069.aa
+2016-05-17 10:53:42 [INFO] ConversionWorker:34/ [corpus_UBS] Converting file: 40/40 : 105_0000006a.aa
+2016-05-17 10:53:42 [INFO] AncorToDemocrat:55/ Writing new annotations !
+2016-05-17 10:53:42 [INFO] AncorToDemocrat:57/ Writing: corpus_OTG..
+2016-05-17 10:53:48 [INFO] AncorToDemocrat:57/ Writing: corpus_UBS..
+2016-05-17 10:54:22 [INFO] FileManager:99/ Path read:
+2016-05-17 10:54:22 [INFO] FileManager:104/ > C:\Users\buggr\Documents\stage\ancor\corpus_OTG
+2016-05-17 10:54:22 [INFO] FileManager:104/ > C:\Users\buggr\Documents\stage\ancor\corpus_UBS
+2016-05-17 10:54:22 [INFO] AncorToDemocrat:43/ Loading annotation on: corpus_OTG
+2016-05-17 10:54:23 [INFO] AncorToDemocrat:43/ Loading annotation on: corpus_UBS
+2016-05-17 10:54:23 [INFO] ConversionWorker:30/ Start converting: [corpus_OTG]
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 1/315 : 1AG0141.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 2/315 : 1AG0154.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 3/315 : 1AG0155.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 4/315 : 1AG0157.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 5/315 : 1AG0359.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 6/315 : 1AG0362.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 7/315 : 1AG0364.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 8/315 : 1AG0365.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 9/315 : 1AG0367.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 10/315 : 1AG0368.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 11/315 : 1AG0390.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 12/315 : 1AG0391.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 13/315 : 1AG0499.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 14/315 : 1AG0502.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 15/315 : 1AG0508.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 16/315 : 1AG0509.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 17/315 : 1AG0511.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 18/315 : 1AG0513.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 19/315 : 1AG0521.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 20/315 : 1AG0523.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 21/315 : 1AG0527.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 22/315 : 1AG0529.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 23/315 : 1AG0531.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 24/315 : 1AG0534.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 25/315 : 1AG0536.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 26/315 : 1AG0543.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 27/315 : 1AG0545.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 28/315 : 1AG0549.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 29/315 : 1AG0552.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 30/315 : 1AG0553.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 31/315 : 1AG0554.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 32/315 : 1AG0555.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 33/315 : 1AG0558.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 34/315 : 1AG0563.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 35/315 : 1AG0564.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 36/315 : 1AG0565.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 37/315 : 1AG0566.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 38/315 : 1AG0570.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 39/315 : 1AG0576.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 40/315 : 1AG0577.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 41/315 : 1AG0585.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 42/315 : 1AG0618.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 43/315 : 1AG0620.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 44/315 : 1AG0624.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 45/315 : 1AP0005.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 46/315 : 1AP0007.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 47/315 : 1AP0029.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 48/315 : 1AP0033.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 49/315 : 1AP0041.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 50/315 : 1AP0054.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 51/315 : 1AP0056.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 52/315 : 1AP0060.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 53/315 : 1AP0061.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 54/315 : 1AP0069.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 55/315 : 1AP0071.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 56/315 : 1AP0073.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 57/315 : 1AP0074.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 58/315 : 1AP0078.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 59/315 : 1AP0079.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 60/315 : 1AP0080.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 61/315 : 1AP0083.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 62/315 : 1AP0084.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 63/315 : 1AP0089.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 64/315 : 1AP0096.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 65/315 : 1AP0099.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 66/315 : 1AP0115.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 67/315 : 1AP0117.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 68/315 : 1AP0119.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 69/315 : 1AP0120.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 70/315 : 1AP0129.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 71/315 : 1AP0131.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 72/315 : 1AP0133.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 73/315 : 1AP0134.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 74/315 : 1AP0137.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 75/315 : 1AP0142.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 76/315 : 1AP0143.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 77/315 : 1AP0146.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 78/315 : 1AP0149.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 79/315 : 1AP0152.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 80/315 : 1AP0168.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 81/315 : 1AP0170.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 82/315 : 1AP0171.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 83/315 : 1AP0179.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 84/315 : 1AP0182.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 85/315 : 1AP0196.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 86/315 : 1AP0197.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 87/315 : 1AP0204.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 88/315 : 1AP0206.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 89/315 : 1AP0217.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 90/315 : 1AP0218.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 91/315 : 1AP0219.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 92/315 : 1AP0226.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 93/315 : 1AP0227.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 94/315 : 1AP0228.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 95/315 : 1AP0229.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 96/315 : 1AP0230.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 97/315 : 1AP0233.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 98/315 : 1AP0234.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 99/315 : 1AP0239.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 100/315 : 1AP0240.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 101/315 : 1AP0242.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 102/315 : 1AP0243.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 103/315 : 1AP0245.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 104/315 : 1AP0246.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 105/315 : 1AP0248.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 106/315 : 1AP0255.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 107/315 : 1AP0270.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 108/315 : 1AP0273.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 109/315 : 1AP0274.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 110/315 : 1AP0275.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 111/315 : 1AP0279.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 112/315 : 1AP0286.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 113/315 : 1AP0289.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 114/315 : 1AP0294.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 115/315 : 1AP0296.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 116/315 : 1AP0308.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 117/315 : 1AP0309.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 118/315 : 1AP0310.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 119/315 : 1AP0316.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 120/315 : 1AP0317.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 121/315 : 1AP0319.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 122/315 : 1AP0322.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 123/315 : 1AP0323.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 124/315 : 1AP0324.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 125/315 : 1AP0325.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 126/315 : 1AP0329.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 127/315 : 1AP0341.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 128/315 : 1AP0366.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 129/315 : 1AP0381.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 130/315 : 1AP0384.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 131/315 : 1AP0417.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 132/315 : 1AP0496.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 133/315 : 1AP0506.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 134/315 : 1AP0507.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 135/315 : 1AP0544.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 136/315 : 1AP0596.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 137/315 : 1AP0605.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 138/315 : 1AP0606.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 139/315 : 1AP0608.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 140/315 : 1NR0591.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 141/315 : 1NR0592.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 142/315 : 1PF0048.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 143/315 : 1PF0050.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 144/315 : 1PF0052.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 145/315 : 1PF0159.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 146/315 : 1PF0162.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 147/315 : 1PF0305.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 148/315 : 1PF0306.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 149/315 : 1PF0358.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 150/315 : 1PF0392.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 151/315 : 1PF0393.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 152/315 : 1PF0414.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 153/315 : 1PF0416.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 154/315 : 1PF0418.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 155/315 : 1PF0419.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 156/315 : 1PF0420.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 157/315 : 1PF0421.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 158/315 : 1PF0423.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 159/315 : 1PF0424.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 160/315 : 1PF0427.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 161/315 : 1PF0429.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 162/315 : 1PF0432.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 163/315 : 1PF0438.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 164/315 : 1PF0439.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 165/315 : 1PF0442.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 166/315 : 1PF0444.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 167/315 : 1PF0445.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 168/315 : 1PF0447.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 169/315 : 1PF0448.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 170/315 : 1PF0449.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 171/315 : 1PF0450.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 172/315 : 1PF0454.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 173/315 : 1PF0455.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 174/315 : 1PF0457.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 175/315 : 1PF0460.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 176/315 : 1PF0462.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 177/315 : 1PF0463.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 178/315 : 1PF0464.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 179/315 : 1PF0467.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 180/315 : 1PF0468.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 181/315 : 1PF0470.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 182/315 : 1PF0472.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 183/315 : 1PF0474.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 184/315 : 1PF0479.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 185/315 : 1PF0487.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 186/315 : 1PF0490.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 187/315 : 1PF0491.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 188/315 : 1PF0494.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 189/315 : 1PF0572.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 190/315 : 1PF0638.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 191/315 : 1PF0639.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 192/315 : 1PF0641.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 193/315 : 1PF0644.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 194/315 : 1PF0646.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 195/315 : 1PF0648.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 196/315 : 1PF0649.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 197/315 : 1PF0650.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 198/315 : 1PF0654.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 199/315 : 1SB0002.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 200/315 : 1SB0009.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 201/315 : 1SB0018.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 202/315 : 1SB0022.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 203/315 : 1SB0024.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 204/315 : 1SB0027.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 205/315 : 1SB0028.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 206/315 : 1SB0030.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 207/315 : 1SB0031.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 208/315 : 1SB0042.aa
+2016-05-17 10:54:23 [DEBUG] ConversionWorker:93/ Relation to relation..
+2016-05-17 10:54:23 [DEBUG] ConversionWorker:93/ Relation to relation..
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 209/315 : 1SB0043.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 210/315 : 1SB0087.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 211/315 : 1SB0088.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 212/315 : 1SB0111.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 213/315 : 1SB0123.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 214/315 : 1SB0124.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 215/315 : 1SB0126.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 216/315 : 1SB0164.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 217/315 : 1SB0167.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 218/315 : 1SB0172.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 219/315 : 1SB0175.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 220/315 : 1SB0177.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 221/315 : 1SB0185.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 222/315 : 1SB0186.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 223/315 : 1SB0190.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 224/315 : 1SB0208.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 225/315 : 1SB0210.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 226/315 : 1SB0211.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 227/315 : 1SB0213.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 228/315 : 1SB0214.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 229/315 : 1SB0223.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 230/315 : 1SB0231.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 231/315 : 1SB0252.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 232/315 : 1SB0253.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 233/315 : 1SB0264.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 234/315 : 1SB0265.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 235/315 : 1SB0266.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 236/315 : 1SB0284.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 237/315 : 1SB0289.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 238/315 : 1SB0300.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 239/315 : 1SB0302.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 240/315 : 1SB0311.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 241/315 : 1SB0320.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 242/315 : 1SB0338.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 243/315 : 1SB0339.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 244/315 : 1SB0344.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 245/315 : 1SB0355.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 246/315 : 1SB0379.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 247/315 : 1SB0396.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 248/315 : 1SB0397.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 249/315 : 1SB0403.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 250/315 : 1SB0405.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 251/315 : 1SB0408.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 252/315 : 1SB0411.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 253/315 : 1SB0633.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 254/315 : 1SO0488.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 255/315 : 1SO0612.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 256/315 : 1SO0623.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 257/315 : 2AG0361.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 258/315 : 2AG0363.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 259/315 : 2AG0495.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 260/315 : 2AG0519.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 261/315 : 2AG0526.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 262/315 : 2AG0535.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 263/315 : 2AG0546.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 264/315 : 2AG0561.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 265/315 : 2AG0578.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 266/315 : 2AG0584.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 267/315 : 2AG0610.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 268/315 : 2AG0619.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 269/315 : 2AP0014.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 270/315 : 2AP0034.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 271/315 : 2AP0055.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 272/315 : 2AP0058.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 273/315 : 2AP0092.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 274/315 : 2AP0144.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 275/315 : 2AP0180.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 276/315 : 2AP0195.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 277/315 : 2AP0205.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 278/315 : 2AP0225.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 279/315 : 2AP0238.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 280/315 : 2AP0247.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 281/315 : 2AP0251.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 282/315 : 2AP0259.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 283/315 : 2AP0261.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 284/315 : 2AP0280.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 285/315 : 2AP0287.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 286/315 : 2AP0292.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 287/315 : 2AP0295.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 288/315 : 2AP0307.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 289/315 : 2AP0356.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 290/315 : 2AP0505.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 291/315 : 2AP0594.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 292/315 : 2AP0595.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 293/315 : 2AP0598.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 294/315 : 2NR0593.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 295/315 : 2PF0049.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 296/315 : 2PF0413.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 297/315 : 2PF0415.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 298/315 : 2PF0425.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 299/315 : 2PF0437.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 300/315 : 2SB0001.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 301/315 : 2SB0008.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 302/315 : 2SB0016.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 303/315 : 2SB0025.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 304/315 : 2SB0165.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 305/315 : 2SB0166.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 306/315 : 2SB0212.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 307/315 : 2SB0315.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 308/315 : 3AP0038.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 309/315 : 3AP0158.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 310/315 : 3AP0249.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 311/315 : 3AP0272.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 312/315 : 3SB0011.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 313/315 : 3SB0122.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 314/315 : 4SB0209.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_OTG] Converting file: 315/315 : 5AP0200.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:30/ Start converting: [corpus_UBS]
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_UBS] Converting file: 1/40 : 018_00000013.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_UBS] Converting file: 2/40 : 019_00000014.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_UBS] Converting file: 3/40 : 020_00000015.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_UBS] Converting file: 4/40 : 022_00000017.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_UBS] Converting file: 5/40 : 023_00000018.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_UBS] Converting file: 6/40 : 024_00000019.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_UBS] Converting file: 7/40 : 027_0000001c.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_UBS] Converting file: 8/40 : 028_0000001d.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_UBS] Converting file: 9/40 : 029_0000001e.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_UBS] Converting file: 10/40 : 030_0000001f.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_UBS] Converting file: 11/40 : 037_00000026.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_UBS] Converting file: 12/40 : 038_00000027.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_UBS] Converting file: 13/40 : 045_0000002e.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_UBS] Converting file: 14/40 : 047_00000030.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_UBS] Converting file: 15/40 : 048_00000031.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_UBS] Converting file: 16/40 : 052_00000035.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_UBS] Converting file: 17/40 : 053_00000036.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_UBS] Converting file: 18/40 : 054_00000037.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_UBS] Converting file: 19/40 : 055_00000038.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_UBS] Converting file: 20/40 : 057_0000003a.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_UBS] Converting file: 21/40 : 058_0000003b.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_UBS] Converting file: 22/40 : 059_0000003c.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_UBS] Converting file: 23/40 : 060_0000003d.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_UBS] Converting file: 24/40 : 065_00000042.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_UBS] Converting file: 25/40 : 067_00000044.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_UBS] Converting file: 26/40 : 068_00000045.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_UBS] Converting file: 27/40 : 072_00000049.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_UBS] Converting file: 28/40 : 073_0000004a.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_UBS] Converting file: 29/40 : 074_0000004b.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_UBS] Converting file: 30/40 : 075_0000004c.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_UBS] Converting file: 31/40 : 079_00000050.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_UBS] Converting file: 32/40 : 083_00000054.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_UBS] Converting file: 33/40 : 087_00000058.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_UBS] Converting file: 34/40 : 090_0000005b.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_UBS] Converting file: 35/40 : 096_00000061.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_UBS] Converting file: 36/40 : 098_00000063.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_UBS] Converting file: 37/40 : 101_00000066.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_UBS] Converting file: 38/40 : 102_00000067.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_UBS] Converting file: 39/40 : 104_00000069.aa
+2016-05-17 10:54:23 [INFO] ConversionWorker:34/ [corpus_UBS] Converting file: 40/40 : 105_0000006a.aa
+2016-05-17 10:54:23 [INFO] AncorToDemocrat:55/ Writing new annotations !
+2016-05-17 10:54:23 [INFO] AncorToDemocrat:57/ Writing: corpus_OTG..
+2016-05-17 10:54:29 [INFO] AncorToDemocrat:57/ Writing: corpus_UBS..
+2016-05-17 10:54:42 [INFO] FileManager:99/ Path read:
+2016-05-17 10:54:42 [INFO] FileManager:104/ > C:\Users\buggr\workspace\AncorToDemocrat\corpusTest
+2016-05-17 10:54:42 [INFO] AncorToDemocrat:43/ Loading annotation on: corpusTest
+2016-05-17 10:54:42 [INFO] ConversionWorker:30/ Start converting: [corpusTest]
+2016-05-17 10:54:42 [INFO] ConversionWorker:34/ [corpusTest] Converting file: 1/2 : genre_nb.aa
+2016-05-17 10:54:42 [INFO] ConversionWorker:34/ [corpusTest] Converting file: 2/2 : toChain.aa
+2016-05-17 10:54:42 [INFO] AncorToDemocrat:55/ Writing new annotations !
+2016-05-17 10:54:42 [INFO] AncorToDemocrat:57/ Writing: corpusTest..
+2016-05-17 10:55:56 [INFO] FileManager:99/ Path read:
+2016-05-17 10:55:56 [INFO] FileManager:104/ > C:\Users\buggr\workspace\AncorToDemocrat\corpusTest
+2016-05-17 10:55:56 [INFO] AncorToDemocrat:43/ Loading annotation on: corpusTest
+2016-05-17 10:55:56 [INFO] ConversionWorker:30/ Start converting: [corpusTest]
+2016-05-17 10:55:56 [INFO] ConversionWorker:34/ [corpusTest] Converting file: 1/2 : genre_nb.aa
+2016-05-17 10:55:56 [INFO] ConversionWorker:34/ [corpusTest] Converting file: 2/2 : toChain.aa
+2016-05-17 10:55:56 [INFO] AncorToDemocrat:55/ Writing new annotations !
+2016-05-17 10:55:56 [INFO] AncorToDemocrat:57/ Writing: corpusTest..
+2016-05-17 10:56:25 [INFO] FileManager:99/ Path read:
+2016-05-17 10:56:25 [INFO] FileManager:104/ > C:\Users\buggr\workspace\AncorToDemocrat\corpusTest
+2016-05-17 10:56:25 [INFO] AncorToDemocrat:43/ Loading annotation on: corpusTest
+2016-05-17 10:56:25 [INFO] ConversionWorker:30/ Start converting: [corpusTest]
+2016-05-17 10:56:25 [INFO] ConversionWorker:34/ [corpusTest] Converting file: 1/2 : genre_nb.aa
+2016-05-17 10:56:25 [INFO] ConversionWorker:34/ [corpusTest] Converting file: 2/2 : toChain.aa
+2016-05-17 10:56:25 [INFO] AncorToDemocrat:55/ Writing new annotations !
+2016-05-17 10:56:25 [INFO] AncorToDemocrat:57/ Writing: corpusTest..
+2016-05-17 10:56:25 [INFO] AncorToDemocrat:61/ DONE.
+2016-05-17 10:58:36 [INFO] FileManager:99/ Path read:
+2016-05-17 10:58:36 [INFO] FileManager:104/ > C:\Users\buggr\workspace\AncorToDemocrat\corpusTest
+2016-05-17 10:58:36 [INFO] AncorToDemocrat:43/ Loading annotation on: corpusTest
+2016-05-17 10:58:36 [INFO] ConversionWorker:30/ Start converting: [corpusTest]
+2016-05-17 10:58:36 [INFO] ConversionWorker:34/ [corpusTest] Converting file: 1/2 : genre_nb.aa
+2016-05-17 10:58:36 [INFO] ConversionWorker:34/ [corpusTest] Converting file: 2/2 : toChain.aa
+2016-05-17 10:58:36 [INFO] AncorToDemocrat:55/ Writing new annotations !
+2016-05-17 10:58:36 [INFO] AncorToDemocrat:57/ Writing: corpusTest..
+2016-05-17 10:58:36 [INFO] AncorToDemocrat:61/ DONE.
+2016-05-17 11:01:49 [INFO] FileManager:99/ Path read:
+2016-05-17 11:01:49 [INFO] FileManager:104/ > C:\Users\buggr\workspace\AncorToDemocrat\corpusTest
+2016-05-17 11:01:49 [INFO] AncorToDemocrat:43/ Loading annotation on: corpusTest
+2016-05-17 11:01:49 [INFO] ConversionWorker:30/ Start converting: [corpusTest]
+2016-05-17 11:01:49 [INFO] ConversionWorker:34/ [corpusTest] Converting file: 1/2 : genre_nb.aa
+2016-05-17 11:01:49 [DEBUG] ConversionWorker:151/  currentNB SG pre SG
+2016-05-17 11:01:49 [INFO] ConversionWorker:34/ [corpusTest] Converting file: 2/2 : toChain.aa
+2016-05-17 11:01:49 [DEBUG] ConversionWorker:151/  currentNB null pre null
+2016-05-17 11:01:49 [DEBUG] ConversionWorker:151/  currentNB null pre null
+2016-05-17 11:01:49 [DEBUG] ConversionWorker:151/  currentNB null pre null
+2016-05-17 11:01:49 [DEBUG] ConversionWorker:151/  currentNB null pre null
+2016-05-17 11:01:49 [DEBUG] ConversionWorker:151/  currentNB null pre null
+2016-05-17 11:01:49 [DEBUG] ConversionWorker:151/  currentNB null pre null
+2016-05-17 11:01:49 [DEBUG] ConversionWorker:151/  currentNB null pre null
+2016-05-17 11:01:49 [DEBUG] ConversionWorker:151/  currentNB null pre null
+2016-05-17 11:01:49 [INFO] AncorToDemocrat:55/ Writing new annotations !
+2016-05-17 11:01:49 [INFO] AncorToDemocrat:57/ Writing: corpusTest..
+2016-05-17 11:01:49 [INFO] AncorToDemocrat:61/ DONE.
+2016-05-17 11:04:57 [INFO] FileManager:99/ Path read:
+2016-05-17 11:04:57 [INFO] FileManager:104/ > C:\Users\buggr\workspace\AncorToDemocrat\corpusTest
+2016-05-17 11:04:57 [INFO] AncorToDemocrat:43/ Loading annotation on: corpusTest
+2016-05-17 11:04:57 [INFO] ConversionWorker:30/ Start converting: [corpusTest]
+2016-05-17 11:04:57 [INFO] ConversionWorker:34/ [corpusTest] Converting file: 1/2 : genre_nb.aa
+2016-05-17 11:04:57 [DEBUG] ConversionWorker:143/ apuret_1463474654497
+2016-05-17 11:04:57 [DEBUG] ConversionWorker:152/  currentNB SG pre SG
+2016-05-17 11:04:57 [INFO] ConversionWorker:34/ [corpusTest] Converting file: 2/2 : toChain.aa
+2016-05-17 11:04:57 [DEBUG] ConversionWorker:143/ apuret_1463029599252
+2016-05-17 11:04:57 [DEBUG] ConversionWorker:152/  currentNB null pre null
+2016-05-17 11:04:57 [DEBUG] ConversionWorker:143/ apuret_1463029696322
+2016-05-17 11:04:57 [DEBUG] ConversionWorker:152/  currentNB null pre null
+2016-05-17 11:04:57 [DEBUG] ConversionWorker:143/ apuret_1463067756504
+2016-05-17 11:04:57 [DEBUG] ConversionWorker:152/  currentNB null pre null
+2016-05-17 11:04:57 [DEBUG] ConversionWorker:143/ apuret_1463147419069
+2016-05-17 11:04:57 [DEBUG] ConversionWorker:152/  currentNB null pre null
+2016-05-17 11:04:57 [DEBUG] ConversionWorker:143/ apuret_1463147426585
+2016-05-17 11:04:57 [DEBUG] ConversionWorker:152/  currentNB null pre null
+2016-05-17 11:04:57 [DEBUG] ConversionWorker:143/ apuret_1463147432217
+2016-05-17 11:04:57 [DEBUG] ConversionWorker:152/  currentNB null pre null
+2016-05-17 11:04:57 [DEBUG] ConversionWorker:143/ apuret_1463147336889
+2016-05-17 11:04:57 [DEBUG] ConversionWorker:152/  currentNB null pre null
+2016-05-17 11:04:57 [DEBUG] ConversionWorker:143/ apuret_1463147341570
+2016-05-17 11:04:57 [DEBUG] ConversionWorker:152/  currentNB null pre null
+2016-05-17 11:04:57 [INFO] AncorToDemocrat:55/ Writing new annotations !
+2016-05-17 11:04:57 [INFO] AncorToDemocrat:57/ Writing: corpusTest..
+2016-05-17 11:04:57 [INFO] AncorToDemocrat:61/ DONE.
+2016-05-17 11:05:48 [INFO] FileManager:99/ Path read:
+2016-05-17 11:05:48 [INFO] FileManager:104/ > C:\Users\buggr\workspace\AncorToDemocrat\corpusTest
+2016-05-17 11:05:48 [INFO] AncorToDemocrat:43/ Loading annotation on: corpusTest
+2016-05-17 11:05:48 [INFO] ConversionWorker:30/ Start converting: [corpusTest]
+2016-05-17 11:05:48 [INFO] ConversionWorker:34/ [corpusTest] Converting file: 1/2 : genre_nb.aa
+2016-05-17 11:05:48 [DEBUG] ConversionWorker:143/ apuret_1463474654497
+2016-05-17 11:05:48 [DEBUG] ConversionWorker:144/ apuret_1463474654497
+2016-05-17 11:05:48 [DEBUG] ConversionWorker:153/  currentNB SG pre SG
+2016-05-17 11:05:48 [INFO] ConversionWorker:34/ [corpusTest] Converting file: 2/2 : toChain.aa
+2016-05-17 11:05:48 [DEBUG] ConversionWorker:143/ apuret_1463029599252
+2016-05-17 11:05:48 [DEBUG] ConversionWorker:144/ apuret_1463029599252
+2016-05-17 11:05:48 [DEBUG] ConversionWorker:153/  currentNB null pre null
+2016-05-17 11:05:48 [DEBUG] ConversionWorker:143/ apuret_1463029696322
+2016-05-17 11:05:48 [DEBUG] ConversionWorker:144/ apuret_1463029696322
+2016-05-17 11:05:48 [DEBUG] ConversionWorker:153/  currentNB null pre null
+2016-05-17 11:05:48 [DEBUG] ConversionWorker:143/ apuret_1463067756504
+2016-05-17 11:05:48 [DEBUG] ConversionWorker:144/ apuret_1463067756504
+2016-05-17 11:05:48 [DEBUG] ConversionWorker:153/  currentNB null pre null
+2016-05-17 11:05:48 [DEBUG] ConversionWorker:143/ apuret_1463147419069
+2016-05-17 11:05:48 [DEBUG] ConversionWorker:144/ apuret_1463147419069
+2016-05-17 11:05:48 [DEBUG] ConversionWorker:153/  currentNB null pre null
+2016-05-17 11:05:48 [DEBUG] ConversionWorker:143/ apuret_1463147426585
+2016-05-17 11:05:48 [DEBUG] ConversionWorker:144/ apuret_1463147426585
+2016-05-17 11:05:48 [DEBUG] ConversionWorker:153/  currentNB null pre null
+2016-05-17 11:05:48 [DEBUG] ConversionWorker:143/ apuret_1463147432217
+2016-05-17 11:05:48 [DEBUG] ConversionWorker:144/ apuret_1463147432217
+2016-05-17 11:05:48 [DEBUG] ConversionWorker:153/  currentNB null pre null
+2016-05-17 11:05:48 [DEBUG] ConversionWorker:143/ apuret_1463147336889
+2016-05-17 11:05:48 [DEBUG] ConversionWorker:144/ apuret_1463147336889
+2016-05-17 11:05:48 [DEBUG] ConversionWorker:153/  currentNB null pre null
+2016-05-17 11:05:48 [DEBUG] ConversionWorker:143/ apuret_1463147341570
+2016-05-17 11:05:48 [DEBUG] ConversionWorker:144/ apuret_1463147341570
+2016-05-17 11:05:48 [DEBUG] ConversionWorker:153/  currentNB null pre null
+2016-05-17 11:05:48 [INFO] AncorToDemocrat:55/ Writing new annotations !
+2016-05-17 11:05:48 [INFO] AncorToDemocrat:57/ Writing: corpusTest..
+2016-05-17 11:05:48 [INFO] AncorToDemocrat:61/ DONE.
+2016-05-17 11:07:39 [INFO] FileManager:99/ Path read:
+2016-05-17 11:07:39 [INFO] FileManager:104/ > C:\Users\buggr\workspace\AncorToDemocrat\corpusTest
+2016-05-17 11:07:39 [INFO] AncorToDemocrat:43/ Loading annotation on: corpusTest
+2016-05-17 11:07:40 [INFO] ConversionWorker:30/ Start converting: [corpusTest]
+2016-05-17 11:07:40 [INFO] ConversionWorker:34/ [corpusTest] Converting file: 1/2 : genre_nb.aa
+2016-05-17 11:07:40 [DEBUG] ConversionWorker:138/ Relation [id=apuret_1463474694151]
+    com.democrat.ancortodemocrat.element.MetadataUnit@ba8a1dc
+    com.democrat.ancortodemocrat.element.Characterisation@4f8e5cde
+    [PositioningRelation]
+     apuret_1463474654497
+     apuret_1463474650320
+
+2016-05-17 11:07:40 [DEBUG] ConversionWorker:143/ apuret_1463474654497
+2016-05-17 11:07:40 [DEBUG] ConversionWorker:144/ apuret_1463474654497
+2016-05-17 11:07:40 [DEBUG] ConversionWorker:153/  currentNB SG pre SG
+2016-05-17 11:07:40 [INFO] ConversionWorker:34/ [corpusTest] Converting file: 2/2 : toChain.aa
+2016-05-17 11:07:40 [DEBUG] ConversionWorker:138/ Relation [id=apuret_1463029709896]
+    com.democrat.ancortodemocrat.element.MetadataUnit@504bae78
+    com.democrat.ancortodemocrat.element.Characterisation@3b764bce
+    [PositioningRelation]
+     apuret_1463029599252
+     apuret_1463029593326
+
+2016-05-17 11:07:40 [DEBUG] ConversionWorker:143/ apuret_1463029599252
+2016-05-17 11:07:40 [DEBUG] ConversionWorker:144/ apuret_1463029599252
+2016-05-17 11:07:40 [DEBUG] ConversionWorker:153/  currentNB null pre null
+2016-05-17 11:07:40 [DEBUG] ConversionWorker:138/ Relation [id=apuret_1463029713154]
+    com.democrat.ancortodemocrat.element.MetadataUnit@759ebb3d
+    com.democrat.ancortodemocrat.element.Characterisation@484b61fc
+    [PositioningRelation]
+     apuret_1463029696322
+     apuret_1463029599252
+
+2016-05-17 11:07:40 [DEBUG] ConversionWorker:143/ apuret_1463029696322
+2016-05-17 11:07:40 [DEBUG] ConversionWorker:144/ apuret_1463029696322
+2016-05-17 11:07:40 [DEBUG] ConversionWorker:153/  currentNB null pre null
+2016-05-17 11:07:40 [DEBUG] ConversionWorker:138/ Relation [id=apuret_1463119994966]
+    com.democrat.ancortodemocrat.element.MetadataUnit@6bf2d08e
+    com.democrat.ancortodemocrat.element.Characterisation@5eb5c224
+    [PositioningRelation]
+     apuret_1463067756504
+     apuret_1463067708473
+
+2016-05-17 11:07:40 [DEBUG] ConversionWorker:143/ apuret_1463067756504
+2016-05-17 11:07:40 [DEBUG] ConversionWorker:144/ apuret_1463067756504
+2016-05-17 11:07:40 [DEBUG] ConversionWorker:153/  currentNB null pre null
+2016-05-17 11:07:40 [DEBUG] ConversionWorker:138/ Relation [id=apuret_1463147454402]
+    com.democrat.ancortodemocrat.element.MetadataUnit@53e25b76
+    com.democrat.ancortodemocrat.element.Characterisation@73a8dfcc
+    [PositioningRelation]
+     apuret_1463147419069
+     apuret_1463029696322
+
+2016-05-17 11:07:40 [DEBUG] ConversionWorker:143/ apuret_1463147419069
+2016-05-17 11:07:40 [DEBUG] ConversionWorker:144/ apuret_1463147419069
+2016-05-17 11:07:40 [DEBUG] ConversionWorker:153/  currentNB null pre null
+2016-05-17 11:07:40 [DEBUG] ConversionWorker:138/ Relation [id=apuret_1463147456998]
+    com.democrat.ancortodemocrat.element.MetadataUnit@ea30797
+    com.democrat.ancortodemocrat.element.Characterisation@7e774085
+    [PositioningRelation]
+     apuret_1463147426585
+     apuret_1463147419069
+
+2016-05-17 11:07:40 [DEBUG] ConversionWorker:143/ apuret_1463147426585
+2016-05-17 11:07:40 [DEBUG] ConversionWorker:144/ apuret_1463147426585
+2016-05-17 11:07:40 [DEBUG] ConversionWorker:153/  currentNB null pre null
+2016-05-17 11:07:40 [DEBUG] ConversionWorker:138/ Relation [id=apuret_1463147459261]
+    com.democrat.ancortodemocrat.element.MetadataUnit@3f8f9dd6
+    com.democrat.ancortodemocrat.element.Characterisation@aec6354
+    [PositioningRelation]
+     apuret_1463147432217
+     apuret_1463147426585
+
+2016-05-17 11:07:40 [DEBUG] ConversionWorker:143/ apuret_1463147432217
+2016-05-17 11:07:40 [DEBUG] ConversionWorker:144/ apuret_1463147432217
+2016-05-17 11:07:40 [DEBUG] ConversionWorker:153/  currentNB null pre null
+2016-05-17 11:07:40 [DEBUG] ConversionWorker:138/ Relation [id=apuret_1463147462405]
+    com.democrat.ancortodemocrat.element.MetadataUnit@1c655221
+    com.democrat.ancortodemocrat.element.Characterisation@58d25a40
+    [PositioningRelation]
+     apuret_1463147336889
+     apuret_1463147432217
+
+2016-05-17 11:07:40 [DEBUG] ConversionWorker:143/ apuret_1463147336889
+2016-05-17 11:07:40 [DEBUG] ConversionWorker:144/ apuret_1463147336889
+2016-05-17 11:07:40 [DEBUG] ConversionWorker:153/  currentNB null pre null
+2016-05-17 11:07:40 [DEBUG] ConversionWorker:138/ Relation [id=apuret_1463147465800]
+    com.democrat.ancortodemocrat.element.MetadataUnit@1b701da1
+    com.democrat.ancortodemocrat.element.Characterisation@726f3b58
+    [PositioningRelation]
+     apuret_1463147341570
+     apuret_1463147336889
+
+2016-05-17 11:07:40 [DEBUG] ConversionWorker:143/ apuret_1463147341570
+2016-05-17 11:07:40 [DEBUG] ConversionWorker:144/ apuret_1463147341570
+2016-05-17 11:07:40 [DEBUG] ConversionWorker:153/  currentNB null pre null
+2016-05-17 11:07:40 [INFO] AncorToDemocrat:55/ Writing new annotations !
+2016-05-17 11:07:40 [INFO] AncorToDemocrat:57/ Writing: corpusTest..
+2016-05-17 11:07:40 [INFO] AncorToDemocrat:61/ DONE.
+2016-05-17 11:09:52 [INFO] FileManager:99/ Path read:
+2016-05-17 11:09:52 [INFO] FileManager:104/ > C:\Users\buggr\workspace\AncorToDemocrat\corpusTest
+2016-05-17 11:09:52 [INFO] AncorToDemocrat:43/ Loading annotation on: corpusTest
+2016-05-17 11:09:53 [INFO] ConversionWorker:30/ Start converting: [corpusTest]
+2016-05-17 11:09:53 [INFO] ConversionWorker:34/ [corpusTest] Converting file: 1/2 : genre_nb.aa
+2016-05-17 11:14:06 [INFO] FileManager:99/ Path read:
+2016-05-17 11:14:06 [INFO] FileManager:104/ > C:\Users\buggr\workspace\AncorToDemocrat\corpusTest
+2016-05-17 11:14:06 [INFO] AncorToDemocrat:40/ Loading annotation on: corpusTest
+2016-05-17 11:14:06 [INFO] ConversionWorker:26/ Start converting: [corpusTest]
+2016-05-17 11:14:06 [INFO] ConversionWorker:30/ [corpusTest] Converting file: 1/2 : genre_nb.aa
+2016-05-17 11:14:06 [INFO] ConversionWorker:83/ 1
+2016-05-17 11:14:23 [INFO] FileManager:99/ Path read:
+2016-05-17 11:14:23 [INFO] FileManager:104/ > C:\Users\buggr\workspace\AncorToDemocrat\corpusTest
+2016-05-17 11:14:23 [INFO] AncorToDemocrat:40/ Loading annotation on: corpusTest
+2016-05-17 11:14:23 [INFO] ConversionWorker:26/ Start converting: [corpusTest]
+2016-05-17 11:14:23 [INFO] ConversionWorker:30/ [corpusTest] Converting file: 1/2 : genre_nb.aa
+2016-05-17 11:14:23 [INFO] ConversionWorker:83/ 1
+2016-05-17 11:14:23 [DEBUG] ConversionWorker:139/ apuret_1463474654497
+2016-05-17 11:14:23 [DEBUG] ConversionWorker:140/ apuret_1463474654497
+2016-05-17 11:14:23 [DEBUG] ConversionWorker:149/  currentNB SG pre SG
+2016-05-17 11:14:23 [INFO] ConversionWorker:30/ [corpusTest] Converting file: 2/2 : toChain.aa
+2016-05-17 11:14:23 [INFO] ConversionWorker:83/ 1
+2016-05-17 11:14:23 [DEBUG] ConversionWorker:139/ apuret_1463029599252
+2016-05-17 11:14:23 [DEBUG] ConversionWorker:140/ apuret_1463029599252
+2016-05-17 11:14:23 [DEBUG] ConversionWorker:149/  currentNB null pre null
+2016-05-17 11:14:23 [INFO] ConversionWorker:83/ 1
+2016-05-17 11:14:23 [DEBUG] ConversionWorker:139/ apuret_1463029696322
+2016-05-17 11:14:23 [DEBUG] ConversionWorker:140/ apuret_1463029696322
+2016-05-17 11:14:23 [DEBUG] ConversionWorker:149/  currentNB null pre null
+2016-05-17 11:14:23 [INFO] ConversionWorker:83/ 1
+2016-05-17 11:14:23 [DEBUG] ConversionWorker:139/ apuret_1463067756504
+2016-05-17 11:14:23 [DEBUG] ConversionWorker:140/ apuret_1463067756504
+2016-05-17 11:14:23 [DEBUG] ConversionWorker:149/  currentNB null pre null
+2016-05-17 11:14:23 [INFO] ConversionWorker:83/ 1
+2016-05-17 11:14:23 [DEBUG] ConversionWorker:139/ apuret_1463147419069
+2016-05-17 11:14:23 [DEBUG] ConversionWorker:140/ apuret_1463147419069
+2016-05-17 11:14:23 [DEBUG] ConversionWorker:149/  currentNB null pre null
+2016-05-17 11:14:23 [INFO] ConversionWorker:83/ 1
+2016-05-17 11:14:23 [DEBUG] ConversionWorker:139/ apuret_1463147426585
+2016-05-17 11:14:23 [DEBUG] ConversionWorker:140/ apuret_1463147426585
+2016-05-17 11:14:23 [DEBUG] ConversionWorker:149/  currentNB null pre null
+2016-05-17 11:14:23 [INFO] ConversionWorker:83/ 1
+2016-05-17 11:14:23 [DEBUG] ConversionWorker:139/ apuret_1463147432217
+2016-05-17 11:14:23 [DEBUG] ConversionWorker:140/ apuret_1463147432217
+2016-05-17 11:14:23 [DEBUG] ConversionWorker:149/  currentNB null pre null
+2016-05-17 11:14:23 [INFO] ConversionWorker:83/ 1
+2016-05-17 11:14:23 [DEBUG] ConversionWorker:139/ apuret_1463147336889
+2016-05-17 11:14:23 [DEBUG] ConversionWorker:140/ apuret_1463147336889
+2016-05-17 11:14:23 [DEBUG] ConversionWorker:149/  currentNB null pre null
+2016-05-17 11:14:23 [INFO] ConversionWorker:83/ 1
+2016-05-17 11:14:23 [DEBUG] ConversionWorker:139/ apuret_1463147341570
+2016-05-17 11:14:23 [DEBUG] ConversionWorker:140/ apuret_1463147341570
+2016-05-17 11:14:23 [DEBUG] ConversionWorker:149/  currentNB null pre null
+2016-05-17 11:14:23 [INFO] AncorToDemocrat:52/ Writing new annotations !
+2016-05-17 11:14:23 [INFO] AncorToDemocrat:54/ Writing: corpusTest..
+2016-05-17 11:14:23 [INFO] AncorToDemocrat:58/ DONE.
+2016-05-17 11:14:38 [INFO] FileManager:99/ Path read:
+2016-05-17 11:14:38 [INFO] FileManager:104/ > C:\Users\buggr\workspace\AncorToDemocrat\corpusTest
+2016-05-17 11:14:38 [INFO] AncorToDemocrat:40/ Loading annotation on: corpusTest
+2016-05-17 11:14:38 [INFO] ConversionWorker:26/ Start converting: [corpusTest]
+2016-05-17 11:14:38 [INFO] ConversionWorker:30/ [corpusTest] Converting file: 1/2 : genre_nb.aa
+2016-05-17 11:14:38 [DEBUG] ConversionWorker:139/ apuret_1463474654497
+2016-05-17 11:14:38 [DEBUG] ConversionWorker:140/ apuret_1463474654497
+2016-05-17 11:14:38 [DEBUG] ConversionWorker:149/  currentNB SG pre SG
+2016-05-17 11:14:38 [INFO] ConversionWorker:30/ [corpusTest] Converting file: 2/2 : toChain.aa
+2016-05-17 11:14:38 [DEBUG] ConversionWorker:139/ apuret_1463029599252
+2016-05-17 11:14:38 [DEBUG] ConversionWorker:140/ apuret_1463029599252
+2016-05-17 11:14:38 [DEBUG] ConversionWorker:149/  currentNB null pre null
+2016-05-17 11:14:38 [DEBUG] ConversionWorker:139/ apuret_1463029696322
+2016-05-17 11:14:38 [DEBUG] ConversionWorker:140/ apuret_1463029696322
+2016-05-17 11:14:38 [DEBUG] ConversionWorker:149/  currentNB null pre null
+2016-05-17 11:14:38 [DEBUG] ConversionWorker:139/ apuret_1463067756504
+2016-05-17 11:14:38 [DEBUG] ConversionWorker:140/ apuret_1463067756504
+2016-05-17 11:14:38 [DEBUG] ConversionWorker:149/  currentNB null pre null
+2016-05-17 11:14:38 [DEBUG] ConversionWorker:139/ apuret_1463147419069
+2016-05-17 11:14:38 [DEBUG] ConversionWorker:140/ apuret_1463147419069
+2016-05-17 11:14:38 [DEBUG] ConversionWorker:149/  currentNB null pre null
+2016-05-17 11:14:38 [DEBUG] ConversionWorker:139/ apuret_1463147426585
+2016-05-17 11:14:38 [DEBUG] ConversionWorker:140/ apuret_1463147426585
+2016-05-17 11:14:38 [DEBUG] ConversionWorker:149/  currentNB null pre null
+2016-05-17 11:14:38 [DEBUG] ConversionWorker:139/ apuret_1463147432217
+2016-05-17 11:14:38 [DEBUG] ConversionWorker:140/ apuret_1463147432217
+2016-05-17 11:14:38 [DEBUG] ConversionWorker:149/  currentNB null pre null
+2016-05-17 11:14:38 [DEBUG] ConversionWorker:139/ apuret_1463147336889
+2016-05-17 11:14:38 [DEBUG] ConversionWorker:140/ apuret_1463147336889
+2016-05-17 11:14:38 [DEBUG] ConversionWorker:149/  currentNB null pre null
+2016-05-17 11:14:38 [DEBUG] ConversionWorker:139/ apuret_1463147341570
+2016-05-17 11:14:38 [DEBUG] ConversionWorker:140/ apuret_1463147341570
+2016-05-17 11:14:38 [DEBUG] ConversionWorker:149/  currentNB null pre null
+2016-05-17 11:14:38 [INFO] AncorToDemocrat:52/ Writing new annotations !
+2016-05-17 11:14:38 [INFO] AncorToDemocrat:54/ Writing: corpusTest..
+2016-05-17 11:14:38 [INFO] AncorToDemocrat:58/ DONE.
+2016-05-17 11:19:53 [INFO] FileManager:99/ Path read:
+2016-05-17 11:19:53 [INFO] FileManager:104/ > C:\Users\buggr\workspace\AncorToDemocrat\corpusTest
+2016-05-17 11:19:53 [INFO] AncorToDemocrat:40/ Loading annotation on: corpusTest
+2016-05-17 11:19:53 [INFO] ConversionWorker:26/ Start converting: [corpusTest]
+2016-05-17 11:19:53 [INFO] ConversionWorker:30/ [corpusTest] Converting file: 1/2 : genre_nb.aa
+2016-05-17 11:19:53 [DEBUG] ConversionWorker:138/ apuret_1463474654497
+2016-05-17 11:19:53 [DEBUG] ConversionWorker:139/ apuret_1463474654497
+2016-05-17 11:19:53 [DEBUG] ConversionWorker:148/  currentNB SG pre SG
+2016-05-17 11:19:53 [INFO] ConversionWorker:30/ [corpusTest] Converting file: 2/2 : toChain.aa
+2016-05-17 11:19:53 [DEBUG] ConversionWorker:138/ apuret_1463029599252
+2016-05-17 11:19:53 [DEBUG] ConversionWorker:139/ apuret_1463029599252
+2016-05-17 11:19:53 [DEBUG] ConversionWorker:148/  currentNB null pre null
+2016-05-17 11:19:53 [DEBUG] ConversionWorker:138/ apuret_1463029696322
+2016-05-17 11:19:53 [DEBUG] ConversionWorker:139/ apuret_1463029696322
+2016-05-17 11:19:53 [DEBUG] ConversionWorker:148/  currentNB null pre null
+2016-05-17 11:19:53 [DEBUG] ConversionWorker:138/ apuret_1463067756504
+2016-05-17 11:19:53 [DEBUG] ConversionWorker:139/ apuret_1463067756504
+2016-05-17 11:19:53 [DEBUG] ConversionWorker:148/  currentNB null pre null
+2016-05-17 11:19:53 [DEBUG] ConversionWorker:138/ apuret_1463147419069
+2016-05-17 11:19:53 [DEBUG] ConversionWorker:139/ apuret_1463147419069
+2016-05-17 11:19:53 [DEBUG] ConversionWorker:148/  currentNB null pre null
+2016-05-17 11:19:53 [DEBUG] ConversionWorker:138/ apuret_1463147426585
+2016-05-17 11:19:53 [DEBUG] ConversionWorker:139/ apuret_1463147426585
+2016-05-17 11:19:53 [DEBUG] ConversionWorker:148/  currentNB null pre null
+2016-05-17 11:19:53 [DEBUG] ConversionWorker:138/ apuret_1463147432217
+2016-05-17 11:19:53 [DEBUG] ConversionWorker:139/ apuret_1463147432217
+2016-05-17 11:19:53 [DEBUG] ConversionWorker:148/  currentNB null pre null
+2016-05-17 11:19:53 [DEBUG] ConversionWorker:138/ apuret_1463147336889
+2016-05-17 11:19:53 [DEBUG] ConversionWorker:139/ apuret_1463147336889
+2016-05-17 11:19:53 [DEBUG] ConversionWorker:148/  currentNB null pre null
+2016-05-17 11:19:53 [DEBUG] ConversionWorker:138/ apuret_1463147341570
+2016-05-17 11:19:53 [DEBUG] ConversionWorker:139/ apuret_1463147341570
+2016-05-17 11:19:53 [DEBUG] ConversionWorker:148/  currentNB null pre null
+2016-05-17 11:19:53 [INFO] AncorToDemocrat:52/ Writing new annotations !
+2016-05-17 11:19:53 [INFO] AncorToDemocrat:54/ Writing: corpusTest..
+2016-05-17 11:19:53 [INFO] AncorToDemocrat:58/ DONE.
+2016-05-17 11:20:08 [INFO] FileManager:99/ Path read:
+2016-05-17 11:20:08 [INFO] FileManager:104/ > C:\Users\buggr\workspace\AncorToDemocrat\corpusTest
+2016-05-17 11:20:08 [INFO] AncorToDemocrat:40/ Loading annotation on: corpusTest
+2016-05-17 11:20:09 [INFO] ConversionWorker:26/ Start converting: [corpusTest]
+2016-05-17 11:20:09 [INFO] ConversionWorker:30/ [corpusTest] Converting file: 1/2 : genre_nb.aa
+2016-05-17 11:20:09 [DEBUG] Relation:154/ YOLO
+2016-05-17 11:20:09 [DEBUG] ConversionWorker:138/ apuret_1463474654497
+2016-05-17 11:20:09 [DEBUG] ConversionWorker:139/ apuret_1463474654497
+2016-05-17 11:20:09 [DEBUG] ConversionWorker:148/  currentNB SG pre SG
+2016-05-17 11:20:09 [INFO] ConversionWorker:30/ [corpusTest] Converting file: 2/2 : toChain.aa
+2016-05-17 11:20:09 [DEBUG] Relation:154/ YOLO
+2016-05-17 11:20:09 [DEBUG] ConversionWorker:138/ apuret_1463029599252
+2016-05-17 11:20:09 [DEBUG] ConversionWorker:139/ apuret_1463029599252
+2016-05-17 11:20:09 [DEBUG] ConversionWorker:148/  currentNB null pre null
+2016-05-17 11:20:09 [DEBUG] Relation:154/ YOLO
+2016-05-17 11:20:09 [DEBUG] ConversionWorker:138/ apuret_1463029696322
+2016-05-17 11:20:09 [DEBUG] ConversionWorker:139/ apuret_1463029696322
+2016-05-17 11:20:09 [DEBUG] ConversionWorker:148/  currentNB null pre null
+2016-05-17 11:20:09 [DEBUG] Relation:154/ YOLO
+2016-05-17 11:20:09 [DEBUG] ConversionWorker:138/ apuret_1463067756504
+2016-05-17 11:20:09 [DEBUG] ConversionWorker:139/ apuret_1463067756504
+2016-05-17 11:20:09 [DEBUG] ConversionWorker:148/  currentNB null pre null
+2016-05-17 11:20:09 [DEBUG] Relation:154/ YOLO
+2016-05-17 11:20:09 [DEBUG] ConversionWorker:138/ apuret_1463147419069
+2016-05-17 11:20:09 [DEBUG] ConversionWorker:139/ apuret_1463147419069
+2016-05-17 11:20:09 [DEBUG] ConversionWorker:148/  currentNB null pre null
+2016-05-17 11:20:09 [DEBUG] Relation:154/ YOLO
+2016-05-17 11:20:09 [DEBUG] ConversionWorker:138/ apuret_1463147426585
+2016-05-17 11:20:09 [DEBUG] ConversionWorker:139/ apuret_1463147426585
+2016-05-17 11:20:09 [DEBUG] ConversionWorker:148/  currentNB null pre null
+2016-05-17 11:20:09 [DEBUG] Relation:154/ YOLO
+2016-05-17 11:20:09 [DEBUG] ConversionWorker:138/ apuret_1463147432217
+2016-05-17 11:20:09 [DEBUG] ConversionWorker:139/ apuret_1463147432217
+2016-05-17 11:20:09 [DEBUG] ConversionWorker:148/  currentNB null pre null
+2016-05-17 11:20:09 [DEBUG] Relation:154/ YOLO
+2016-05-17 11:20:09 [DEBUG] ConversionWorker:138/ apuret_1463147336889
+2016-05-17 11:20:09 [DEBUG] ConversionWorker:139/ apuret_1463147336889
+2016-05-17 11:20:09 [DEBUG] ConversionWorker:148/  currentNB null pre null
+2016-05-17 11:20:09 [DEBUG] Relation:154/ YOLO
+2016-05-17 11:20:09 [DEBUG] ConversionWorker:138/ apuret_1463147341570
+2016-05-17 11:20:09 [DEBUG] ConversionWorker:139/ apuret_1463147341570
+2016-05-17 11:20:09 [DEBUG] ConversionWorker:148/  currentNB null pre null
+2016-05-17 11:20:09 [INFO] AncorToDemocrat:52/ Writing new annotations !
+2016-05-17 11:20:09 [INFO] AncorToDemocrat:54/ Writing: corpusTest..
+2016-05-17 11:20:09 [INFO] AncorToDemocrat:58/ DONE.
+2016-05-17 11:21:13 [INFO] FileManager:99/ Path read:
+2016-05-17 11:21:13 [INFO] FileManager:104/ > C:\Users\buggr\workspace\AncorToDemocrat\corpusTest
+2016-05-17 11:21:13 [INFO] AncorToDemocrat:40/ Loading annotation on: corpusTest
+2016-05-17 11:21:13 [INFO] ConversionWorker:26/ Start converting: [corpusTest]
+2016-05-17 11:21:13 [INFO] ConversionWorker:30/ [corpusTest] Converting file: 1/2 : genre_nb.aa
+2016-05-17 11:21:13 [DEBUG] Relation:154/ YOLO
+2016-05-17 11:21:13 [DEBUG] ConversionWorker:138/ apuret_1463474654497
+2016-05-17 11:21:13 [DEBUG] ConversionWorker:139/ apuret_1463474654497
+2016-05-17 11:21:13 [DEBUG] ConversionWorker:148/  currentNB SG pre SG
+2016-05-17 11:21:13 [INFO] ConversionWorker:30/ [corpusTest] Converting file: 2/2 : toChain.aa
+2016-05-17 11:21:13 [DEBUG] Relation:154/ YOLO
+2016-05-17 11:21:13 [DEBUG] ConversionWorker:138/ apuret_1463029599252
+2016-05-17 11:21:13 [DEBUG] ConversionWorker:139/ apuret_1463029599252
+2016-05-17 11:21:13 [DEBUG] ConversionWorker:148/  currentNB null pre null
+2016-05-17 11:21:13 [DEBUG] Relation:154/ YOLO
+2016-05-17 11:21:13 [DEBUG] ConversionWorker:138/ apuret_1463029696322
+2016-05-17 11:21:13 [DEBUG] ConversionWorker:139/ apuret_1463029696322
+2016-05-17 11:21:13 [DEBUG] ConversionWorker:148/  currentNB null pre null
+2016-05-17 11:21:13 [DEBUG] Relation:154/ YOLO
+2016-05-17 11:21:13 [DEBUG] ConversionWorker:138/ apuret_1463067756504
+2016-05-17 11:21:13 [DEBUG] ConversionWorker:139/ apuret_1463067756504
+2016-05-17 11:21:13 [DEBUG] ConversionWorker:148/  currentNB null pre null
+2016-05-17 11:21:13 [DEBUG] Relation:154/ YOLO
+2016-05-17 11:21:13 [DEBUG] ConversionWorker:138/ apuret_1463147419069
+2016-05-17 11:21:13 [DEBUG] ConversionWorker:139/ apuret_1463147419069
+2016-05-17 11:21:13 [DEBUG] ConversionWorker:148/  currentNB null pre null
+2016-05-17 11:21:13 [DEBUG] Relation:154/ YOLO
+2016-05-17 11:21:13 [DEBUG] ConversionWorker:138/ apuret_1463147426585
+2016-05-17 11:21:13 [DEBUG] ConversionWorker:139/ apuret_1463147426585
+2016-05-17 11:21:13 [DEBUG] ConversionWorker:148/  currentNB null pre null
+2016-05-17 11:21:13 [DEBUG] Relation:154/ YOLO
+2016-05-17 11:21:13 [DEBUG] ConversionWorker:138/ apuret_1463147432217
+2016-05-17 11:21:13 [DEBUG] ConversionWorker:139/ apuret_1463147432217
+2016-05-17 11:21:13 [DEBUG] ConversionWorker:148/  currentNB null pre null
+2016-05-17 11:21:13 [DEBUG] Relation:154/ YOLO
+2016-05-17 11:21:13 [DEBUG] ConversionWorker:138/ apuret_1463147336889
+2016-05-17 11:21:13 [DEBUG] ConversionWorker:139/ apuret_1463147336889
+2016-05-17 11:21:13 [DEBUG] ConversionWorker:148/  currentNB null pre null
+2016-05-17 11:21:13 [DEBUG] Relation:154/ YOLO
+2016-05-17 11:21:13 [DEBUG] ConversionWorker:138/ apuret_1463147341570
+2016-05-17 11:21:13 [DEBUG] ConversionWorker:139/ apuret_1463147341570
+2016-05-17 11:21:13 [DEBUG] ConversionWorker:148/  currentNB null pre null
+2016-05-17 11:21:13 [INFO] AncorToDemocrat:52/ Writing new annotations !
+2016-05-17 11:21:13 [INFO] AncorToDemocrat:54/ Writing: corpusTest..
+2016-05-17 11:21:13 [INFO] AncorToDemocrat:58/ DONE.
+2016-05-17 11:21:32 [INFO] FileManager:99/ Path read:
+2016-05-17 11:21:32 [INFO] FileManager:104/ > C:\Users\buggr\workspace\AncorToDemocrat\corpusTest
+2016-05-17 11:21:32 [INFO] AncorToDemocrat:40/ Loading annotation on: corpusTest
+2016-05-17 11:21:32 [INFO] ConversionWorker:26/ Start converting: [corpusTest]
+2016-05-17 11:21:32 [INFO] ConversionWorker:30/ [corpusTest] Converting file: 1/2 : genre_nb.aa
+2016-05-17 11:21:32 [DEBUG] Relation:154/ YOLO
+2016-05-17 11:21:32 [DEBUG] Relation:157/ POPOPO
+2016-05-17 11:21:32 [DEBUG] ConversionWorker:138/ apuret_1463474650320
+2016-05-17 11:21:32 [DEBUG] ConversionWorker:139/ apuret_1463474654497
+2016-05-17 11:21:32 [DEBUG] ConversionWorker:148/  currentNB SG pre SG
+2016-05-17 11:21:32 [INFO] ConversionWorker:30/ [corpusTest] Converting file: 2/2 : toChain.aa
+2016-05-17 11:21:32 [DEBUG] Relation:154/ YOLO
+2016-05-17 11:21:32 [DEBUG] Relation:157/ POPOPO
+2016-05-17 11:21:32 [DEBUG] ConversionWorker:138/ apuret_1463029593326
+2016-05-17 11:21:32 [DEBUG] ConversionWorker:139/ apuret_1463029599252
+2016-05-17 11:21:32 [DEBUG] ConversionWorker:148/  currentNB null pre null
+2016-05-17 11:21:32 [DEBUG] Relation:154/ YOLO
+2016-05-17 11:21:32 [DEBUG] Relation:157/ POPOPO
+2016-05-17 11:21:32 [DEBUG] ConversionWorker:138/ apuret_1463029599252
+2016-05-17 11:21:32 [DEBUG] ConversionWorker:139/ apuret_1463029696322
+2016-05-17 11:21:32 [DEBUG] ConversionWorker:148/  currentNB null pre null
+2016-05-17 11:21:32 [DEBUG] Relation:154/ YOLO
+2016-05-17 11:21:32 [DEBUG] Relation:157/ POPOPO
+2016-05-17 11:21:32 [DEBUG] ConversionWorker:138/ apuret_1463067708473
+2016-05-17 11:21:32 [DEBUG] ConversionWorker:139/ apuret_1463067756504
+2016-05-17 11:21:32 [DEBUG] ConversionWorker:148/  currentNB null pre null
+2016-05-17 11:21:32 [DEBUG] Relation:154/ YOLO
+2016-05-17 11:21:32 [DEBUG] Relation:157/ POPOPO
+2016-05-17 11:21:32 [DEBUG] ConversionWorker:138/ apuret_1463029696322
+2016-05-17 11:21:32 [DEBUG] ConversionWorker:139/ apuret_1463147419069
+2016-05-17 11:21:32 [DEBUG] ConversionWorker:148/  currentNB null pre null
+2016-05-17 11:21:32 [DEBUG] Relation:154/ YOLO
+2016-05-17 11:21:32 [DEBUG] Relation:157/ POPOPO
+2016-05-17 11:21:32 [DEBUG] ConversionWorker:138/ apuret_1463147419069
+2016-05-17 11:21:32 [DEBUG] ConversionWorker:139/ apuret_1463147426585
+2016-05-17 11:21:32 [DEBUG] ConversionWorker:148/  currentNB null pre null
+2016-05-17 11:21:32 [DEBUG] Relation:154/ YOLO
+2016-05-17 11:21:32 [DEBUG] Relation:157/ POPOPO
+2016-05-17 11:21:32 [DEBUG] ConversionWorker:138/ apuret_1463147426585
+2016-05-17 11:21:32 [DEBUG] ConversionWorker:139/ apuret_1463147432217
+2016-05-17 11:21:32 [DEBUG] ConversionWorker:148/  currentNB null pre null
+2016-05-17 11:21:32 [DEBUG] Relation:154/ YOLO
+2016-05-17 11:21:32 [DEBUG] Relation:157/ POPOPO
+2016-05-17 11:21:32 [DEBUG] ConversionWorker:138/ apuret_1463147432217
+2016-05-17 11:21:32 [DEBUG] ConversionWorker:139/ apuret_1463147336889
+2016-05-17 11:21:32 [DEBUG] ConversionWorker:148/  currentNB null pre null
+2016-05-17 11:21:32 [DEBUG] Relation:154/ YOLO
+2016-05-17 11:21:32 [DEBUG] Relation:157/ POPOPO
+2016-05-17 11:21:32 [DEBUG] ConversionWorker:138/ apuret_1463147336889
+2016-05-17 11:21:32 [DEBUG] ConversionWorker:139/ apuret_1463147341570
+2016-05-17 11:21:32 [DEBUG] ConversionWorker:148/  currentNB null pre null
+2016-05-17 11:21:32 [INFO] AncorToDemocrat:52/ Writing new annotations !
+2016-05-17 11:21:32 [INFO] AncorToDemocrat:54/ Writing: corpusTest..
+2016-05-17 11:21:32 [INFO] AncorToDemocrat:58/ DONE.
+2016-05-17 11:21:53 [INFO] FileManager:99/ Path read:
+2016-05-17 11:21:53 [INFO] FileManager:104/ > C:\Users\buggr\workspace\AncorToDemocrat\corpusTest
+2016-05-17 11:21:53 [INFO] AncorToDemocrat:40/ Loading annotation on: corpusTest
+2016-05-17 11:21:53 [INFO] ConversionWorker:26/ Start converting: [corpusTest]
+2016-05-17 11:21:53 [INFO] ConversionWorker:30/ [corpusTest] Converting file: 1/2 : genre_nb.aa
+2016-05-17 11:21:53 [DEBUG] Relation:153/ YOLO
+2016-05-17 11:21:53 [DEBUG] ConversionWorker:138/ apuret_1463474650320
+2016-05-17 11:21:53 [DEBUG] ConversionWorker:139/ apuret_1463474654497
+2016-05-17 11:21:53 [DEBUG] ConversionWorker:148/  currentNB SG pre SG
+2016-05-17 11:21:53 [INFO] ConversionWorker:30/ [corpusTest] Converting file: 2/2 : toChain.aa
+2016-05-17 11:21:53 [DEBUG] Relation:153/ YOLO
+2016-05-17 11:21:53 [DEBUG] ConversionWorker:138/ apuret_1463029593326
+2016-05-17 11:21:53 [DEBUG] ConversionWorker:139/ apuret_1463029599252
+2016-05-17 11:21:53 [DEBUG] ConversionWorker:148/  currentNB null pre null
+2016-05-17 11:21:53 [DEBUG] Relation:153/ YOLO
+2016-05-17 11:21:53 [DEBUG] ConversionWorker:138/ apuret_1463029599252
+2016-05-17 11:21:53 [DEBUG] ConversionWorker:139/ apuret_1463029696322
+2016-05-17 11:21:53 [DEBUG] ConversionWorker:148/  currentNB null pre null
+2016-05-17 11:21:53 [DEBUG] Relation:153/ YOLO
+2016-05-17 11:21:53 [DEBUG] ConversionWorker:138/ apuret_1463067708473
+2016-05-17 11:21:53 [DEBUG] ConversionWorker:139/ apuret_1463067756504
+2016-05-17 11:21:53 [DEBUG] ConversionWorker:148/  currentNB null pre null
+2016-05-17 11:21:53 [DEBUG] Relation:153/ YOLO
+2016-05-17 11:21:53 [DEBUG] ConversionWorker:138/ apuret_1463029696322
+2016-05-17 11:21:53 [DEBUG] ConversionWorker:139/ apuret_1463147419069
+2016-05-17 11:21:53 [DEBUG] ConversionWorker:148/  currentNB null pre null
+2016-05-17 11:21:53 [DEBUG] Relation:153/ YOLO
+2016-05-17 11:21:53 [DEBUG] ConversionWorker:138/ apuret_1463147419069
+2016-05-17 11:21:53 [DEBUG] ConversionWorker:139/ apuret_1463147426585
+2016-05-17 11:21:53 [DEBUG] ConversionWorker:148/  currentNB null pre null
+2016-05-17 11:21:53 [DEBUG] Relation:153/ YOLO
+2016-05-17 11:21:53 [DEBUG] ConversionWorker:138/ apuret_1463147426585
+2016-05-17 11:21:53 [DEBUG] ConversionWorker:139/ apuret_1463147432217
+2016-05-17 11:21:53 [DEBUG] ConversionWorker:148/  currentNB null pre null
+2016-05-17 11:21:53 [DEBUG] Relation:153/ YOLO
+2016-05-17 11:21:53 [DEBUG] ConversionWorker:138/ apuret_1463147432217
+2016-05-17 11:21:53 [DEBUG] ConversionWorker:139/ apuret_1463147336889
+2016-05-17 11:21:53 [DEBUG] ConversionWorker:148/  currentNB null pre null
+2016-05-17 11:21:53 [DEBUG] Relation:153/ YOLO
+2016-05-17 11:21:53 [DEBUG] ConversionWorker:138/ apuret_1463147336889
+2016-05-17 11:21:53 [DEBUG] ConversionWorker:139/ apuret_1463147341570
+2016-05-17 11:21:53 [DEBUG] ConversionWorker:148/  currentNB null pre null
+2016-05-17 11:21:53 [INFO] AncorToDemocrat:52/ Writing new annotations !
+2016-05-17 11:21:53 [INFO] AncorToDemocrat:54/ Writing: corpusTest..
+2016-05-17 11:21:53 [INFO] AncorToDemocrat:58/ DONE.
+2016-05-17 11:22:06 [INFO] FileManager:99/ Path read:
+2016-05-17 11:22:06 [INFO] FileManager:104/ > C:\Users\buggr\workspace\AncorToDemocrat\corpusTest
+2016-05-17 11:22:06 [INFO] AncorToDemocrat:40/ Loading annotation on: corpusTest
+2016-05-17 11:22:06 [INFO] ConversionWorker:26/ Start converting: [corpusTest]
+2016-05-17 11:22:06 [INFO] ConversionWorker:30/ [corpusTest] Converting file: 1/2 : genre_nb.aa
+2016-05-17 11:22:06 [DEBUG] ConversionWorker:146/  currentNB SG pre SG
+2016-05-17 11:22:06 [INFO] ConversionWorker:30/ [corpusTest] Converting file: 2/2 : toChain.aa
+2016-05-17 11:22:06 [DEBUG] ConversionWorker:146/  currentNB null pre null
+2016-05-17 11:22:06 [DEBUG] ConversionWorker:146/  currentNB null pre null
+2016-05-17 11:22:06 [DEBUG] ConversionWorker:146/  currentNB null pre null
+2016-05-17 11:22:06 [DEBUG] ConversionWorker:146/  currentNB null pre null
+2016-05-17 11:22:06 [DEBUG] ConversionWorker:146/  currentNB null pre null
+2016-05-17 11:22:06 [DEBUG] ConversionWorker:146/  currentNB null pre null
+2016-05-17 11:22:06 [DEBUG] ConversionWorker:146/  currentNB null pre null
+2016-05-17 11:22:06 [DEBUG] ConversionWorker:146/  currentNB null pre null
+2016-05-17 11:22:06 [INFO] AncorToDemocrat:52/ Writing new annotations !
+2016-05-17 11:22:06 [INFO] AncorToDemocrat:54/ Writing: corpusTest..
+2016-05-17 11:22:06 [INFO] AncorToDemocrat:58/ DONE.
+2016-05-17 11:22:09 [INFO] FileManager:99/ Path read:
+2016-05-17 11:22:09 [INFO] FileManager:104/ > C:\Users\buggr\workspace\AncorToDemocrat\corpusTest
+2016-05-17 11:22:09 [INFO] AncorToDemocrat:40/ Loading annotation on: corpusTest
+2016-05-17 11:22:09 [INFO] ConversionWorker:26/ Start converting: [corpusTest]
+2016-05-17 11:22:09 [INFO] ConversionWorker:30/ [corpusTest] Converting file: 1/2 : genre_nb.aa
+2016-05-17 11:22:09 [INFO] ConversionWorker:30/ [corpusTest] Converting file: 2/2 : toChain.aa
+2016-05-17 11:22:09 [INFO] AncorToDemocrat:52/ Writing new annotations !
+2016-05-17 11:22:09 [INFO] AncorToDemocrat:54/ Writing: corpusTest..
+2016-05-17 11:22:09 [INFO] AncorToDemocrat:58/ DONE.
+2016-05-17 11:23:34 [INFO] FileManager:99/ Path read:
+2016-05-17 11:23:34 [INFO] FileManager:104/ > C:\Users\buggr\workspace\AncorToDemocrat\corpusTest
+2016-05-17 11:23:34 [INFO] AncorToDemocrat:40/ Loading annotation on: corpusTest
+2016-05-17 11:23:35 [INFO] ConversionWorker:26/ Start converting: [corpusTest]
+2016-05-17 11:23:35 [INFO] ConversionWorker:30/ [corpusTest] Converting file: 1/2 : genre_nb.aa
+2016-05-17 11:23:35 [INFO] ConversionWorker:30/ [corpusTest] Converting file: 2/2 : toChain.aa
+2016-05-17 11:23:35 [INFO] AncorToDemocrat:52/ Writing new annotations !
+2016-05-17 11:23:35 [INFO] AncorToDemocrat:54/ Writing: corpusTest..
+2016-05-17 11:23:35 [INFO] AncorToDemocrat:58/ DONE.

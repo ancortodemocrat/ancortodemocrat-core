@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<annotations>
+<metadata corpusHashcode="83-78612138"/>
+<unit id="TXT_IMPORTER_1463474629134">
+<metadata>
+<author>TXT_IMPORTER</author>
+<creation-date>1463474629134</creation-date>
+<lastModifier>n/a</lastModifier>
+<lastModificationDate>0</lastModificationDate>
+</metadata>
+<characterisation>
+<type>paragraph</type>
+<featureSet/>
+</characterisation>
+<positioning>
+<start>
+<singlePosition index="0"/>
+</start>
+<end>
+<singlePosition index="80"/>
+</end>
+</positioning>
+</unit>
+<unit id="apuret_1463474641215">
+<metadata>
+<author>apuret</author>
+<creation-date>1463474641215</creation-date>
+<lastModifier>apuret</lastModifier>
+<lastModificationDate>1463474743206</lastModificationDate>
+</metadata>
+<characterisation>
+<type>N</type>
+<featureSet>
+<feature name="GENRE">F</feature>
+<feature name="NB">SG</feature>
+<feature name="EN">PERS</feature>
+<feature name="DEF">DEF_SPLE</feature>
+<feature name="GEN_REF">SPEC</feature>
+<feature name="GP">YES</feature>
+<feature name="NEW">YES</feature>
+</featureSet>
+</characterisation>
+<positioning>
+<start>
+<singlePosition index="0"/>
+</start>
+<end>
+<singlePosition index="9"/>
+</end>
+</positioning>
+</unit>
+<unit id="apuret_1463474650320">
+<metadata>
+<author>apuret</author>
+<creation-date>1463474650320</creation-date>
+<lastModifier>apuret</lastModifier>
+<lastModificationDate>1463477010571</lastModificationDate>
+</metadata>
+<characterisation>
+<type>N</type>
+<featureSet>
+<feature name="GENRE">M</feature>
+<feature name="NB">PL</feature>
+<feature name="EN">PERS</feature>
+<feature name="DEF">DEF_SPLE</feature>
+<feature name="GEN_REF">SPEC</feature>
+<feature name="GP">NO</feature>
+<feature name="NEW">NO</feature>
+</featureSet>
+</characterisation>
+<positioning>
+<start>
+<singlePosition index="41"/>
+</start>
+<end>
+<singlePosition index="51"/>
+</end>
+</positioning>
+</unit>
+<unit id="apuret_1463474654497">
+<metadata>
+<author>apuret</author>
+<creation-date>1463474654497</creation-date>
+<lastModifier>apuret</lastModifier>
+<lastModificationDate>1463475135557</lastModificationDate>
+</metadata>
+<characterisation>
+<type>PR</type>
+<featureSet>
+<feature name="GENRE">F</feature>
+<feature name="NB">SG</feature>
+<feature name="EN">PERS</feature>
+<feature name="DEF">DEF_SPLE</feature>
+<feature name="GEN_REF">SPEC</feature>
+<feature name="GP">NO</feature>
+<feature name="NEW">NO</feature>
+</featureSet>
+</characterisation>
+<positioning>
+<start>
+<singlePosition index="71"/>
+</start>
+<end>
+<singlePosition index="75"/>
+</end>
+</positioning>
+</unit>
+<relation id="apuret_1463474691714">
+<metadata>
+<author>apuret</author>
+<creation-date>1463474691714</creation-date>
+<lastModifier>n/a</lastModifier>
+<lastModificationDate>0</lastModificationDate>
+</metadata>
+<characterisation>
+<type>DIRECTE</type>
+<featureSet>
+<feature name="GENRE">NO</feature>
+<feature name="NOMBRE">NO</feature>
+</featureSet>
+</characterisation>
+<positioning>
+<term id="apuret_1463474650320"/>
+<term id="apuret_1463474641215"/>
+</positioning>
+</relation>
+<relation id="apuret_1463474694151">
+<metadata>
+<author>apuret</author>
+<creation-date>1463474694151</creation-date>
+<lastModifier>n/a</lastModifier>
+<lastModificationDate>0</lastModificationDate>
+</metadata>
+<characterisation>
+<type>ANAPHORE</type>
+<featureSet>
+<feature name="GENRE">YES</feature>
+<feature name="NOMBRE">YES</feature>
+</featureSet>
+</characterisation>
+<positioning>
+<term id="apuret_1463474654497"/>
+<term id="apuret_1463474641215"/>
+</positioning>
+</relation>
+</annotations>

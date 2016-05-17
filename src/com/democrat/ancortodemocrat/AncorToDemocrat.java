@@ -11,12 +11,9 @@ import javax.xml.bind.Unmarshaller;
 import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
 
-import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.Logger;
 import org.apache.log4j.xml.DOMConfigurator;
 import org.xml.sax.SAXException;
-
-import com.democrat.ancortodemocrat.element.Relation;
 
 
 public class AncorToDemocrat {
@@ -58,7 +55,7 @@ public class AncorToDemocrat {
 			corpus.export();
 		}
 		
-		
+		logger.info("DONE.");
 		
 		//trying generate xsd schema and verify one xml .aa from glozz
 		//SchemaOutput.generate();

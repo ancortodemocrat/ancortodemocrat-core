@@ -9,7 +9,16 @@ public class Feature {
     private String value;
     private String name;
 
-    /**
+    public Feature(String featureName, String value) {
+    	this.name = featureName;
+    	this.value = value;
+	}
+    
+    public Feature(){
+    	
+    }
+
+	/**
      * Gets the value of the value property.
      * 
      * @return

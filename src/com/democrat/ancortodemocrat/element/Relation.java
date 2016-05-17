@@ -147,6 +147,16 @@ public class Relation extends Element {
 						//this one is good
 						return element;
 					}else{
+						//if the two elements aren't news so we are in chain,
+						// so return the element who are the first (position)
+						Element secondElement = position.getTerm().get( 0 ).getElement( annotation );
+						if(secondElement instanceof Unit && !((Unit) secondElement).isNew( annotation )){
+							if(((Unit) secondElement).getStart( annotation ) > ((Unit) element).getStart( annotation )){
+								return element;
+							}else{
+								return secondElement;
+							}
+						}
 						return position.getTerm().get( 0 ).getElement( annotation );
 					}
 				}else if(element != null && element instanceof Relation){

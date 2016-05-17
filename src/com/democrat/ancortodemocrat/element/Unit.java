@@ -16,7 +16,6 @@ public class Unit extends Element {
 	private static Logger logger = Logger.getLogger(Annotation.class);
 
 	private MetadataUnit metadata;
-	private Characterisation characterisation;
 	private PositioningUnit positioning;
 
 	
@@ -46,30 +45,7 @@ public class Unit extends Element {
 		this.metadata = value;
 	}
 
-	/**
-	 * Gets the value of the characterisation property.
-	 * 
-	 * @return
-	 *     possible object is
-	 *     {@link Characterisation }
-	 *     
-	 */
-	@XmlElement(name="characterisation")
-	public Characterisation getCharacterisation() {
-		return characterisation;
-	}
 
-	/**
-	 * Sets the value of the characterisation property.
-	 * 
-	 * @param value
-	 *     allowed object is
-	 *     {@link Characterisation }
-	 *     
-	 */
-	public void setCharacterisation(Characterisation value) {
-		this.characterisation = value;
-	}
 
 	/**
 	 * Gets the value of the positioning property.
@@ -102,17 +78,6 @@ public class Unit extends Element {
 			return true;
 		}
 		return false;
-	}
-
-	public String getFeature(String featureName){
-		Characterisation charact = this.getCharacterisation();
-		List<Feature> features = charact.getFeatureSet().getFeature();
-		for(int f = 0; f < features.size(); f++){
-			if(features.get( f ).getName().equalsIgnoreCase( featureName )){
-				return features.get( f ).getValue();
-			}
-		}
-		return null;
 	}
 
 	
