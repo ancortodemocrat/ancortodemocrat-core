@@ -19,7 +19,5 @@ public class PositioningSchema {
 		this.embeddedUnit = embeddedUnit;
 	}
 	
-	
-	
 
 }

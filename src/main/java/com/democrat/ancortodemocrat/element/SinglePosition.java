@@ -8,7 +8,11 @@ public class SinglePosition {
 
     private Long index;
 
-    /**
+    public SinglePosition(long l) {
+    	this.index = l;
+	}
+
+	/**
      * Gets the value of the index property.
      * 
      * @return
