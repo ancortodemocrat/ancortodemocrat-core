@@ -39,4 +39,10 @@ public class FeatureSet {
         return this.feature;
     }
 
+	public void setFeature(List<Feature> feature) {
+		this.feature = feature;
+	}
+    
+    
+
 }

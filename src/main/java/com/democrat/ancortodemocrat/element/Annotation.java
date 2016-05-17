@@ -127,20 +127,6 @@ public class Annotation {
     	return null;
     }
     
-    /**
-     * search an unit just with the number, ignore 
-     * the annotator name
-     * @param id
-     * @return Return the Unit corresponding, if not found return null
-     */
-    public Unit getUnitByIdWithoutName(String id){
-    	for(Unit unit : this.unit){
-    		if(unit.getId().split("_")[1].equals(id)){
-    			return unit;
-    		}
-    	}
-    	return null;
-    }
 
     /**
      * Gets the value of the relation property.
@@ -173,7 +159,7 @@ public class Annotation {
     }
     
     /**
-     * Remove unit with TXT_IMPORTER as id
+     * Remove unit with TXT_IMPORTER prefix as id
      */
     public void removeTxtImporter(){
     	for(int u = 0; u < this.unit.size(); u++){
@@ -183,6 +169,12 @@ public class Annotation {
     		}
     	}
     }
+    
+    
+
+	public void setUnit(List<Unit> unit) {
+		this.unit = unit;
+	}
 
 	@Override
 	public String toString() {
