@@ -109,6 +109,9 @@ public class FileManager {
 			e.printStackTrace();
 		
 		}
+		if( list.isEmpty() ){
+			logger.info("Nothing..");
+		}
 		return list;
 	}
 	

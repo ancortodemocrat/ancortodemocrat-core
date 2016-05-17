@@ -26,6 +26,10 @@ public class AncorToDemocrat {
 		//configure logger
 		DOMConfigurator.configure("cfg/log4j-config.xml");
 		
+		
+		System.out.println("=====================================================================================================================");
+		System.out.println("=====================================================================================================================");
+		
 		fileManager = new FileManager();
 		
 		//loading corpus
@@ -39,7 +43,6 @@ public class AncorToDemocrat {
 		for(Corpus corpus : corpusList){
 			logger.info("Loading annotation on: " + corpus.getName() );
 			corpus.loadAnnotation();
-			//logger.debug(corpus.getAnnotation());
 		}
 		
 		//conversion each corpus
@@ -49,7 +52,6 @@ public class AncorToDemocrat {
 		}
 		
 		//writing generated files
-		logger.info("Writing new annotations !");
 		for(Corpus corpus : corpusList){
 			logger.info("Writing: " + corpus.getName() + "..");
 			corpus.export();

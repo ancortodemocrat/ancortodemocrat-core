@@ -797,24 +797,6 @@
 <term id="apuret_1463474285013"/>
 </positioning>
 </relation>
-<relation id="apuret_1463491357229">
-<metadata>
-<author>apuret</author>
-<creation-date>1463491357229</creation-date>
-<lastModifier>n/a</lastModifier>
-<lastModificationDate>0</lastModificationDate>
-</metadata>
-<characterisation>
-<type>default</type>
-<featureSet>
-<feature name="default">default</feature>
-</featureSet>
-</characterisation>
-<positioning>
-<term id="apuret_1463491311854"/>
-<term id="apuret_1463474285013"/>
-</positioning>
-</relation>
 <schema id="apuret_1463067766236">
 <metadata>
 <author>apuret</author>
@@ -839,7 +821,7 @@
 <author>apuret</author>
 <creation-date>1463491311854</creation-date>
 <lastModifier>apuret</lastModifier>
-<lastModificationDate>1463491347564</lastModificationDate>
+<lastModificationDate>1463491333436</lastModificationDate>
 </metadata>
 <characterisation>
 <type>default</type>
@@ -849,7 +831,6 @@
 </characterisation>
 <positioning>
 <embedded-unit id="apuret_1463474357277"/>
-<embedded-unit id="apuret_1463474322306"/>
 </positioning>
 </schema>
 </annotations>
