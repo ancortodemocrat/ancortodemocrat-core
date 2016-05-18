@@ -83,11 +83,5 @@ public class Corpus {
 	public void setAnnotation(List<Annotation> annotation) {
 		this.annotation = annotation;
 	}
-	
-	
-	
-	
-	
-	
 
 }

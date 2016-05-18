@@ -33,7 +33,7 @@ public class ConversionWorker implements Runnable{
 
 		for( int a = 0; a < this.corpus.getAnnotation().size(); a++ ){
 
-			//logger.info("[" + corpus.getName() +"] Converting file: "+(a + 1)+"/"+this.corpus.getAnnotation().size() + " : " + this.corpus.getAnnotation().get( a ).getFileName() );
+			logger.info("====================> [" + corpus.getName() +"] Converting file: "+(a + 1)+"/"+this.corpus.getAnnotation().size() + " : " + this.corpus.getAnnotation().get( a ).getFileName() );
 			Annotation annotation = this.corpus.getAnnotation().get(a);
 			this.convertRelationToChain( annotation );
 			//this.convertCharacterisation( annotation );
