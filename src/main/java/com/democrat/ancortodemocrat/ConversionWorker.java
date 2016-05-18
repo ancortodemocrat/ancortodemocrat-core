@@ -1,5 +1,6 @@
 package com.democrat.ancortodemocrat;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,26 +13,38 @@ import com.democrat.ancortodemocrat.element.Relation;
 import com.democrat.ancortodemocrat.element.Type;
 import com.democrat.ancortodemocrat.element.Unit;
 
-public class ConversionWorker {
+public class ConversionWorker implements Runnable{
 
 	private static Logger logger = Logger.getLogger(ConversionWorker.class);
 
 	private Corpus corpus;
 
+	/**
+	 * represent if this class has done her work
+	 */
+	private boolean done = false;
+
 	public ConversionWorker( Corpus corpus ){
 		this.corpus = corpus;
 	}
 
-	public void work(){
+	private void work(){
 		logger.info("Start converting: [" + corpus.getName() +"]");
 
 		for( int a = 0; a < this.corpus.getAnnotation().size(); a++ ){
 
-			logger.info("[" + corpus.getName() +"] Converting file: "+(a + 1)+"/"+this.corpus.getAnnotation().size() + " : " + this.corpus.getAnnotation().get( a ).getFileName() );
+			//logger.info("[" + corpus.getName() +"] Converting file: "+(a + 1)+"/"+this.corpus.getAnnotation().size() + " : " + this.corpus.getAnnotation().get( a ).getFileName() );
 			Annotation annotation = this.corpus.getAnnotation().get(a);
 			this.convertRelationToChain( annotation );
 			//this.convertCharacterisation( annotation );
 		}
+		logger.info("[" + corpus.getName() +"] done !");
+	}
+	
+	
+
+	public boolean isDone() {
+		return done;
 	}
 
 	/**
@@ -86,7 +99,7 @@ public class ConversionWorker {
 						convertCharacterisationFeature( annotation, newRelation );
 					}else{
 						//TODO relation to relation
-						logger.debug("Relation to relation..");
+						logger.debug("Relation to relation in "+this.corpus.getName() + " annotation " + annotation.getFileName());
 					}
 
 
@@ -175,6 +188,20 @@ public class ConversionWorker {
 		}
 	}
 
+	@Override
+	public void run() {
+		this.work();
+		this.corpus.export();
+		this.done = true;
+	}
 
+	public void start(){
+		Thread th = new Thread( this );
+		th.start();
+	}
+
+	public Corpus getCorpus() {
+		return this.corpus;
+	}
 
 }

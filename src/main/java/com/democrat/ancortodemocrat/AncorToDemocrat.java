@@ -25,40 +25,35 @@ public class AncorToDemocrat {
 
 		//configure logger
 		DOMConfigurator.configure("cfg/log4j-config.xml");
-		
-		
+
+
 		System.out.println("=====================================================================================================================");
 		System.out.println("=====================================================================================================================");
-		
+
 		fileManager = new FileManager();
-		
+
 		//loading corpus
 		List<String> corpusPath = fileManager.loadPathFile();
 		List<Corpus> corpusList = new ArrayList<Corpus>();
 		for(String path : corpusPath){
 			corpusList.add( new Corpus( path ));
 		}
-		
+
 		//loading annotation of corpus
 		for(Corpus corpus : corpusList){
 			logger.info("Loading annotation on: " + corpus.getName() );
 			corpus.loadAnnotation();
 		}
-		
+
+		List<ConversionWorker> conversionWorkerList = new ArrayList<ConversionWorker>();
+
 		//conversion each corpus
 		for(Corpus corpus : corpusList){
 			ConversionWorker conversionWorker = new ConversionWorker( corpus );
-			conversionWorker.work();
+			conversionWorkerList.add( conversionWorker );
+			conversionWorker.start();
 		}
-		
-		//writing generated files
-		for(Corpus corpus : corpusList){
-			logger.info("Writing: " + corpus.getName() + "..");
-			corpus.export();
-		}
-		
-		logger.info("DONE.");
-		
+
 		//trying generate xsd schema and verify one xml .aa from glozz
 		//SchemaOutput.generate();
 		/**
@@ -71,10 +66,10 @@ public class AncorToDemocrat {
 		}
 		boolean toast = xmlValidation(context, "test.xml");
 		System.out.println("==>"+toast);
-		**/
-		
+		 **/
+
 	}
-	
+
 	/**
 	 * test if a xml can be used
 	 * @param name
@@ -82,20 +77,20 @@ public class AncorToDemocrat {
 	 */
 	public static boolean xmlValidation(JAXBContext context, String xmlFile){
 		SchemaFactory schemaFactory = SchemaFactory.newInstance("http://www.w3.org/2001/XMLSchema");
-		
+
 		//load xml file
 		InputStream xmlStream = AncorToDemocrat.class.getClassLoader().getResourceAsStream(xmlFile);
 		Schema schema = null;
 		try {
-			 schema = schemaFactory.newSchema(new File(".", "schema1.xsd"));
-			
-			
+			schema = schemaFactory.newSchema(new File(".", "schema1.xsd"));
+
+
 		} catch (SAXException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			return false;
 		}
-		
+
 		Unmarshaller unmarshaller = null;
 		try {
 			unmarshaller = context.createUnmarshaller();
@@ -112,7 +107,7 @@ public class AncorToDemocrat {
 			e.printStackTrace();
 			return false;
 		}
-		
+
 		return true;
 	}
 

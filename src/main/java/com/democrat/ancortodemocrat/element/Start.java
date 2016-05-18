@@ -5,6 +5,10 @@ package com.democrat.ancortodemocrat.element;
 public class Start {
 
 	private SinglePosition singlePosition;
+	
+	public Start(){
+		
+	}
 
     public Start(long l) {
     	this.singlePosition = new SinglePosition( l );

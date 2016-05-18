@@ -14,9 +14,9 @@ public class Annotation {
 	private static Logger logger = Logger.getLogger(Annotation.class);
     
     private MetadataAnnotation metadata;
-    private List<Unit> unit;
-    private List<Relation> relation;
-    private List<Schema> schema;
+    private List<Unit> unit = new ArrayList<Unit>();
+    private List<Relation> relation = new ArrayList<Relation>();
+    private List<Schema> schema = new ArrayList<Schema>();
     
     private String fileName;
     
@@ -88,9 +88,6 @@ public class Annotation {
      */
     @XmlElement(name="unit")
     public List<Unit> getUnit() {
-        if (unit == null) {
-            unit = new ArrayList<Unit>();
-        }
         return this.unit;
     }
     
@@ -152,9 +149,6 @@ public class Annotation {
      */
     @XmlElement(name="relation")
     public List<Relation> getRelation() {
-        if (relation == null) {
-            relation = new ArrayList<Relation>();
-        }
         return this.relation;
     }
     

@@ -40,9 +40,10 @@ public class ElementTest {
 		featureSet.setFeature( list );
 		
 		characterisation.setFeatureSet( featureSet );
+		element.setCharacterisation( characterisation );
 		
 		assertEquals( "value", element.getCharacterisation().getFeatureSet().getFeature().get( 0 ).getValue() );
-		assertEquals( "value", element.getCharacterisation().getFeatureSet().getFeature().get( 0 ).getName() );
+		assertEquals( "test", element.getCharacterisation().getFeatureSet().getFeature().get( 0 ).getName() );
 	}
 	
 }

@@ -11,6 +11,10 @@ public class SinglePosition {
     public SinglePosition(long l) {
     	this.index = l;
 	}
+    
+    public SinglePosition(){
+    	
+    }
 
 	/**
      * Gets the value of the index property.

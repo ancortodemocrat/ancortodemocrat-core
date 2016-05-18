@@ -29,7 +29,9 @@ public class SchemaTest {
 		positioning.setStart( new Start( 20L ));
 		unit.setPositioning( positioning ); 
 		
-		
+		List<Unit> units = new ArrayList<Unit>();
+		units.add( unit );
+		units.add( unit2 );
 		
 		//create some embedded focus units
 		EmbeddedUnit embedded = new EmbeddedUnit();
@@ -47,7 +49,7 @@ public class SchemaTest {
 		positioning.setEmbeddedUnit( list );
 		
 		
-		assertEquals( 50L, unit.getStart( null ));
+		assertEquals( 20L, unit.getStart( annotation ));
 		
 	}
 	
