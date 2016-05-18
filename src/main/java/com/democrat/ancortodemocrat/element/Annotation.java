@@ -191,6 +191,10 @@ public class Annotation {
 		}
 		return str;
 	}
+
+	public void addUnit(Unit unit) {
+		this.unit.add( unit );		
+	}
     
     
 }

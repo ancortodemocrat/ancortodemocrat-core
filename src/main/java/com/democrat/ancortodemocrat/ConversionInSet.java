@@ -8,6 +8,7 @@ import java.util.Map;
 import com.democrat.ancortodemocrat.element.Annotation;
 import com.democrat.ancortodemocrat.element.Element;
 import com.democrat.ancortodemocrat.element.Relation;
+import com.democrat.ancortodemocrat.element.Unit;
 
 public class ConversionInSet implements Runnable{
 
@@ -47,6 +48,11 @@ public class ConversionInSet implements Runnable{
 	
 	private void toSetFromChain( Annotation annotation ){
 		
+		List<Relation> relationList = new ArrayList<Relation>();
+		for(int r = 0; r < relationList.size(); r++){
+			
+			
+		}
 	}
 
 	@Override
