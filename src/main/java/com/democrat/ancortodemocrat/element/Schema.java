@@ -40,6 +40,9 @@ public class Schema extends Unit{
 	public boolean isNew( Annotation annotation ){
 		boolean isNew = false;
 		List<EmbeddedUnit> units = this.getPositioning().getEmbeddedUnit();
+		if(units == null){
+			return false;
+		}
 		for(int u = 0; u < units.size(); u++){
 			Element element = units.get( u ).getElement( annotation );
 			if(element instanceof Unit){

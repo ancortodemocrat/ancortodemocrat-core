@@ -24,12 +24,20 @@ public class ConversionWorker implements Runnable{
 	 */
 	private boolean done = false;
 
+	private int countIndirect;
+
+	private int countIndirectWithDeal;
+
 	public ConversionWorker( Corpus corpus ){
 		this.corpus = corpus;
 	}
 
 	private void work(){
 		logger.info("Start converting: [" + corpus.getName() +"]");
+		
+
+		countIndirect = 0;
+		countIndirectWithDeal = 0;
 
 		for( int a = 0; a < this.corpus.getAnnotation().size(); a++ ){
 
@@ -38,6 +46,9 @@ public class ConversionWorker implements Runnable{
 			this.convertRelationToChain( annotation );
 			//this.convertCharacterisation( annotation );
 		}
+
+		logger.info("[" + corpus.getName() +"] Nombre d'indirect: " + countIndirect);
+		logger.info("[" + corpus.getName() +"] Nombre d'indirect avec accord en nombre: " + countIndirectWithDeal);
 		logger.info("[" + corpus.getName() +"] done !");
 	}
 	
@@ -77,12 +88,26 @@ public class ConversionWorker implements Runnable{
 					//so replace this point with the unit the more closer before
 					//so the unit in fist mention of the pre relation of this unit
 					Relation preRelation = relation.getPreRelation( annotation );
+					
 
 					if( preRelation == null){
 						//first relation
 						newRelations.add( newRelation );
 						continue;
 					}
+					
+
+					//count every (NO, IND, IND)
+					if(relation.getCharacterisation().getType().getValue().equalsIgnoreCase( "INDIRECTE" ) && 
+							preRelation.getCharacterisation().getType().getValue().equalsIgnoreCase( "INDIRECTE" )){
+						countIndirect++;
+						if(relation.getFeature( "NOMBRE" ).equalsIgnoreCase( "YES" ) &&
+								preRelation.getFeature( "NOMBRE" ).equalsIgnoreCase( "YES" )){
+							
+							countIndirectWithDeal++;
+						}
+					}
+					
 					Element element = preRelation.getElement( annotation );
 					if(element instanceof Unit){
 						Element termElement = positioning.getTerm().get( 0 ).getElement( annotation );

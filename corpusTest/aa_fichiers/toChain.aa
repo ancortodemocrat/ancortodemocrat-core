@@ -28,11 +28,17 @@
 <author>apuret</author>
 <creation-date>1463029570962</creation-date>
 <lastModifier>apuret</lastModifier>
-<lastModificationDate>1463036428916</lastModificationDate>
+<lastModificationDate>1463665086608</lastModificationDate>
 </metadata>
 <characterisation>
-<type>default</type>
+<type>N</type>
 <featureSet>
+<feature name="GENRE">M</feature>
+<feature name="NB">SG</feature>
+<feature name="EN">PERS</feature>
+<feature name="DEF">DEF_SPLE</feature>
+<feature name="GEN_REF">SPEC</feature>
+<feature name="GP">YES</feature>
 <feature name="NEW">YES</feature>
 </featureSet>
 </characterisation>
@@ -53,9 +59,15 @@
 <lastModificationDate>0</lastModificationDate>
 </metadata>
 <characterisation>
-<type>default</type>
+<type>PR</type>
 <featureSet>
-<feature name="default">default</feature>
+<feature name="GENRE">M</feature>
+<feature name="NB">SG</feature>
+<feature name="EN">PERS</feature>
+<feature name="DEF">DEF_SPLE</feature>
+<feature name="GEN_REF">SPEC</feature>
+<feature name="GP">NO</feature>
+<feature name="NEW">NO</feature>
 </featureSet>
 </characterisation>
 <positioning>
@@ -71,13 +83,19 @@
 <metadata>
 <author>apuret</author>
 <creation-date>1463029599252</creation-date>
-<lastModifier>n/a</lastModifier>
-<lastModificationDate>0</lastModificationDate>
+<lastModifier>apuret</lastModifier>
+<lastModificationDate>1463665124362</lastModificationDate>
 </metadata>
 <characterisation>
-<type>default</type>
+<type>N</type>
 <featureSet>
-<feature name="default">default</feature>
+<feature name="GENRE">M</feature>
+<feature name="NB">SG</feature>
+<feature name="EN">PERS</feature>
+<feature name="DEF">DEF_SPLE</feature>
+<feature name="GEN_REF">SPEC</feature>
+<feature name="GP">YES</feature>
+<feature name="NEW">NO</feature>
 </featureSet>
 </characterisation>
 <positioning>
@@ -116,7 +134,7 @@
 <author>apuret</author>
 <creation-date>1463067691654</creation-date>
 <lastModifier>apuret</lastModifier>
-<lastModificationDate>1463130264951</lastModificationDate>
+<lastModificationDate>1463666125687</lastModificationDate>
 </metadata>
 <characterisation>
 <type>N</type>
@@ -126,7 +144,7 @@
 <feature name="EN">PERS</feature>
 <feature name="DEF">DEF_SPLE</feature>
 <feature name="GEN_REF">SPEC</feature>
-<feature name="GP">NO</feature>
+<feature name="GP">YES</feature>
 <feature name="NEW">YES</feature>
 </featureSet>
 </characterisation>
@@ -838,8 +856,8 @@
 <metadata>
 <author>apuret</author>
 <creation-date>1463491311854</creation-date>
-<lastModifier>apuret</lastModifier>
-<lastModificationDate>1463491347564</lastModificationDate>
+<lastModifier>n/a</lastModifier>
+<lastModificationDate>0</lastModificationDate>
 </metadata>
 <characterisation>
 <type>default</type>

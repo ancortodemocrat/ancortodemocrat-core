@@ -74,7 +74,7 @@ public class Unit extends Element {
 	
 	public boolean isNew( Annotation annotation ){
 		String value = getFeature("NEW");
-		if(value != null && value.equalsIgnoreCase( "yes") ){
+		if(value != null && value.equalsIgnoreCase( "yes" ) ){
 			return true;
 		}
 		return false;

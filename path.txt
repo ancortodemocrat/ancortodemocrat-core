@@ -1,9 +1,9 @@
 #Vous pouvez mettre des commentaires comme ceci
 #Ajouter le(s) chemin(s) absolu(s) que vous souhaitez des corpus que vous souhaitez.
 #chaque corpus doit comporter un dossier 'aa_fichiers' et 'ac_fichiers'
-#C:\Users\buggr\workspace\AncorToDemocrat\corpusTest
+C:\Users\buggr\workspace\AncorToDemocrat\corpusTest
 
-C:\Users\buggr\Documents\stage\ancor\corpus_ESLO
-C:\Users\buggr\Documents\stage\ancor\corpus_ESLO_CO2
-C:\Users\buggr\Documents\stage\ancor\corpus_OTG
-C:\Users\buggr\Documents\stage\ancor\corpus_UBS
+#C:\Users\buggr\Documents\stage\ancor\corpus_ESLO
+#C:\Users\buggr\Documents\stage\ancor\corpus_ESLO_CO2
+#C:\Users\buggr\Documents\stage\ancor\corpus_OTG
+#C:\Users\buggr\Documents\stage\ancor\corpus_UBS

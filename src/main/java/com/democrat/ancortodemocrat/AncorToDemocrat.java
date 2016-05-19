@@ -15,6 +15,8 @@ import org.apache.log4j.Logger;
 import org.apache.log4j.xml.DOMConfigurator;
 import org.xml.sax.SAXException;
 
+import com.democrat.ancortodemocrat.element.Annotation;
+
 
 public class AncorToDemocrat {
 
@@ -49,10 +51,23 @@ public class AncorToDemocrat {
 
 		//conversion each corpus
 		for(Corpus corpus : corpusList){
-			ConversionWorker conversionWorker = new ConversionWorker( corpus );
-			conversionWorkerList.add( conversionWorker );
-			conversionWorker.start();
+			//ConversionWorker conversionWorker = new ConversionWorker( corpus );
+			//conversionWorkerList.add( conversionWorker );
+			//conversionWorker.start();
 		}
+		
+		
+		//add ref feature for each corpus		
+		for(Corpus corpus : corpusList){
+			logger.info("add ref feature for " + corpus.getName());
+			for(Annotation annotation : corpus.getAnnotation()){
+				ConversionInSet.toSetFromFirstMention(annotation);
+			}
+			corpus.export();
+		}
+		
+		
+		
 
 		//trying generate xsd schema and verify one xml .aa from glozz
 		//SchemaOutput.generate();

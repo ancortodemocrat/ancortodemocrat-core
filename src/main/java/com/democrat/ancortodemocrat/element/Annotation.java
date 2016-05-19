@@ -191,10 +191,21 @@ public class Annotation {
 		}
 		return str;
 	}
+	
+	public List<Relation> getRelationContaining( Unit unit ){
+		List<Relation> relationList = this.getRelation();
+		for(Relation relation : relationList){
+			if(relation.containsUnit( unit )){
+				relationList.add( relation );
+			}
+		}
+		return relationList;
+	}
 
 	public void addUnit(Unit unit) {
 		this.unit.add( unit );		
 	}
+	
     
     
 }

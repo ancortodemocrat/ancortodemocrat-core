@@ -20,7 +20,6 @@ public class XmlWriter {
 			jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
 
 			jaxbMarshaller.marshal(obj, file);
-			//jaxbMarshaller.marshal(obj, System.out);
 
 		} catch (JAXBException e) {
 			e.printStackTrace();
