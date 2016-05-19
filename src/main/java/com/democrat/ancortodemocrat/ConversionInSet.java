@@ -52,9 +52,10 @@ public class ConversionInSet implements Runnable{
 	
 	private static void setRefFeatureUnit(Annotation annotation , Unit unit, int currentRef){
 		List<Relation> relationList = annotation.getRelationContaining( unit );
+		unit.setFeature( "REF" , currentRef + "");
 		for(Relation relation : relationList){
 			Unit element = (Unit) relation.getElement( annotation );
-			if( element == null){
+			if( element == null ){
 				//relation --> relation 
 				//mistake from annotation
 				continue;
@@ -63,7 +64,6 @@ public class ConversionInSet implements Runnable{
 			element.setFeature( "REF", currentRef + "" );
 		}
 
-		unit.setFeature( "REF" , currentRef + "");
 	}
 
 	public static void toSetFromChain( Annotation annotation ){
