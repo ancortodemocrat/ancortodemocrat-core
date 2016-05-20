@@ -51,19 +51,22 @@ public class AncorToDemocrat {
 
 		//conversion each corpus
 		for(Corpus corpus : corpusList){
-			//ConversionWorker conversionWorker = new ConversionWorker( corpus );
-			//conversionWorkerList.add( conversionWorker );
-			//conversionWorker.start();
+			ConversionWorker conversionWorker = new ConversionWorker( corpus );
+			conversionWorkerList.add( conversionWorker );
+			conversionWorker.start();
 		}
 		
-		
+
+
 		//add ref feature for each corpus		
 		for(Corpus corpus : corpusList){
 			logger.info("add ref feature for " + corpus.getName());
 			for(Annotation annotation : corpus.getAnnotation()){
-				ConversionInSet.toSetFromFirstMention(annotation);
+				ConversionInSet.toSetFromChain(annotation);
+				
 			}
 			corpus.export();
+			logger.info("corpus exported with ref");
 		}
 		
 		

@@ -195,7 +195,7 @@ public class Relation extends Element {
 		logger.debug("element null on relation: "+this.getId());
 		return null;
 	}
-	
+
 
 	/**
 	 * work only in first mention
@@ -303,6 +303,23 @@ public class Relation extends Element {
 		return null;
 	}
 
+
+	/**
+	 * return the other element of the relation
+	 * @param element
+	 * @return
+	 */
+	public Element getOtherElement( Annotation annotation, Element element ){
+		List<Term> termList = this.getPositioning().getTerm();
+		if(termList.size() == 2){
+			if( termList.get( 0 ).getId().equals( element.getId() )){
+				return annotation.getElementById( termList.get( 1 ).getId() );
+			}else{
+				return annotation.getElementById( termList.get( 0 ).getId() );
+			}
+		}
+		return null;
+	}
 
 
 }

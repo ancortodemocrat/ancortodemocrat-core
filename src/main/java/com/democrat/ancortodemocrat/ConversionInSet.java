@@ -31,7 +31,7 @@ public class ConversionInSet implements Runnable{
 
 		for(Unit unit : unitList){
 			if( unit.isNew( annotation ) && ! unit.isContainedInSchema( annotation ) ){
-				setRefFeatureUnit( annotation, unit, currentRef );
+				setRefFeatureFromFirstMention( annotation, unit, currentRef );
 				currentRef++;
 			}
 		}
@@ -43,7 +43,7 @@ public class ConversionInSet implements Runnable{
 		//because, during the xml generation, the dtd will broke
 		for(Schema schema : schemaList){
 			if( schema.isNew( annotation ) ){
-				setRefFeatureUnit( annotation, schema, currentRef );
+				setRefFeatureFromFirstMention( annotation, schema, currentRef );
 				currentRef++;
 			}
 		}
@@ -51,7 +51,7 @@ public class ConversionInSet implements Runnable{
 
 	}
 	
-	private static void setRefFeatureUnit(Annotation annotation , Unit unit, int currentRef){
+	private static void setRefFeatureFromFirstMention(Annotation annotation , Unit unit, int currentRef){
 		List<Relation> relationList = annotation.getRelationContaining( unit );
 		unit.setFeature( "REF" , currentRef + "");
 		for(Relation relation : relationList){
@@ -77,11 +77,12 @@ public class ConversionInSet implements Runnable{
 	public static void toSetFromChain( Annotation annotation ){
 
 		List<Unit> unitList = annotation.getUnit();
-		unitList.addAll( annotation.getSchema() );
+		//unitList.addAll( annotation.getSchema() );
 		int currentRef = 0;
 
 		for(Unit unit : unitList){
-			if( unit.isNew( annotation )){
+			if( unit.isNew( annotation ) && ! unit.getId().contains( "TXT_IMPORTER") &&
+					! unit.isContainedInSchema( annotation ) ){
 				//starting set new REF on each ref and unit associated
 				boolean done = false;
 				Relation lastRelation = null;
@@ -90,26 +91,33 @@ public class ConversionInSet implements Runnable{
 					//while there is again an other unit/schema after
 					// (first unit/schema) | <-- | <-- | <-- (| last unit/schema)
 					List<Relation> relationAssociated = annotation.getRelationContaining( currentUnit );
+					logger.debug( relationAssociated.size() + " unit " + currentUnit);
 					if( relationAssociated.size() == 1){
 						//last or first unit
 						//if last stop it
-						if(relationAssociated.get( 0 ).getId().equals( currentUnit.getId() )){
+						if( ! relationAssociated.get( 0 ).containsUnit(annotation, unit) ){
+							//if the relation doesnt contains the first unit (NEW)
 							currentUnit.setFeature("REF", currentRef+"");
 							done = true;
 						}else{
 							//first
-							setRefFeature(annotation, relationAssociated.get( 0 ), currentRef);
+							setRefFeatureFromChain(annotation, relationAssociated.get( 0 ), currentRef);
 						}
 						lastRelation = relationAssociated.get( 0 );
+						currentUnit = (Unit) relationAssociated.get( 0 ).getOtherElement(annotation, currentUnit);
 					}else if(relationAssociated.size() == 2){
 						//between two units/schemas
-						int greatId = 0;
 						if( relationAssociated.get( 0 ).equals( lastRelation )){
-							greatId++;
-							setRefFeature(annotation, relationAssociated.get( 1 ), currentRef);
+							setRefFeatureFromChain(annotation, relationAssociated.get( 1 ), currentRef);
+
+							lastRelation = relationAssociated.get( 1 );
+							currentUnit = (Unit) relationAssociated.get( 1 ).getOtherElement(annotation, currentUnit);
 						}else{
 							//0
-							setRefFeature(annotation, relationAssociated.get( 0 ), currentRef);							
+							setRefFeatureFromChain(annotation, relationAssociated.get( 0 ), currentRef);	
+
+							lastRelation = relationAssociated.get( 0 );
+							currentUnit = (Unit) relationAssociated.get( 0 ).getOtherElement(annotation, currentUnit);
 						}
 					}	
 				}
@@ -121,12 +129,13 @@ public class ConversionInSet implements Runnable{
 	/**
 	 * set the ref on the relation and on the unit/schema of the relation
 	 */
-	private static void setRefFeature( Annotation annotation, Relation relation, int ref ){
+	private static void setRefFeatureFromChain( Annotation annotation, Relation relation, int ref ){
 		relation.setFeature("REF", ref+"");
 		relation.getPositioning().getTerm().get( 0 ).getElement( annotation ).setFeature( "REF", ref + "");
 		relation.getPositioning().getTerm().get( 1 ).getElement( annotation ).setFeature( "REF", ref + "");
 	}
 
+	
 	@Override
 	public void run() {
 		// TODO Auto-generated method stub
