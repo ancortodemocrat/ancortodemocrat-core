@@ -86,5 +86,24 @@ public class Unit extends Element {
 	}
 	
 	
+	/**
+	 * test if this unit is contained in one schema or not
+	 * 
+	 * @param annotaion
+	 * @return
+	 */
+	public boolean isContainedInSchema(  Annotation annotation  ){
+		List<Schema> schemaList = annotation.getSchema();
+		for(int s = 0; s < schemaList.size(); s++){
+			List<EmbeddedUnit> embeddedUnitList = schemaList.get( s ).getPositioning().getEmbeddedUnit();
+			for(int e = 0; e < embeddedUnitList.size(); e++){
+				if( embeddedUnitList.get( e ).getId().equalsIgnoreCase( this.getId() )){
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+	
 
 }

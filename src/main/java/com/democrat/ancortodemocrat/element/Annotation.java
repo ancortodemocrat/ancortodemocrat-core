@@ -193,9 +193,9 @@ public class Annotation {
 	}
 	
 	public List<Relation> getRelationContaining( Unit unit ){
-		List<Relation> relationList = this.getRelation();
-		for(Relation relation : relationList){
-			if(relation.containsUnit( unit )){
+		List<Relation> relationList = new ArrayList<Relation>();
+		for(Relation relation : this.getRelation()){
+			if(relation.containsUnit( this, unit )){
 				relationList.add( relation );
 			}
 		}

@@ -1,12 +1,11 @@
 package com.democrat.ancortodemocrat;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.log4j.Logger;
 
 import com.democrat.ancortodemocrat.element.Annotation;
-import com.democrat.ancortodemocrat.element.Element;
+import com.democrat.ancortodemocrat.element.EmbeddedUnit;
 import com.democrat.ancortodemocrat.element.Relation;
 import com.democrat.ancortodemocrat.element.Schema;
 import com.democrat.ancortodemocrat.element.Unit;
@@ -31,11 +30,13 @@ public class ConversionInSet implements Runnable{
 		int currentRef = 0;
 
 		for(Unit unit : unitList){
-			if( unit.isNew( annotation ) ){
+			if( unit.isNew( annotation ) && ! unit.isContainedInSchema( annotation ) ){
 				setRefFeatureUnit( annotation, unit, currentRef );
 				currentRef++;
 			}
 		}
+		
+		
 		
 		List<Schema> schemaList = annotation.getSchema();
 		//same thing with schema, but there are not added in unit list
@@ -62,6 +63,13 @@ public class ConversionInSet implements Runnable{
 			}
 			relation.setFeature( "REF" , currentRef + "" );
 			element.setFeature( "REF", currentRef + "" );
+		}
+		//if it's a schema, set the ref on any unit in this schema
+		if(unit instanceof Schema){
+			List<EmbeddedUnit> embeddedUnitList = unit.getPositioning().getEmbeddedUnit();
+			for(int e = 0; e < embeddedUnitList.size(); e++){
+				embeddedUnitList.get( e ).getElement( annotation ).setFeature( "REF" , currentRef + "");
+			}
 		}
 
 	}

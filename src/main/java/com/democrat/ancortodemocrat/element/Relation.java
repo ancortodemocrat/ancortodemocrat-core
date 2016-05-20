@@ -264,11 +264,11 @@ public class Relation extends Element {
 
 
 
-	public boolean containsUnit(Unit unit){
+	public boolean containsUnit(Annotation annotation, Unit unit){
 		PositioningRelation position = this.getPositioning();
 		if(position != null){
-			if(unit.getId() == position.getTerm().get( 0 ).getId() ||
-					unit.getId() == position.getTerm().get( 1 ).getId() ){
+			if(unit.getId().equalsIgnoreCase( position.getTerm().get( 0 ).getId() ) ||
+					unit.getId().equalsIgnoreCase( position.getTerm().get( 1 ).getId() ) ){
 				//this relation refer this unit
 				return true;
 			}
