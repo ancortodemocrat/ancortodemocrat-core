@@ -15,6 +15,8 @@ public class Corpus {
 	public String name;
 	public String path;
 	private List<Annotation> annotation;
+
+	private boolean done;
 	
 	
 	public Corpus(String path) {
@@ -83,5 +85,15 @@ public class Corpus {
 	public void setAnnotation(List<Annotation> annotation) {
 		this.annotation = annotation;
 	}
+
+	public boolean isDone() {
+		return this.done;
+	}
+
+	public void setDone(boolean done) {
+		this.done = done;
+	}
+	
+	
 
 }

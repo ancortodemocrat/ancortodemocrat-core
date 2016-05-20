@@ -60,6 +60,14 @@ public class AncorToDemocrat {
 
 		//add ref feature for each corpus		
 		for(Corpus corpus : corpusList){
+			while( ! corpus.isDone() ){
+				try {
+					Thread.sleep( 150 );
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
 			logger.info("add ref feature for " + corpus.getName());
 			for(Annotation annotation : corpus.getAnnotation()){
 				ConversionInSet.toSetFromChain(annotation);

@@ -1,6 +1,5 @@
 package com.democrat.ancortodemocrat;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -47,6 +46,7 @@ public class ConversionWorker implements Runnable{
 			//this.convertCharacterisation( annotation );
 		}
 
+		corpus.setDone( true );
 		logger.info("[" + corpus.getName() +"] Nombre d'indirect: " + countIndirect);
 		logger.info("[" + corpus.getName() +"] Nombre d'indirect avec accord en nombre: " + countIndirectWithDeal);
 		logger.info("[" + corpus.getName() +"] done !");
