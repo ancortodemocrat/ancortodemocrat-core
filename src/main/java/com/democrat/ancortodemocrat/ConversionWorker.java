@@ -89,7 +89,7 @@ public class ConversionWorker implements Runnable{
 					
 
 					//count every (NO, IND, IND)
-					if(relation.getCharacterisation().getType().getValue().equalsIgnoreCase( "INDIRECTE" ) && 
+					/**if(relation.getCharacterisation().getType().getValue().equalsIgnoreCase( "INDIRECTE" ) && 
 							preRelation.getCharacterisation().getType().getValue().equalsIgnoreCase( "INDIRECTE" )){
 						countIndirect++;
 						if(relation.getFeature( "NOMBRE" ).equalsIgnoreCase( "YES" ) &&
@@ -97,7 +97,7 @@ public class ConversionWorker implements Runnable{
 							
 							countIndirectWithDeal++;
 						}
-					}
+					}**/
 					
 					Element element = preRelation.getElement( annotation );
 					if(element instanceof Unit){

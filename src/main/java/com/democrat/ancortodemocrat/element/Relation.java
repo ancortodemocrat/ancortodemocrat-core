@@ -203,6 +203,7 @@ public class Relation extends Element {
 	 * return the pre relation, it's the relation the more closer than this one
 	 * just before
 	 * if return null, this relation is the first
+	 * <strong>be careful, this method ignore the associative mention</strong>
 	 * @param annotation
 	 * @return
 	 */
@@ -231,6 +232,7 @@ public class Relation extends Element {
 		//the pre relation is the relation who have one term:
 		//term id == idNewUnit
 		//and her position is the lower than this one (the unit)
+		//and is not a associative relation
 		List<Relation> relations = annotation.getRelation();
 		for(int r = 0; r < relations.size(); r++){
 
@@ -240,6 +242,10 @@ public class Relation extends Element {
 			Element currentPreElement = relations.get( r ).getPreElement( annotation );
 			if( currentPreElement instanceof Relation ){
 				//TODO manage: relation --> relation
+				continue;
+			}
+			if( relations.get( r ).getCharacterisation().getType().getValue().contains( "ASSOC" )){
+				logger.debug("next");
 				continue;
 			}
 			//here currentPrelement can be casted to Unit
