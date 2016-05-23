@@ -136,7 +136,7 @@ public class ConversionInSet implements Runnable{
 				return;
 			}
 		}else if(relationAssociated.size() == 2){
-			
+
 			if(lastRelation != null){
 				if( relationAssociated.get( 0 ).equals( lastRelation )){
 					setRefFeatureFromChain(annotation, relationAssociated.get( 1 ), currentRef);
@@ -148,8 +148,12 @@ public class ConversionInSet implements Runnable{
 				}
 			}else{
 				//catahore case
-				treatUnitFromChain( annotation, (Unit) relationAssociated.get( 0 ).getOtherElement( annotation, unit), currentRef, relationAssociated.get( 0 ) );
-				treatUnitFromChain( annotation, (Unit) relationAssociated.get( 1 ).getOtherElement( annotation, unit), currentRef, relationAssociated.get( 1 ) );
+				if( ! (relationAssociated.get( 0 ).getOtherElement( annotation, unit) instanceof Relation)){
+					treatUnitFromChain( annotation, (Unit) relationAssociated.get( 0 ).getOtherElement( annotation, unit), currentRef, relationAssociated.get( 0 ) );
+				}
+				if( ! (relationAssociated.get( 1 ).getOtherElement( annotation, unit) instanceof Relation)){
+					treatUnitFromChain( annotation, (Unit) relationAssociated.get( 1 ).getOtherElement( annotation, unit), currentRef, relationAssociated.get( 1 ) );
+				}
 			}
 		}
 
