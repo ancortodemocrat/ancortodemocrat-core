@@ -57,36 +57,6 @@ public class AncorToDemocrat {
 		}
 		
 
-
-		//add ref feature for each corpus
-		//wait every corpus is converted before
-		boolean allCorpusDone = true;
-		while( allCorpusDone ){
-			try {
-				Thread.sleep( 100 );
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			for(Corpus corpus : corpusList){
-				allCorpusDone = allCorpusDone && ! corpus.isDone();
-			}
-		}
-		logger.info("Start add ref");
-		for(Corpus corpus : corpusList){
-			
-			logger.info("add ref feature for " + corpus.getName());
-			for(Annotation annotation : corpus.getAnnotation()){
-				//ConversionInSet.toSetFromChain(annotation);
-				
-			}
-			//corpus.export();
-			logger.info("corpus exported with ref");
-		}
-		
-		
-		
-
 		//trying generate xsd schema and verify one xml .aa from glozz
 		//SchemaOutput.generate();
 		/**

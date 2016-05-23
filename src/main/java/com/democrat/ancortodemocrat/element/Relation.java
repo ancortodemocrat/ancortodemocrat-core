@@ -245,7 +245,6 @@ public class Relation extends Element {
 				continue;
 			}
 			if( relations.get( r ).getCharacterisation().getType().getValue().contains( "ASSOC" )){
-				logger.debug("next");
 				continue;
 			}
 			//here currentPrelement can be casted to Unit
@@ -327,5 +326,23 @@ public class Relation extends Element {
 		return null;
 	}
 
+	/**
+	 * test on each element of the releation if one
+	 * contains the FEATURE NEW
+	 * @param annotation
+	 * @return
+	 */
+	public boolean containsNew( Annotation annotation ){
+		
+		List<Term> list = this.getPositioning().getTerm();
+		for(Term term : list){
+			if(term.getElement( annotation ) instanceof Unit){
+				if(((Unit) term.getElement( annotation )).isNew( annotation )){
+					return true;
+				}
+			}
+		}
+		return false;
+	}
 
 }

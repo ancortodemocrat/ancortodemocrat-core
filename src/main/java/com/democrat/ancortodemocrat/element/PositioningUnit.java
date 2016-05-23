@@ -1,5 +1,6 @@
 package com.democrat.ancortodemocrat.element;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.xml.bind.annotation.XmlElement;
@@ -10,7 +11,7 @@ public class PositioningUnit {
 
 	private Start start;
 	private End end;
-	private List<EmbeddedUnit> embeddedUnit;
+	private List<EmbeddedUnit> embeddedUnit = new ArrayList<EmbeddedUnit>();
 
 	/**
 	 * Gets the value of the start property.
