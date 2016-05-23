@@ -110,7 +110,7 @@ public class ConversionInSet implements Runnable{
 			setRefOnUnit( annotation, (Schema) unit, currentRef);
 		}
 		List<Relation> relationAssociated = annotation.getRelationContaining( unit );
-
+		logger.debug("unit "+unit+" currentRef "+currentRef + "relation "+lastRelation);
 		if( relationAssociated.size() == 0){
 			return;
 		}
