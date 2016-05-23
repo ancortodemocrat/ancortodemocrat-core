@@ -45,6 +45,9 @@ public class AncorToDemocrat {
 		for(Corpus corpus : corpusList){
 			logger.info("Loading annotation on: " + corpus.getName() );
 			corpus.loadAnnotation();
+			logger.info("Loading text on: " + corpus.getName() );
+			corpus.loadText();
+			
 		}
 
 		List<ConversionWorker> conversionWorkerList = new ArrayList<ConversionWorker>();

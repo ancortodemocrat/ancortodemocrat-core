@@ -1,8 +1,12 @@
 package com.democrat.ancortodemocrat;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.nio.charset.Charset;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 import org.apache.log4j.Logger;
 
@@ -15,7 +19,7 @@ public class Corpus {
 	public String name;
 	public String path;
 	private List<Annotation> annotation;
-	private List<String> text;
+	private List<Text> text = new ArrayList<Text>();
 
 	private boolean done;
 	
@@ -61,7 +65,25 @@ public class Corpus {
 	}
 	
 	public void loadText(){
-		
+		List<String> textFile = AncorToDemocrat.fileManager.loadAcFile( this );
+		for(String fileName : textFile){
+			File file = new File(this.getPath() + "/ac_fichiers/" + fileName);
+			
+			Scanner sc = null;
+			try {
+				sc = new Scanner( file );
+			} catch (FileNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			String str = new String();
+			while(sc.hasNextLine()){
+			    str += sc.nextLine();                     
+			}
+			Text text = new Text( str );
+			text.setFileName( fileName );
+			this.text.add( text );
+		}
 	}
 
 
@@ -99,7 +121,5 @@ public class Corpus {
 	public void setDone(boolean done) {
 		this.done = done;
 	}
-	
-	
 
 }

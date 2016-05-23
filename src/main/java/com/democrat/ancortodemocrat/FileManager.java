@@ -145,7 +145,7 @@ public class FileManager {
 	 * @return
 	 */
 	public List<String> loadAcFile(Corpus corpus){
-		File folder = new File( corpus.getPath() + "/aa_fichiers" );
+		File folder = new File( corpus.getPath() + "/ac_fichiers" );
 		if( folder.exists() ){
 			return this.getFileFromFolder(folder, "ac");
 		}else{
