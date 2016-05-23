@@ -9,6 +9,9 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 import org.apache.log4j.Logger;
 
+import com.democrat.ancortodemocrat.feature.Feature;
+import com.democrat.ancortodemocrat.positioning.PositioningRelation;
+
 //@XmlAccessorType(XmlAccessType.FIELD)
 
 

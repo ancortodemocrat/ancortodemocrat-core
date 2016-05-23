@@ -7,6 +7,8 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlSeeAlso;
 import javax.xml.bind.annotation.XmlTransient;
 
+import com.democrat.ancortodemocrat.feature.Feature;
+
 @XmlTransient
 public class Element {
 

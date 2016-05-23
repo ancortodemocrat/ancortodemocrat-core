@@ -4,6 +4,8 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
+import com.democrat.ancortodemocrat.positioning.PositioningUnit;
+
 public class UnitTest {
 	
 	@Test

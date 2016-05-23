@@ -7,6 +7,9 @@ import java.util.List;
 
 import org.junit.Test;
 
+import com.democrat.ancortodemocrat.positioning.PositioningSchema;
+import com.democrat.ancortodemocrat.positioning.PositioningUnit;
+
 public class SchemaTest {
 
 	

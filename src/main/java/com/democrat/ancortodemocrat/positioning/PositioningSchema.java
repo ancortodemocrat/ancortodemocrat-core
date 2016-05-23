@@ -1,8 +1,10 @@
-package com.democrat.ancortodemocrat.element;
+package com.democrat.ancortodemocrat.positioning;
 
 import java.util.List;
 
 import javax.xml.bind.annotation.XmlElement;import javax.xml.bind.annotation.XmlRootElement;
+
+import com.democrat.ancortodemocrat.element.EmbeddedUnit;
 
 @XmlRootElement(name="positioning")
 public class PositioningSchema {

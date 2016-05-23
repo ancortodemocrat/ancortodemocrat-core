@@ -7,6 +7,9 @@ import java.util.List;
 
 import org.junit.Test;
 
+import com.democrat.ancortodemocrat.feature.Feature;
+import com.democrat.ancortodemocrat.feature.FeatureSet;
+
 public class ElementTest {
 
 	@Test

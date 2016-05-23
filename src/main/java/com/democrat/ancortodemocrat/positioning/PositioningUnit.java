@@ -1,10 +1,14 @@
-package com.democrat.ancortodemocrat.element;
+package com.democrat.ancortodemocrat.positioning;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+
+import com.democrat.ancortodemocrat.element.EmbeddedUnit;
+import com.democrat.ancortodemocrat.element.End;
+import com.democrat.ancortodemocrat.element.Start;
 
 @XmlRootElement(name="positioning")
 public class PositioningUnit {

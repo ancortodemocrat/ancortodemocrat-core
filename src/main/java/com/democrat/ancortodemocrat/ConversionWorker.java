@@ -7,11 +7,11 @@ import org.apache.log4j.Logger;
 
 import com.democrat.ancortodemocrat.element.Annotation;
 import com.democrat.ancortodemocrat.element.Element;
-import com.democrat.ancortodemocrat.element.PositioningRelation;
 import com.democrat.ancortodemocrat.element.Relation;
 import com.democrat.ancortodemocrat.element.Schema;
 import com.democrat.ancortodemocrat.element.Type;
 import com.democrat.ancortodemocrat.element.Unit;
+import com.democrat.ancortodemocrat.positioning.PositioningRelation;
 
 public class ConversionWorker implements Runnable{
 
@@ -44,8 +44,10 @@ public class ConversionWorker implements Runnable{
 			//this.convertCharacterisation( annotation );
 		}
 
-		logger.info("[" + corpus.getName() +"] Nombre d'indirect: " + countIndirect);
-		logger.info("[" + corpus.getName() +"] Nombre d'indirect avec accord en nombre: " + countIndirectWithDeal);
+		/**
+		 * logger.info("[" + corpus.getName() +"] Nombre d'indirect: " + countIndirect);
+		 * logger.info("[" + corpus.getName() +"] Nombre d'indirect avec accord en nombre: " + countIndirectWithDeal);
+		 */
 		logger.info("[" + corpus.getName() +"] done !");
 		corpus.setDone( true );
 	}

@@ -15,12 +15,14 @@ public class Corpus {
 	public String name;
 	public String path;
 	private List<Annotation> annotation;
+	private List<String> text;
 
 	private boolean done;
 	
 	
 	public Corpus(String path) {
 		this(path, new ArrayList<Annotation>());
+		
 	}
 	
 	public Corpus(String path, List<Annotation> list){
@@ -56,6 +58,10 @@ public class Corpus {
 			this.annotation.add( annotation );
 
 		}
+	}
+	
+	public void loadText(){
+		
 	}
 
 

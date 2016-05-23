@@ -9,6 +9,8 @@ import javax.xml.bind.annotation.XmlTransient;
 
 import org.apache.log4j.Logger;
 
+import com.democrat.ancortodemocrat.positioning.PositioningUnit;
+
 //@XmlAccessorType(XmlAccessType.FIELD)
 @XmlRootElement(name="unit")
 public class Unit extends Element {

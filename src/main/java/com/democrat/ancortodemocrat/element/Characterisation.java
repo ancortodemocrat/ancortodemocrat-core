@@ -7,6 +7,8 @@ import javax.xml.bind.annotation.XmlElement;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
+import com.democrat.ancortodemocrat.feature.FeatureSet;
+
 @XmlRootElement(name = "characterisation")
 public class Characterisation {
 
