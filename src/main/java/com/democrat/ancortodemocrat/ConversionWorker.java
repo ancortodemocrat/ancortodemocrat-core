@@ -145,9 +145,9 @@ public class ConversionWorker implements Runnable{
 		if(currentType.equalsIgnoreCase( "DIRECTE" ) && preType.equalsIgnoreCase( "INDIRECTE" )){
 			//(NO, DIR, IND) --> DIR
 			relation.getCharacterisation().setType( new Type("INDIRECTE") );
-		}else if(currentType.equalsIgnoreCase("DIR") && preType.equalsIgnoreCase( "ANAPHORE" )){
+		}else if(currentType.equalsIgnoreCase("DIRECTE") && preType.equalsIgnoreCase( "ANAPHORE" )){
 			//(NO, DIR, PR) --> IND
-			relation.getCharacterisation().setType( new Type( "INDIRECT" ));
+			relation.getCharacterisation().setType( new Type( "INDIRECTE" ));
 		}
 	}
 
@@ -184,7 +184,8 @@ public class ConversionWorker implements Runnable{
 					relation.setFeature( "NOMBRE", "NO");
 				}
 			}else{
-				//UKN
+				//UNK
+				logger.debug("UNK");
 				relation.setFeature( "NOMBRE", "UNK");
 			}
 
