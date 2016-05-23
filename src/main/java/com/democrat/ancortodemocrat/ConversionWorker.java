@@ -18,11 +18,6 @@ public class ConversionWorker implements Runnable{
 
 	private Corpus corpus;
 
-	/**
-	 * represent if this class has done her work
-	 */
-	private boolean done = false;
-
 	private int countIndirect;
 
 	private int countIndirectWithDeal;
@@ -46,17 +41,12 @@ public class ConversionWorker implements Runnable{
 			//this.convertCharacterisation( annotation );
 		}
 
-		corpus.setDone( true );
 		logger.info("[" + corpus.getName() +"] Nombre d'indirect: " + countIndirect);
 		logger.info("[" + corpus.getName() +"] Nombre d'indirect avec accord en nombre: " + countIndirectWithDeal);
 		logger.info("[" + corpus.getName() +"] done !");
+		corpus.setDone( true );
 	}
 	
-	
-
-	public boolean isDone() {
-		return done;
-	}
 
 	/**
 	 * Take a list of relation annoted in first mention, 
@@ -120,7 +110,7 @@ public class ConversionWorker implements Runnable{
 								newRelation.getPositioning().getTerm().get( 1 ).setId( element.getId()  );
 							}
 						}
-						convertCharacterisationType( annotation, newRelation, relation.getPreRelation( annotation ));
+						convertCharacterisationType( annotation, newRelation, preRelation );
 						convertCharacterisationFeature( annotation, newRelation );
 					}else{
 						//TODO relation to relation
@@ -217,7 +207,6 @@ public class ConversionWorker implements Runnable{
 	public void run() {
 		this.work();
 		this.corpus.export();
-		this.done = true;
 	}
 
 	public void start(){
