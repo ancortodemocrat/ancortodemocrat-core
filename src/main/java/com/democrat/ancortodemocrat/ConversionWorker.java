@@ -9,6 +9,7 @@ import com.democrat.ancortodemocrat.element.Annotation;
 import com.democrat.ancortodemocrat.element.Element;
 import com.democrat.ancortodemocrat.element.PositioningRelation;
 import com.democrat.ancortodemocrat.element.Relation;
+import com.democrat.ancortodemocrat.element.Schema;
 import com.democrat.ancortodemocrat.element.Type;
 import com.democrat.ancortodemocrat.element.Unit;
 
@@ -171,9 +172,34 @@ public class ConversionWorker implements Runnable{
 			String currentNb = unit.getFeature( "NB" );
 			String preNb = preUnit.getFeature( "NB" );
 
-
 			String currentGenre = unit.getFeature( "GENRE" );
 			String preGenre = preUnit.getFeature( "GENRE" );
+			
+			//if one unit is a schema check every unit
+			//for this schema to find the genre or nb
+			//one of all units of schema should'nt be null
+			//on these features
+			if(unit instanceof Schema){
+				Schema schema = (Schema) unit;
+				List<Unit> list = schema.getUnitList( annotation );
+				for(int u = 0; u < list.size(); u++){
+					if( ! list.get( u ).getFeature( "NB" ).equalsIgnoreCase( "NULL" ) ){
+						currentNb = list.get( u ).getFeature( "NB" );
+						currentGenre = list.get( u ).getFeature( "GENRE" );
+					}
+				}
+			}
+			if(preUnit instanceof Schema){
+				Schema schema = (Schema) preUnit;
+				List<Unit> list = schema.getUnitList( annotation );
+				for(int u = 0; u < list.size(); u++){
+					if( ! list.get( u ).getFeature( "NB" ).equalsIgnoreCase( "NULL" ) ){
+						preNb = list.get( u ).getFeature( "NB" );
+						preGenre = list.get( u ).getFeature( "GENRE" );
+					}
+				}
+				
+			}
 
 			if( currentNb != null && preNb != null){
 				if( currentNb.equalsIgnoreCase( preNb )){
@@ -185,7 +211,6 @@ public class ConversionWorker implements Runnable{
 				}
 			}else{
 				//UNK
-				logger.debug("UNK");
 				relation.setFeature( "NOMBRE", "UNK");
 			}
 

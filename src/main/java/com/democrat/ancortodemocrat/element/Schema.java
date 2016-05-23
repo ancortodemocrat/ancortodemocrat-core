@@ -1,5 +1,6 @@
 package com.democrat.ancortodemocrat.element;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.xml.bind.annotation.XmlElement;
@@ -51,5 +52,17 @@ public class Schema extends Unit{
 		}
 		return isNew;
 	}
+	
+	public List<Unit> getUnitList( Annotation annotation ){
+		List<EmbeddedUnit> embeddedUnit = this.getPositioning().getEmbeddedUnit();
+		ArrayList<Unit> list = new ArrayList<Unit>();
+		
+		for(int e = 0; e < embeddedUnit.size(); e++){
+			list.add( (Unit) annotation.getElementById( embeddedUnit.get( e ).getId() ));
+		}
+		
+		return list;
+	}
+	
 
 }

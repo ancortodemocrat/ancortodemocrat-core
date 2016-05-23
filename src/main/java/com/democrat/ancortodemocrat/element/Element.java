@@ -63,7 +63,7 @@ public class Element {
 				return features.get( f ).getValue();
 			}
 		}
-		return null;
+		return new String("NULL");
 	}
 	
 	public void setFeature(String featureName, String value){
