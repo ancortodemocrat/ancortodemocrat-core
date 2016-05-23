@@ -300,7 +300,7 @@ public class Relation extends Element {
 				return features.get( f ).getValue();
 			}
 		}
-		return null;
+		return new String( "NULL" );
 	}
 
 

@@ -112,6 +112,7 @@ public class ConversionWorker implements Runnable{
 							}
 						}
 						convertCharacterisationType( annotation, newRelation, preRelation );
+						convertCharacterisationIDLOC( annotation, newRelation, preRelation );
 						convertCharacterisationFeature( annotation, newRelation );
 					}else{
 						//TODO relation to relation
@@ -149,6 +150,23 @@ public class ConversionWorker implements Runnable{
 		}else if(currentType.equalsIgnoreCase("DIRECTE") && preType.equalsIgnoreCase( "ANAPHORE" )){
 			//(NO, DIR, PR) --> IND
 			relation.getCharacterisation().setType( new Type( "INDIRECTE" ));
+		}
+		
+	}
+	
+	private void convertCharacterisationIDLOC( Annotation annotation, Relation relation, Relation preRelation ){
+		String currentIDLOC = relation.getFeature( "ID_LOC" );
+		if(preRelation == null){
+			return;
+		}
+		String preIDLOC = preRelation.getFeature( "ID_LOC" );
+		
+		if(currentIDLOC.equalsIgnoreCase( "YES" ) && preIDLOC.equalsIgnoreCase( "NO" )){
+			relation.setFeature( "ID_LOC", "NO" );
+		}else if(currentIDLOC.equalsIgnoreCase( "NO" ) && preIDLOC.equalsIgnoreCase( "NO" )){
+			relation.setFeature( "ID_LOC", "YES" );
+		}else if(preIDLOC.equalsIgnoreCase( "UNK" )){
+			relation.setFeature( "ID_LOC", "UNK" );
 		}
 	}
 
