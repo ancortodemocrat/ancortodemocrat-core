@@ -14,13 +14,13 @@ import com.democrat.ancortodemocrat.positioning.PositioningUnit;
 //@XmlAccessorType(XmlAccessType.FIELD)
 @XmlRootElement(name="unit")
 public class Unit extends Element {
-	
+
 	private static Logger logger = Logger.getLogger(Annotation.class);
 
 	private MetadataUnit metadata;
 	private PositioningUnit positioning;
 
-	
+
 	/**
 	 * Gets the value of the metadata property.
 	 * 
@@ -73,7 +73,7 @@ public class Unit extends Element {
 	public void setPositioning(PositioningUnit value) {
 		this.positioning = value;
 	}
-	
+
 	public boolean isNew( Annotation annotation ){
 		String value = getFeature("NEW");
 		if(value != null && value.equalsIgnoreCase( "yes" ) ){
@@ -82,12 +82,12 @@ public class Unit extends Element {
 		return false;
 	}
 
-	
+
 	public long getStart(  Annotation annotation  ){
 		return this.getPositioning().getStart().getSinglePosition().getIndex();
 	}
-	
-	
+
+
 	/**
 	 * test if this unit is contained in one schema or not
 	 * 
@@ -106,6 +106,18 @@ public class Unit extends Element {
 		}
 		return false;
 	}
-	
+
+
+	public boolean isAssociative( Annotation annotation ){
+		List<Relation> relationAssociated = annotation.getRelationContaining( this );
+		if( relationAssociated.size() > 0){
+			for(int r = 0; r < relationAssociated.size(); r++){
+				if( relationAssociated.get( r ).getCharacterisation().getType().getValue().contains( "ASSOC" )){
+					return true;
+				}
+			}
+		}
+		return false;
+	}
 
 }

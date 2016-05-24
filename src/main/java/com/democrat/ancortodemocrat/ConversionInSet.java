@@ -17,7 +17,7 @@ import com.democrat.ancortodemocrat.element.Unit;
  * or chain type
  * @param annotation Annotation 
  */
-public class ConversionInSet implements Runnable{
+public class ConversionInSet {
 
 
 	private static Logger logger = Logger.getLogger(ConversionInSet.class);
@@ -80,15 +80,32 @@ public class ConversionInSet implements Runnable{
 		for(Unit unit : unitList){
 			if( unit.isNew( annotation ) && ! unit.getId().contains( "TXT_IMPORTER") &&
 					! unit.isContainedInSchema( annotation ) ){
+				
+				if( unit.isAssociative( annotation )){
+					//test if already done or not
+					//because a associative unit has NEW to YES
+					if( ! unit.getFeature( "REF" ).equalsIgnoreCase( "NULL" )){
+						continue;
+					}
+				}
 				//starting set new REF on each ref and unit associated
 				treatUnitFromChain( annotation, unit, currentRef, null );
 				currentRef++;
 			}
 		}
+		
 		List<Schema> schemaList = annotation.getSchema();
 		for(Schema schema : schemaList){
 			if( schema.isNew( annotation ) && ! schema.getId().contains( "TXT_IMPORTER") &&
 					! schema.isContainedInSchema( annotation ) ){
+				if( schema.isAssociative( annotation )){
+					//test if already done or not
+					//because a associative unit has NEW to YES
+					if( ! schema.getFeature( "REF" ).equalsIgnoreCase( "NULL" )){
+						continue;
+					}
+				}
+				
 				//starting set new REF on each ref and unit associated
 				treatUnitFromChain( annotation, schema, currentRef, null );
 				currentRef++;
@@ -110,7 +127,6 @@ public class ConversionInSet implements Runnable{
 			setRefOnUnit( annotation, (Schema) unit, currentRef);
 		}
 		List<Relation> relationAssociated = annotation.getRelationContaining( unit );
-		logger.debug("unit "+unit+" currentRef "+currentRef + "relation "+lastRelation);
 		if( relationAssociated.size() == 0){
 			return;
 		}
@@ -118,9 +134,10 @@ public class ConversionInSet implements Runnable{
 		if( relationAssociated.size() == 1){
 			//last or first unit
 			//if last stop it
-			if( ! relationAssociated.get( 0 ).containsUnit(annotation, unit)){
-				//if the relation doesnt contains the first unit (NEW)
-				unit.setFeature("REF", currentRef+"");
+			if( relationAssociated.get( 0 ).equals( lastRelation )){
+				//if the relation is the same that before
+				//no need to go further
+				setRefFeatureFromChain(annotation, relationAssociated.get( 0 ), currentRef);
 				return;
 			}else{
 				//first
@@ -132,28 +149,40 @@ public class ConversionInSet implements Runnable{
 
 			//it means that the chain contains only one relation, so with two units/schemas
 			//not need to go further
-			if( annotation.getRelationContaining( unit ).size() == 1 ){
+			if( annotation.getRelationContaining( unit ).size() == 1 && ! unit.isNew( annotation )){
 				return;
 			}
-		}else if(relationAssociated.size() == 2){
-
-			if(lastRelation != null){
-				if( relationAssociated.get( 0 ).equals( lastRelation )){
-					setRefFeatureFromChain(annotation, relationAssociated.get( 1 ), currentRef);
-					treatUnitFromChain( annotation, (Unit) relationAssociated.get( 1 ).getOtherElement( annotation, unit), currentRef, relationAssociated.get( 1 ) );
-				}else{
-					//0
-					setRefFeatureFromChain(annotation, relationAssociated.get( 0 ), currentRef);
-					treatUnitFromChain( annotation, (Unit) relationAssociated.get( 0 ).getOtherElement( annotation, unit), currentRef, relationAssociated.get( 0 ) );
+			treatUnitFromChain( annotation, (Unit) relationAssociated.get( 0 ).getOtherElement(annotation, unit), currentRef, relationAssociated.get( 0 ));
+		}else if(relationAssociated.size() >= 2){
+			
+			if( lastRelation != null ){
+				
+				for(int r = 0; r < relationAssociated.size(); r++){
+					setRefFeatureFromChain(annotation, relationAssociated.get( r ), currentRef);
+					if( ! relationAssociated.get( r ).equals( lastRelation )){
+						Unit otherUnit = (Unit) relationAssociated.get( r ).getOtherElement( annotation, unit);
+						if( otherUnit.isNew( annotation ) ){
+							return;
+						}
+						treatUnitFromChain( annotation, otherUnit, currentRef, relationAssociated.get( r ) );						
+					}
 				}
 			}else{
 				//catahore case
+				
+				for(int r = 0; r < relationAssociated.size(); r++){
+					if( ! (relationAssociated.get( r ).getOtherElement( annotation, unit) instanceof Relation)){
+						treatUnitFromChain( annotation, (Unit) relationAssociated.get( r ).getOtherElement( annotation, unit), currentRef, relationAssociated.get( r ) );
+					}
+				}
+				
+				/**
 				if( ! (relationAssociated.get( 0 ).getOtherElement( annotation, unit) instanceof Relation)){
 					treatUnitFromChain( annotation, (Unit) relationAssociated.get( 0 ).getOtherElement( annotation, unit), currentRef, relationAssociated.get( 0 ) );
 				}
 				if( ! (relationAssociated.get( 1 ).getOtherElement( annotation, unit) instanceof Relation)){
 					treatUnitFromChain( annotation, (Unit) relationAssociated.get( 1 ).getOtherElement( annotation, unit), currentRef, relationAssociated.get( 1 ) );
-				}
+				}**/
 			}
 		}
 
@@ -185,12 +214,6 @@ public class ConversionInSet implements Runnable{
 		for(int e = 0; e < embeddedUnitList.size(); e++){
 			embeddedUnitList.get( e ).getElement( annotation ).setFeature( "REF" , currentRef + "");
 		}
-
-	}
-
-	@Override
-	public void run() {
-		// TODO Auto-generated method stub
 
 	}
 }

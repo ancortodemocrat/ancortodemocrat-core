@@ -36,7 +36,7 @@ public class ConversionWorker implements Runnable{
 
 		for( int a = 0; a < this.corpus.getAnnotation().size(); a++ ){
 
-			logger.info("====================> [" + corpus.getName() +"] Converting file: "+(a + 1)+"/"+this.corpus.getAnnotation().size() + " : " + this.corpus.getAnnotation().get( a ).getFileName() );
+			logger.info("========> [" + corpus.getName() +"] Converting file: "+(a + 1)+"/"+this.corpus.getAnnotation().size() + " : " + this.corpus.getAnnotation().get( a ).getFileName() );
 			Annotation annotation = this.corpus.getAnnotation().get( a );
 			this.convertRelationToChain( annotation );
 			ConversionInSet.toSetFromChain( annotation );
@@ -156,7 +156,7 @@ public class ConversionWorker implements Runnable{
 			relation.getCharacterisation().setType( new Type( "INDIRECTE" ));
 		}else if(currentType.equalsIgnoreCase("INDIRECTE") && preType.equalsIgnoreCase( "INDIRECTE" )){
 			//TODO (NO, INDIR, INDIR) --> ?
-			this.countIndirect++;
+			//this.countIndirect++;
 		}
 		
 	}
