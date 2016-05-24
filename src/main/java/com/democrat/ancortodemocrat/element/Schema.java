@@ -15,9 +15,9 @@ public class Schema extends Unit{
 	private static Logger logger = Logger.getLogger(Schema.class);
 
 
-	public long getStart( Annotation annotation ){
+	public int getStart( Annotation annotation ){
 		List<EmbeddedUnit> units = this.getPositioning().getEmbeddedUnit();
-		long start = 0;
+		int start = 0;
 		if(units.size() > 0){
 			Element element = ((EmbeddedUnit) units.get( 0 )).getElement( annotation );
 			if(element instanceof Unit){
@@ -64,5 +64,15 @@ public class Schema extends Unit{
 		return list;
 	}
 	
+	
+	public String getFeature ( Annotation annotation, String featureName ){
+		List<Unit> list = this.getUnitList( annotation );
+		for(int u = 0; u < list.size(); u++){
+			if( ! list.get( u ).getFeature( featureName ).equalsIgnoreCase( "NULL" ) ){
+				return list.get( u ).getFeature( featureName );
+			}
+		}
+		return new String( "NULL" );
+	}
 
 }

@@ -26,7 +26,7 @@ public class RelationTest {
 		Unit unit = new Unit();
 		unit.setId( "6789GHJKL" );
 		PositioningUnit positioningUnit = new PositioningUnit();
-		positioningUnit.setStart( new Start( 50L ));
+		positioningUnit.setStart( new Start( 50 ));
 		unit.setPositioning( positioningUnit );
 		unit.setFeature("NEW", "YES");
 		
@@ -34,7 +34,7 @@ public class RelationTest {
 		Unit unit2 = new Unit();
 		unit2.setId( "6fdqsfqsfsJKL" );
 		PositioningUnit positioningUnit2 = new PositioningUnit();
-		positioningUnit2.setStart( new Start( 79L ));
+		positioningUnit2.setStart( new Start( 79 ));
 		unit2.setPositioning( positioningUnit2 );
 		unit2.setFeature("NEW", "NO");
 

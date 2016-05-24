@@ -585,13 +585,14 @@
 <metadata>
 <author>apuret</author>
 <creation-date>1463029706824</creation-date>
-<lastModifier>n/a</lastModifier>
-<lastModificationDate>0</lastModificationDate>
+<lastModifier>apuret</lastModifier>
+<lastModificationDate>1464093515988</lastModificationDate>
 </metadata>
 <characterisation>
-<type>default</type>
+<type>ANAPHORE</type>
 <featureSet>
-<feature name="default">default</feature>
+<feature name="GENRE">YES</feature>
+<feature name="NOMBRE">YES</feature>
 </featureSet>
 </characterisation>
 <positioning>
@@ -607,9 +608,10 @@
 <lastModificationDate>0</lastModificationDate>
 </metadata>
 <characterisation>
-<type>default</type>
+<type>INDIRECTE</type>
 <featureSet>
-<feature name="default">default</feature>
+<feature name="GENRE">UNK</feature>
+<feature name="NOMBRE">UNK</feature>
 </featureSet>
 </characterisation>
 <positioning>
@@ -725,24 +727,6 @@
 <term id="apuret_1463029570962"/>
 </positioning>
 </relation>
-<relation id="apuret_1463147462405">
-<metadata>
-<author>apuret</author>
-<creation-date>1463147462405</creation-date>
-<lastModifier>n/a</lastModifier>
-<lastModificationDate>0</lastModificationDate>
-</metadata>
-<characterisation>
-<type>default</type>
-<featureSet>
-<feature name="default">default</feature>
-</featureSet>
-</characterisation>
-<positioning>
-<term id="apuret_1463147336889"/>
-<term id="apuret_1463029570962"/>
-</positioning>
-</relation>
 <relation id="apuret_1463147465800">
 <metadata>
 <author>apuret</author>
@@ -831,6 +815,43 @@
 <positioning>
 <term id="apuret_1463491311854"/>
 <term id="apuret_1463474285013"/>
+</positioning>
+</relation>
+<relation id="apuret_1464093558002">
+<metadata>
+<author>apuret</author>
+<creation-date>1464093558002</creation-date>
+<lastModifier>apuret</lastModifier>
+<lastModificationDate>1464093586901</lastModificationDate>
+</metadata>
+<characterisation>
+<type>INDIRECTE</type>
+<featureSet>
+<feature name="GENRE">YES</feature>
+<feature name="NOMBRE">YES</feature>
+</featureSet>
+</characterisation>
+<positioning>
+<term id="apuret_1463147336889"/>
+<term id="apuret_1463147407833"/>
+</positioning>
+</relation>
+<relation id="apuret_1464093566057">
+<metadata>
+<author>apuret</author>
+<creation-date>1464093566057</creation-date>
+<lastModifier>n/a</lastModifier>
+<lastModificationDate>0</lastModificationDate>
+</metadata>
+<characterisation>
+<type>default</type>
+<featureSet>
+<feature name="default">default</feature>
+</featureSet>
+</characterisation>
+<positioning>
+<term id="apuret_1463147407833"/>
+<term id="apuret_1463029570962"/>
 </positioning>
 </relation>
 <schema id="apuret_1463067766236">

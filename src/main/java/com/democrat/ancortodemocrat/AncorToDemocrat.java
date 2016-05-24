@@ -16,12 +16,14 @@ import org.apache.log4j.xml.DOMConfigurator;
 import org.xml.sax.SAXException;
 
 import com.democrat.ancortodemocrat.element.Annotation;
+import com.democrat.ancortodemocrat.treetagger.TreeTagger;
 
 
 public class AncorToDemocrat {
 
 	private static Logger logger = Logger.getLogger(AncorToDemocrat.class);
 	public static FileManager fileManager;
+	public static TreeTagger treeTagger;
 
 	public static void main(String[] args) {
 
@@ -31,6 +33,9 @@ public class AncorToDemocrat {
 
 		System.out.println("=====================================================================================================================");
 		System.out.println("=====================================================================================================================");
+		
+		//cfg TreeTagger
+		treeTagger = new TreeTagger();
 
 		fileManager = new FileManager();
 

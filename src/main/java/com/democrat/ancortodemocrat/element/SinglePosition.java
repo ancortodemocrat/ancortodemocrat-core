@@ -6,9 +6,9 @@ import javax.xml.bind.annotation.XmlAttribute;
 
 public class SinglePosition {
 
-    private Long index;
+    private int index;
 
-    public SinglePosition(long l) {
+    public SinglePosition(int l) {
     	this.index = l;
 	}
     
@@ -25,7 +25,7 @@ public class SinglePosition {
      *     
      */
     @XmlAttribute
-    public Long getIndex() {
+    public int getIndex() {
         return index;
     }
 
@@ -37,7 +37,7 @@ public class SinglePosition {
      *     {@link Short }
      *     
      */
-    public void setIndex(Long value) {
+    public void setIndex(int value) {
         this.index = value;
     }
 

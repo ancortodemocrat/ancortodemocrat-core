@@ -29,7 +29,7 @@ public class ConversionWorker implements Runnable{
 
 	private void work(){
 		logger.info("Start converting: [" + corpus.getName() +"]");
-		
+
 
 		countIndirect = 0;
 		countIndirectWithDeal = 0;
@@ -40,18 +40,18 @@ public class ConversionWorker implements Runnable{
 			Annotation annotation = this.corpus.getAnnotation().get( a );
 			this.convertRelationToChain( annotation );
 			ConversionInSet.toSetFromChain( annotation );
-			
+
 			//this.convertCharacterisation( annotation );
 		}
 
-		
-		 logger.info("[" + corpus.getName() +"] Nombre d'indirect: " + countIndirect);
-		 logger.info("[" + corpus.getName() +"] Nombre d'indirect avec accord en nombre: " + countIndirectWithDeal);
-		
+
+		logger.info("[" + corpus.getName() +"] Nombre d'indirect: " + countIndirect);
+		logger.info("[" + corpus.getName() +"] Nombre d'indirect avec accord en nombre: " + countIndirectWithDeal);
+
 		logger.info("[" + corpus.getName() +"] done !");
 		corpus.setDone( true );
 	}
-	
+
 
 	/**
 	 * Take a list of relation annoted in first mention, 
@@ -83,14 +83,14 @@ public class ConversionWorker implements Runnable{
 					//so replace this point with the unit the more closer before
 					//so the unit in fist mention of the pre relation of this unit
 					Relation preRelation = relation.getPreRelation( annotation );
-					
+
 
 					if( preRelation == null){
 						//first relation
 						newRelations.add( newRelation );
 						continue;
 					}
-					
+
 
 					//count every (NO, IND, IND)
 					/**if(relation.getCharacterisation().getType().getValue().equalsIgnoreCase( "INDIRECTE" ) && 
@@ -98,11 +98,11 @@ public class ConversionWorker implements Runnable{
 						countIndirect++;
 						if(relation.getFeature( "NOMBRE" ).equalsIgnoreCase( "YES" ) &&
 								preRelation.getFeature( "NOMBRE" ).equalsIgnoreCase( "YES" )){
-							
+
 							countIndirectWithDeal++;
 						}
 					}**/
-					
+
 					Element element = preRelation.getElement( annotation );
 					if(element instanceof Unit){
 						Element termElement = positioning.getTerm().get( 0 ).getElement( annotation );
@@ -156,18 +156,70 @@ public class ConversionWorker implements Runnable{
 			relation.getCharacterisation().setType( new Type( "INDIRECTE" ));
 		}else if(currentType.equalsIgnoreCase("INDIRECTE") && preType.equalsIgnoreCase( "INDIRECTE" )){
 			//TODO (NO, INDIR, INDIR) --> ?
-			//this.countIndirect++;
+			Text text = corpus.getText( annotation.getFileName() );
+			if(text != null){
+				Element element = relation.getElement( annotation );
+				Element preElement = relation.getPreElement( annotation );
+				if(element instanceof Unit && preElement instanceof Unit){
+					Unit unit = (Unit) element;
+					Unit preUnit = (Unit) preElement;
+					
+					
+					//be careful, on unit we have number named NB 
+					//and on relation number named NOMBRE
+					String currentNb = unit.getFeature( "NB" );
+					String preNb = preUnit.getFeature( "NB" );
+
+					String currentGenre = unit.getFeature( "GENRE" );
+					String preGenre = preUnit.getFeature( "GENRE" );
+
+					//if one unit is a schema check every unit
+					//for this schema to find the genre or nb
+					//one of all units of schema should'nt be null
+					//on these features
+					if(unit instanceof Schema){
+						Schema schema = (Schema) unit;
+						currentNb = schema.getFeature(annotation, "NB" );
+						currentGenre = schema.getFeature(annotation, "GENRE");
+					}
+					if(preUnit instanceof Schema){
+						Schema schema = (Schema) preUnit;
+						preNb = schema.getFeature(annotation, "NB" );
+						preGenre = schema.getFeature(annotation, "GENRE");
+					}
+
+					if( ! currentNb.equalsIgnoreCase( preNb ) || ! currentGenre.equalsIgnoreCase( preGenre ) ){
+						//no agreement number or genre
+						// (NO, INDIR, INDIR) --> INDIR
+						relation.getCharacterisation().setType( new Type("INDIRECTE") );
+						return;
+					}else if( text.getContentFromUnit(annotation, unit).equalsIgnoreCase( text.getContentFromUnit(annotation, preUnit))){
+						//same word(s)
+						// (NO, INDIR, INDIR) --> DIR		
+						relation.getCharacterisation().setType( new Type("DIRECTE") );				
+					}else{
+						// (NO, INDIR, INDIR) --> TreeTrager
+						
+						
+					}
+
+				}
+
+				//logger.debug("ID unit: "+unit.getId());
+				//logger.debug("sub "+text.getContent().substring(((int)unit.getStart( annotation )), ((int)unit.getEnd( annotation ))));
+				//this.countIndirect++;
+			}
 		}
-		
+
 	}
-	
+
 	private void convertCharacterisationIDLOC( Annotation annotation, Relation relation, Relation preRelation ){
 		String currentIDLOC = relation.getFeature( "ID_LOC" );
 		if(preRelation == null){
 			return;
 		}
 		String preIDLOC = preRelation.getFeature( "ID_LOC" );
-		
+
 		if(currentIDLOC.equalsIgnoreCase( "YES" ) && preIDLOC.equalsIgnoreCase( "NO" )){
 			relation.setFeature( "ID_LOC", "NO" );
 		}else if(currentIDLOC.equalsIgnoreCase( "NO" ) && preIDLOC.equalsIgnoreCase( "NO" )){
@@ -199,31 +251,37 @@ public class ConversionWorker implements Runnable{
 
 			String currentGenre = unit.getFeature( "GENRE" );
 			String preGenre = preUnit.getFeature( "GENRE" );
-			
+
 			//if one unit is a schema check every unit
 			//for this schema to find the genre or nb
 			//one of all units of schema should'nt be null
 			//on these features
 			if(unit instanceof Schema){
 				Schema schema = (Schema) unit;
-				List<Unit> list = schema.getUnitList( annotation );
+				currentNb = schema.getFeature(annotation, "NB" );
+				currentGenre = schema.getFeature(annotation, "GENRE");
+				/**List<Unit> list = schema.getUnitList( annotation );
 				for(int u = 0; u < list.size(); u++){
 					if( ! list.get( u ).getFeature( "NB" ).equalsIgnoreCase( "NULL" ) ){
 						currentNb = list.get( u ).getFeature( "NB" );
 						currentGenre = list.get( u ).getFeature( "GENRE" );
 					}
-				}
+				}**/
 			}
 			if(preUnit instanceof Schema){
 				Schema schema = (Schema) preUnit;
+				preNb = schema.getFeature(annotation, "NB" );
+				preGenre = schema.getFeature(annotation, "GENRE");
+
+				/**
 				List<Unit> list = schema.getUnitList( annotation );
 				for(int u = 0; u < list.size(); u++){
 					if( ! list.get( u ).getFeature( "NB" ).equalsIgnoreCase( "NULL" ) ){
 						preNb = list.get( u ).getFeature( "NB" );
 						preGenre = list.get( u ).getFeature( "GENRE" );
 					}
-				}
-				
+				}**/
+
 			}
 
 			if( currentNb != null && preNb != null){

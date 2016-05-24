@@ -10,7 +10,7 @@ public class Start {
 		
 	}
 
-    public Start(long l) {
+    public Start(int l) {
     	this.singlePosition = new SinglePosition( l );
 	}
 

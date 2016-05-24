@@ -83,10 +83,13 @@ public class Unit extends Element {
 	}
 
 
-	public long getStart(  Annotation annotation  ){
+	public int getStart(  Annotation annotation  ){
 		return this.getPositioning().getStart().getSinglePosition().getIndex();
 	}
 
+	public int getEnd( Annotation annotation ){
+		return this.getPositioning().getEnd().getSinglePosition().getIndex();
+	}
 
 	/**
 	 * test if this unit is contained in one schema or not

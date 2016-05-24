@@ -12,7 +12,7 @@ public class UnitTest {
 	public void test_getStart(){
 		Unit unit = new Unit();
 		PositioningUnit positioning = new PositioningUnit();
-		positioning.setStart( new Start( 50L ));
+		positioning.setStart( new Start( 50 ));
 		unit.setPositioning( positioning ); 
 		
 		assertEquals( 50L, unit.getStart( null ));

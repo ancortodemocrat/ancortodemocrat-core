@@ -22,14 +22,14 @@ public class SchemaTest {
 		Unit unit = new Unit();
 		unit.setId( "6789GHJKL" );
 		PositioningUnit positioning = new PositioningUnit();
-		positioning.setStart( new Start( 50L ));
+		positioning.setStart( new Start( 50 ));
 		unit.setPositioning( positioning ); 
 		
 
 		Unit unit2 = new Unit();
 		unit2.setId( "IOJHJG6898" );
 		PositioningUnit positioning2 = new PositioningUnit();
-		positioning.setStart( new Start( 20L ));
+		positioning.setStart( new Start( 20 ));
 		unit.setPositioning( positioning ); 
 		
 		List<Unit> units = new ArrayList<Unit>();
