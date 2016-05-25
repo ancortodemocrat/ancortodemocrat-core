@@ -25,12 +25,10 @@ public class ConversionWorker implements Runnable{
 	private int countIndirect;
 
 	private int countIndirectWithDeal;
-	
-	private TreeTaggerManager treeTaggerManager;
 
 	public ConversionWorker( Corpus corpus ){
 		this.corpus = corpus;
-		treeTaggerManager = new TreeTaggerManager();
+		//treeTaggerManager = new TreeTaggerManager();
 	}
 
 	private void work(){
@@ -97,7 +95,7 @@ public class ConversionWorker implements Runnable{
 
 
 					//count every (NO, IND, IND)
-					/**if(relation.getCharacterisation().getType().getValue().equalsIgnoreCase( "INDIRECTE" ) && 
+					if(relation.getCharacterisation().getType().getValue().equalsIgnoreCase( "INDIRECTE" ) && 
 							preRelation.getCharacterisation().getType().getValue().equalsIgnoreCase( "INDIRECTE" )){
 						countIndirect++;
 						if(relation.getFeature( "NOMBRE" ).equalsIgnoreCase( "YES" ) &&
@@ -105,7 +103,7 @@ public class ConversionWorker implements Runnable{
 
 							countIndirectWithDeal++;
 						}
-					}**/
+					}
 
 					Element element = preRelation.getElement( annotation );
 					if(element instanceof Unit){
@@ -215,13 +213,9 @@ public class ConversionWorker implements Runnable{
 						
 						//logger.debug("[" + relation.getId() + "] need compare: "+firstMention+" - " + secondMention);
 						logger.info("[" + corpus.getName() +"] call TreeTager to check (INDIRECT, INDIRECT) "+ firstMention +"::"+ secondMention +"on relation: " + relation.getId());
-						try {
-							new TokenConvertRelationHandler( treeTaggerManager, relation, firstMention, secondMention );
-						} catch (TokenConvertRelationHandlerException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
-						while( ! this.treeTaggerManager.relationIsDone( relation ) ){
+						
+						TokenConvertRelationHandler handler = new TokenConvertRelationHandler( relation, firstMention, secondMention );
+						while( ! handler.isDone( ) ){
 							try {
 								Thread.sleep( 2 );
 							} catch (InterruptedException e) {
@@ -229,6 +223,7 @@ public class ConversionWorker implements Runnable{
 								e.printStackTrace();
 							}
 						}
+						//logger.debug("back from "+firstMention + "::" + secondMention + " --> " + relation.getCharacterisation().getType().getValue() );
 					}
 
 				}

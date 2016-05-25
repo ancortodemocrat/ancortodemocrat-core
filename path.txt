@@ -1,9 +1,9 @@
 #Vous pouvez mettre des commentaires comme ceci
 #Ajouter le(s) chemin(s) absolu(s) que vous souhaitez des corpus que vous souhaitez.
 #chaque corpus doit comporter un dossier 'aa_fichiers' et 'ac_fichiers'
-E:\Users\Slayug\workspace\ancortodemocrat\corpusTest
+#E:\Users\Slayug\workspace\ancortodemocrat\corpusTest
 
-#E:\Users\Slayug\Documents\fac\stage\ancor\corpus_ESLO
+E:\Users\Slayug\Documents\fac\stage\ancor\corpus_ESLO
 #E:\Users\Slayug\Documents\fac\stage\ancor\corpus_ESLO_CO2
-E:\Users\Slayug\Documents\fac\stage\ancor\corpus_OTG
+#E:\Users\Slayug\Documents\fac\stage\ancor\corpus_OTG
 #E:\Users\Slayug\Documents\fac\stage\ancor\corpus_UBS

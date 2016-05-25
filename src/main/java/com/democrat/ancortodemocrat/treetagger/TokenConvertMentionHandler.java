@@ -1,6 +1,7 @@
 package com.democrat.ancortodemocrat.treetagger;
 
 import org.annolab.tt4j.TokenHandler;
+import org.apache.log4j.Logger;
 
 public class TokenConvertMentionHandler implements TokenHandler<String>{
 
@@ -9,6 +10,7 @@ public class TokenConvertMentionHandler implements TokenHandler<String>{
 	private boolean done;
 	private String[] mentionSplitted;
 
+	private static Logger logger = Logger.getLogger(TokenConvertMentionHandler.class);
 
 	/**
 	 * 
@@ -48,6 +50,7 @@ public class TokenConvertMentionHandler implements TokenHandler<String>{
 	private String[] splitMention( String sentence ){
 		sentence = sentence.replace(", ", " , ");
 		sentence = sentence.replace(".", " .");
+		sentence = sentence.replace("  ", " ");
 		return sentence.split(" ");
 	}
 

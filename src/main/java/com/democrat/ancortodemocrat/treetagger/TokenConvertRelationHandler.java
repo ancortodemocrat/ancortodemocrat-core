@@ -23,7 +23,7 @@ public class TokenConvertRelationHandler  implements Runnable{
 	private String firstMention;
 	private String secondMention;
 
-	private TreeTaggerManager treeTaggerManager;
+	private boolean done;
 
 	
 	/**
@@ -33,15 +33,16 @@ public class TokenConvertRelationHandler  implements Runnable{
 	 * @param secondMention mention of the PREelement of the relation
 	 * @throws TokenConvertRelationHandlerException
 	 */
-	public TokenConvertRelationHandler( TreeTaggerManager treeTaggerManager, Relation relation,
+	public TokenConvertRelationHandler(Relation relation,
 			String firstMention,
-			String secondMention) throws TokenConvertRelationHandlerException{
-		this.treeTaggerManager = treeTaggerManager;
-		this.treeTaggerManager.relationInProgress( relation );
+			String secondMention) {
+		//this.treeTaggerManager = treeTaggerManager;
+		//this.treeTaggerManager.relationInProgress( relation );
 		this.relation = relation;
 		this.firstMention = firstMention;
 		this.secondMention = secondMention;
 		
+		this.done = false;
 		Thread th = new Thread( this );
 		th.start();
 	}
@@ -66,6 +67,7 @@ public class TokenConvertRelationHandler  implements Runnable{
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+			//logger.debug(firstTokenHandler.isDone() +" -- "+ secondTokenHandler.isDone());
 		}
 		//work
 		//compare the nouns
@@ -103,7 +105,16 @@ public class TokenConvertRelationHandler  implements Runnable{
 				}
 			}
 		}
-		this.treeTaggerManager.relationDone( relation );
+		//this.treeTaggerManager.relationDone( relation );
+		this.done = true;
 	}
+
+
+
+	public boolean isDone() {
+		return done;
+	}
+	
+	
 	
 }

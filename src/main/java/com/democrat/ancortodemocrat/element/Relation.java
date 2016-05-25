@@ -43,8 +43,6 @@ public class Relation extends Element {
 		MetadataUnit metadata = anotherRelation.getMetadata();
 		relation.metadata = metadata;
 
-		//Characterisation characterisation = anotherRelation.getCharacterisation();
-		//TODO load unmutable characterisation
 		
 		relation.characterisation = new Characterisation();
 		relation.characterisation.setType( new Type( new String( anotherRelation.getCharacterisation().getType().getValue() ) ) );
