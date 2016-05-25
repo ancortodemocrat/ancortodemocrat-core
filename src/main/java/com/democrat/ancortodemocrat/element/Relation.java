@@ -10,6 +10,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import org.apache.log4j.Logger;
 
 import com.democrat.ancortodemocrat.feature.Feature;
+import com.democrat.ancortodemocrat.feature.FeatureSet;
 import com.democrat.ancortodemocrat.positioning.PositioningRelation;
 
 //@XmlAccessorType(XmlAccessType.FIELD)
@@ -42,9 +43,20 @@ public class Relation extends Element {
 		MetadataUnit metadata = anotherRelation.getMetadata();
 		relation.metadata = metadata;
 
-		Characterisation characterisation = anotherRelation.getCharacterisation();
+		//Characterisation characterisation = anotherRelation.getCharacterisation();
 		//TODO load unmutable characterisation
-		relation.characterisation = characterisation;
+		
+		relation.characterisation = new Characterisation();
+		relation.characterisation.setType( new Type( new String( anotherRelation.getCharacterisation().getType().getValue() ) ) );
+		
+		List<Feature> features = anotherRelation.getCharacterisation().getFeatureSet().getFeature();
+		FeatureSet featureSet = new FeatureSet();
+		List<Feature> newFeatures = new ArrayList<Feature>();
+		for(int f = 0; f < features.size(); f++){
+			newFeatures.add( new Feature( new String( features.get( f ).getName()), new String( features.get( f ).getValue() ) ));
+		}
+		featureSet.setFeature( newFeatures );
+		relation.characterisation.setFeatureSet( featureSet ); 
 
 		PositioningRelation positioning = new PositioningRelation();
 		List<Term> terms = anotherRelation.getPositioning().getTerm();

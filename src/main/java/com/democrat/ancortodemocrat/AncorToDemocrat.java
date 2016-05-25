@@ -26,7 +26,7 @@ public class AncorToDemocrat {
 	public static TreeTagger treeTagger;
 
 	public static void main(String[] args) {
-
+		
 		//configure logger
 		DOMConfigurator.configure("cfg/log4j-config.xml");
 

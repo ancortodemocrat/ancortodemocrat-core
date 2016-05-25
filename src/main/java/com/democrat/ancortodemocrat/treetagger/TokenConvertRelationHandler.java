@@ -74,6 +74,9 @@ public class TokenConvertRelationHandler  implements Runnable{
 		ResultMention firstResult = firstTokenHandler.getResultMention();
 		ResultMention secondResult = secondTokenHandler.getResultMention();
 		
+		//logger.debug( firstResult );
+		//logger.debug( secondResult );
+		
 		if( firstResult.containsNoun() && secondResult.containsNoun() ){
 			List<ResultToken> firstNounList = firstResult.getNounList();
 			List<ResultToken> secondNounList = secondResult.getNounList();

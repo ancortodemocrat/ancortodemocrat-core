@@ -42,7 +42,7 @@ public class ConversionWorker implements Runnable{
 
 		for( int a = 0; a < this.corpus.getAnnotation().size(); a++ ){
 
-			logger.info("========> [" + corpus.getName() +"] Converting file: "+(a + 1)+"/"+this.corpus.getAnnotation().size() + " : " + this.corpus.getAnnotation().get( a ).getFileName() );
+			logger.info("[" + corpus.getName() +"] Converting file: "+(a + 1)+"/"+this.corpus.getAnnotation().size() + " : " + this.corpus.getAnnotation().get( a ).getFileName() );
 			Annotation annotation = this.corpus.getAnnotation().get( a );
 			this.convertRelationToChain( annotation );
 			ConversionInSet.toSetFromChain( annotation );
@@ -119,6 +119,7 @@ public class ConversionWorker implements Runnable{
 								newRelation.getPositioning().getTerm().get( 1 ).setId( element.getId()  );
 							}
 						}
+						//logger.debug(newRelation.getId() );
 						convertCharacterisationType( annotation, newRelation, preRelation );
 						convertCharacterisationIDLOC( annotation, newRelation, preRelation );
 						convertCharacterisationFeature( annotation, newRelation );
@@ -202,7 +203,7 @@ public class ConversionWorker implements Runnable{
 						return;
 					}else if( firstMention.equalsIgnoreCase( secondMention )){
 						//same word(s)
-						// (NO, INDIR, INDIR) --> DIR		
+						// (NO, INDIR, INDIR) --> DIR
 						relation.getCharacterisation().setType( new Type("DIRECTE") );				
 					}else{
 						// (NO, INDIR, INDIR) --> TreeTrager
@@ -213,7 +214,7 @@ public class ConversionWorker implements Runnable{
 						
 						
 						//logger.debug("[" + relation.getId() + "] need compare: "+firstMention+" - " + secondMention);
-						logger.info("========> [" + corpus.getName() +"] call TreeTager to check (INDIRECT, INDIRECT) on relation: " + relation.getId());
+						logger.info("[" + corpus.getName() +"] call TreeTager to check (INDIRECT, INDIRECT) "+ firstMention +"::"+ secondMention +"on relation: " + relation.getId());
 						try {
 							new TokenConvertRelationHandler( treeTaggerManager, relation, firstMention, secondMention );
 						} catch (TokenConvertRelationHandlerException e) {

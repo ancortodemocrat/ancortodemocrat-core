@@ -105,7 +105,7 @@ public class ConversionInSet {
 						continue;
 					}
 				}
-				
+
 				//starting set new REF on each ref and unit associated
 				treatUnitFromChain( annotation, schema, currentRef, null );
 				currentRef++;
@@ -122,7 +122,6 @@ public class ConversionInSet {
 	 * @param lastRelation for the first call, set to null
 	 */
 	private static void treatUnitFromChain( Annotation annotation, Unit unit, int currentRef, Relation lastRelation){
-
 		if(unit instanceof Schema){
 			setRefOnUnit( annotation, (Schema) unit, currentRef);
 		}
@@ -130,6 +129,9 @@ public class ConversionInSet {
 		if( relationAssociated.size() == 0){
 			return;
 		}
+
+		//logger.debug( "UNIT : "+unit+" size "+relationAssociated.size());
+		
 
 		if( relationAssociated.size() == 1){
 			//last or first unit
@@ -156,17 +158,43 @@ public class ConversionInSet {
 		}else if(relationAssociated.size() >= 2){
 			
 			if( lastRelation != null ){
+				boolean allAreAssociative = true;
+				boolean allTreated = true;
+				
+				for(int r = 0; r < relationAssociated.size(); r++){
+					if( ! relationAssociated.get( r ).getFeature( "REF" ).equalsIgnoreCase( "NULL" ) ){
+						allTreated = allTreated && true;
+					}else{
+						allTreated = allTreated && false;
+					}
+					if(relationAssociated.get( r ).getCharacterisation().getType().getValue().contains( "ASSOC") ){
+						allAreAssociative = allAreAssociative && true;
+					}else{
+						allAreAssociative = allAreAssociative && false;
+					}
+				}
+				
+				//if the function has already done the unit 
+				//equivalent to already done the relation of the unit
+				if( ( allAreAssociative && allTreated ) || allTreated){
+					return;
+				}
 				
 				for(int r = 0; r < relationAssociated.size(); r++){
 					setRefFeatureFromChain(annotation, relationAssociated.get( r ), currentRef);
 					if( ! relationAssociated.get( r ).equals( lastRelation )){
-						Unit otherUnit = (Unit) relationAssociated.get( r ).getOtherElement( annotation, unit);
-						if( otherUnit.isNew( annotation ) ){
-							return;
+						Element element = relationAssociated.get( r ).getOtherElement( annotation, unit);
+						if( element instanceof Relation ){
+							continue;
 						}
-						treatUnitFromChain( annotation, otherUnit, currentRef, relationAssociated.get( r ) );						
+						Unit otherUnit = (Unit) element;
+						if( otherUnit.isNew( annotation ) ){
+							continue;
+						}
+						treatUnitFromChain( annotation, otherUnit, currentRef, relationAssociated.get( r ) );
 					}
 				}
+				
 			}else{
 				//catahore case
 				
