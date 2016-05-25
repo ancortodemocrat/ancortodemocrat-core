@@ -17,4 +17,30 @@ public class ResultToken {
 		this.lemma = lemma;
 	}
 
+	public String getToken() {
+		return token;
+	}
+
+	public String getPos() {
+		return pos;
+	}
+
+	public String getLemma() {
+		return lemma;
+	}
+
+	/**
+	 * return if this token is a noun or not
+	 * @return
+	 */
+	public boolean isNoun() {
+		if( this.pos.equalsIgnoreCase( "NOM" )){
+			return true;
+		}
+		return false;
+	}
+	
+	
+	
+
 }

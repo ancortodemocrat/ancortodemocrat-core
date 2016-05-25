@@ -12,6 +12,9 @@ import com.democrat.ancortodemocrat.element.Schema;
 import com.democrat.ancortodemocrat.element.Type;
 import com.democrat.ancortodemocrat.element.Unit;
 import com.democrat.ancortodemocrat.positioning.PositioningRelation;
+import com.democrat.ancortodemocrat.treetagger.TokenConvertRelationHandler;
+import com.democrat.ancortodemocrat.treetagger.TokenConvertRelationHandlerException;
+import com.democrat.ancortodemocrat.treetagger.TreeTaggerManager;
 
 public class ConversionWorker implements Runnable{
 
@@ -22,9 +25,12 @@ public class ConversionWorker implements Runnable{
 	private int countIndirect;
 
 	private int countIndirectWithDeal;
+	
+	private TreeTaggerManager treeTaggerManager;
 
 	public ConversionWorker( Corpus corpus ){
 		this.corpus = corpus;
+		treeTaggerManager = new TreeTaggerManager();
 	}
 
 	private void work(){
@@ -40,8 +46,6 @@ public class ConversionWorker implements Runnable{
 			Annotation annotation = this.corpus.getAnnotation().get( a );
 			this.convertRelationToChain( annotation );
 			ConversionInSet.toSetFromChain( annotation );
-
-			//this.convertCharacterisation( annotation );
 		}
 
 
@@ -172,6 +176,9 @@ public class ConversionWorker implements Runnable{
 
 					String currentGenre = unit.getFeature( "GENRE" );
 					String preGenre = preUnit.getFeature( "GENRE" );
+					
+					String firstMention = text.getContentFromUnit(annotation, unit);
+					String secondMention = text.getContentFromUnit(annotation, preUnit);
 
 					//if one unit is a schema check every unit
 					//for this schema to find the genre or nb
@@ -193,14 +200,34 @@ public class ConversionWorker implements Runnable{
 						// (NO, INDIR, INDIR) --> INDIR
 						relation.getCharacterisation().setType( new Type("INDIRECTE") );
 						return;
-					}else if( text.getContentFromUnit(annotation, unit).equalsIgnoreCase( text.getContentFromUnit(annotation, preUnit))){
+					}else if( firstMention.equalsIgnoreCase( secondMention )){
 						//same word(s)
 						// (NO, INDIR, INDIR) --> DIR		
 						relation.getCharacterisation().setType( new Type("DIRECTE") );				
 					}else{
 						// (NO, INDIR, INDIR) --> TreeTrager
+						if( unit instanceof Schema || preUnit instanceof Schema){
+							//TODO (no, INDIR, INDIR) with schema
+							return;
+						}
 						
 						
+						//logger.debug("[" + relation.getId() + "] need compare: "+firstMention+" - " + secondMention);
+						logger.info("========> [" + corpus.getName() +"] call TreeTager to check (INDIRECT, INDIRECT) on relation: " + relation.getId());
+						try {
+							new TokenConvertRelationHandler( treeTaggerManager, relation, firstMention, secondMention );
+						} catch (TokenConvertRelationHandlerException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+						while( ! this.treeTaggerManager.relationIsDone( relation ) ){
+							try {
+								Thread.sleep( 2 );
+							} catch (InterruptedException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+						}
 					}
 
 				}

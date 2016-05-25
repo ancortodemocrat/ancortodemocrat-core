@@ -8,13 +8,13 @@ import org.annolab.tt4j.TreeTaggerWrapper;
 
 public class TreeTagger {
 
-	private final String pathTreeTagger = "/treetagger";
+	private final String pathTreeTagger = "TreeTagger";
 
 	public TreeTagger(){
 		System.setProperty("treetagger.home", pathTreeTagger);
 	}
 	
-	public void work( TokenConvertRelationHandler handler, String[] sentence){
+	public void work( TokenConvertMentionHandler handler ){
 		
 		TreeTaggerWrapper<String> treeTaggerWrapper = new TreeTaggerWrapper<String>();
 
@@ -27,7 +27,7 @@ public class TreeTagger {
 		
 		treeTaggerWrapper.setHandler( handler );
 		try {
-			treeTaggerWrapper.process( sentence );
+			treeTaggerWrapper.process( handler.getMentionSplitted() );
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
