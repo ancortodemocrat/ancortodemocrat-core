@@ -212,7 +212,7 @@ public class ConversionWorker implements Runnable{
 						
 						
 						//logger.debug("[" + relation.getId() + "] need compare: "+firstMention+" - " + secondMention);
-						logger.info("[" + corpus.getName() +"] call TreeTager to check (INDIRECT, INDIRECT) "+ firstMention +"::"+ secondMention +"on relation: " + relation.getId());
+						logger.info("[" + corpus.getName() +"] call TreeTager to check (INDIRECT, INDIRECT) "+ firstMention +"::"+ secondMention +" on relation: " + relation.getId());
 						
 						TokenConvertRelationHandler handler = new TokenConvertRelationHandler( relation, firstMention, secondMention );
 						while( ! handler.isDone( ) ){
@@ -227,10 +227,6 @@ public class ConversionWorker implements Runnable{
 					}
 
 				}
-
-				//logger.debug("ID unit: "+unit.getId());
-				//logger.debug("sub "+text.getContent().substring(((int)unit.getStart( annotation )), ((int)unit.getEnd( annotation ))));
-				//this.countIndirect++;
 			}
 		}
 
