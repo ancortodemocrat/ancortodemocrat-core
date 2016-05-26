@@ -13,7 +13,6 @@ import com.democrat.ancortodemocrat.element.Type;
 import com.democrat.ancortodemocrat.element.Unit;
 import com.democrat.ancortodemocrat.positioning.PositioningRelation;
 import com.democrat.ancortodemocrat.treetagger.TokenConvertRelationHandler;
-import com.democrat.ancortodemocrat.treetagger.TokenConvertRelationHandlerException;
 
 public class ConversionWorker implements Runnable{
 

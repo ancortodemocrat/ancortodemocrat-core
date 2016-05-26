@@ -3,6 +3,9 @@ package com.democrat.ancortodemocrat.treetagger;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Contains the results of one sequence parsed by TreeTagger
+ */
 public class ResultMention {
 	
 	private List<ResultToken> tokenList;
@@ -29,6 +32,10 @@ public class ResultMention {
 		return false;
 	}
 
+	/**
+	 * Return a list containing the noun of the sequence
+	 * @return
+	 */
 	public List<ResultToken> getNounList(){
 		List<ResultToken> nounList = new ArrayList<ResultToken>();
 		for(int t = 0; t < tokenList.size(); t++){
