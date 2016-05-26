@@ -232,6 +232,12 @@ public class ConversionWorker implements Runnable{
 
 	}
 
+	/**
+	 * calculate the new IDLOC for the relation
+	 * @param annotation
+	 * @param relation current relation where the feature IDLOC will be converted
+	 * @param preRelation used to calculate the new IDLOC of previous relation
+	 */
 	private void convertCharacterisationIDLOC( Annotation annotation, Relation relation, Relation preRelation ){
 		String currentIDLOC = relation.getFeature( "ID_LOC" );
 		if(preRelation == null){

@@ -72,6 +72,10 @@ public class ConversionInSet {
 
 	}
 
+	
+	/**
+	 * @param annotation where the REF feature will be set
+	 */
 	public static void toSetFromChain( Annotation annotation ){
 
 		List<Unit> unitList = annotation.getUnit();

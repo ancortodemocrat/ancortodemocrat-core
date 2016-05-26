@@ -30,6 +30,13 @@ public class Text {
 		this.fileName = fileName;
 	}
 	
+	/**
+	 * Get the content of one unit,
+	 * check from the start and end positionning of the unit
+	 * @param annotation
+	 * @param unit
+	 * @return
+	 */
 	public String getContentFromUnit( Annotation annotation, Unit unit ){
 		if( unit instanceof Schema){
 			//TODO what to do in this case ?
