@@ -33,15 +33,13 @@ public class Text {
 	/**
 	 * Get the content of one unit,
 	 * check from the start and end positionning of the unit
-	 * @param annotation
-	 * @param unit
+	 * @param annotation useful to read the unit position
+	 * @param unit the unit you want the text
 	 * @return
 	 */
 	public String getContentFromUnit( Annotation annotation, Unit unit ){
 		if( unit instanceof Schema){
-			//TODO what to do in this case ?
-			//return all unit of the schema ?
-			return new String("");
+			return getContentFromUnit( annotation, ((Schema) unit).getUnitWhereFeatureNotNull( annotation ) );
 		}else{
 			return this.getContent().substring( unit.getStart( annotation ), unit.getEnd( annotation ) );
 		}

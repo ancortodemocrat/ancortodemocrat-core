@@ -74,5 +74,15 @@ public class Schema extends Unit{
 		}
 		return new String( "NULL" );
 	}
+	
+	public Unit getUnitWhereFeatureNotNull( Annotation annotation ){
+		List<Unit> list = this.getUnitList( annotation );
+		for(int u = 0; u < list.size(); u++){
+			if( ! list.get( u ).getFeature( "GENRE" ).equalsIgnoreCase( "NULL" ) ){
+				return list.get( u );
+			}
+		}
+		return null;
+	}
 
 }

@@ -50,6 +50,9 @@ public class Characterisation {
      */
     @XmlElement(name="featureSet")
     public FeatureSet getFeatureSet() {
+    	if(this.featureSet == null){
+    		this.featureSet = new FeatureSet();
+    	}
         return featureSet;
     }
 

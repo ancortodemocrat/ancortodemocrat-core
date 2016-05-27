@@ -94,7 +94,7 @@ public class Unit extends Element {
 	/**
 	 * test if this unit is contained in one schema or not
 	 * 
-	 * @param annotaion
+	 * @param annotation
 	 * @return
 	 */
 	public boolean isContainedInSchema(  Annotation annotation  ){

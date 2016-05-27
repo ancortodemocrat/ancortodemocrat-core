@@ -42,6 +42,9 @@ public class Element {
 	 */
 	@XmlElement(name="characterisation")
 	public Characterisation getCharacterisation() {
+		if(this.characterisation == null){
+			this.characterisation = new Characterisation();
+		}
 		return characterisation;
 	}
 

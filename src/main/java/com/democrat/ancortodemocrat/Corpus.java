@@ -15,10 +15,21 @@ import com.democrat.ancortodemocrat.element.Annotation;
 public class Corpus {
 	
 	private static Logger logger = Logger.getLogger(Corpus.class);
-	
+	/**
+	 * name of the corpus
+	 */
 	public String name;
+	/**
+	 * absolute path of the corpus without his name
+	 */
 	public String path;
+	/**
+	 * List of annotation file
+	 */
 	private List<Annotation> annotation;
+	/**
+	 * List of text file
+	 */
 	private List<Text> text = new ArrayList<Text>();
 
 	private boolean done;

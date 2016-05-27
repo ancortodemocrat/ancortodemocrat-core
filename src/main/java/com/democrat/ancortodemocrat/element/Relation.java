@@ -113,7 +113,7 @@ public class Relation extends Element {
 	 * 
 	 * @param value
 	 *     allowed object is
-	 *     {@link Annotations.Relation.Characterisation }
+	 *     {@link Characterisation }
 	 *     
 	 */
 	public void setCharacterisation(Characterisation value) {
@@ -212,7 +212,6 @@ public class Relation extends Element {
 
 	/**
 	 * work only in first mention
-	 * if you are in chain, use {@link Cluster.class}
 	 * return the pre relation, it's the relation the more closer than this one
 	 * just before
 	 * if return null, this relation is the first
@@ -343,7 +342,7 @@ public class Relation extends Element {
 	 * test on each element of the releation if one
 	 * contains the FEATURE NEW
 	 * @param annotation
-	 * @return
+	 * @return boolean
 	 */
 	public boolean containsNew( Annotation annotation ){
 		

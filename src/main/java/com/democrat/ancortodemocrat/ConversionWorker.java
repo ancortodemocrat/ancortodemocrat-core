@@ -29,6 +29,9 @@ public class ConversionWorker implements Runnable{
 		//treeTaggerManager = new TreeTaggerManager();
 	}
 
+	/**
+	 * Iterate every annotation of the corpus, and convert it
+	 */
 	private void work(){
 		logger.info("Start converting: [" + corpus.getName() +"]");
 
@@ -56,7 +59,7 @@ public class ConversionWorker implements Runnable{
 	/**
 	 * Take a list of relation annoted in first mention, 
 	 * and convert it in chain
-	 * @param relation
+	 * @param annotation each relation of the annotation will be converted in chain
 	 */
 	private void convertRelationToChain( Annotation annotation ){
 		List<Relation> newRelations = new ArrayList<Relation>();
@@ -156,7 +159,6 @@ public class ConversionWorker implements Runnable{
 			//(NO, DIR, PR) --> IND
 			relation.getCharacterisation().setType( new Type( "INDIRECTE" ));
 		}else if(currentType.equalsIgnoreCase("INDIRECTE") && preType.equalsIgnoreCase( "INDIRECTE" )){
-			//TODO (NO, INDIR, INDIR) --> ?
 			Text text = corpus.getText( annotation.getFileName() );
 			if(text != null){
 				Element element = relation.getElement( annotation );
@@ -203,11 +205,21 @@ public class ConversionWorker implements Runnable{
 						relation.getCharacterisation().setType( new Type("DIRECTE") );				
 					}else{
 						// (NO, INDIR, INDIR) --> TreeTrager
-						if( unit instanceof Schema || preUnit instanceof Schema){
-							//TODO (no, INDIR, INDIR) with schema
-							return;
+						if( unit instanceof Schema ){
+							Schema schema = (Schema)unit;
+							Unit unitFound = schema.getUnitWhereFeatureNotNull( annotation );
+							if(unitFound != null){
+								firstMention = text.getContentFromUnit(annotation, unitFound);
+							}
 						}
-						
+						if(preUnit instanceof Schema){
+							Schema schema = (Schema)preUnit;
+							Unit unitFound = schema.getUnitWhereFeatureNotNull( annotation );
+							if(unitFound != null){
+								secondMention = text.getContentFromUnit(annotation, unitFound);
+							}
+							
+						}
 						
 						//logger.debug("[" + relation.getId() + "] need compare: "+firstMention+" - " + secondMention);
 						logger.info("[" + corpus.getName() +"] call TreeTager to check (INDIRECT, INDIRECT) "+ firstMention +"::"+ secondMention +" on relation: " + relation.getId());
