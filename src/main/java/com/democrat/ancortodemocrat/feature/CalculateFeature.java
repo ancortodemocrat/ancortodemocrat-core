@@ -7,7 +7,9 @@ import org.apache.log4j.Logger;
 import com.democrat.ancortodemocrat.ConversionInSet;
 import com.democrat.ancortodemocrat.ConversionWorker;
 import com.democrat.ancortodemocrat.Corpus;
+import com.democrat.ancortodemocrat.Text;
 import com.democrat.ancortodemocrat.element.Annotation;
+import com.democrat.ancortodemocrat.element.Relation;
 import com.democrat.ancortodemocrat.element.Unit;
 
 public class CalculateFeature implements Runnable {
@@ -54,11 +56,50 @@ public class CalculateFeature implements Runnable {
 		}
 	}
 	
+	
 	private void calculatePreviousToken( Annotation annotation, Unit unit ){
+		List<Relation> relationList = annotation.getRelationContaining( unit );
+		Text text = this.corpus.getText( annotation.getFileName() );
+		
+		if( relationList.size() == 1 ){
+			if( relationList.get( 0 ).getElement( annotation ).equals( unit ) ){
+				//the previous is the pre element of the relation
+				unit.setFeature("previous", text.getContentFromUnit( annotation, (Unit) relationList.get( 0 ).getPreElement( annotation ) ) );
+			}else{
+				//to find the previous, we should take the pre-relation
+				//and take the element
+				//or we are in first unit of the coreference, so we put $
+				
+				if( unit.isNew( annotation ) ){
+					//first unit
+					unit.setFeature("previous", "^");
+				}else{
+					unit.setFeature("previous", text.getContentFromUnit( annotation, (Unit) relationList.get( 0 ).getPreRelation( annotation ).getElement( annotation ) ) );
+				}
+			}
+		}
+		//TODO else, unit has many relation, (association, or we are in first mention )
 		
 	}
 	
 	private void calculateNextToken( Annotation annotation, Unit unit ){
+		List<Relation> relationList = annotation.getRelationContaining( unit );
+		Text text = this.corpus.getText( annotation.getFileName() );
+		
+		if( relationList.size() == 1 ){
+			if( relationList.get( 0 ).getElement( annotation ).equals( unit ) ){
+				//the next is the pre element of the relation
+				//unit.setFeature("previous", text.getContentFromUnit( annotation, (Unit) relationList.get( 0 ).getPreElement( annotation ) ) );
+				//recalculate the relation
+			}else{
+				//to find the next unit, we should take the element of the relation
+				unit.setFeature("previous", text.getContentFromUnit( annotation, (Unit) relationList.get( 0 ).getElement( annotation ) ) );
+			}
+		}else{
+			//range every relation (remove the associatives relations)
+			
+		}
+		//TODO else, unit has many relation, (association, or we are in first mention )
 		
 	}
 	
