@@ -200,6 +200,20 @@ public class Relation extends Element {
 						//the other is the good
 						return position.getTerm().get( 1 ).getElement( annotation );
 					}else{
+						Element secondElement = position.getTerm().get( 1 ).getElement( annotation );
+						if( secondElement instanceof Unit){
+							if( ! ((Unit)secondElement).isNew( annotation ) ){
+								//we are in chain
+								//calculate the unit who are in first postion text
+								int posFirstElement = ((Unit)element).getStart( annotation );
+								int posSecondElement = ((Unit)secondElement).getStart( annotation );
+								if( posFirstElement > posSecondElement ){
+									return secondElement;
+								}else{
+									return element;
+								}
+							}
+						}
 						return element;
 					}
 				}
