@@ -151,7 +151,7 @@ public class FileManager {
 		}else{
 			logger.error("Folder doesn't exists: "+corpus.getPath() );
 		}
-		return null;
+		return new ArrayList<String>();
 	}
 	
 	

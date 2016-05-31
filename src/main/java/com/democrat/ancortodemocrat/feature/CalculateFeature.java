@@ -4,6 +4,8 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 
+import com.democrat.ancor.speech.Trans;
+import com.democrat.ancor.speech.Turn;
 import com.democrat.ancortodemocrat.ConversionInSet;
 import com.democrat.ancortodemocrat.ConversionWorker;
 import com.democrat.ancortodemocrat.Corpus;
@@ -25,9 +27,7 @@ public class CalculateFeature implements Runnable {
 
 
 	private void work(){
-
-
-		logger.info("Start converting: [" + corpus.getName() +"]");
+		logger.info("Start calculate feature: [" + corpus.getName() +"]");
 
 
 		for( int a = 0; a < this.corpus.getAnnotation().size(); a++ ){
@@ -39,7 +39,7 @@ public class CalculateFeature implements Runnable {
 		}
 
 
-		logger.info("[" + corpus.getName() +"] done !");
+		logger.info("[" + corpus.getName() +"] features calculated !");
 		corpus.setDone( true );
 
 
@@ -52,7 +52,7 @@ public class CalculateFeature implements Runnable {
 		for(int r = 0; r < relationList.size(); r++){
 
 			calculatePreviousNextToken( annotation, relationList.get( r ) );
-			calculateSpeaker( annotation, relationList.get( r ) );
+			calculateSpeaker( annotation );
 		}
 	}
 
@@ -62,8 +62,16 @@ public class CalculateFeature implements Runnable {
 		
 		Element element = relation.getElement( annotation );
 		Element preElement = relation.getPreElement( annotation );
-		
 		if( element instanceof Unit && preElement instanceof Unit ){
+			
+
+			if(element.getId().equals(preElement.getId() )){
+				logger.debug("YOLO" +element.getId());
+				logger.debug("other: "+relation.getOtherElement(annotation, element));
+				logger.debug("elementPOS "+((Unit) element).getStart(annotation) );
+				logger.debug("otherElement "+(((Unit) relation.getOtherElement(annotation, element)).getStart(annotation)));
+			}
+			
 			element.setFeature( "previous", text.getContentFromUnit( annotation , (Unit) preElement ) );
 			preElement.setFeature("next", text.getContentFromUnit( annotation , (Unit) element ) );
 			
@@ -81,12 +89,36 @@ public class CalculateFeature implements Runnable {
 	}
 
 
-	private void calculateSpeaker( Annotation annotation, Relation unit ){
+	/**
+	 * 
+	 * @param annotation
+	 */
+	private void calculateSpeaker( Annotation annotation ){
+		Text text = this.corpus.getText( annotation.getFileName() );
+		Trans trans = text.toTrans();
+		List<Unit> unitList = annotation.getUnit();
+		List<Turn> turnList = trans.getEpisode().getSection().getTurn();
+		
+		for(int u = 0 ; u < unitList.size(); u++){
+			if( unitList.get( u ) instanceof Unit ){
+				String contentOfUnit = text.getContentFromUnit( annotation, unitList.get( u ) );
+				//find turn corresponding
+				for(int t = 0; t < turnList.size(); t++){
+					if( turnList.get( t ).getContent().contains( contentOfUnit ) ){
+						//found
+						unitList.get( u ).setFeature("spk", turnList.get( t ).getSpeaker() );
+					}
+				}
+				
+			}
+		}
 
 	}
 
 	@Override
 	public void run() {
+		this.corpus.loadAnnotation();
+		this.corpus.loadText();
 		this.work();
 		this.corpus.export();
 

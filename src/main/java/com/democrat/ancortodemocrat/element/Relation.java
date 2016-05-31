@@ -154,30 +154,31 @@ public class Relation extends Element {
 		PositioningRelation position = this.getPositioning();
 		if(position != null){
 			if(position.getTerm().size() > 1){
-				Element element = position.getTerm().get( 1 ).getElement( annotation );
-				if(element != null && element instanceof Unit){
-					if(((Unit) element).isNew( annotation ) ){
-						//this one is good
-						return element;
+				Element firstElement = position.getTerm().get( 0 ).getElement( annotation );
+				Element secondElement = position.getTerm().get( 1 ).getElement( annotation );
+				if(firstElement instanceof Relation){
+					//TODO relation --> relation
+					//logger.debug(" relation TO relation idRelation " + this.getId());
+					return null;
+				}else if(firstElement instanceof Unit && secondElement instanceof Unit){
+					Unit firstUnit = (Unit) firstElement;
+					Unit secondUnit = (Unit) secondElement;
+					if( firstUnit.isNew( annotation ) ){
+						return firstUnit;
+					}else if( secondUnit.isNew( annotation ) ){
+						return secondUnit;
 					}else{
-						//if the two elements aren't news so we are in chain,
-						// so return the element who are the first (position)
-						Element secondElement = position.getTerm().get( 0 ).getElement( annotation );
-						if(secondElement instanceof Unit && !((Unit) secondElement).isNew( annotation )){
-							if(((Unit) secondElement).getStart( annotation ) > ((Unit) element).getStart( annotation )){
-								return element;
-							}else{
-								return secondElement;
-							}
+						//compare two positions
+						if( firstUnit.getStart( annotation ) > secondUnit.getStart( annotation ) ){
+							return secondUnit;
+						}else{
+							return firstUnit;
 						}
-						return position.getTerm().get( 0 ).getElement( annotation );
 					}
-				}else if(element != null && element instanceof Relation){
-					//TODO check if relation
-					return element;
 				}
 			}
 		}
+		logger.debug("element null on relation: "+this.getId());
 		return null;
 	}
 
@@ -190,31 +191,26 @@ public class Relation extends Element {
 		PositioningRelation position = this.getPositioning();
 		if(position != null){
 			if(position.getTerm().size() > 1){
-				Element element = position.getTerm().get( 0 ).getElement( annotation );
-				if(element instanceof Relation){
+				Element firstElement = position.getTerm().get( 0 ).getElement( annotation );
+				Element secondElement = position.getTerm().get( 1 ).getElement( annotation );
+				if(firstElement instanceof Relation){
 					//TODO relation --> relation
 					//logger.debug(" relation TO relation idRelation " + this.getId());
 					return null;
-				}else if(element instanceof Unit){
-					if(((Unit) element).isNew( annotation ) ){
-						//the other is the good
-						return position.getTerm().get( 1 ).getElement( annotation );
+				}else if(firstElement instanceof Unit && secondElement instanceof Unit){
+					Unit firstUnit = (Unit) firstElement;
+					Unit secondUnit = (Unit) secondElement;
+					if( firstUnit.isNew( annotation ) ){
+						return secondUnit;
+					}else if( secondUnit.isNew( annotation ) ){
+						return firstUnit;
 					}else{
-						Element secondElement = position.getTerm().get( 1 ).getElement( annotation );
-						if( secondElement instanceof Unit){
-							if( ! ((Unit)secondElement).isNew( annotation ) ){
-								//we are in chain
-								//calculate the unit who are in first postion text
-								int posFirstElement = ((Unit)element).getStart( annotation );
-								int posSecondElement = ((Unit)secondElement).getStart( annotation );
-								if( posFirstElement > posSecondElement ){
-									return secondElement;
-								}else{
-									return element;
-								}
-							}
+						//compare two positions
+						if( firstUnit.getStart( annotation ) > secondUnit.getStart( annotation ) ){
+							return firstUnit;
+						}else{
+							return secondUnit;
 						}
-						return element;
 					}
 				}
 			}
