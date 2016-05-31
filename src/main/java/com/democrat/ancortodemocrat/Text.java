@@ -8,6 +8,7 @@ import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
 
 import com.democrat.ancor.speech.Trans;
+import com.democrat.ancor.speech.Turn;
 import com.democrat.ancortodemocrat.element.Annotation;
 import com.democrat.ancortodemocrat.element.Schema;
 import com.democrat.ancortodemocrat.element.Unit;
@@ -62,6 +63,15 @@ public class Text {
 		int index = this.content.indexOf("<Trans");
 
 		return JAXB.unmarshal(new StringReader( this.content.substring(index, this.content.length() ) ), Trans.class);
+	}
+	
+	/**
+	 * Returns the index within this string of the first occurrence of the specified character.
+	 * @param turn to loc
+	 * @return
+	 */
+	public int indexOf( Turn turn ){
+		return this.content.indexOf( turn.getContent() );
 	}
 	
 	

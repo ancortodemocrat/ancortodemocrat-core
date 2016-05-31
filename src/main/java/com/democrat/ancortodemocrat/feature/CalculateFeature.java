@@ -59,11 +59,11 @@ public class CalculateFeature implements Runnable {
 
 	private void calculatePreviousNextToken( Annotation annotation, Relation relation ){
 		Text text = this.corpus.getText( annotation.getFileName() );
-		
+
 		Element element = relation.getElement( annotation );
 		Element preElement = relation.getPreElement( annotation );
 		if( element instanceof Unit && preElement instanceof Unit ){
-			
+
 
 			if(element.getId().equals(preElement.getId() )){
 				logger.debug("YOLO" +element.getId());
@@ -71,10 +71,10 @@ public class CalculateFeature implements Runnable {
 				logger.debug("elementPOS "+((Unit) element).getStart(annotation) );
 				logger.debug("otherElement "+(((Unit) relation.getOtherElement(annotation, element)).getStart(annotation)));
 			}
-			
+
 			element.setFeature( "previous", text.getContentFromUnit( annotation , (Unit) preElement ) );
 			preElement.setFeature("next", text.getContentFromUnit( annotation , (Unit) element ) );
-			
+
 			if( ((Unit) preElement).isNew( annotation ) ){
 				//case where the unit hasn't a previous element
 				preElement.setFeature("previous", "^");
@@ -98,7 +98,7 @@ public class CalculateFeature implements Runnable {
 		Trans trans = text.toTrans();
 		List<Unit> unitList = annotation.getUnit();
 		List<Turn> turnList = trans.getEpisode().getSection().getTurn();
-		
+
 		for(int u = 0 ; u < unitList.size(); u++){
 			if( unitList.get( u ) instanceof Unit ){
 				String contentOfUnit = text.getContentFromUnit( annotation, unitList.get( u ) );
@@ -106,10 +106,17 @@ public class CalculateFeature implements Runnable {
 				for(int t = 0; t < turnList.size(); t++){
 					if( turnList.get( t ).getContent().contains( contentOfUnit ) ){
 						//found
-						unitList.get( u ).setFeature("spk", turnList.get( t ).getSpeaker() );
+						//just check the position is good
+						int startOfUnit = unitList.get( u ).getStart( annotation );
+						int endOfUnit = unitList.get( u ).getStart( annotation );
+						int indexOfTurn = text.indexOf( turnList.get( t ) );
+						if(  indexOfTurn <= startOfUnit &&
+								indexOfTurn + turnList.get( t ).getContent().length() >= endOfUnit ){
+							unitList.get( u ).setFeature("spk", turnList.get( t ).getSpeaker() );
+						}
 					}
 				}
-				
+
 			}
 		}
 
