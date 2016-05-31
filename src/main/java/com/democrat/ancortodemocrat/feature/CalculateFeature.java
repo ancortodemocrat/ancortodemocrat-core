@@ -63,15 +63,6 @@ public class CalculateFeature implements Runnable {
 		Element element = relation.getElement( annotation );
 		Element preElement = relation.getPreElement( annotation );
 		if( element instanceof Unit && preElement instanceof Unit ){
-
-
-			if(element.getId().equals(preElement.getId() )){
-				logger.debug("YOLO" +element.getId());
-				logger.debug("other: "+relation.getOtherElement(annotation, element));
-				logger.debug("elementPOS "+((Unit) element).getStart(annotation) );
-				logger.debug("otherElement "+(((Unit) relation.getOtherElement(annotation, element)).getStart(annotation)));
-			}
-
 			element.setFeature( "previous", text.getContentFromUnit( annotation , (Unit) preElement ) );
 			preElement.setFeature("next", text.getContentFromUnit( annotation , (Unit) element ) );
 
