@@ -46,7 +46,8 @@ public class CalculateFeature implements Runnable {
 
 	}
 
-	public void calculateFeatureOnRelation( Annotation annotation ){
+
+	private void calculateFeatureOnRelation( Annotation annotation ){
 		List<Relation> relationList = annotation.getRelation();
 		Text text = this.corpus.getText( annotation.getFileName() );
 		for(Relation relation : relationList){
@@ -115,6 +116,60 @@ public class CalculateFeature implements Runnable {
 					float rate = countSimilarity / preMentionSplitted.length;
 					relation.setFeature("COM_RATE", rate + "");					
 				}
+				
+				//distance_word && distance_char && turn_distance
+				int wordDistance = 0;
+				int charDistance = 0;
+				int turnDistance = 0;
+				Trans trans = text.toTrans();
+				List<Turn> turnList = trans.getEpisode().getSection().getTurn();
+				boolean counted = false;
+				for(int t = 0; t < turnList.size(); t++){
+					Turn turn = turnList.get( t );
+					//logger.debug("turnContent " + turn.getContent() );
+					if( counted ){
+						turnDistance++;
+					}
+
+					if( counted && text.isCorresponding( annotation, turn, (Unit) element ) ){
+						//last mention found, end of counting
+						
+						int indexOfTurn = text.indexOf( turn );
+						int indexOfUnit = ((Unit) element).getStart( annotation );
+						
+						logger.debug("end ===> " + text.getContentFromUnit(annotation, (Unit) element));
+						
+						charDistance += indexOfUnit - indexOfTurn;
+						wordDistance += this.splitMention( text.getContent().substring(indexOfTurn, indexOfUnit) ).length;						
+						
+						break;						
+					}else if( counted ){
+						//count word of the turn
+						wordDistance += this.splitMention( turn.getContent() ).length;
+						//logger.debug("++ "+turn.getContent() );
+						//count char of the turn
+						charDistance += turn.getContent().length();
+					}else{
+						//logger.debug("-- "+turn.getContent());
+					}
+					if( text.isCorresponding( annotation, turn, (Unit) preElement ) ){
+						//first mention found, start count
+						logger.debug("word ===> " + text.getContentFromUnit(annotation, (Unit) preElement));
+						
+						int start = ((Unit) preElement).getEnd( annotation );
+						int end = text.indexOf( turn ) + turn.getContent().length();
+						//logger.debug("start "+start + " end " + end);
+						//wordDistance += this.splitMention( text.getContent().substring(start , end) ).length;
+						//charDistance += text.getContent().substring(start , end).length();
+						
+						counted = true;
+					}
+				}
+				relation.setFeature("DISTANCE_WORD", wordDistance + "");
+				relation.setFeature("DISTANCE_CHAR", charDistance + "");
+				relation.setFeature("DISTANCE_TURN", turnDistance + "");
+				
+				
 				
 
 			}
@@ -202,6 +257,10 @@ public class CalculateFeature implements Runnable {
 	public void run() {
 		this.corpus.loadAnnotation();
 		this.corpus.loadText();
+		List<Annotation> annotationList = this.corpus.getAnnotation();
+		for(Annotation annotation : annotationList){
+			logger.debug(this.corpus.getText( annotation.getFileName() ).contentWithoutTag() );
+		}
 		this.work();
 		this.corpus.export();
 

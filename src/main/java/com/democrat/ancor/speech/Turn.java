@@ -1,5 +1,7 @@
 package com.democrat.ancor.speech;
 
+import java.util.List;
+
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -13,6 +15,8 @@ public class Turn {
 	private float endTime;
 	private Sync sync;
 	private String content;
+	private List<Who> whoList;
+	
 	
 	
 	@XmlAttribute
@@ -46,9 +50,4 @@ public class Turn {
 	public void setContent(String content) {
 		this.content = content;
 	}
-	
-	
-
-	
-	
 }

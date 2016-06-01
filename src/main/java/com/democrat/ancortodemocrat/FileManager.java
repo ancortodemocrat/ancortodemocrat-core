@@ -55,6 +55,7 @@ public class FileManager {
 		if( ! folderGenerated.exists() && ! folderGenerated.isDirectory() ){
 			folderGenerated.mkdir();
 		}
+		createArffFoler();
 	}
 
 	/**
@@ -154,7 +155,14 @@ public class FileManager {
 		return new ArrayList<String>();
 	}
 	
-	
+	private void createArffFoler(){
+		//generated folder
+				File folder = new File("arff");
+				//if path doesnt exist
+				if( ! folder.exists() && ! folder.isDirectory() ){
+					folder.mkdir();
+				}
+	}
 	
 
 }
