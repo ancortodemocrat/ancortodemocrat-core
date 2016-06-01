@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlMixed;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlValue;
 
@@ -17,6 +18,8 @@ public class Turn {
 	private String content;
 	private List<Who> whoList;
 	
+	
+	private List<String> text;
 	
 	
 	@XmlAttribute
@@ -43,8 +46,23 @@ public class Turn {
 		this.endTime = endTime;
 	}
 	
-	@XmlValue
+	@XmlMixed
+    public List<String> getText() {
+        return text;
+    }
+	
+	public void setText(List<String> text){
+		this.text = text;
+	}
+	
 	public String getContent() {
+		String content = "";
+		for(int t = 0; t < this.text.size(); t++){
+			content += this.text.get( t );
+			if( t < this.text.size() - 1){
+				content += " ";
+			}
+		}
 		return content;
 	}
 	public void setContent(String content) {

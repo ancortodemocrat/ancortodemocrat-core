@@ -35,7 +35,7 @@ public class CalculateFeature implements Runnable {
 
 			logger.info("[" + corpus.getName() +"] Calculate new features for : "+(a + 1)+"/"+this.corpus.getAnnotation().size() + " : " + this.corpus.getAnnotation().get( a ).getFileName() );
 			Annotation annotation = this.corpus.getAnnotation().get( a );
-			this.calculateNewFeature( annotation );
+			//this.calculateNewFeature( annotation );
 			calculateFeatureOnRelation( annotation );
 		}
 
@@ -124,8 +124,11 @@ public class CalculateFeature implements Runnable {
 				Trans trans = text.toTrans();
 				List<Turn> turnList = trans.getEpisode().getSection().getTurn();
 				boolean counted = false;
+				
+				
 				for(int t = 0; t < turnList.size(); t++){
 					Turn turn = turnList.get( t );
+					
 					//logger.debug("turnContent " + turn.getContent() );
 					if( counted ){
 						turnDistance++;
@@ -137,7 +140,7 @@ public class CalculateFeature implements Runnable {
 						int indexOfTurn = text.indexOf( turn );
 						int indexOfUnit = ((Unit) element).getStart( annotation );
 						
-						logger.debug("end ===> " + text.getContentFromUnit(annotation, (Unit) element));
+						//logger.debug("end ===> " + text.getContentFromUnit(annotation, (Unit) element));
 						
 						charDistance += indexOfUnit - indexOfTurn;
 						wordDistance += this.splitMention( text.getContent().substring(indexOfTurn, indexOfUnit) ).length;						
@@ -154,7 +157,7 @@ public class CalculateFeature implements Runnable {
 					}
 					if( text.isCorresponding( annotation, turn, (Unit) preElement ) ){
 						//first mention found, start count
-						logger.debug("word ===> " + text.getContentFromUnit(annotation, (Unit) preElement));
+						//logger.debug("word ===> " + text.getContentFromUnit(annotation, (Unit) preElement));
 						
 						int start = ((Unit) preElement).getEnd( annotation );
 						int end = text.indexOf( turn ) + turn.getContent().length();

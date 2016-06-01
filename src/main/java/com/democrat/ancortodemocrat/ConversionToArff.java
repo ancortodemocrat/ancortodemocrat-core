@@ -9,7 +9,6 @@ import com.democrat.ancortodemocrat.element.Annotation;
 import com.democrat.ancortodemocrat.element.Element;
 import com.democrat.ancortodemocrat.element.Relation;
 import com.democrat.ancortodemocrat.element.Unit;
-import com.democrat.ancortodemocrat.feature.Feature;
 
 public class ConversionToArff implements Runnable{
 
