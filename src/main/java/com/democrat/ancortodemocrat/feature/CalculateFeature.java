@@ -13,6 +13,7 @@ import com.democrat.ancortodemocrat.Text;
 import com.democrat.ancortodemocrat.element.Annotation;
 import com.democrat.ancortodemocrat.element.Element;
 import com.democrat.ancortodemocrat.element.Relation;
+import com.democrat.ancortodemocrat.element.Schema;
 import com.democrat.ancortodemocrat.element.Unit;
 
 public class CalculateFeature implements Runnable {
@@ -76,7 +77,45 @@ public class CalculateFeature implements Runnable {
 						relation.setFeature("ID_SUBFORM", "NO");
 					}
 				}
+				
+				//ID_SPK
+				String spk = element.getFeature("SPK");
+				String preSpk = preElement.getFeature("SPK");
+				
+				if( element instanceof Schema){
+					spk = ((Schema)element).getFeature( annotation, "SPK" );
+				}
+				if( preElement instanceof Schema){
+					spk = ((Schema)preElement).getFeature( annotation, "SPK" );
+				}
+				
+				if( spk.equals( preSpk ) ){
+					relation.setFeature("ID_SPK", "YES");
+				}else{
+					relation.setFeature("ID_SPK", "NO");
+				}
 
+				String[] mentionSplitted = this.splitMention( mention );
+				String[] preMentionSplitted = this.splitMention( preMention );
+				
+				//COM_RATE
+				int countSimilarity = 0;
+				for(int m = 0; m < mentionSplitted.length; m++){
+					
+					for(int p = 0; p < preMentionSplitted.length; p++){
+						if(mentionSplitted[ m ].equalsIgnoreCase( preMentionSplitted[ p ] ) ){
+							countSimilarity++;
+						}
+					}
+				}
+				if(mentionSplitted.length > preMentionSplitted.length){
+					float rate = countSimilarity / mentionSplitted.length;
+					relation.setFeature("COM_RATE", rate + "");
+				}else{
+					float rate = countSimilarity / preMentionSplitted.length;
+					relation.setFeature("COM_RATE", rate + "");					
+				}
+				
 
 			}
 		}
@@ -100,17 +139,17 @@ public class CalculateFeature implements Runnable {
 		Element element = relation.getElement( annotation );
 		Element preElement = relation.getPreElement( annotation );
 		if( element instanceof Unit && preElement instanceof Unit ){
-			element.setFeature( "previous", text.getContentFromUnit( annotation , (Unit) preElement ) );
-			preElement.setFeature("next", text.getContentFromUnit( annotation , (Unit) element ) );
+			element.setFeature( "PREVIOUS", text.getContentFromUnit( annotation , (Unit) preElement ) );
+			preElement.setFeature("NEXT", text.getContentFromUnit( annotation , (Unit) element ) );
 
 			if( ((Unit) preElement).isNew( annotation ) ){
 				//case where the unit hasn't a previous element
-				preElement.setFeature("previous", "^");
+				preElement.setFeature("PREVIOUS", "^");
 			}
 			//if the unit has only one relation, so he's the last
 			//or a associative mention
 			if( annotation.getRelationContaining( (Unit) element ).size() == 1 ){
-				element.setFeature("next", "$");
+				element.setFeature("NEXT", "$");
 			}
 		}
 
@@ -140,7 +179,7 @@ public class CalculateFeature implements Runnable {
 						int indexOfTurn = text.indexOf( turnList.get( t ) );
 						if(  indexOfTurn <= startOfUnit &&
 								indexOfTurn + turnList.get( t ).getContent().length() >= endOfUnit ){
-							unitList.get( u ).setFeature("spk", turnList.get( t ).getSpeaker() );
+							unitList.get( u ).setFeature("SPK", turnList.get( t ).getSpeaker() );
 						}
 					}
 				}
@@ -148,6 +187,15 @@ public class CalculateFeature implements Runnable {
 			}
 		}
 
+	}
+	
+
+
+	private String[] splitMention( String sentence ){
+		sentence = sentence.replace(", ", " , ");
+		sentence = sentence.replace(".", " .");
+		sentence = sentence.replace("  ", " ");
+		return sentence.split(" ");
 	}
 
 	@Override

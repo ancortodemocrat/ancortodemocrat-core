@@ -1,11 +1,9 @@
 package com.democrat.ancortodemocrat;
 
 import java.io.StringReader;
+import java.util.List;
 
 import javax.xml.bind.JAXB;
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.Unmarshaller;
 
 import com.democrat.ancor.speech.Trans;
 import com.democrat.ancor.speech.Turn;
@@ -18,9 +16,15 @@ public class Text {
 	
 	private String content;
 	private String fileName;
+	private Trans trans;
 	
 	public Text(String content){
 		this.content = content;
+		int index = this.content.indexOf("<Trans");
+
+		this.trans =  JAXB.unmarshal(new StringReader( this.content.substring(index, this.content.length() ) ), Trans.class);
+		
+		
 	}
 
 	public String getContent() {
@@ -56,13 +60,11 @@ public class Text {
 
 	
 	/**
-	 * convert the text with xml attribute to speech 
+	 * get the converted	 text with xml attribute to speech 
 	 * @return
 	 */
 	public Trans toTrans(){
-		int index = this.content.indexOf("<Trans");
-
-		return JAXB.unmarshal(new StringReader( this.content.substring(index, this.content.length() ) ), Trans.class);
+		return this.trans;
 	}
 	
 	/**
@@ -72,6 +74,17 @@ public class Text {
 	 */
 	public int indexOf( Turn turn ){
 		return this.content.indexOf( turn.getContent() );
+	}
+	
+	public String contentWithoutTag(){
+		String content = "";
+		
+		List<Turn> turnList = this.trans.getEpisode().getSection().getTurn();
+		for(Turn turn : turnList){
+			content += turn.getContent() + " ";
+		}
+		
+		return content;
 	}
 	
 	
