@@ -35,7 +35,7 @@ public class CalculateFeature implements Runnable {
 			logger.info("[" + corpus.getName() +"] Calculate new features for : "+(a + 1)+"/"+this.corpus.getAnnotation().size() + " : " + this.corpus.getAnnotation().get( a ).getFileName() );
 			Annotation annotation = this.corpus.getAnnotation().get( a );
 			this.calculateNewFeature( annotation );
-			ConversionInSet.toSetFromChain( annotation );
+			calculateFeatureOnRelation( annotation );
 		}
 
 
@@ -43,6 +43,43 @@ public class CalculateFeature implements Runnable {
 		corpus.setDone( true );
 
 
+	}
+
+	public void calculateFeatureOnRelation( Annotation annotation ){
+		List<Relation> relationList = annotation.getRelation();
+		Text text = this.corpus.getText( annotation.getFileName() );
+		for(Relation relation : relationList){
+			Element element = relation.getElement( annotation );
+			Element preElement = relation.getPreElement( annotation );
+			if( element instanceof Unit && preElement instanceof Unit ){
+				String mention = text.getContentFromUnit( annotation, (Unit) element );
+				String preMention = text.getContentFromUnit( annotation, (Unit) preElement );
+
+				//ID_FORM
+				if(mention.equalsIgnoreCase( preMention ) ){
+					relation.setFeature("ID_FORM", "YES");
+				}else{
+					relation.setFeature("ID_FORM", "NO");
+				}
+
+				//ID_SUBFORM
+				if( mention.length() > preMention.length() ){
+					if( mention.contains( preMention ) ){
+						relation.setFeature("ID_SUBFORM", "YES");
+					}else{
+						relation.setFeature("ID_SUBFORM", "NO");
+					}
+				}else{
+					if( preMention.contains( mention ) ){
+						relation.setFeature("ID_SUBFORM", "YES");
+					}else{
+						relation.setFeature("ID_SUBFORM", "NO");
+					}
+				}
+
+
+			}
+		}
 	}
 
 	private void calculateNewFeature( Annotation annotation ) {
