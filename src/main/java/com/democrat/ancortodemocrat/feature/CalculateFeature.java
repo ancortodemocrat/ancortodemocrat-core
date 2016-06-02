@@ -87,7 +87,7 @@ public class CalculateFeature implements Runnable {
 					spk = ((Schema)element).getFeature( annotation, "SPK" );
 				}
 				if( preElement instanceof Schema){
-					spk = ((Schema)preElement).getFeature( annotation, "SPK" );
+					preSpk = ((Schema)preElement).getFeature( annotation, "SPK" );
 				}
 
 				if( spk.equals( preSpk ) ){
@@ -99,7 +99,7 @@ public class CalculateFeature implements Runnable {
 				String[] mentionSplitted = this.splitMention( mention );
 				String[] preMentionSplitted = this.splitMention( preMention );
 
-				//COM_RATE
+				//COM_RATE && INCL_RATE
 				int countSimilarity = 0;
 				for(int m = 0; m < mentionSplitted.length; m++){
 
@@ -110,11 +110,15 @@ public class CalculateFeature implements Runnable {
 					}
 				}
 				if(mentionSplitted.length > preMentionSplitted.length){
+					//Mention is the largest
 					float rate = countSimilarity / mentionSplitted.length;
 					relation.setFeature("COM_RATE", rate + "");
+					relation.setFeature("INCL_RATE", (countSimilarity / preMentionSplitted.length) + "");
 				}else{
+					//premention is the largest
 					float rate = countSimilarity / preMentionSplitted.length;
-					relation.setFeature("COM_RATE", rate + "");					
+					relation.setFeature("COM_RATE", rate + "");	
+					relation.setFeature("INCL_RATE", (countSimilarity / mentionSplitted.length) + "");				
 				}
 
 				//distance_word && distance_char && turn_distance
@@ -137,8 +141,6 @@ public class CalculateFeature implements Runnable {
 					if( !counted && text.isCorresponding( annotation, turn, (Unit) preElement ) ){
 						//first mention found, start count
 						//logger.debug("word ===> " + text.getContentFromUnit(annotation, (Unit) preElement));
-
-
 
 						if( ! text.isCorresponding( annotation, turn, (Unit) element ) ){
 							int start = ((Unit) preElement).getEnd( annotation );
@@ -185,6 +187,22 @@ public class CalculateFeature implements Runnable {
 				relation.setFeature("DISTANCE_TURN", turnDistance + "");
 
 
+				//ID_DEF
+				String def = element.getFeature("DEF");
+				String preDef = preElement.getFeature("DEF");
+
+				if( element instanceof Schema){
+					def = ((Schema)element).getFeature( annotation, "DEF" );
+				}
+				if( preElement instanceof Schema){
+					preDef = ((Schema)preElement).getFeature( annotation, "DEF" );
+				}
+				if( def.equals( preDef ) ){
+					relation.setFeature("ID_DEF", "YES");
+				}else{
+					relation.setFeature("ID_DEF", "NO");					
+				}
+				
 
 
 			}
