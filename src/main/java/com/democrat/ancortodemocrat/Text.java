@@ -5,6 +5,8 @@ import java.util.List;
 
 import javax.xml.bind.JAXB;
 
+import org.apache.log4j.Logger;
+
 import com.democrat.ancor.speech.Trans;
 import com.democrat.ancor.speech.Turn;
 import com.democrat.ancortodemocrat.element.Annotation;
@@ -13,6 +15,7 @@ import com.democrat.ancortodemocrat.element.Unit;
 
 public class Text {
 
+	private static Logger logger = Logger.getLogger(Text.class);
 
 	private String content;
 	private String fileName;
@@ -73,7 +76,11 @@ public class Text {
 	 * @return
 	 */
 	public int indexOf( Turn turn ){
-		return this.content.indexOf( turn.getContent() );
+		if(turn.getText().size() > 1){
+			return this.content.indexOf( turn.getText().get( 0 ) );
+		}else{
+			return this.content.indexOf( turn.getContent() );
+		}
 	}
 
 	public String contentWithoutTag(){
@@ -86,14 +93,14 @@ public class Text {
 
 		return content;
 	}
-	
+
 	public boolean isCorresponding( Annotation annotation, Turn turn, Unit unit ){
 		String contentOfUnit = this.getContentFromUnit(annotation, unit);
 		if( turn.getContent().contains( contentOfUnit ) ){
 			//found
 			//just check the position is good
 			int startOfUnit = unit.getStart( annotation );
-			int endOfUnit = unit.getStart( annotation );
+			int endOfUnit = unit.getEnd( annotation );
 			int indexOfTurn = this.indexOf( turn );
 			if(  indexOfTurn <= startOfUnit &&
 					indexOfTurn + turn.getContent().length() >= endOfUnit ){

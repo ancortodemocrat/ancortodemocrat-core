@@ -35,7 +35,7 @@ public class CalculateFeature implements Runnable {
 
 			logger.info("[" + corpus.getName() +"] Calculate new features for : "+(a + 1)+"/"+this.corpus.getAnnotation().size() + " : " + this.corpus.getAnnotation().get( a ).getFileName() );
 			Annotation annotation = this.corpus.getAnnotation().get( a );
-			//this.calculateNewFeature( annotation );
+			this.calculateNewFeature( annotation );
 			calculateFeatureOnRelation( annotation );
 		}
 
@@ -78,18 +78,18 @@ public class CalculateFeature implements Runnable {
 						relation.setFeature("ID_SUBFORM", "NO");
 					}
 				}
-				
+
 				//ID_SPK
 				String spk = element.getFeature("SPK");
 				String preSpk = preElement.getFeature("SPK");
-				
+
 				if( element instanceof Schema){
 					spk = ((Schema)element).getFeature( annotation, "SPK" );
 				}
 				if( preElement instanceof Schema){
 					spk = ((Schema)preElement).getFeature( annotation, "SPK" );
 				}
-				
+
 				if( spk.equals( preSpk ) ){
 					relation.setFeature("ID_SPK", "YES");
 				}else{
@@ -98,11 +98,11 @@ public class CalculateFeature implements Runnable {
 
 				String[] mentionSplitted = this.splitMention( mention );
 				String[] preMentionSplitted = this.splitMention( preMention );
-				
+
 				//COM_RATE
 				int countSimilarity = 0;
 				for(int m = 0; m < mentionSplitted.length; m++){
-					
+
 					for(int p = 0; p < preMentionSplitted.length; p++){
 						if(mentionSplitted[ m ].equalsIgnoreCase( preMentionSplitted[ p ] ) ){
 							countSimilarity++;
@@ -116,7 +116,7 @@ public class CalculateFeature implements Runnable {
 					float rate = countSimilarity / preMentionSplitted.length;
 					relation.setFeature("COM_RATE", rate + "");					
 				}
-				
+
 				//distance_word && distance_char && turn_distance
 				int wordDistance = 0;
 				int charDistance = 0;
@@ -124,29 +124,53 @@ public class CalculateFeature implements Runnable {
 				Trans trans = text.toTrans();
 				List<Turn> turnList = trans.getEpisode().getSection().getTurn();
 				boolean counted = false;
-				
-				
+
+
 				for(int t = 0; t < turnList.size(); t++){
 					Turn turn = turnList.get( t );
-					
+
 					//logger.debug("turnContent " + turn.getContent() );
 					if( counted ){
 						turnDistance++;
 					}
 
+					if( !counted && text.isCorresponding( annotation, turn, (Unit) preElement ) ){
+						//first mention found, start count
+						//logger.debug("word ===> " + text.getContentFromUnit(annotation, (Unit) preElement));
+
+
+
+						if( ! text.isCorresponding( annotation, turn, (Unit) element ) ){
+							int start = ((Unit) preElement).getEnd( annotation );
+							int end = text.indexOf( turn ) + turn.getContent().length();
+							wordDistance += this.splitMention( text.getContent().substring(start , end) ).length;
+							charDistance += text.getContent().substring(start , end).length();
+						}
+
+						counted = true;
+					}
+
+
 					if( counted && text.isCorresponding( annotation, turn, (Unit) element ) ){
 						//last mention found, end of counting
-						
-						int indexOfTurn = text.indexOf( turn );
-						int indexOfUnit = ((Unit) element).getStart( annotation );
-						
-						//logger.debug("end ===> " + text.getContentFromUnit(annotation, (Unit) element));
-						
-						charDistance += indexOfUnit - indexOfTurn;
-						wordDistance += this.splitMention( text.getContent().substring(indexOfTurn, indexOfUnit) ).length;						
-						
+
+						if( text.isCorresponding( annotation, turn, (Unit) preElement ) ){
+							//same turn for two elements
+							int start = ((Unit) preElement).getEnd( annotation );
+							int end = ((Unit) element).getStart( annotation );
+
+							charDistance += end - start;
+							wordDistance += this.splitMention( text.getContent().substring(start, end) ).length;
+
+						}else{
+							int indexOfTurn = text.indexOf( turn );
+							int indexOfUnit = ((Unit) element).getStart( annotation );
+							charDistance += indexOfUnit - indexOfTurn;
+							wordDistance += this.splitMention( text.getContent().substring(indexOfTurn, indexOfUnit) ).length;
+						}
+
 						break;						
-					}else if( counted ){
+					}else if( counted && ! text.isCorresponding( annotation, turn, (Unit) preElement ) ){
 						//count word of the turn
 						wordDistance += this.splitMention( turn.getContent() ).length;
 						//logger.debug("++ "+turn.getContent() );
@@ -155,25 +179,13 @@ public class CalculateFeature implements Runnable {
 					}else{
 						//logger.debug("-- "+turn.getContent());
 					}
-					if( text.isCorresponding( annotation, turn, (Unit) preElement ) ){
-						//first mention found, start count
-						//logger.debug("word ===> " + text.getContentFromUnit(annotation, (Unit) preElement));
-						
-						int start = ((Unit) preElement).getEnd( annotation );
-						int end = text.indexOf( turn ) + turn.getContent().length();
-						//logger.debug("start "+start + " end " + end);
-						//wordDistance += this.splitMention( text.getContent().substring(start , end) ).length;
-						//charDistance += text.getContent().substring(start , end).length();
-						
-						counted = true;
-					}
 				}
 				relation.setFeature("DISTANCE_WORD", wordDistance + "");
 				relation.setFeature("DISTANCE_CHAR", charDistance + "");
 				relation.setFeature("DISTANCE_TURN", turnDistance + "");
-				
-				
-				
+
+
+
 
 			}
 		}
@@ -246,10 +258,15 @@ public class CalculateFeature implements Runnable {
 		}
 
 	}
-	
+
 
 
 	private String[] splitMention( String sentence ){
+		if(sentence.length() > 0){
+			if(sentence.charAt( 0 ) == ' '){
+				sentence = sentence.substring( 1 );
+			}
+		}
 		sentence = sentence.replace(", ", " , ");
 		sentence = sentence.replace(".", " .");
 		sentence = sentence.replace("  ", " ");
