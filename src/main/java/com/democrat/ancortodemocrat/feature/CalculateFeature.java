@@ -111,7 +111,7 @@ public class CalculateFeature implements Runnable {
 				String[] preMentionSplitted = this.splitMention( preMention );
 
 				//COM_RATE && INCL_RATE
-				int countSimilarity = 0;
+				float countSimilarity = 0.0F;
 				for(int m = 0; m < mentionSplitted.length; m++){
 
 					for(int p = 0; p < preMentionSplitted.length; p++){
@@ -122,12 +122,14 @@ public class CalculateFeature implements Runnable {
 				}
 				if(mentionSplitted.length > preMentionSplitted.length){
 					//Mention is the largest
-					float rate = countSimilarity / mentionSplitted.length;
+					float length = mentionSplitted.length;
+					float rate = countSimilarity / length;
 					relation.setFeature("COM_RATE", rate + "");
 					relation.setFeature("INCL_RATE", (countSimilarity / preMentionSplitted.length) + "");
 				}else{
 					//premention is the largest
-					float rate = countSimilarity / preMentionSplitted.length;
+					float length = preMentionSplitted.length;
+					float rate = countSimilarity / length;
 					relation.setFeature("COM_RATE", rate + "");	
 					relation.setFeature("INCL_RATE", (countSimilarity / mentionSplitted.length) + "");				
 				}
