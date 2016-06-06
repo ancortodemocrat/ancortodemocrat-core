@@ -7,6 +7,7 @@ import org.apache.log4j.Logger;
 import com.democrat.ancor.speech.Trans;
 import com.democrat.ancor.speech.Turn;
 import com.democrat.ancortodemocrat.ConversionInSet;
+import com.democrat.ancortodemocrat.ConversionToArff;
 import com.democrat.ancortodemocrat.ConversionWorker;
 import com.democrat.ancortodemocrat.Corpus;
 import com.democrat.ancortodemocrat.Text;
@@ -57,6 +58,16 @@ public class CalculateFeature implements Runnable {
 				String mention = text.getContentFromUnit( annotation, (Unit) element );
 				String preMention = text.getContentFromUnit( annotation, (Unit) preElement );
 
+				
+				//ID_TYPE
+				String typeElement = element.getCharacterisation().getType().getValue();
+				String typePreElement = element.getCharacterisation().getType().getValue();
+				if( typeElement.equals( typePreElement ) ){
+					relation.setFeature( "ID_TYPE", "YES");
+				}else{
+					relation.setFeature( "ID_TYPE", "NO");
+				}
+				
 				//ID_FORM
 				if(mention.equalsIgnoreCase( preMention ) ){
 					relation.setFeature("ID_FORM", "YES");
@@ -162,8 +173,10 @@ public class CalculateFeature implements Runnable {
 							int end = ((Unit) element).getStart( annotation );
 
 							charDistance += end - start;
-							wordDistance += this.splitMention( text.getContent().substring(start, end) ).length;
+							if(charDistance > 0){
+								wordDistance += this.splitMention( text.getContent().substring(start, end) ).length;
 
+							}
 						}else{
 							int indexOfTurn = text.indexOf( turn );
 							int indexOfUnit = ((Unit) element).getStart( annotation );
@@ -202,7 +215,25 @@ public class CalculateFeature implements Runnable {
 				}else{
 					relation.setFeature("ID_DEF", "NO");					
 				}
-				
+
+
+				//distance mention
+				int startRelation = ((Unit) preElement).getStart( annotation );
+				int endRelation = ((Unit) element).getStart( annotation );
+				List<Unit> unitList = annotation.getUnit();
+				int countMention = 1;
+				for(Unit unit : unitList){
+					if( ! unit.getId().contains("TXT_IMPORTER") &&
+							! unit.equals( preElement ) &&
+							! unit.equals( element )){
+						int startUnit = unit.getStart( annotation );
+						if( startUnit > startRelation &&
+								startUnit < endRelation){
+							countMention++;
+						}
+					}
+				}
+				relation.setFeature("DISTANCE_MENTION", countMention + "");
 
 
 			}
@@ -227,8 +258,11 @@ public class CalculateFeature implements Runnable {
 		Element element = relation.getElement( annotation );
 		Element preElement = relation.getPreElement( annotation );
 		if( element instanceof Unit && preElement instanceof Unit ){
+			
+			if( ! ((Unit) element).isNew( annotation ) || ! ((Unit) preElement).isNew( annotation ) ){
+				preElement.setFeature("NEXT", text.getContentFromUnit( annotation , (Unit) element ) );
+			}
 			element.setFeature( "PREVIOUS", text.getContentFromUnit( annotation , (Unit) preElement ) );
-			preElement.setFeature("NEXT", text.getContentFromUnit( annotation , (Unit) element ) );
 
 			if( ((Unit) preElement).isNew( annotation ) ){
 				//case where the unit hasn't a previous element
@@ -296,12 +330,10 @@ public class CalculateFeature implements Runnable {
 		this.corpus.loadAnnotation();
 		this.corpus.loadText();
 		List<Annotation> annotationList = this.corpus.getAnnotation();
-		for(Annotation annotation : annotationList){
-			logger.debug(this.corpus.getText( annotation.getFileName() ).contentWithoutTag() );
-		}
+		
 		this.work();
 		this.corpus.export();
-
+		ConversionToArff.convert( this.corpus );
 	}
 
 }

@@ -43,10 +43,10 @@ public class Relation extends Element {
 		MetadataUnit metadata = anotherRelation.getMetadata();
 		relation.metadata = metadata;
 
-		
+
 		relation.characterisation = new Characterisation();
 		relation.characterisation.setType( new Type( new String( anotherRelation.getCharacterisation().getType().getValue() ) ) );
-		
+
 		List<Feature> features = anotherRelation.getCharacterisation().getFeatureSet().getFeature();
 		FeatureSet featureSet = new FeatureSet();
 		List<Feature> newFeatures = new ArrayList<Feature>();
@@ -163,6 +163,14 @@ public class Relation extends Element {
 				}else if(firstElement instanceof Unit && secondElement instanceof Unit){
 					Unit firstUnit = (Unit) firstElement;
 					Unit secondUnit = (Unit) secondElement;
+					if( firstUnit.isNew( annotation ) && secondUnit.isNew( annotation) ){
+						//compare two positions
+						if( firstUnit.getStart( annotation ) > secondUnit.getStart( annotation ) ){
+							return secondUnit;
+						}else{
+							return firstUnit;
+						}
+					}
 					if( firstUnit.isNew( annotation ) ){
 						return firstUnit;
 					}else if( secondUnit.isNew( annotation ) ){
@@ -200,6 +208,14 @@ public class Relation extends Element {
 				}else if(firstElement instanceof Unit && secondElement instanceof Unit){
 					Unit firstUnit = (Unit) firstElement;
 					Unit secondUnit = (Unit) secondElement;
+					if( firstUnit.isNew( annotation ) && secondUnit.isNew( annotation ) ){
+						//compare two positions
+						if( firstUnit.getStart( annotation ) > secondUnit.getStart( annotation ) ){
+							return firstUnit;
+						}else{
+							return secondUnit;
+						}
+					}
 					if( firstUnit.isNew( annotation ) ){
 						return secondUnit;
 					}else if( secondUnit.isNew( annotation ) ){
@@ -355,7 +371,7 @@ public class Relation extends Element {
 	 * @return boolean
 	 */
 	public boolean containsNew( Annotation annotation ){
-		
+
 		List<Term> list = this.getPositioning().getTerm();
 		for(Term term : list){
 			if(term.getElement( annotation ) instanceof Unit){
