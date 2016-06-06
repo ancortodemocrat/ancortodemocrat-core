@@ -6,9 +6,7 @@ import org.apache.log4j.Logger;
 
 import com.democrat.ancor.speech.Trans;
 import com.democrat.ancor.speech.Turn;
-import com.democrat.ancortodemocrat.ConversionInSet;
 import com.democrat.ancortodemocrat.ConversionToArff;
-import com.democrat.ancortodemocrat.ConversionWorker;
 import com.democrat.ancortodemocrat.Corpus;
 import com.democrat.ancortodemocrat.Text;
 import com.democrat.ancortodemocrat.element.Annotation;
@@ -123,15 +121,19 @@ public class CalculateFeature implements Runnable {
 				if(mentionSplitted.length > preMentionSplitted.length){
 					//Mention is the largest
 					float length = mentionSplitted.length;
+					float preLength = preMentionSplitted.length;
+					float inclRate = countSimilarity / preLength;
 					float rate = countSimilarity / length;
 					relation.setFeature("COM_RATE", rate + "");
-					relation.setFeature("INCL_RATE", (countSimilarity / preMentionSplitted.length) + "");
+					relation.setFeature("INCL_RATE", inclRate + "");
 				}else{
 					//premention is the largest
 					float length = preMentionSplitted.length;
 					float rate = countSimilarity / length;
+					float preLength = mentionSplitted.length;
+					float inclRate = countSimilarity / preLength;
 					relation.setFeature("COM_RATE", rate + "");	
-					relation.setFeature("INCL_RATE", (countSimilarity / mentionSplitted.length) + "");				
+					relation.setFeature("INCL_RATE", inclRate + "");				
 				}
 
 				//distance_word && distance_char && turn_distance
@@ -331,11 +333,11 @@ public class CalculateFeature implements Runnable {
 	public void run() {
 		this.corpus.loadAnnotation();
 		this.corpus.loadText();
-		List<Annotation> annotationList = this.corpus.getAnnotation();
-		
 		this.work();
 		this.corpus.export();
-		ConversionToArff.convert( this.corpus );
+		ConversionToArff conversionToArff = new ConversionToArff( this.corpus );
+		Thread th = new Thread( conversionToArff );
+		th.start();
 	}
 
 }
