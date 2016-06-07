@@ -61,144 +61,152 @@ public class ConversionToArff implements Runnable{
 		this.corpus = corpus;
 	}
 
+	private String writeFeatures( Annotation annotation, Relation relation ){
+		String line = "";
+
+		Element element = relation.getElement( annotation );
+		Element preElement = relation.getPreElement( annotation );
+		if( element instanceof Unit && preElement instanceof Unit ){
+			//m1_type
+			line += preElement.getCharacterisation().getType().getValue();
+			line += " ";
+			//m2_type
+			line += element.getCharacterisation().getType().getValue();
+			line += " ";
+			//m1_def
+			line += preElement.getFeature( "DEF" );
+			line += " ";
+			//m2_def
+			line += element.getFeature( "DEF" );
+			line += " ";
+			//m1_genre
+			line += preElement.getFeature( "GENRE" );
+			line += " ";
+			//m2_genre
+			line += element.getFeature( "GENRE" );
+			line += " ";
+
+			//m1_nombre
+			line += preElement.getFeature( "NB" );
+			line += " ";
+			//m2_nombre
+			line += element.getFeature( "NB" );
+			line += " ";
+
+			//m1_previous
+			//line += preElement.getFeature( "PREVIOUS" );
+			//line += " ";
+			//m2_previous
+			//line += element.getFeature( "PREVIOUS" );
+			//line += " ";
+
+			//m1_next
+			//line += preElement.getFeature( "NEXT" );
+			//line += " ";
+			//m2_next
+			//line += element.getFeature( "NEXT" );
+			//line += " ";
+
+			//m1_spk
+			//line += preElement.getFeature( "SPK" );
+			//line += " ";
+			//m2_spk
+			//line += element.getFeature( "SPK" );
+			//line += " ";
+
+			//m1_new
+			line += preElement.getFeature( "NEW" );
+			line += " ";
+			//m2_new
+			line += element.getFeature( "NEW" );
+			line += " ";
+
+
+			//m1_en
+			line += preElement.getFeature( "EN" );
+			line += " ";
+			//m2_en
+			line += element.getFeature( "EN" );
+			line += " ";
+
+			//id_form
+			line += relation.getFeature( "ID_FORM" );
+			line += " ";
+
+			//id_subform
+			line += relation.getFeature( "ID_SUBFORM" );
+			line += " ";
+
+			//incl_rate
+			line += relation.getFeature( "INCL_RATE" );
+			line += " ";
+
+			//com_rate
+			line += relation.getFeature( "COM_RATE" );
+			line += " ";
+
+			//ID_DEF
+			line += relation.getFeature( "ID_DEF" );
+			line += " ";
+
+			//ID_TYPE
+			line += relation.getFeature( "ID_TYPE" );
+			line += " ";
+
+			//id_en
+			line += relation.getFeature( "ID_EN" );
+			line += " ";
+
+			//ID_GENRE
+			line += relation.getFeature( "GENRE" );
+			line += " ";
+
+			//ID_NOMBRE
+			line += relation.getFeature( "NOMBRE" );
+			line += " ";
+
+			//ID_SPK
+			line += relation.getFeature( "ID_SPK" );
+			line += " ";
+
+			//distance_mention
+			line += relation.getFeature( "DISTANCE_MENTION" );
+			line += " ";
+
+			//distance_turn
+			line += relation.getFeature( "DISTANCE_TURN" );
+			line += " ";
+
+			//distance word
+			line += relation.getFeature( "DISTANCE_WORD" );
+			line += " ";
+
+			//Distance_char 
+			line += relation.getFeature( "DISTANCE_CHAR" );
+			line += " ";
+
+		}
+		return line;
+	}
+
 	private void work( ){
 
 		PrintWriter writer = null;
 		try {
 			writer = new PrintWriter("generated/arff/" + corpus.getName() + "_coreference.arff", "UTF-8");
 			writer.println( arffAttribute );
+			writer.println("");
 			for(Annotation annotation : corpus.getAnnotation()){
 
 				for( Relation relation : annotation.getRelation() ){
-					String line = "";
 
-					Element element = relation.getElement( annotation );
-					Element preElement = relation.getPreElement( annotation );
-					if( element instanceof Unit && preElement instanceof Unit ){
-						//m1_type
-						line += preElement.getCharacterisation().getType().getValue();
-						line += " ";
-						//m2_type
-						line += element.getCharacterisation().getType().getValue();
-						line += " ";
-						//m1_def
-						line += preElement.getFeature( "DEF" );
-						line += " ";
-						//m2_def
-						line += element.getFeature( "DEF" );
-						line += " ";
-						//m1_genre
-						line += preElement.getFeature( "GENRE" );
-						line += " ";
-						//m2_genre
-						line += element.getFeature( "GENRE" );
-						line += " ";
-
-						//m1_nombre
-						line += preElement.getFeature( "NB" );
-						line += " ";
-						//m2_nombre
-						line += element.getFeature( "NB" );
-						line += " ";
-
-						//m1_previous
-						//line += preElement.getFeature( "PREVIOUS" );
-						//line += " ";
-						//m2_previous
-						//line += element.getFeature( "PREVIOUS" );
-						//line += " ";
-
-						//m1_next
-						//line += preElement.getFeature( "NEXT" );
-						//line += " ";
-						//m2_next
-						//line += element.getFeature( "NEXT" );
-						//line += " ";
-
-						//m1_spk
-						//line += preElement.getFeature( "SPK" );
-						//line += " ";
-						//m2_spk
-						//line += element.getFeature( "SPK" );
-						//line += " ";
-
-						//m1_new
-						line += preElement.getFeature( "NEW" );
-						line += " ";
-						//m2_new
-						line += element.getFeature( "NEW" );
-						line += " ";
-
-
-						//m1_en
-						line += preElement.getFeature( "EN" );
-						line += " ";
-						//m2_en
-						line += element.getFeature( "EN" );
-						line += " ";
-
-						//id_form
-						line += relation.getFeature( "ID_FORM" );
-						line += " ";
-
-						//id_subform
-						line += relation.getFeature( "ID_SUBFORM" );
-						line += " ";
-
-						//incl_rate
-						line += relation.getFeature( "INCL_RATE" );
-						line += " ";
-
-						//com_rate
-						line += relation.getFeature( "COM_RATE" );
-						line += " ";
-
-						//ID_DEF
-						line += relation.getFeature( "ID_DEF" );
-						line += " ";
-
-						//ID_TYPE
-						line += relation.getFeature( "ID_TYPE" );
-						line += " ";
-
-						//id_en
-						line += relation.getFeature( "ID_EN" );
-						line += " ";
-
-						//ID_GENRE
-						line += relation.getFeature( "GENRE" );
-						line += " ";
-
-						//ID_NOMBRE
-						line += relation.getFeature( "NOMBRE" );
-						line += " ";
-
-						//ID_SPK
-						line += relation.getFeature( "ID_SPK" );
-						line += " ";
-
-						//distance_mention
-						line += relation.getFeature( "DISTANCE_MENTION" );
-						line += " ";
-
-						//distance_turn
-						line += relation.getFeature( "DISTANCE_TURN" );
-						line += " ";
-
-						//distance word
-						line += relation.getFeature( "DISTANCE_WORD" );
-						line += " ";
-
-						//Distance_char 
-						line += relation.getFeature( "DISTANCE_CHAR" );
-						line += " ";
-
-						//CLASS !!!!
+					//for positive class
+					String line = writeFeatures( annotation, relation );
+					if( ! line.isEmpty() ){
 						line += "COREF";
-
-						positiveRelation++;
-						generateNegativeRelation( corpus, annotation, relation, writer);
 						writer.println( line );
+						//for negative class
+						generateNegativeRelation( corpus, annotation, relation, writer);
 					}
 
 				}
@@ -222,20 +230,25 @@ public class ConversionToArff implements Runnable{
 
 	private void generateNegativeRelation(Corpus corpus, Annotation annotation, Relation relation, PrintWriter writer) {
 		int negativeRelationToGenerate = randomNumber(1, 3);
-		List<Relation> relationList = annotation.getRelation();
-		List<Integer> relationGenerated = new ArrayList<Integer>();
+		List<Unit> unitList = annotation.getUnit();
 		for(int turn = 0; turn < negativeRelationToGenerate; turn++){
 			boolean done = false;
 			int attempt = 0;
 			while( ! done ){
-				int relationIdRandom = randomNumber(0, relationList.size() );
-				if( ! relationList.get( relationIdRandom ).equals( relation ) && ! relationList.contains( relationIdRandom ) ){
+				int relationIdRandom = randomNumber(0, unitList.size() );
+				if( ! unitList.contains( relationIdRandom ) ){
 					//negative relation generated
-					if( ! relationList.get( relationIdRandom ).getFeature( "REF" ).equals( relation.getFeature( "REF" ) ) ){
-						// not the same chain
-						relationGenerated.add( relationIdRandom );
-						
-						break;
+					if( ! unitList.get( relationIdRandom ).getFeature( "REF" ).equals( relation.getFeature( "REF" ) ) ){
+						//the unit is not in the chain of relation
+						// we create a new relation between the unit and preElement of the relation
+						Relation newRelation = new Relation();
+						//then calculate feature of the new relation
+						String line = writeFeatures( annotation, relation );
+						if( ! line.isEmpty() ){
+							line += " NOT_COREF";
+							writer.println( line );
+						}
+						done = true;
 					}
 				}
 				if( attempt > 10 ){

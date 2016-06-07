@@ -1,12 +1,11 @@
 package com.democrat.ancor.speech;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlMixed;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlValue;
 
 @XmlRootElement(name="Turn")
 public class Turn {
@@ -14,9 +13,6 @@ public class Turn {
 	private String speaker;
 	private float startTime;
 	private float endTime;
-	private Sync sync;
-	private String content;
-	private List<Who> whoList;
 	
 	
 	private List<String> text;
@@ -48,6 +44,9 @@ public class Turn {
 	
 	@XmlMixed
     public List<String> getText() {
+		if(text == null){
+			text = new ArrayList<String>();
+		}
         return text;
     }
 	
@@ -57,7 +56,7 @@ public class Turn {
 	
 	public String getContent() {
 		String content = "";
-		for(int t = 0; t < this.text.size(); t++){
+		for(int t = 0; t < this.getText().size(); t++){
 			content += this.text.get( t );
 			if( t < this.text.size() - 1){
 				content += " ";
@@ -65,7 +64,5 @@ public class Turn {
 		}
 		return content;
 	}
-	public void setContent(String content) {
-		this.content = content;
-	}
+	
 }
