@@ -10,6 +10,7 @@ import com.democrat.ancortodemocrat.element.Annotation;
 import com.democrat.ancortodemocrat.element.Element;
 import com.democrat.ancortodemocrat.element.Relation;
 import com.democrat.ancortodemocrat.element.Unit;
+import com.democrat.ancortodemocrat.feature.CalculateFeature;
 
 public class ConversionToArff implements Runnable{
 
@@ -197,7 +198,7 @@ public class ConversionToArff implements Runnable{
 			writer.println( arffAttribute );
 			writer.println("");
 			for(Annotation annotation : corpus.getAnnotation()){
-
+				annotation.removeTxtImporter();
 				for( Relation relation : annotation.getRelation() ){
 
 					//for positive class
@@ -235,17 +236,24 @@ public class ConversionToArff implements Runnable{
 			boolean done = false;
 			int attempt = 0;
 			while( ! done ){
-				int relationIdRandom = randomNumber(0, unitList.size() );
-				if( ! unitList.contains( relationIdRandom ) ){
+				int unitIdRandom = randomNumber(0, unitList.size() - 1 );
+				if( ! unitList.contains( unitIdRandom ) ){
 					//negative relation generated
-					if( ! unitList.get( relationIdRandom ).getFeature( "REF" ).equals( relation.getFeature( "REF" ) ) ){
+					if( ! unitList.get( unitIdRandom ).getFeature( "REF" ).equals( relation.getFeature( "REF" ) ) ){
 						//the unit is not in the chain of relation
 						// we create a new relation between the unit and preElement of the relation
+						Unit unit = (Unit) relation.getElement( annotation );
 						Relation newRelation = new Relation();
+						newRelation.addUnit( unit );
+						newRelation.addUnit( unitList.get( unitIdRandom ) );
+						
+						CalculateFeature calculateFeature = new CalculateFeature( corpus );
+						calculateFeature.calculateFeatureOnRelation(annotation, newRelation);
+						
 						//then calculate feature of the new relation
-						String line = writeFeatures( annotation, relation );
+						String line = writeFeatures( annotation, newRelation );
 						if( ! line.isEmpty() ){
-							line += " NOT_COREF";
+							line += "NOT_COREF";
 							writer.println( line );
 						}
 						done = true;

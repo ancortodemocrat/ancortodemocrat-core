@@ -24,8 +24,8 @@ public class Relation extends Element {
 
 
 	private MetadataUnit metadata;
-	private Characterisation characterisation;
-	private PositioningRelation positioning;
+	private Characterisation characterisation = new Characterisation();
+	private PositioningRelation positioning = new PositioningRelation();
 
 	public Relation(){
 
@@ -381,6 +381,15 @@ public class Relation extends Element {
 			}
 		}
 		return false;
+	}
+	
+	public void addUnit( Unit unit ){
+		if(this.positioning.getTerm().size() >= 2){
+			logger.debug("Relation cannot have more two units");
+			return;
+		}else{
+			this.positioning.getTerm().add(new Term( unit.getId() ) );			
+		}
 	}
 
 }

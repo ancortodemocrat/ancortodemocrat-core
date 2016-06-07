@@ -44,7 +44,7 @@ public class CalculateFeature implements Runnable {
 
 
 	}
-	
+
 	public void calculateFeatureOnRelation( Annotation annotation, Relation relation ){
 		Text text = this.corpus.getText( annotation.getFileName() );
 		Element element = relation.getElement( annotation );
@@ -53,7 +53,29 @@ public class CalculateFeature implements Runnable {
 			String mention = text.getContentFromUnit( annotation, (Unit) element );
 			String preMention = text.getContentFromUnit( annotation, (Unit) preElement );
 
-			
+
+			//ID_NOMBRE
+			if(relation.getFeature( "NOMBRE" ).equals( "NULL") ){
+				String nbElement = element.getFeature( "NB" );
+				String nbPreElement = preElement.getFeature( "NB" );
+				if(nbElement.equals( nbPreElement ) ){
+					relation.setFeature("NOMBRE", "YES");
+				}else{
+					relation.setFeature("NOMBRE", "NO");
+				}
+			}
+			//ID_GENRE
+			if(relation.getFeature( "GENRE" ).equals( "NULL") ){
+				String genreElement = element.getFeature( "GENRE" );
+				String genrePreElement = preElement.getFeature( "GENRE" );
+				if(genreElement.equals( genrePreElement ) ){
+					relation.setFeature("GENRE", "YES");
+				}else{
+					relation.setFeature("GENRE", "NO");
+				}
+
+			}
+
 			//ID_TYPE
 			String typeElement = element.getCharacterisation().getType().getValue();
 			String typePreElement = element.getCharacterisation().getType().getValue();
@@ -62,7 +84,7 @@ public class CalculateFeature implements Runnable {
 			}else{
 				relation.setFeature( "ID_TYPE", "NO");
 			}
-			
+
 			//ID_FORM
 			if(mention.equalsIgnoreCase( preMention ) ){
 				relation.setFeature("ID_FORM", "YES");
@@ -266,7 +288,7 @@ public class CalculateFeature implements Runnable {
 		Element element = relation.getElement( annotation );
 		Element preElement = relation.getPreElement( annotation );
 		if( element instanceof Unit && preElement instanceof Unit ){
-			
+
 			if( ! ((Unit) element).isNew( annotation ) || ! ((Unit) preElement).isNew( annotation ) ){
 				preElement.setFeature("NEXT", text.getContentFromUnit( annotation , (Unit) element ) );
 			}
