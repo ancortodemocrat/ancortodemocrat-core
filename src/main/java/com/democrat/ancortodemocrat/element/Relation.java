@@ -43,10 +43,10 @@ public class Relation extends Element {
 		MetadataUnit metadata = anotherRelation.getMetadata();
 		relation.metadata = metadata;
 
-		
+
 		relation.characterisation = new Characterisation();
 		relation.characterisation.setType( new Type( new String( anotherRelation.getCharacterisation().getType().getValue() ) ) );
-		
+
 		List<Feature> features = anotherRelation.getCharacterisation().getFeatureSet().getFeature();
 		FeatureSet featureSet = new FeatureSet();
 		List<Feature> newFeatures = new ArrayList<Feature>();
@@ -154,30 +154,39 @@ public class Relation extends Element {
 		PositioningRelation position = this.getPositioning();
 		if(position != null){
 			if(position.getTerm().size() > 1){
-				Element element = position.getTerm().get( 1 ).getElement( annotation );
-				if(element != null && element instanceof Unit){
-					if(((Unit) element).isNew( annotation ) ){
-						//this one is good
-						return element;
-					}else{
-						//if the two elements aren't news so we are in chain,
-						// so return the element who are the first (position)
-						Element secondElement = position.getTerm().get( 0 ).getElement( annotation );
-						if(secondElement instanceof Unit && !((Unit) secondElement).isNew( annotation )){
-							if(((Unit) secondElement).getStart( annotation ) > ((Unit) element).getStart( annotation )){
-								return element;
-							}else{
-								return secondElement;
-							}
+				Element firstElement = position.getTerm().get( 0 ).getElement( annotation );
+				Element secondElement = position.getTerm().get( 1 ).getElement( annotation );
+				if(firstElement instanceof Relation){
+					//TODO relation --> relation
+					//logger.debug(" relation TO relation idRelation " + this.getId());
+					return null;
+				}else if(firstElement instanceof Unit && secondElement instanceof Unit){
+					Unit firstUnit = (Unit) firstElement;
+					Unit secondUnit = (Unit) secondElement;
+					if( firstUnit.isNew( annotation ) && secondUnit.isNew( annotation) ){
+						//compare two positions
+						if( firstUnit.getStart( annotation ) > secondUnit.getStart( annotation ) ){
+							return secondUnit;
+						}else{
+							return firstUnit;
 						}
-						return position.getTerm().get( 0 ).getElement( annotation );
 					}
-				}else if(element != null && element instanceof Relation){
-					//TODO check if relation
-					return element;
+					if( firstUnit.isNew( annotation ) ){
+						return firstUnit;
+					}else if( secondUnit.isNew( annotation ) ){
+						return secondUnit;
+					}else{
+						//compare two positions
+						if( firstUnit.getStart( annotation ) > secondUnit.getStart( annotation ) ){
+							return secondUnit;
+						}else{
+							return firstUnit;
+						}
+					}
 				}
 			}
 		}
+		logger.debug("element null on relation: "+this.getId());
 		return null;
 	}
 
@@ -190,31 +199,34 @@ public class Relation extends Element {
 		PositioningRelation position = this.getPositioning();
 		if(position != null){
 			if(position.getTerm().size() > 1){
-				Element element = position.getTerm().get( 0 ).getElement( annotation );
-				if(element instanceof Relation){
+				Element firstElement = position.getTerm().get( 0 ).getElement( annotation );
+				Element secondElement = position.getTerm().get( 1 ).getElement( annotation );
+				if(firstElement instanceof Relation){
 					//TODO relation --> relation
 					//logger.debug(" relation TO relation idRelation " + this.getId());
 					return null;
-				}else if(element instanceof Unit){
-					if(((Unit) element).isNew( annotation ) ){
-						//the other is the good
-						return position.getTerm().get( 1 ).getElement( annotation );
-					}else{
-						Element secondElement = position.getTerm().get( 1 ).getElement( annotation );
-						if( secondElement instanceof Unit){
-							if( ! ((Unit)secondElement).isNew( annotation ) ){
-								//we are in chain
-								//calculate the unit who are in first postion text
-								int posFirstElement = ((Unit)element).getStart( annotation );
-								int posSecondElement = ((Unit)secondElement).getStart( annotation );
-								if( posFirstElement > posSecondElement ){
-									return secondElement;
-								}else{
-									return element;
-								}
-							}
+				}else if(firstElement instanceof Unit && secondElement instanceof Unit){
+					Unit firstUnit = (Unit) firstElement;
+					Unit secondUnit = (Unit) secondElement;
+					if( firstUnit.isNew( annotation ) && secondUnit.isNew( annotation ) ){
+						//compare two positions
+						if( firstUnit.getStart( annotation ) > secondUnit.getStart( annotation ) ){
+							return firstUnit;
+						}else{
+							return secondUnit;
 						}
-						return element;
+					}
+					if( firstUnit.isNew( annotation ) ){
+						return secondUnit;
+					}else if( secondUnit.isNew( annotation ) ){
+						return firstUnit;
+					}else{
+						//compare two positions
+						if( firstUnit.getStart( annotation ) > secondUnit.getStart( annotation ) ){
+							return firstUnit;
+						}else{
+							return secondUnit;
+						}
 					}
 				}
 			}
@@ -359,7 +371,7 @@ public class Relation extends Element {
 	 * @return boolean
 	 */
 	public boolean containsNew( Annotation annotation ){
-		
+
 		List<Term> list = this.getPositioning().getTerm();
 		for(Term term : list){
 			if(term.getElement( annotation ) instanceof Unit){

@@ -11,10 +11,13 @@ import java.util.Scanner;
 import org.apache.log4j.Logger;
 
 import com.democrat.ancortodemocrat.element.Annotation;
+import com.democrat.ancortodemocrat.element.Relation;
 
 public class Corpus {
 	
 	private static Logger logger = Logger.getLogger(Corpus.class);
+	
+	
 	/**
 	 * name of the corpus
 	 */

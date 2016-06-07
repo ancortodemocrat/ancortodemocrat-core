@@ -48,9 +48,10 @@ public class ConversionWorker implements Runnable{
 		}
 
 
+		/**
 		logger.info("[" + corpus.getName() +"] Nombre d'indirect: " + countIndirect);
 		logger.info("[" + corpus.getName() +"] Nombre d'indirect avec accord en nombre: " + countIndirectWithDeal);
-
+		 **/
 		logger.info("[" + corpus.getName() +"] done !");
 		corpus.setDone( true );
 	}
@@ -166,8 +167,8 @@ public class ConversionWorker implements Runnable{
 				if(element instanceof Unit && preElement instanceof Unit){
 					Unit unit = (Unit) element;
 					Unit preUnit = (Unit) preElement;
-					
-					
+
+
 					//be careful, on unit we have number named NB 
 					//and on relation number named NOMBRE
 					String currentNb = unit.getFeature( "NB" );
@@ -175,7 +176,7 @@ public class ConversionWorker implements Runnable{
 
 					String currentGenre = unit.getFeature( "GENRE" );
 					String preGenre = preUnit.getFeature( "GENRE" );
-					
+
 					String firstMention = text.getContentFromUnit(annotation, unit);
 					String secondMention = text.getContentFromUnit(annotation, preUnit);
 
@@ -218,12 +219,12 @@ public class ConversionWorker implements Runnable{
 							if(unitFound != null){
 								secondMention = text.getContentFromUnit(annotation, unitFound);
 							}
-							
+
 						}
-						
+
 						//logger.debug("[" + relation.getId() + "] need compare: "+firstMention+" - " + secondMention);
 						logger.info("[" + corpus.getName() +"] call TreeTager to check (INDIRECT, INDIRECT) "+ firstMention +"::"+ secondMention +" on relation: " + relation.getId());
-						
+
 						TokenConvertRelationHandler handler = new TokenConvertRelationHandler( relation, firstMention, secondMention );
 						while( ! handler.isDone( ) ){
 							try {
@@ -349,8 +350,10 @@ public class ConversionWorker implements Runnable{
 
 	@Override
 	public void run() {
-		this.work();
-		this.corpus.export();
+		if(this.corpus.getAnnotation().size() > 0){
+			this.work();
+			this.corpus.export();
+		}
 	}
 
 	public void start(){

@@ -20,9 +20,9 @@ import org.apache.log4j.Logger;
 
 
 public class FileManager {
-	
+
 	private static Logger logger = Logger.getLogger(FileManager.class);
-	
+
 	public FileManager(){
 		init();
 	}
@@ -48,13 +48,14 @@ public class FileManager {
 				e.printStackTrace();
 			}
 		}
-		
+
 		//generated folder
 		File folderGenerated = new File("generated");
 		//if path doesnt exist
 		if( ! folderGenerated.exists() && ! folderGenerated.isDirectory() ){
 			folderGenerated.mkdir();
 		}
+		createArffFoler();
 	}
 
 	/**
@@ -107,38 +108,38 @@ public class FileManager {
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		
+
 		}
 		if( list.isEmpty() ){
 			logger.info("Nothing..");
 		}
 		return list;
 	}
-	
+
 	public void mkdir(String path){
 		File folder = new File( path );
 		if( ! folder.exists() || ! folder.isDirectory() ){
 			folder.mkdir();
 		}
 	}
-	
-	
+
+
 	/**
 	 * return the name of every file in aa_fichier folder
 	 * @param corpus
 	 * @return
 	 */
 	public List<String> loadAaFile(Corpus corpus){
-		
+
 		File folder = new File( corpus.getPath() + "/aa_fichiers" );
 		if( folder.exists() ){
 			return this.getFileFromFolder(folder, "aa");
 		}else{
-			logger.error("Folder doesn't exists: "+corpus.getPath() );
+			logger.error("Folder doesn't exists: "+corpus.getPath() +" aa folder missing");
 		}
 		return new ArrayList<String>();
 	}
-	
+
 	/**
 	 * return the name of every file in ac_fichier folder
 	 * @param corpus
@@ -149,12 +150,19 @@ public class FileManager {
 		if( folder.exists() ){
 			return this.getFileFromFolder(folder, "ac");
 		}else{
-			logger.error("Folder doesn't exists: "+corpus.getPath() );
+			logger.error("Folder doesn't exists: "+corpus.getPath() +" ac folder missing");
 		}
-		return null;
+		return new ArrayList<String>();
 	}
-	
-	
-	
+
+	private void createArffFoler(){
+		//arff folder
+		File folder = new File("generated/arff");
+		//if path doesnt exist
+		if( ! folder.exists() && ! folder.isDirectory() ){
+			folder.mkdir();
+		}
+	}
+
 
 }

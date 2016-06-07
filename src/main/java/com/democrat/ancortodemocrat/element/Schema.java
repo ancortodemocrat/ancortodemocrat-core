@@ -32,6 +32,24 @@ public class Schema extends Unit{
 		return start;
 	}
 
+	public int getEnd( Annotation annotation ){
+		List<EmbeddedUnit> units = this.getPositioning().getEmbeddedUnit();
+		int end = 0;
+		if(units.size() > 0){
+			Element element = ((EmbeddedUnit) units.get( 0 )).getElement( annotation );
+			if(element instanceof Unit){
+				end = ((Unit) element).getEnd( annotation );
+				for(int u = 1; u < units.size(); u++){
+					if(end < ((Unit) units.get( u ).getElement( annotation )).getEnd( annotation ) ){
+						end = ((Unit) units.get( u ).getElement( annotation )).getEnd( annotation );
+					}
+				}
+			}
+		}
+		return end;
+		
+	}
+	
 	/**
 	 * check in positionningschema for each EmbeddedUnit
 	 * if one has the feature NEW to Yes return true

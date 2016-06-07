@@ -85,4 +85,8 @@ public class Element {
 		//feature doesnt exists, create this one
 		features.add( new Feature( featureName, value ) );
 	}
+	
+	public List<Feature> getFeatureList(){
+		return this.getCharacterisation().getFeatureSet().getFeature();
+	}
 }
