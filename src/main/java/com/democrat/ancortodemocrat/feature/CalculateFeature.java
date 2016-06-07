@@ -73,7 +73,6 @@ public class CalculateFeature implements Runnable {
 				}else{
 					relation.setFeature("GENRE", "NO");
 				}
-
 			}
 
 			//ID_TYPE
@@ -287,21 +286,23 @@ public class CalculateFeature implements Runnable {
 
 		Element element = relation.getElement( annotation );
 		Element preElement = relation.getPreElement( annotation );
-		if( element instanceof Unit && preElement instanceof Unit ){
+		if( element != null && preElement != null ){
+			if( element instanceof Unit && preElement instanceof Unit ){
 
-			if( ! ((Unit) element).isNew( annotation ) || ! ((Unit) preElement).isNew( annotation ) ){
-				preElement.setFeature("NEXT", text.getContentFromUnit( annotation , (Unit) element ) );
-			}
-			element.setFeature( "PREVIOUS", text.getContentFromUnit( annotation , (Unit) preElement ) );
+				if( ! ((Unit) element).isNew( annotation ) || ! ((Unit) preElement).isNew( annotation ) ){
+					preElement.setFeature("NEXT", text.getContentFromUnit( annotation , (Unit) element ) );
+				}
+				element.setFeature( "PREVIOUS", text.getContentFromUnit( annotation , (Unit) preElement ) );
 
-			if( ((Unit) preElement).isNew( annotation ) ){
-				//case where the unit hasn't a previous element
-				preElement.setFeature("PREVIOUS", "^");
-			}
-			//if the unit has only one relation, so he's the last
-			//or a associative mention
-			if( annotation.getRelationContaining( (Unit) element ).size() == 1 ){
-				element.setFeature("NEXT", "$");
+				if( ((Unit) preElement).isNew( annotation ) ){
+					//case where the unit hasn't a previous element
+					preElement.setFeature("PREVIOUS", "^");
+				}
+				//if the unit has only one relation, so he's the last
+				//or a associative mention
+				if( annotation.getRelationContaining( (Unit) element ).size() == 1 ){
+					element.setFeature("NEXT", "$");
+				}
 			}
 		}
 
@@ -317,6 +318,9 @@ public class CalculateFeature implements Runnable {
 		Text text = this.corpus.getText( annotation.getFileName() );
 		Trans trans = text.toTrans();
 		List<Unit> unitList = annotation.getUnit();
+		if(trans == null){
+			logger.debug("nNULL");
+		}
 		List<Turn> turnList = trans.getEpisode().getSection().getTurn();
 
 		for(int u = 0 ; u < unitList.size(); u++){

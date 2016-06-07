@@ -24,7 +24,6 @@ public class Relation extends Element {
 
 
 	private MetadataUnit metadata;
-	private Characterisation characterisation = new Characterisation();
 	private PositioningRelation positioning = new PositioningRelation();
 
 	public Relation(){
@@ -335,16 +334,6 @@ public class Relation extends Element {
 	}
 
 
-	public String getFeature(String featureName){
-		Characterisation charact = this.getCharacterisation();
-		List<Feature> features = charact.getFeatureSet().getFeature();
-		for(int f = 0; f < features.size(); f++){
-			if(features.get( f ).getName().equalsIgnoreCase( featureName )){
-				return features.get( f ).getValue();
-			}
-		}
-		return new String( "NULL" );
-	}
 
 
 	/**

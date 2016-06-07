@@ -4,6 +4,7 @@ import java.io.StringReader;
 import java.util.List;
 
 import javax.xml.bind.JAXB;
+import javax.xml.bind.UnmarshalException;
 
 import org.apache.log4j.Logger;
 
@@ -20,12 +21,42 @@ public class Text {
 	private String content;
 	private String fileName;
 	private Trans trans;
+	private int patchStart = 0;
 
-	public Text(String content){
+	public Text(String fileName, String content){
+		this.fileName = fileName;
 		this.content = content;
 		int index = this.content.indexOf("<Trans");
-
-		this.trans =  JAXB.unmarshal(new StringReader( this.content.substring(index, this.content.length() ) ), Trans.class);
+		if( index == -1 ){
+			//missing trans tag
+			
+			//remove close tag of turn and section
+			int indexOfFirstSection = this.content.indexOf("<Section");
+			if( indexOfFirstSection != -1 ){
+				patchStart -= indexOfFirstSection;
+				this.content = this.content.substring(indexOfFirstSection, this.content.length() );
+			}else{
+				this.content = "<Section>" + this.content;
+				patchStart += "<Section>".length();
+				if( this.content.indexOf("</Section") == -1 ){
+					this.content = this.content + "</Section>";
+				}
+			}
+			
+			this.content = "<Trans><Episode>" + this.content;
+			patchStart += "<Trans><Episode>".length();
+			index = this.content.indexOf("<Trans");
+		}
+		if( this.content.indexOf("</Trans") == -1){
+			//missing end of tag
+			this.content = this.content + "</Turn></Episode></Trans>";
+		}
+		try{
+			//this.patchStart -= index;
+			this.trans =  JAXB.unmarshal(new StringReader( this.content.substring(index, this.content.length() ) ), Trans.class);
+		}catch(javax.xml.bind.DataBindingException e){
+			e.printStackTrace();
+		}
 
 
 	}
@@ -57,7 +88,14 @@ public class Text {
 		if( unit instanceof Schema){
 			return getContentFromUnit( annotation, ((Schema) unit).getUnitWhereFeatureNotNull( annotation ) );
 		}else{
-			return this.getContent().substring( unit.getStart( annotation ), unit.getEnd( annotation ) );
+			try{
+				return this.getContent().substring( unit.getStart( annotation ) + this.patchStart, unit.getEnd( annotation ) + this.patchStart );
+			}catch(StringIndexOutOfBoundsException e){
+				logger.debug(this.fileName);
+				logger.debug(this.getContent());
+				e.printStackTrace();
+				return "";
+			}
 		}
 	}
 

@@ -6,6 +6,8 @@ import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.log4j.Logger;
+
 import com.democrat.ancortodemocrat.element.Annotation;
 import com.democrat.ancortodemocrat.element.Element;
 import com.democrat.ancortodemocrat.element.Relation;
@@ -13,13 +15,15 @@ import com.democrat.ancortodemocrat.element.Unit;
 import com.democrat.ancortodemocrat.feature.CalculateFeature;
 
 public class ConversionToArff implements Runnable{
+	
+	private static Logger logger = Logger.getLogger(ConversionToArff.class);
 
 	private Corpus corpus;
 	private final static String arffAttribute = "@RELATION coreference\n"+
-			"@ATTRIBUTE m1_type {N, PR, UNK, NULL}\n"+
-			"@ATTRIBUTE m2_type {N, PR, UNK, NULL}\n"+
-			"@ATTRIBUTE m1_def {INDEF, EXPL, DEF_SPLE, DEF_DEM, UNK}\n"+
-			"@ATTRIBUTE m2_def {INDEF, EXPL, DEF_SPLE, DEF_DEM, UNK}\n"+
+			"@ATTRIBUTE m1_type {N, PR, NULL}\n"+
+			"@ATTRIBUTE m2_type {N, PR, NULL}\n"+
+			"@ATTRIBUTE m1_def {INDEF, EXPL, DEF_SPLE, DEF_DEM, NULL, UNK}\n"+
+			"@ATTRIBUTE m2_def {INDEF, EXPL, DEF_SPLE, DEF_DEM, NULL, UNK}\n"+
 			"@ATTRIBUTE m1_genre {M, F, UNK, NULL}\n"+
 			"@ATTRIBUTE m2_genre {M, F, UNK, NULL}\n"+
 			"@ATTRIBUTE m1_nombre {SG, PL, UNK, NULL}\n"+
@@ -43,8 +47,8 @@ public class ConversionToArff implements Runnable{
 			 "@ATTRIBUTE id_def {YES, NO, NA}\n"+
 			 "@ATTRIBUTE id_type {YES, NO, NA}\n"+
 			 "@ATTRIBUTE id_en {YES, NO, NA}\n"+
-			 "@ATTRIBUTE id_genre {YES, NO, NA}\n" +
-			 "@ATTRIBUTE id_nombre {YES, NO, NA}\n" +
+			 "@ATTRIBUTE id_genre {YES, NO, UNK}\n" +
+			 "@ATTRIBUTE id_nombre {YES, NO, UNK}\n" +
 			 "@ATTRIBUTE id_spk {YES, NO, NA}\n" +
 			 "@ATTRIBUTE distance_mention real\n" +
 			 "@ATTRIBUTE distance_turn real\n" +
@@ -69,17 +73,28 @@ public class ConversionToArff implements Runnable{
 		Element preElement = relation.getPreElement( annotation );
 		if( element instanceof Unit && preElement instanceof Unit ){
 			//m1_type
-			line += preElement.getCharacterisation().getType().getValue();
+			if( preElement.getCharacterisation().getType().getValue().equals("default") ){
+				line += "N";
+			}else{
+				line += preElement.getCharacterisation().getType().getValue();
+			}
 			line += " ";
 			//m2_type
-			line += element.getCharacterisation().getType().getValue();
+			if( element.getCharacterisation().getType().getValue().equals("default") ){
+				line += "N";
+			}else{
+				line += element.getCharacterisation().getType().getValue();
+			}
 			line += " ";
+			
 			//m1_def
 			line += preElement.getFeature( "DEF" );
 			line += " ";
 			//m2_def
 			line += element.getFeature( "DEF" );
+
 			line += " ";
+			
 			//m1_genre
 			line += preElement.getFeature( "GENRE" );
 			line += " ";
@@ -206,6 +221,7 @@ public class ConversionToArff implements Runnable{
 					if( ! line.isEmpty() ){
 						line += "COREF";
 						writer.println( line );
+						positiveRelation++;
 						//for negative class
 						generateNegativeRelation( corpus, annotation, relation, writer);
 					}
@@ -255,6 +271,7 @@ public class ConversionToArff implements Runnable{
 						if( ! line.isEmpty() ){
 							line += "NOT_COREF";
 							writer.println( line );
+							negativeRelation++;
 						}
 						done = true;
 					}
@@ -282,6 +299,8 @@ public class ConversionToArff implements Runnable{
 	@Override
 	public void run() {
 		this.work( );
+		logger.info("COREF: "+positiveRelation);
+		logger.info("NOT-COREF: "+negativeRelation);
 	}
 
 

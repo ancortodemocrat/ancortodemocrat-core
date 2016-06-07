@@ -94,8 +94,7 @@ public class Corpus {
 			while(sc.hasNextLine()){
 			    str += sc.nextLine();                     
 			}
-			Text text = new Text( str );
-			text.setFileName( fileName.substring(0, fileName.length() - 3 ) );
+			Text text = new Text( fileName.substring(0, fileName.length() - 3 ), str );
 			this.text.add( text );
 		}
 	}

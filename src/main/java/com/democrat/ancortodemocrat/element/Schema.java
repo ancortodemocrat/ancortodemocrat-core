@@ -90,7 +90,7 @@ public class Schema extends Unit{
 				return list.get( u ).getFeature( featureName );
 			}
 		}
-		return new String( "NULL" );
+		return super.getFeature(featureName);
 	}
 	
 	public Unit getUnitWhereFeatureNotNull( Annotation annotation ){

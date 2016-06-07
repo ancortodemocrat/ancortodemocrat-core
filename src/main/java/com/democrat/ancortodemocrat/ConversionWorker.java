@@ -228,7 +228,7 @@ public class ConversionWorker implements Runnable{
 						TokenConvertRelationHandler handler = new TokenConvertRelationHandler( relation, firstMention, secondMention );
 						while( ! handler.isDone( ) ){
 							try {
-								Thread.sleep( 2 );
+								Thread.sleep( 1 );
 							} catch (InterruptedException e) {
 								// TODO Auto-generated catch block
 								e.printStackTrace();

@@ -3,7 +3,7 @@
 #chaque corpus doit comporter un dossier 'aa_fichiers' et 'ac_fichiers'
 #E:\Users\Slayug\workspace\ancortodemocrat\corpusTest
 
-#E:\Users\Slayug\Documents\fac\stage\ancor\corpus_ESLO
+E:\Users\Slayug\Documents\fac\stage\ancor\corpus_ESLO
 #E:\Users\Slayug\Documents\fac\stage\ancor\corpus_ESLO_CO2
 #E:\Users\Slayug\Documents\fac\stage\ancor\corpus_OTG
-C:\Users\buggr\Documents\stage\ancor\corpus_UBS
+#E:\Users\Slayug\Documents\fac\stage\ancor\corpus_UBS
