@@ -21,43 +21,81 @@ public class Text {
 	private String content;
 	private String fileName;
 	private Trans trans;
-	private int patchStart = 0;
+	//private int patchStart = 0;
 
 	public Text(String fileName, String content){
 		this.fileName = fileName;
 		this.content = content;
+		String tmpContent = content;
+		//trans starter found
+		//section start OK
+		String[] countSectionStarter = this.content.split("<Section");
+		String[] countSectionEnd = this.content.split("</Section");
 		int index = this.content.indexOf("<Trans");
+
+		if( index == -1){
+			if( this.content.indexOf("<Section ") >= 0 ){
+				this.content = this.content.substring( this.content.indexOf("<Section "), this.content.length() );
+			}else if(this.content.indexOf("</Turn") >= 0 ){
+				this.content = this.content.substring( this.content.indexOf("<Turn "), this.content.length() );
+			}
+		}
+
+		//logger.debug("["+this.fileName+"]"+this.content );
+		if( countSectionStarter.length > 1 || countSectionEnd.length > 1){
+			//remove the sections
+			this.content = this.content.replace("</Section>", "");
+			this.content = this.content.replaceAll("<Section ([^<>]+)>", "");
+
+
+		}
+
+
+
+
+
 		if( index == -1 ){
 			//missing trans tag
-			
-			//remove close tag of turn and section
-			int indexOfFirstSection = this.content.indexOf("<Section");
-			if( indexOfFirstSection != -1 ){
-				patchStart -= indexOfFirstSection;
-				this.content = this.content.substring(indexOfFirstSection, this.content.length() );
-			}else{
-				this.content = "<Section>" + this.content;
-				patchStart += "<Section>".length();
-				if( this.content.indexOf("</Section") == -1 ){
-					this.content = this.content + "</Section>";
-				}
-			}
-			
-			this.content = "<Trans><Episode>" + this.content;
-			patchStart += "<Trans><Episode>".length();
+			//adding the start and en tag section
+
+
+			this.content = "<Trans><Episode><Section>" + this.content;
+			//patchStart += "<Trans><Episode>".length();
 			index = this.content.indexOf("<Trans");
+		}else{
+			int indexOfTurn = this.content.indexOf("<Turn");
+			if( indexOfTurn != -1 ){
+				this.content = this.content.substring(indexOfTurn, this.content.length() );
+				this.content = "<Trans><Episode><Section>" + this.content;
+			}
+
+		}
+		if( this.content.indexOf("</Section") == -1 ){
+			if(this.content.indexOf("</Trans") != -1 ){
+				this.content = this.content.replace("</Trans>", "");
+				this.content = this.content.replace("</Episode>", "");
+			}
+			int countTurnStart = this.content.split("<Turn ").length;
+			int countTurnEnd = this.content.split("</Turn").length;
+			if(countTurnStart > countTurnEnd){
+				this.content = this.content + "</Turn>";
+			}
+			this.content = this.content + "</Section>";
+			//logger.debug("*["+this.fileName+"] Turn + SECTION ");
 		}
 		if( this.content.indexOf("</Trans") == -1){
 			//missing end of tag
-			this.content = this.content + "</Turn></Episode></Trans>";
+			this.content = this.content + "</Episode></Trans>";
+			//logger.debug("*["+this.fileName+"] EPI + TRANS ");
 		}
 		try{
 			//this.patchStart -= index;
-			this.trans =  JAXB.unmarshal(new StringReader( this.content.substring(index, this.content.length() ) ), Trans.class);
+			this.trans =  JAXB.unmarshal(new StringReader( this.content ), Trans.class);
 		}catch(javax.xml.bind.DataBindingException e){
 			e.printStackTrace();
+			logger.debug("==> ["+this.fileName+"]"+this.content );
 		}
-
+		this.content = tmpContent;
 
 	}
 
@@ -89,7 +127,7 @@ public class Text {
 			return getContentFromUnit( annotation, ((Schema) unit).getUnitWhereFeatureNotNull( annotation ) );
 		}else{
 			try{
-				return this.getContent().substring( unit.getStart( annotation ) + this.patchStart, unit.getEnd( annotation ) + this.patchStart );
+				return this.getContent().substring( unit.getStart( annotation ) , unit.getEnd( annotation ) );
 			}catch(StringIndexOutOfBoundsException e){
 				logger.debug(this.fileName);
 				logger.debug(this.getContent());
@@ -101,7 +139,7 @@ public class Text {
 
 
 	/**
-	 * get the converted	 text with xml attribute to speech 
+	 * get the converted text with xml attribute to speech 
 	 * @return
 	 */
 	public Trans toTrans(){
