@@ -299,6 +299,7 @@ public class ConversionToArff implements Runnable{
 	@Override
 	public void run() {
 		this.work( );
+		logger.info("[" + this.corpus.getName() + "] arff file writed");
 		logger.info("COREF: "+positiveRelation);
 		logger.info("NOT-COREF: "+negativeRelation);
 	}

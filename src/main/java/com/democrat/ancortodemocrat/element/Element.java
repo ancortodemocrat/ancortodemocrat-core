@@ -69,6 +69,9 @@ public class Element {
 		List<Feature> features = charact.getFeatureSet().getFeature();
 		for(int f = 0; f < features.size(); f++){
 			if(features.get( f ).getName().equalsIgnoreCase( featureName )){
+				if( features.get( f ).getValue() == null){
+					break;
+				}
 				if( features.get( f ).getValue().equalsIgnoreCase("default") ){
 					if(featureName.equalsIgnoreCase( "DEF" )){
 						return new String( "DEF_SPLE" );

@@ -1,7 +1,10 @@
 package com.democrat.ancortodemocrat;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,7 +18,6 @@ import org.apache.log4j.Logger;
 import org.apache.log4j.xml.DOMConfigurator;
 import org.xml.sax.SAXException;
 
-import com.democrat.ancortodemocrat.element.Annotation;
 import com.democrat.ancortodemocrat.feature.CalculateFeature;
 import com.democrat.ancortodemocrat.treetagger.TreeTagger;
 
@@ -68,6 +70,46 @@ public class AncorToDemocrat {
 		System.out.println("==>"+toast);
 		 **/
 
+	}
+	
+	/**
+	 * select randomly nb positive instance, and
+	 * nb negative instance from other arff file
+	 * and generate one file with the name,
+	 * 
+	 * @param fileName if is null or empty, the name will  be 'coreferences'
+	 * @param nbPos should be > 0
+	 * @param nbNeg should be > 0
+	 */
+	public void generateOwnArff(String fileName, int nbPos, int nbNeg){
+		final String defaultFileName = "coreferences";
+		if( fileName.isEmpty() || fileName == null){
+			fileName = defaultFileName;
+		}
+		try {
+			PrintWriter writer = new PrintWriter("generated/" + fileName + ".arff", "UTF-8");
+			
+			//load all arff file
+			//if no arff file
+			//error
+			//TODO help user with command
+			ArrayList<String> fileList = fileManager.getFileFromFolder(new File("generated/arff/"), ".arff");
+			if( fileList.size() == 0 ){
+				logger.error("No arff file found, generate it before please");		
+				return;
+			}
+			
+			
+			
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
 	}
 
 	/**

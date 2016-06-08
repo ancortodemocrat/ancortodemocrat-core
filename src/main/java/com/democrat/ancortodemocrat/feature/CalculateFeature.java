@@ -47,6 +47,9 @@ public class CalculateFeature implements Runnable {
 
 	public void calculateFeatureOnRelation( Annotation annotation, Relation relation ){
 		Text text = this.corpus.getText( annotation.getFileName() );
+		if(text == null){
+			return;
+		}
 		Element element = relation.getElement( annotation );
 		Element preElement = relation.getPreElement( annotation );
 		if( element instanceof Unit && preElement instanceof Unit ){
@@ -319,11 +322,11 @@ public class CalculateFeature implements Runnable {
 	 */
 	private void calculateSpeaker( Annotation annotation ){
 		Text text = this.corpus.getText( annotation.getFileName() );
+		if(text == null){
+			return;
+		}
 		Trans trans = text.toTrans();
 		List<Unit> unitList = annotation.getUnit();
-		if(trans == null){
-			logger.debug("nNULL");
-		}
 		List<Turn> turnList = trans.getEpisode().getSection().getTurn();
 
 		for(int u = 0 ; u < unitList.size(); u++){
