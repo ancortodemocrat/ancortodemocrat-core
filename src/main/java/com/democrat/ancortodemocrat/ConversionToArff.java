@@ -19,7 +19,7 @@ public class ConversionToArff implements Runnable{
 	private static Logger logger = Logger.getLogger(ConversionToArff.class);
 
 	private Corpus corpus;
-	private final static String arffAttribute = "@RELATION coreference\n"+
+	public final static String arffAttribute = "@RELATION coreference\n"+
 			"@ATTRIBUTE m1_type {N, PR, NULL}\n"+
 			"@ATTRIBUTE m2_type {N, PR, NULL}\n"+
 			"@ATTRIBUTE m1_def {INDEF, EXPL, DEF_SPLE, DEF_DEM, NULL, UNK}\n"+
@@ -246,13 +246,13 @@ public class ConversionToArff implements Runnable{
 
 
 	private void generateNegativeRelation(Corpus corpus, Annotation annotation, Relation relation, PrintWriter writer) {
-		int negativeRelationToGenerate = randomNumber(1, 3);
+		int negativeRelationToGenerate = AncorToDemocrat.randomNumber(1, 3);
 		List<Unit> unitList = annotation.getUnit();
 		for(int turn = 0; turn < negativeRelationToGenerate; turn++){
 			boolean done = false;
 			int attempt = 0;
 			while( ! done ){
-				int unitIdRandom = randomNumber(0, unitList.size() - 1 );
+				int unitIdRandom = AncorToDemocrat.randomNumber(0, unitList.size() - 1 );
 				if( ! unitList.contains( unitIdRandom ) ){
 					//negative relation generated
 					if( ! unitList.get( unitIdRandom ).getFeature( "REF" ).equals( relation.getFeature( "REF" ) ) ){
@@ -285,16 +285,6 @@ public class ConversionToArff implements Runnable{
 		}
 	}
 
-
-	/**
-	 * 
-	 * @param min including
-	 * @param max including
-	 * @return
-	 */
-	public static int randomNumber(int min, int max){
-		return min + (int)(Math.random() * ((max - min) + 1));
-	}
 
 	@Override
 	public void run() {
