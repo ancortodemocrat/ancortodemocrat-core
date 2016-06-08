@@ -283,12 +283,15 @@ public class CalculateFeature implements Runnable {
 
 	private void calculatePreviousNextToken( Annotation annotation, Relation relation ){
 		Text text = this.corpus.getText( annotation.getFileName() );
+		if(text == null){
+			logger.debug("MISSING FILE: "+ annotation.getFileName());
+			return;
+		}
 
 		Element element = relation.getElement( annotation );
 		Element preElement = relation.getPreElement( annotation );
 		if( element != null && preElement != null ){
 			if( element instanceof Unit && preElement instanceof Unit ){
-
 				if( ! ((Unit) element).isNew( annotation ) || ! ((Unit) preElement).isNew( annotation ) ){
 					preElement.setFeature("NEXT", text.getContentFromUnit( annotation , (Unit) element ) );
 				}
