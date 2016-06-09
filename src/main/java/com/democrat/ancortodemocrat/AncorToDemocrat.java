@@ -1,7 +1,13 @@
 package com.democrat.ancortodemocrat;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.io.InputStream;
+import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,7 +21,6 @@ import org.apache.log4j.Logger;
 import org.apache.log4j.xml.DOMConfigurator;
 import org.xml.sax.SAXException;
 
-import com.democrat.ancortodemocrat.element.Annotation;
 import com.democrat.ancortodemocrat.feature.CalculateFeature;
 import com.democrat.ancortodemocrat.treetagger.TreeTagger;
 
@@ -27,7 +32,7 @@ public class AncorToDemocrat {
 	public static TreeTagger treeTagger;
 
 	public static void main(String[] args) {
-		
+
 		//configure logger
 		DOMConfigurator.configure("cfg/log4j-config.xml");
 
@@ -39,14 +44,29 @@ public class AncorToDemocrat {
 		treeTagger = new TreeTagger();
 
 		fileManager = new FileManager();
-		
-		
+
+
 		if( args.length > 1){
 			if( args[0].equalsIgnoreCase( "generateFeature" )){
 				for(int a = 1; a < args.length; a++){
 					generateFeature( args[ a ] );
 				}
 				return;
+			}else if( args[ 0 ].equalsIgnoreCase( "arff" ) ){
+				if(args.length >= 4){
+					int pos = 0;
+					int neg = 0;
+					try{
+						pos = Integer.valueOf( args[ 2 ] );
+						neg = Integer.valueOf( args[ 3 ] );
+					}catch(NumberFormatException e){
+						logger.error("nbPositiveInstance and nbNegative should be number");
+						logger.error("e.g. arff fileName nbPositiveInstance nbNegativeInstance");
+					}
+					generateOwnArff(args[ 1 ], pos, neg );
+				}else{
+					logger.error("e.g. arff fileName nbPositiveInstance nbNegativeInstance");
+				}
 			}
 		}else{
 			convertCorpus();
@@ -71,6 +91,108 @@ public class AncorToDemocrat {
 	}
 
 	/**
+	 * select randomly nb positive instance, and
+	 * nb negative instance from other arff file
+	 * and generate one file with the name,
+	 * 
+	 * @param fileName if is null or empty, the name will  be 'coreferences'
+	 * @param nbPos should be > 0
+	 * @param nbNeg should be > 0
+	 */
+	public static void generateOwnArff(String fileName, int nbPos, int nbNeg){
+		final String defaultFileName = "coreferences";
+
+		if( nbPos < 0 || nbNeg < 0 ){
+			logger.error("nbPos and nbNeg should be > 0");
+			return;
+		}
+
+
+		if( fileName.isEmpty() || fileName == null){
+			fileName = defaultFileName;
+		}
+
+
+		List<String> posInstanceList = new ArrayList<String>();
+		List<String> negInstanceList = new ArrayList<String>();
+		PrintWriter writer = null;
+		try {
+
+			//load all arff file
+			//if no arff file
+			//error
+			//TODO help user with command
+			ArrayList<String> fileList = fileManager.getFileFromFolder(new File("generated/arff/"), "arff");
+			if( fileList.size() == 0 ){
+				logger.error("No arff file found, generate it before please");		
+				return;
+			}
+			writer = new PrintWriter("generated/" + fileName + ".arff", "UTF-8");
+			//loading arff files
+			for(String file : fileList){
+				BufferedReader br = null;
+				try {
+					br = new BufferedReader(new FileReader( "generated/arff/" + file ) );
+					String line;
+					while ((line = br.readLine()) != null) {
+						if( ! line.startsWith("@DATA") && ! line.startsWith("@ATTRIBUTE" ) ){
+							if( line.endsWith(" COREF") ){
+								posInstanceList.add( line );
+							}else if( line.endsWith("NOT_COREF" ) ){
+								negInstanceList.add( line );
+							}
+						}
+					}
+					br.close();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}finally{
+					if(br != null){
+						try {
+							br.close();
+						} catch (IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					}
+				}
+			}
+
+
+			
+			//writing new arff file
+			writer.println(ConversionToArff.arffAttribute);
+
+			int random = 0;
+			//select the intances
+			for(int p = 0; p < nbPos; p++){
+				random = AncorToDemocrat.randomNumber( 0, posInstanceList.size() );
+				writer.println( posInstanceList.get( random ) );
+
+			}
+			for(int n = 0; n < nbPos; n++){
+				random = AncorToDemocrat.randomNumber( 0, posInstanceList.size() );
+				writer.println( negInstanceList.get( random ) );
+			}
+
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally{
+			if( writer != null){
+				writer.close();
+			}
+		}
+
+		logger.info(fileName + " arff created !");
+
+	}
+
+	/**
 	 * 
 	 */
 	public static void generateFeature(String corpusPath){
@@ -79,7 +201,7 @@ public class AncorToDemocrat {
 		Thread th = new Thread( calculate );
 		th.start();
 	}
-	
+
 	public static void convertCorpus(){
 
 		//loading corpus
@@ -148,5 +270,17 @@ public class AncorToDemocrat {
 
 		return true;
 	}
+
+
+	/**
+	 * 
+	 * @param min including
+	 * @param max including
+	 * @return
+	 */
+	public static int randomNumber(int min, int max){
+		return min + (int)(Math.random() * ((max - min) + 1));
+	}
+
 
 }

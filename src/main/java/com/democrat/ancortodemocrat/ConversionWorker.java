@@ -226,13 +226,19 @@ public class ConversionWorker implements Runnable{
 						logger.info("[" + corpus.getName() +"] call TreeTager to check (INDIRECT, INDIRECT) "+ firstMention +"::"+ secondMention +" on relation: " + relation.getId());
 
 						TokenConvertRelationHandler handler = new TokenConvertRelationHandler( relation, firstMention, secondMention );
-						while( ! handler.isDone( ) ){
+						/**while( ! handler.isDone( ) ){
 							try {
 								Thread.sleep( 1 );
 							} catch (InterruptedException e) {
 								// TODO Auto-generated catch block
 								e.printStackTrace();
 							}
+						}**/
+						try {
+							Thread.sleep(2);
+						} catch (InterruptedException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
 						}
 						//logger.debug("back from "+firstMention + "::" + secondMention + " --> " + relation.getCharacterisation().getType().getValue() );
 					}
