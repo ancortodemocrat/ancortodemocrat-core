@@ -55,6 +55,7 @@ public class Text {
 			//this.patchStart -= index;
 			this.trans =  JAXB.unmarshal(new StringReader( this.content.substring(index, this.content.length() ) ), Trans.class);
 		}catch(javax.xml.bind.DataBindingException e){
+			logger.debug(this.content.substring(index, this.content.length() ));
 			e.printStackTrace();
 		}
 

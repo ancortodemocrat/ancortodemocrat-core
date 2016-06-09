@@ -319,7 +319,7 @@ public class CalculateFeature implements Runnable {
 		Trans trans = text.toTrans();
 		List<Unit> unitList = annotation.getUnit();
 		if(trans == null){
-			logger.debug("nNULL");
+			return;
 		}
 		List<Turn> turnList = trans.getEpisode().getSection().getTurn();
 
