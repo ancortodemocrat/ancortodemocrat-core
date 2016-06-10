@@ -162,7 +162,7 @@ public class AncorToDemocrat {
 
 			
 			//writing new arff file
-			writer.println(ConversionToArff.arffAttribute);
+			writer.println(ConversionToArff.ARFF_ATTRIBUTE);
 
 			int random = 0;
 			//select the intances

@@ -19,7 +19,7 @@ public class ConversionToArff implements Runnable{
 	private static Logger logger = Logger.getLogger(ConversionToArff.class);
 
 	private Corpus corpus;
-	public final static String arffAttribute = "@RELATION coreference\n"+
+	public final static String ARFF_ATTRIBUTE = "@RELATION coreference\n"+
 			"@ATTRIBUTE m1_type {N, PR, NULL}\n"+
 			"@ATTRIBUTE m2_type {N, PR, NULL}\n"+
 			"@ATTRIBUTE m1_def {INDEF, EXPL, DEF_SPLE, DEF_DEM, NULL, UNK}\n"+
@@ -210,7 +210,7 @@ public class ConversionToArff implements Runnable{
 		PrintWriter writer = null;
 		try {
 			writer = new PrintWriter("generated/arff/" + corpus.getName() + "_coreference.arff", "UTF-8");
-			writer.println( arffAttribute );
+			writer.println( ARFF_ATTRIBUTE );
 			writer.println("");
 			for(Annotation annotation : corpus.getAnnotation()){
 				annotation.removeTxtImporter();

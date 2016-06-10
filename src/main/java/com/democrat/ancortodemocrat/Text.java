@@ -27,6 +27,8 @@ public class Text {
 		this.fileName = fileName;
 		this.content = content;
 		String tmpContent = content;
+		
+		//some conversion, if the file is corrupt 
 		//trans starter found
 		//section start OK
 		String[] countSectionStarter = this.content.split("<Section");
