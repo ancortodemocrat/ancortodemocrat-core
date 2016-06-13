@@ -54,6 +54,8 @@ public class ConversionToArff implements Runnable{
 			 "@ATTRIBUTE distance_turn real\n" +
 			 "@ATTRIBUTE distance_word real\n" + 
 			 "@ATTRIBUTE distance_char real\n" +
+			 "@ATTRIBUTE id_new {YES, NO, NA}\n" +
+			 "@ATTRIBUTE EMBEDDED {YES, NO, NA}\n" +
 			 "@ATTRIBUTE class {COREF, NOT_COREF}\n" +
 			 "@DATA";
 
@@ -199,6 +201,14 @@ public class ConversionToArff implements Runnable{
 
 			//Distance_char 
 			line += relation.getFeature( "DISTANCE_CHAR" );
+			line += " ";
+			
+			//id_new
+			line += relation.getFeature( "ID_NEW" );
+			line += " ";
+			
+			//embedded
+			line += relation.getFeature( "EMBEDDED" );
 			line += " ";
 
 		}

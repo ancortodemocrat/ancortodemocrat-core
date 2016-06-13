@@ -260,7 +260,23 @@ public class CalculateFeature implements Runnable {
 			}
 			relation.setFeature("DISTANCE_MENTION", countMention + "");
 
-
+			
+			//id_new
+			if( ((Unit) element).isNew( annotation ) && ((Unit) preElement).isNew( annotation ) ){
+				relation.setFeature("ID_NEW", "YES");
+			}else{
+				relation.setFeature("ID_NEW", "NO");			
+			}
+			
+			//embedded
+			int posAstart = ((Unit) preElement).getStart( annotation );
+			int posBstart = ((Unit) element).getStart( annotation );
+			int posAend = ((Unit) preElement).getEnd(annotation);
+			if( posBstart > posAstart && posBstart < posAend){
+				relation.setFeature("EMBEDDED", "YES");
+			}else{
+				relation.setFeature("EMBEDDED", "NO");				
+			}
 		}
 	}
 
