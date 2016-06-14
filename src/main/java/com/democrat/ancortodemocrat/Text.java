@@ -43,18 +43,12 @@ public class Text {
 			}
 		}
 
-		//logger.debug("["+this.fileName+"]"+this.content );
 		if( countSectionStarter.length > 1 || countSectionEnd.length > 1){
 			//remove the sections
 			this.content = this.content.replace("</Section>", "");
 			this.content = this.content.replaceAll("<Section ([^<>]+)>", "");
 
-
 		}
-
-
-
-
 
 		if( index == -1 ){
 			//missing trans tag
@@ -83,19 +77,16 @@ public class Text {
 				this.content = this.content + "</Turn>";
 			}
 			this.content = this.content + "</Section>";
-			//logger.debug("*["+this.fileName+"] Turn + SECTION ");
 		}
 		if( this.content.indexOf("</Trans") == -1){
 			//missing end of tag
 			this.content = this.content + "</Episode></Trans>";
-			//logger.debug("*["+this.fileName+"] EPI + TRANS ");
 		}
 		try{
-			//this.patchStart -= index;
 			this.trans =  JAXB.unmarshal(new StringReader( this.content ), Trans.class);
 		}catch(javax.xml.bind.DataBindingException e){
-			logger.debug(this.content.substring(index, this.content.length() ));
 			e.printStackTrace();
+			logger.debug(this.content.substring(index, this.content.length() ));
 			logger.debug("==> ["+this.fileName+"]"+this.content );
 		}
 		this.content = tmpContent;
@@ -139,6 +130,34 @@ public class Text {
 			}
 		}
 	}
+	
+	public Turn getPreviousTurn( Turn turn ){
+		List<Turn> turnList = trans.getEpisode().getSection().getTurn();
+		for(int t = 0; t < turnList.size(); t++){
+			if( turnList.get( t ).equals( turn ) ){
+				if( t == 0){
+					return null;
+				}else{
+					return turnList.get( t - 1 );
+				}
+			}
+		}
+		return null;
+	}
+	
+	public Turn getNextTurn( Turn turn ){
+		List<Turn> turnList = trans.getEpisode().getSection().getTurn();
+		for(int t = 0; t < turnList.size(); t++){
+			if( turnList.get( t ).equals( turn ) ){
+				if( t == turnList.size() - 1 ){
+					return null;
+				}else{
+					return turnList.get( t + 1 );
+				}
+			}
+		}
+		return null;		
+	}
 
 
 	/**
@@ -162,7 +181,11 @@ public class Text {
 		}
 	}
 
-	public String contentWithoutTag(){
+	/**
+	 * Return the content of the text without the xml tag
+	 * @return
+	 */
+	public String getContentWithoutTag(){
 		String content = "";
 
 		List<Turn> turnList = this.trans.getEpisode().getSection().getTurn();

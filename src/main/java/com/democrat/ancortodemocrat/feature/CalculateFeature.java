@@ -260,14 +260,14 @@ public class CalculateFeature implements Runnable {
 			}
 			relation.setFeature("DISTANCE_MENTION", countMention + "");
 
-			
+
 			//id_new
 			if( ((Unit) element).isNew( annotation ) && ((Unit) preElement).isNew( annotation ) ){
 				relation.setFeature("ID_NEW", "YES");
 			}else{
 				relation.setFeature("ID_NEW", "NO");			
 			}
-			
+
 			//embedded
 			int posAstart = ((Unit) preElement).getStart( annotation );
 			int posBstart = ((Unit) element).getStart( annotation );
@@ -277,7 +277,113 @@ public class CalculateFeature implements Runnable {
 			}else{
 				relation.setFeature("EMBEDDED", "NO");				
 			}
+
+			//id_previous
+			//get previous token of each mention
+			/**String tokenPreElement = getPreToken( annotation, text, (Unit) preElement );
+			String tokenElement = getPreToken( annotation, text, (Unit) element );
+			preElement.setFeature("previousToken", tokenPreElement);
+			element.setFeature("previousToken", tokenElement);
+			if( tokenPreElement == null || tokenElement == null){
+				relation.setFeature("ID_PREVIOUS", "NA");				
+			}
+			else if( tokenPreElement.equalsIgnoreCase( tokenElement ) ){
+				relation.setFeature("ID_PREVIOUS", "YES");
+			}else{
+				relation.setFeature("ID_PREVIOUS", "NO");				
+			}
+
+
+			//id_next		
+			tokenPreElement = getNextToken( annotation, text, (Unit) preElement );
+			tokenElement = getNextToken( annotation, text, (Unit) element );
+			preElement.setFeature("nextToken", tokenPreElement);
+			element.setFeature("nextToken", tokenElement);
+			if( tokenPreElement == null || tokenElement == null){
+				relation.setFeature("ID_NEXT", "NA");				
+			}
+			else if( tokenPreElement.equalsIgnoreCase( tokenElement ) ){
+				relation.setFeature("ID_NEXT", "YES");
+			}else{
+				relation.setFeature("ID_NEXT", "NO");				
+			}**/
+
+
 		}
+	}
+	
+	/**
+	 * get the next token of the unit, just the token before the mention
+	 * same thing for next token
+	 * @param annotation
+	 */
+	private void calculateNextPreviousToken( Annotation annotation ){
+		Text text = this.corpus.getText( annotation.getFileName() );
+		//calculate for every unit the previous and next token
+		List<Unit> unitList = annotation.getUnit();
+		for( int u = 0; u < unitList.size(); u++){
+			if( ! unitList.get( u ).getId().contains("TXT_") ){
+				unitList.get( u ).setFeature("previous_token", this.getPreToken(annotation, text, unitList.get( u ) ) );
+				unitList.get( u ).setFeature("next_token", this.getNextToken(annotation, text, unitList.get( u ) ) );
+			}
+		}
+		
+	}
+
+	private String getNextToken( Annotation annotation, Text text, Unit unit ){
+		Turn turn = text.getTurnCorresponding(annotation, unit);
+		String contentUnit = text.getContentFromUnit(annotation, unit);
+		if( turn != null ){
+			String contentTurn = turn.getContent();
+			String[] contentTurnSplitted = splitMention( contentTurn );
+
+			boolean found = false;
+			for(int c = 0; c < contentTurnSplitted.length; c++ ){
+				if( contentUnit.contains( contentTurnSplitted[ c ] ) && ! found ){
+					//start of the mention
+					found = true;
+				}else if( found && ! contentUnit.contains( contentTurnSplitted[ c ] ) ){
+					//token after the unit !
+					return contentTurnSplitted[ c ];
+				}			
+			}
+			if( found ){
+				//the mention is at the end of the turn take the next turn
+				Turn nextTurn = text.getNextTurn( turn );
+				if( nextTurn == null ){
+					return null;
+				}
+				String[] contentNextTurnSplitted = splitMention( nextTurn.getContent() );
+				return contentNextTurnSplitted[ 0 ];
+			}else{
+				return null;
+			}
+		}
+		return null;
+	}
+
+	private String getPreToken( Annotation annotation, Text text, Unit unit ){
+		Turn turn = text.getTurnCorresponding(annotation, unit);
+		String contentUnit = text.getContentFromUnit(annotation, unit);
+		if( turn != null ){
+			int posMention = turn.getContent().indexOf( contentUnit );
+			if( posMention == 0 ){
+				//mention start the turn, check the previous turn
+				Turn previousTurn = text.getPreviousTurn( turn );
+				if( previousTurn == null ){
+					return null;
+				}
+				String[] contentSplitted = splitMention( previousTurn.getContent() );
+				return contentSplitted[ contentSplitted.length - 1 ];
+			}else{
+				//mention not start the turn, get the pre token
+				String contentWithoutMention = turn.getContent().substring(0, posMention );
+				String[] contentSplitted = splitMention( contentWithoutMention );
+				//just take the last element of the contentSplitted
+				return contentSplitted[ contentSplitted.length - 1 ];
+			}
+		}
+		return null;
 	}
 
 
@@ -296,6 +402,7 @@ public class CalculateFeature implements Runnable {
 
 			calculatePreviousNextToken( annotation, relationList.get( r ) );
 		}
+		calculateNextPreviousToken( annotation );
 		calculateSpeaker( annotation );
 	}
 
@@ -303,7 +410,7 @@ public class CalculateFeature implements Runnable {
 	private void calculatePreviousNextToken( Annotation annotation, Relation relation ){
 		Text text = this.corpus.getText( annotation.getFileName() );
 		if(text == null){
-			logger.debug("MISSING FILE: "+ annotation.getFileName());
+			logger.debug("MISSING FILE: "+ annotation.getFileName() + ".ac");
 			return;
 		}
 
