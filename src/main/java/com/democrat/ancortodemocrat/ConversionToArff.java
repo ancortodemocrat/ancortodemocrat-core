@@ -56,6 +56,8 @@ public class ConversionToArff implements Runnable{
 			 "@ATTRIBUTE distance_char real\n" +
 			 "@ATTRIBUTE id_new {YES, NO, NA}\n" +
 			 "@ATTRIBUTE EMBEDDED {YES, NO, NA}\n" +
+			 "@ATTRIBUTE id_previous {YES, NO, NA}\n" +
+			 "@ATTRIBUTE id_next {YES, NO, NA}\n" +
 			 "@ATTRIBUTE class {COREF, NOT_COREF}\n" +
 			 "@DATA";
 
@@ -210,6 +212,17 @@ public class ConversionToArff implements Runnable{
 			//embedded
 			line += relation.getFeature( "EMBEDDED" );
 			line += " ";
+			
+			//id_previous
+			line += relation.getFeature( "ID_PREVIOUS" );
+			if( relation.getFeature( "ID_PREVIOUS" ).isEmpty() ){
+				logger.debug("YOLOOOO ==>");
+			}
+			line += " ";
+			
+			//id_next
+			line += relation.getFeature( "ID_NEXT" );
+			line += " ";
 
 		}
 		return line;
@@ -263,7 +276,7 @@ public class ConversionToArff implements Runnable{
 			int attempt = 0;
 			while( ! done ){
 				int unitIdRandom = AncorToDemocrat.randomNumber(0, unitList.size() - 1 );
-				if( ! unitList.contains( unitIdRandom ) ){
+				//if( ! unitList.contains( unitIdRandom ) ){
 					//negative relation generated
 					if( ! unitList.get( unitIdRandom ).getFeature( "REF" ).equals( relation.getFeature( "REF" ) ) ){
 						//the unit is not in the chain of relation
@@ -285,8 +298,8 @@ public class ConversionToArff implements Runnable{
 						}
 						done = true;
 					}
-				}
-				if( attempt > 10 ){
+				//}
+				if( attempt > 15 ){
 					//safe case
 					break;
 				}
@@ -299,7 +312,7 @@ public class ConversionToArff implements Runnable{
 	@Override
 	public void run() {
 		this.work( );
-		logger.info("[" + this.corpus.getName() + "] arff file writed");
+		logger.info("[" + this.corpus.getName() + "] arff file writed.");
 		logger.info("COREF: "+positiveRelation);
 		logger.info("NOT-COREF: "+negativeRelation);
 	}

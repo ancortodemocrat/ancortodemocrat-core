@@ -279,34 +279,19 @@ public class CalculateFeature implements Runnable {
 			}
 
 			//id_previous
-			//get previous token of each mention
-			/**String tokenPreElement = getPreToken( annotation, text, (Unit) preElement );
-			String tokenElement = getPreToken( annotation, text, (Unit) element );
-			preElement.setFeature("previousToken", tokenPreElement);
-			element.setFeature("previousToken", tokenElement);
-			if( tokenPreElement == null || tokenElement == null){
-				relation.setFeature("ID_PREVIOUS", "NA");				
-			}
-			else if( tokenPreElement.equalsIgnoreCase( tokenElement ) ){
+			if( preElement.getFeature("previous_token").equalsIgnoreCase("previous_token" ) ){
 				relation.setFeature("ID_PREVIOUS", "YES");
 			}else{
 				relation.setFeature("ID_PREVIOUS", "NO");				
 			}
 
 
-			//id_next		
-			tokenPreElement = getNextToken( annotation, text, (Unit) preElement );
-			tokenElement = getNextToken( annotation, text, (Unit) element );
-			preElement.setFeature("nextToken", tokenPreElement);
-			element.setFeature("nextToken", tokenElement);
-			if( tokenPreElement == null || tokenElement == null){
-				relation.setFeature("ID_NEXT", "NA");				
-			}
-			else if( tokenPreElement.equalsIgnoreCase( tokenElement ) ){
+			//id_next
+			if( preElement.getFeature("previous_token").equalsIgnoreCase("previous_token" ) ){
 				relation.setFeature("ID_NEXT", "YES");
 			}else{
 				relation.setFeature("ID_NEXT", "NO");				
-			}**/
+			}
 
 
 		}
@@ -412,7 +397,7 @@ public class CalculateFeature implements Runnable {
 	private void calculatePreviousNextToken( Annotation annotation, Relation relation ){
 		Text text = this.corpus.getText( annotation.getFileName() );
 		if(text == null){
-			logger.debug("MISSING FILE: "+ annotation.getFileName() + ".ac");
+			logger.error("MISSING FILE: "+ annotation.getFileName() + ".ac");
 			return;
 		}
 

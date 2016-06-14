@@ -64,8 +64,11 @@ public class AncorToDemocrat {
 						logger.error("e.g. arff fileName nbPositiveInstance nbNegativeInstance");
 					}
 					generateOwnArff(args[ 1 ], pos, neg );
+				}else if(args[ 1 ].equalsIgnoreCase("corpus" ) ){
+					generateCorpusArff();
 				}else{
 					logger.error("e.g. arff fileName nbPositiveInstance nbNegativeInstance");
+					logger.error("e.g. arff corpus : to generate all arff file from corpus");
 				}
 			}
 		}else{
@@ -88,6 +91,32 @@ public class AncorToDemocrat {
 		System.out.println("==>"+toast);
 		 **/
 
+	}
+
+	public static void generateCorpusArff(){
+		//loading corpus
+		List<String> corpusPath = fileManager.loadPathFile();
+		List<Corpus> corpusList = new ArrayList<Corpus>();
+		for(String path : corpusPath){
+			corpusList.add( new Corpus( path ));
+		}
+
+		//loading annotation and text of corpus
+		for(Corpus corpus : corpusList){
+			logger.info("Loading annotation on: " + corpus.getName() );
+			corpus.loadAnnotation();
+			logger.info("Loading text on: " + corpus.getName() );
+			corpus.loadText();
+
+		}
+
+
+		//conversion each corpus
+		for(Corpus corpus : corpusList){
+			ConversionToArff conversionToArff = new ConversionToArff( corpus );
+			Thread th = new Thread( conversionToArff );
+			th.start();
+		}
 	}
 
 	/**
@@ -160,7 +189,7 @@ public class AncorToDemocrat {
 			}
 
 
-			
+
 			//writing new arff file
 			writer.println(ConversionToArff.ARFF_ATTRIBUTE);
 
@@ -188,7 +217,7 @@ public class AncorToDemocrat {
 			}
 		}
 
-		logger.info(fileName + " arff created !");
+		logger.info(fileName + " arff created with "+nbPos+" positive(s) instance(s) and "+nbNeg+" negative(s) instance(s).");
 
 	}
 

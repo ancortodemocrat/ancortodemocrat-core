@@ -90,7 +90,9 @@ public class Element {
 				featureName.equalsIgnoreCase("id_spk") ||
 				featureName.equalsIgnoreCase("id_form") ||
 				featureName.equalsIgnoreCase("id_subform") ||
-				featureName.equalsIgnoreCase("id_new")
+				featureName.equalsIgnoreCase("id_new") ||
+				featureName.equalsIgnoreCase("id_previous") ||
+				featureName.equalsIgnoreCase("id_next")
 				){
 			return new String("NA");
 		}
