@@ -339,7 +339,9 @@ public class CalculateFeature implements Runnable {
 
 			boolean found = false;
 			for(int c = 0; c < contentTurnSplitted.length; c++ ){
-				if( contentUnit.contains( contentTurnSplitted[ c ] ) && ! found ){
+				if( contentUnit.contains( contentTurnSplitted[ c ] ) && ! found ||
+						(contentTurnSplitted[ c ].contains("'") && contentTurnSplitted[ c ].contains( contentUnit) )
+					){
 					//start of the mention
 					found = true;
 				}else if( found && ! contentUnit.contains( contentTurnSplitted[ c ] ) ){
