@@ -92,10 +92,15 @@ public class Element {
 				featureName.equalsIgnoreCase("id_subform") ||
 				featureName.equalsIgnoreCase("id_new") ||
 				featureName.equalsIgnoreCase("id_previous") ||
-				featureName.equalsIgnoreCase("id_next")
+				featureName.equalsIgnoreCase("id_next") ||
+				featureName.equalsIgnoreCase("EMBEDDED")
 				){
 			return new String("NA");
-		}
+		}else if(featureName.equalsIgnoreCase("com_rate") ||
+			featureName.equalsIgnoreCase( "incl_rate" ) ||
+			featureName.toLowerCase().contains("distance") ){
+				return new String("0");
+			}
 		return new String("NULL");
 	}
 

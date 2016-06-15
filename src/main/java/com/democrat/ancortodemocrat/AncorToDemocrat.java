@@ -196,12 +196,12 @@ public class AncorToDemocrat {
 			int random = 0;
 			//select the intances
 			for(int p = 0; p < nbPos; p++){
-				random = AncorToDemocrat.randomNumber( 0, posInstanceList.size() );
+				random = AncorToDemocrat.randomNumber( 0, posInstanceList.size() - 1);
 				writer.println( posInstanceList.get( random ) );
 
 			}
-			for(int n = 0; n < nbPos; n++){
-				random = AncorToDemocrat.randomNumber( 0, posInstanceList.size() );
+			for(int n = 0; n < nbNeg; n++){
+				random = AncorToDemocrat.randomNumber( 0, posInstanceList.size() - 1);
 				writer.println( negInstanceList.get( random ) );
 			}
 
