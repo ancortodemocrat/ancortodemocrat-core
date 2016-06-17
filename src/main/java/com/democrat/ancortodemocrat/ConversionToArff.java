@@ -215,7 +215,6 @@ public class ConversionToArff implements Runnable{
 			
 			//id_previous
 			line += relation.getFeature( "ID_PREVIOUS" );
-			logger.debug(relation.getFeature( "ID_PREVIOUS" ) );
 			line += " ";
 			
 			//id_next

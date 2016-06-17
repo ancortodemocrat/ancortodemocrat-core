@@ -70,9 +70,24 @@ public class AncorToDemocrat {
 					logger.error("e.g. arff fileName nbPositiveInstance nbNegativeInstance");
 					logger.error("e.g. arff corpus : to generate all arff file from corpus");
 				}
+			}else{
+				//loading corpus
+				List<Corpus> corpusList = new ArrayList<Corpus>();
+				for(int a = 1; a < args.length; a++){
+					corpusList.add( new Corpus( args[ a ] ) );
+				}
+				convertCorpus( corpusList );
+				
 			}
 		}else{
-			convertCorpus();
+			//loading corpus
+			List<String> corpusPath = fileManager.loadPathFile();
+			List<Corpus> corpusList = new ArrayList<Corpus>();
+			for(String path : corpusPath){
+				corpusList.add( new Corpus( path ));
+			}
+
+			convertCorpus( corpusList );
 		}
 
 
@@ -196,12 +211,12 @@ public class AncorToDemocrat {
 			int random = 0;
 			//select the intances
 			for(int p = 0; p < nbPos; p++){
-				random = AncorToDemocrat.randomNumber( 0, posInstanceList.size() );
+				random = AncorToDemocrat.randomNumber( 0, posInstanceList.size() - 1);
 				writer.println( posInstanceList.get( random ) );
 
 			}
-			for(int n = 0; n < nbPos; n++){
-				random = AncorToDemocrat.randomNumber( 0, posInstanceList.size() );
+			for(int n = 0; n < nbNeg; n++){
+				random = AncorToDemocrat.randomNumber( 0, posInstanceList.size() - 1);
 				writer.println( negInstanceList.get( random ) );
 			}
 
@@ -231,15 +246,9 @@ public class AncorToDemocrat {
 		th.start();
 	}
 
-	public static void convertCorpus(){
+	public static void convertCorpus(List<Corpus> corpusList){
 
-		//loading corpus
-		List<String> corpusPath = fileManager.loadPathFile();
-		List<Corpus> corpusList = new ArrayList<Corpus>();
-		for(String path : corpusPath){
-			corpusList.add( new Corpus( path ));
-		}
-
+		
 		//loading annotation of corpus
 		for(Corpus corpus : corpusList){
 			logger.info("Loading annotation on: " + corpus.getName() );

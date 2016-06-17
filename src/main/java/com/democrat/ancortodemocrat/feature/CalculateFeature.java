@@ -279,7 +279,12 @@ public class CalculateFeature implements Runnable {
 			}
 
 			//id_previous
-			if( preElement.getFeature("previous_token").equalsIgnoreCase("previous_token" ) ){
+			//logger.debug("previousTOKEN: "+preElement.getFeature( "previous_token" ) + " - " + element.getFeature("previous_token")); 
+			if( preElement.getFeature("previous_token").equalsIgnoreCase("null") ||
+					element.getFeature("previous_token").equalsIgnoreCase("null") ){
+				relation.setFeature("ID_PREVIOUS", "NA");
+			}
+			else if( preElement.getFeature("previous_token").equalsIgnoreCase( element.getFeature( "previous_token" ) ) ){
 				relation.setFeature("ID_PREVIOUS", "YES");
 			}else{
 				relation.setFeature("ID_PREVIOUS", "NO");				
@@ -287,7 +292,10 @@ public class CalculateFeature implements Runnable {
 
 
 			//id_next
-			if( preElement.getFeature("previous_token").equalsIgnoreCase("previous_token" ) ){
+			if( preElement.getFeature("next_token").equalsIgnoreCase("null" ) || 
+					element.getFeature("next_token").equalsIgnoreCase("null" ) ){
+				relation.setFeature("ID_NEXT", "NA");
+			}else if( preElement.getFeature("next_token").equalsIgnoreCase( element.getFeature( "next_token" ) ) ){
 				relation.setFeature("ID_NEXT", "YES");
 			}else{
 				relation.setFeature("ID_NEXT", "NO");				
@@ -296,14 +304,18 @@ public class CalculateFeature implements Runnable {
 
 		}
 	}
-	
+
 	/**
 	 * get the next token of the unit, just the token before the mention
 	 * same thing for next token
 	 * @param annotation
 	 */
-	private void calculateNextPreviousToken( Annotation annotation ){
+	private void calculateToken( Annotation annotation ){
 		Text text = this.corpus.getText( annotation.getFileName() );
+		if( text == null){
+			logger.error("FILE MISSING "+annotation.getFileName() );
+			return;
+		}
 		//calculate for every unit the previous and next token
 		List<Unit> unitList = annotation.getUnit();
 		for( int u = 0; u < unitList.size(); u++){
@@ -312,44 +324,49 @@ public class CalculateFeature implements Runnable {
 				unitList.get( u ).setFeature("next_token", this.getNextToken(annotation, text, unitList.get( u ) ) );
 			}
 		}
-		
+
 	}
 
+	/**
+	 * get the next token of the mention
+	 * @param annotation
+	 * @param text
+	 * @param unit
+	 * @return
+	 */
 	private String getNextToken( Annotation annotation, Text text, Unit unit ){
+		if(text == null){
+			return null;
+		}
 		Turn turn = text.getTurnCorresponding(annotation, unit);
 		String contentUnit = text.getContentFromUnit(annotation, unit);
 		if( turn != null ){
 			String contentTurn = turn.getContent();
-			String[] contentTurnSplitted = splitMention( contentTurn );
+			//String[] contentTurnSplitted = splitMention( contentTurn );
 
-			boolean found = false;
-			for(int c = 0; c < contentTurnSplitted.length; c++ ){
-				if( contentUnit.contains( contentTurnSplitted[ c ] ) && ! found ||
-						(contentTurnSplitted[ c ].contains("'") && contentTurnSplitted[ c ].contains( contentUnit) )
-					){
-					//start of the mention
-					found = true;
-				}else if( found && ! contentUnit.contains( contentTurnSplitted[ c ] ) ){
-					//token after the unit !
-					return contentTurnSplitted[ c ];
-				}			
-			}
-			if( found ){
-				//the mention is at the end of the turn take the next turn
-				Turn nextTurn = text.getNextTurn( turn );
-				if( nextTurn == null ){
-					return null;
-				}
-				String[] contentNextTurnSplitted = splitMention( nextTurn.getContent() );
-				return contentNextTurnSplitted[ 0 ];
+			int positionStart = unit.getEnd( annotation ) - text.indexOf(turn);
+			String contentTurnSplitted = contentTurn.substring( positionStart, contentTurn.length());
+			if( contentTurnSplitted.length() > 1 ){
+				return splitMention( contentTurnSplitted )[0];
 			}else{
-				return null;
+				//next turn
+				Turn nextTurn = text.getNextTurn( turn );
+				if( nextTurn != null){
+					String[] contentNextSplitted = splitMention( nextTurn.getContent() );
+					return contentNextSplitted[ 0 ];
+				}
 			}
+
+
 		}
 		return null;
 	}
 
 	private String getPreToken( Annotation annotation, Text text, Unit unit ){
+		if(text == null){
+			return null;
+		}
+
 		Turn turn = text.getTurnCorresponding(annotation, unit);
 		String contentUnit = text.getContentFromUnit(annotation, unit);
 		if( turn != null ){
@@ -389,7 +406,7 @@ public class CalculateFeature implements Runnable {
 
 			calculatePreviousNextToken( annotation, relationList.get( r ) );
 		}
-		calculateNextPreviousToken( annotation );
+		calculateToken( annotation );
 		calculateSpeaker( annotation );
 	}
 
