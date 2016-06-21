@@ -498,10 +498,12 @@ public class CalculateFeature implements Runnable {
 
 	@Override
 	public void run() {
-		this.corpus.loadAnnotation();
-		this.corpus.loadText();
+		if( this.corpus.getAnnotation().size() == 0 ){
+			this.corpus.loadAnnotation();
+			this.corpus.loadText();
+		}
 		this.work();
-		this.corpus.export();
+		//this.corpus.export();
 		ConversionToArff conversionToArff = new ConversionToArff( this.corpus );
 		Thread th = new Thread( conversionToArff );
 		th.start();
