@@ -21,6 +21,7 @@ import org.apache.log4j.Logger;
 import org.apache.log4j.xml.DOMConfigurator;
 import org.xml.sax.SAXException;
 
+import com.democrat.ancortodemocrat.element.Annotation;
 import com.democrat.ancortodemocrat.feature.CalculateFeature;
 import com.democrat.ancortodemocrat.treetagger.TreeTagger;
 
@@ -48,8 +49,24 @@ public class AncorToDemocrat {
 
 		if( args.length > 1){
 			if( args[0].equalsIgnoreCase( "generateFeature" )){
-				for(int a = 1; a < args.length; a++){
-					generateFeature( args[ a ] );
+				if( args[ 1 ].equalsIgnoreCase( "p" ) ){
+					//first mention
+					for(int a = 2; a < args.length; a++){
+						//calculate REF feature 
+						Corpus corpus = new Corpus( args[ a ] );
+						generateFeature( corpus, true );
+					}					
+				}else if( args[ 1 ].equalsIgnoreCase( "c" ) ){
+					//in chain
+					for(int a = 2; a < args.length; a++){
+						//calculate REF feature 
+						Corpus corpus = new Corpus( args[ a ] );
+						generateFeature( corpus, false );
+					}			
+				}else{
+					logger.error("Erreur pour generateFeature, e.g:");
+					logger.error("Pour un corpus en chaîne: generateFeature c C:/Users/buggr/Documents/stage/ancor/corpus_OTG");
+					logger.error("Pour un corpus en première mention: generateFeature p C:/Users/buggr/Documents/stage/ancor/corpus_OTG");
 				}
 				return;
 			}else if( args[ 0 ].equalsIgnoreCase( "arff" ) ){
@@ -57,13 +74,13 @@ public class AncorToDemocrat {
 					int pos = 0;
 					int neg = 0;
 					try{
-						pos = Integer.valueOf( args[ 2 ] );
-						neg = Integer.valueOf( args[ 3 ] );
+						pos = Integer.valueOf( args[ 3 ] );
+						neg = Integer.valueOf( args[ 4 ] );
 					}catch(NumberFormatException e){
 						logger.error("nbPositiveInstance and nbNegative should be number");
-						logger.error("e.g. arff fileName nbPositiveInstance nbNegativeInstance");
+						logger.error("e.g. arff fromFolderName fileName nbPositiveInstance nbNegativeInstance");
 					}
-					generateOwnArff(args[ 1 ], pos, neg );
+					generateOwnArff(args[ 1 ], args[ 2 ], pos, neg );
 				}else if(args[ 1 ].equalsIgnoreCase("corpus" ) ){
 					generateCorpusArff();
 				}else{
@@ -143,7 +160,7 @@ public class AncorToDemocrat {
 	 * @param nbPos should be > 0
 	 * @param nbNeg should be > 0
 	 */
-	public static void generateOwnArff(String fileName, int nbPos, int nbNeg){
+	public static void generateOwnArff(String folderName, String fileName, int nbPos, int nbNeg){
 		final String defaultFileName = "coreferences";
 
 		if( nbPos < 0 || nbNeg < 0 ){
@@ -166,7 +183,7 @@ public class AncorToDemocrat {
 			//if no arff file
 			//error
 			//TODO help user with command
-			ArrayList<String> fileList = fileManager.getFileFromFolder(new File("generated/arff/"), "arff");
+			ArrayList<String> fileList = fileManager.getFileFromFolder(new File( folderName ), "arff");
 			if( fileList.size() == 0 ){
 				logger.error("No arff file found, generate it before please");		
 				return;
@@ -237,10 +254,24 @@ public class AncorToDemocrat {
 	}
 
 	/**
+	 * @param isFirstMention 
 	 * 
 	 */
-	public static void generateFeature(String corpusPath){
-		Corpus corpus = new Corpus( corpusPath );
+	public static void generateFeature( Corpus corpus, boolean isFirstMention ){
+		logger.info("Loading annotation on: " + corpus.getName() );
+		corpus.loadAnnotation();
+		logger.info("Loading text on: " + corpus.getName() );
+		corpus.loadText();
+		List<Annotation> annotationList = corpus.getAnnotation();
+		for(int a = 0; a < annotationList.size(); a++){
+			if( ! isFirstMention ){
+				ConversionInSet.toSetFromChain( annotationList.get( a ) );
+			}else{
+				ConversionInSet.toSetFromFirstMention( annotationList.get( a ) );
+			}
+		}
+		
+		
 		CalculateFeature calculate = new CalculateFeature( corpus );
 		Thread th = new Thread( calculate );
 		th.start();
