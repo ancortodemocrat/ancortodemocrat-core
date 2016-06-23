@@ -95,6 +95,7 @@ public class CalculateFeature implements Runnable {
 			}
 
 			//ID_SUBFORM
+			//if one token of the smallest is include in the biggest
 			if( mention.length() > preMention.length() ){
 				if( mention.contains( preMention ) ){
 					relation.setFeature("ID_SUBFORM", "YES");
