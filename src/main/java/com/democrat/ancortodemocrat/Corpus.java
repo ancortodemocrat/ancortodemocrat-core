@@ -58,12 +58,17 @@ public class Corpus {
 		this.annotation = list;
 	}
 	
-	public void export(){
-		AncorToDemocrat.fileManager.mkdir("generated/" + this.getName());
-		AncorToDemocrat.fileManager.mkdir("generated/" + this.getName() + "/aa_fichiers/");
+	public void export( String path ){
+		AncorToDemocrat.fileManager.mkdir( path );
+		AncorToDemocrat.fileManager.mkdir( path + "/aa_fichiers/");
 		for(Annotation a : this.annotation){
-			XmlWriter.writeXml(a, "generated/" + this.getName() + "/aa_fichiers/" + a.getFileName() + ".aa");
+			XmlWriter.writeXml(a, path + "/aa_fichiers/" + a.getFileName() + ".aa");
 		}
+		
+	}
+	
+	public void export(){
+		this.export( "generated/" + this.getName() );
 	}
 	
 	public void loadAnnotation(){

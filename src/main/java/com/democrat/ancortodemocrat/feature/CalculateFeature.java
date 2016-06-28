@@ -20,9 +20,11 @@ public class CalculateFeature implements Runnable {
 	private static Logger logger = Logger.getLogger(CalculateFeature.class);
 
 	private Corpus corpus;
+	private String outputPath;
 
-	public CalculateFeature( Corpus corpus ){
+	public CalculateFeature( Corpus corpus, String outputPath ){
 		this.corpus = corpus;
+		this.outputPath = outputPath;
 	}
 
 
@@ -504,10 +506,10 @@ public class CalculateFeature implements Runnable {
 			this.corpus.loadText();
 		}
 		this.work();
-		//this.corpus.export();
-		ConversionToArff conversionToArff = new ConversionToArff( this.corpus );
-		Thread th = new Thread( conversionToArff );
-		th.start();
+		this.corpus.export( outputPath );
+		//ConversionToArff conversionToArff = new ConversionToArff( this.corpus );
+		//Thread th = new Thread( conversionToArff );
+		//th.start();
 	}
 
 }

@@ -283,7 +283,7 @@ public class ConversionToArff implements Runnable{
 						newRelation.addUnit( unit );
 						newRelation.addUnit( unitList.get( unitIdRandom ) );
 						
-						CalculateFeature calculateFeature = new CalculateFeature( corpus );
+						CalculateFeature calculateFeature = new CalculateFeature( corpus, "" );
 						calculateFeature.calculateFeatureOnRelation(annotation, newRelation);
 						
 						//then calculate feature of the new relation

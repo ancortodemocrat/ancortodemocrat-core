@@ -31,6 +31,7 @@ public class AncorToDemocrat {
 	private static Logger logger = Logger.getLogger(AncorToDemocrat.class);
 	public static FileManager fileManager;
 	public static TreeTagger treeTagger;
+	public final static String[] help = new String[]{};
 
 	public static void main(String[] args) {
 
@@ -48,25 +49,24 @@ public class AncorToDemocrat {
 
 
 		if( args.length > 1){
-			if( args[0].equalsIgnoreCase( "generateFeature" )){
+			if( args[0].equalsIgnoreCase( "feature" )){
+				Corpus corpus = new Corpus( args[ 2 ] );
+				String outputPath = "generated/feature/ " + corpus.getName();
+				if(args.length == 4){
+					outputPath = args[ 3 ];
+				}
 				if( args[ 1 ].equalsIgnoreCase( "p" ) ){
 					//first mention
-					for(int a = 2; a < args.length; a++){
-						//calculate REF feature 
-						Corpus corpus = new Corpus( args[ a ] );
-						generateFeature( corpus, true );
-					}					
+					//calculate REF feature 
+					generateFeature( corpus, true, outputPath);			
 				}else if( args[ 1 ].equalsIgnoreCase( "c" ) ){
 					//in chain
-					for(int a = 2; a < args.length; a++){
-						//calculate REF feature 
-						Corpus corpus = new Corpus( args[ a ] );
-						generateFeature( corpus, false );
-					}			
+					//calculate REF feature 
+					generateFeature( corpus, false, outputPath);	
 				}else{
-					logger.error("Erreur pour generateFeature, e.g:");
-					logger.error("Pour un corpus en chaîne: generateFeature c C:/Users/buggr/Documents/stage/ancor/corpus_OTG");
-					logger.error("Pour un corpus en première mention: generateFeature p C:/Users/buggr/Documents/stage/ancor/corpus_OTG");
+					logger.error("Erreur pour Feature, e.g:");
+					logger.error("Pour un corpus en chaîne: calculateFeature c C:/Users/buggr/Documents/stage/ancor/corpus_OTG generated/corpus_OTG_traits_caclules");
+					logger.error("Pour un corpus en première mention: calculateFeature p C:/Users/buggr/Documents/stage/ancor/corpus_OTG generated/corpus_OTG_traits_caclules");
 				}
 				return;
 			}else if( args[ 0 ].equalsIgnoreCase( "arff" ) ){
@@ -88,16 +88,20 @@ public class AncorToDemocrat {
 					logger.error("e.g. arff corpus : to generate all arff file from corpus");
 				}
 			}else{
-				//loading corpus
+				//loading corpus via command line
 				List<Corpus> corpusList = new ArrayList<Corpus>();
 				for(int a = 1; a < args.length; a++){
 					corpusList.add( new Corpus( args[ a ] ) );
 				}
 				convertCorpus( corpusList );
-				
+
 			}
-		}else{
-			//loading corpus
+		}else if(args.length == 1){
+			//help
+			if(args[ 0 ].equalsIgnoreCase( "help" ) ){
+				//TODO print all command
+			}
+		}else{//loading corpus via txt file
 			List<String> corpusPath = fileManager.loadPathFile();
 			List<Corpus> corpusList = new ArrayList<Corpus>();
 			for(String path : corpusPath){
@@ -225,15 +229,31 @@ public class AncorToDemocrat {
 			//writing new arff file
 			writer.println(ConversionToArff.ARFF_ATTRIBUTE);
 
+			ArrayList<Integer> nbGenerated = new ArrayList<Integer>();
+
+
 			int random = 0;
 			//select the intances
 			for(int p = 0; p < nbPos; p++){
 				random = AncorToDemocrat.randomNumber( 0, posInstanceList.size() - 1);
+				if( nbGenerated.contains( random ) ){
+					while( nbGenerated.contains( random ) ){
+						random = AncorToDemocrat.randomNumber( 0, posInstanceList.size() - 1);						
+					}
+				}
+				nbGenerated.add( random );	
 				writer.println( posInstanceList.get( random ) );
 
 			}
+			nbGenerated.clear();
 			for(int n = 0; n < nbNeg; n++){
 				random = AncorToDemocrat.randomNumber( 0, posInstanceList.size() - 1);
+				if( nbGenerated.contains( random ) ){
+					while( nbGenerated.contains( random ) ){
+						random = AncorToDemocrat.randomNumber( 0, posInstanceList.size() - 1);						
+					}
+				}
+				nbGenerated.add( random );				
 				writer.println( negInstanceList.get( random ) );
 			}
 
@@ -255,9 +275,10 @@ public class AncorToDemocrat {
 
 	/**
 	 * @param isFirstMention 
+	 * @param outputPath 
 	 * 
 	 */
-	public static void generateFeature( Corpus corpus, boolean isFirstMention ){
+	public static void generateFeature( Corpus corpus, boolean isFirstMention, String outputPath ){
 		logger.info("Loading annotation on: " + corpus.getName() );
 		corpus.loadAnnotation();
 		logger.info("Loading text on: " + corpus.getName() );
@@ -270,16 +291,16 @@ public class AncorToDemocrat {
 				ConversionInSet.toSetFromFirstMention( annotationList.get( a ) );
 			}
 		}
-		
-		
-		CalculateFeature calculate = new CalculateFeature( corpus );
+
+
+		CalculateFeature calculate = new CalculateFeature( corpus, outputPath );
 		Thread th = new Thread( calculate );
 		th.start();
 	}
 
 	public static void convertCorpus(List<Corpus> corpusList){
 
-		
+
 		//loading annotation of corpus
 		for(Corpus corpus : corpusList){
 			logger.info("Loading annotation on: " + corpus.getName() );
