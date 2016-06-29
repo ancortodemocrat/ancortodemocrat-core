@@ -197,7 +197,7 @@ public class AncorToDemocrat {
 			for(String file : fileList){
 				BufferedReader br = null;
 				try {
-					br = new BufferedReader(new FileReader( "generated/arff/" + file ) );
+					br = new BufferedReader(new FileReader( folderName + file ) );
 					String line;
 					while ((line = br.readLine()) != null) {
 						if( ! line.startsWith("@DATA") && ! line.startsWith("@ATTRIBUTE" ) ){
@@ -247,10 +247,10 @@ public class AncorToDemocrat {
 			}
 			nbGenerated.clear();
 			for(int n = 0; n < nbNeg; n++){
-				random = AncorToDemocrat.randomNumber( 0, posInstanceList.size() - 1);
+				random = AncorToDemocrat.randomNumber( 0, negInstanceList.size() - 1);
 				if( nbGenerated.contains( random ) ){
 					while( nbGenerated.contains( random ) ){
-						random = AncorToDemocrat.randomNumber( 0, posInstanceList.size() - 1);						
+						random = AncorToDemocrat.randomNumber( 0, negInstanceList.size() - 1);						
 					}
 				}
 				nbGenerated.add( random );				
