@@ -37,12 +37,22 @@ public class Corpus {
 
 	private boolean done;
 	
-	
+	/**
+	 * 
+	 * @param path dossier où se trouve le corpus, doit contenir les dossiers aa_fichiers, et ac_fichiers
+	 * 			contenant respectivement des fichiers .aa et des fichiers .ac
+	 */
 	public Corpus(String path) {
 		this(path, new ArrayList<Annotation>());
 		
 	}
 	
+	/**
+	 * 
+	 * @param path dossier où se trouve le corpus, doit contenir les dossiers aa_fichiers, et ac_fichiers
+	 * 			contenant respectivement des fichiers .aa et des fichiers .ac
+	 * @param list Liste des annotations du corpus précisés
+	 */
 	public Corpus(String path, List<Annotation> list){
 		this.path = path;
 		if(path.contains( "\\" )){
@@ -53,11 +63,16 @@ public class Corpus {
 			String[] pathSplited = path.split( "/" );
 			this.name = pathSplited[ pathSplited.length - 1 ];
 		}else{
-			logger.error("Corpus path not valid: "+path);
+			logger.error("Chemin du corpus invalide: "+path);
 		}
 		this.annotation = list;
 	}
 	
+	/**
+	 * Exporte les fichiers aa du corpus
+	 * sous le chemin spécifié
+	 * @param path dossier où sera exporté le dossier aa_fichiers du corpus avec les .aa dedans
+	 */
 	public void export( String path ){
 		AncorToDemocrat.fileManager.mkdir( path );
 		AncorToDemocrat.fileManager.mkdir( path + "/aa_fichiers/");
@@ -67,10 +82,19 @@ public class Corpus {
 		
 	}
 	
+	/**
+	 * Exporte les fichiers aa du corpus
+	 * dans le dossier par défaut: generated/corpus/nomDuCorpus
+	 */
 	public void export(){
-		this.export( "generated/" + this.getName() );
+		this.export( "generated/corpus/" + this.getName() );
 	}
 	
+	
+	/**
+	 * Charge les annotations du corpus,;
+	 * les annotations se résument aux fichiers .aa
+	 */
 	public void loadAnnotation(){
 		List<String> annotationFile = AncorToDemocrat.fileManager.loadAaFile( this );
 		for(String str : annotationFile){
@@ -83,6 +107,10 @@ public class Corpus {
 		}
 	}
 	
+	/**
+	 * Charges les fichiers textes bruts du corpus,
+	 * les fichiers textes se résument aux fichiers .ac
+	 */
 	public void loadText(){
 		List<String> textFile = AncorToDemocrat.fileManager.loadAcFile( this );
 		for(String fileName : textFile){

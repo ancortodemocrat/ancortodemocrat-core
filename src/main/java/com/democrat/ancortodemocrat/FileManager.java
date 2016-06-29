@@ -79,6 +79,21 @@ public class FileManager {
 		}
 		return list;
 	}
+	
+	public ArrayList<String> getFolderFromFolder(File folder ){
+		if( ! folder.isDirectory() ){
+			throw new IllegalArgumentException("Bad path, folder path expected");
+		}
+
+		File[] files = folder.listFiles();
+		ArrayList<String> list = new ArrayList<String>();
+		for(int f = 0; f < files.length; f++){
+			if(files[f].isDirectory() ){
+				list.add( files[f].getName() );
+			}
+		}
+		return list;
+	}
 
 	/**
 	 * Return list of path in the file

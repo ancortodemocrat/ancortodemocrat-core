@@ -9,6 +9,7 @@ import java.io.InputStream;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import javax.xml.bind.JAXBContext;
@@ -50,26 +51,165 @@ public class AncorToDemocrat {
 
 		if( args.length > 1){
 			if( args[0].equalsIgnoreCase( "feature" )){
-				Corpus corpus = new Corpus( args[ 2 ] );
-				String outputPath = "generated/feature/ " + corpus.getName();
-				if(args.length == 4){
-					outputPath = args[ 3 ];
+				/**
+				 * feature
+				 * - type de corpus en entrée
+				 *    "p" --> en première mention
+				 *    "c" --> en chaîne
+				 * - chemin du corpus en entrée
+				 * - -o chemin de sortie pour le corpus avec ses traits calculés (si non spécifié, generated/feature/nomDuCorpus)
+				 **/
+				//path corpus unknow
+				String outputPath = "";
+
+				Corpus corpus;
+				if( args.length > 2 ){
+					//test if output argument is present
+					corpus = new Corpus( args[ 2 ] );
+					if( args.length > 3 ){
+
+						if( args[ 3 ].equalsIgnoreCase( "-o" ) ){
+							outputPath = args[ 4 ];
+						}else{
+							logger.error("Arguement -o manquant pour le nombre d'arguement passé.");
+						}
+					}
+					if( args[ 1 ].equalsIgnoreCase( "p" ) ){
+						//first mention
+						//calculate REF feature 
+						generateFeature( corpus, true, outputPath);			
+					}else if( args[ 1 ].equalsIgnoreCase( "c" ) ){
+						//in chain
+						//calculate REF feature 
+						generateFeature( corpus, false, outputPath);	
+					}else{
+						logger.error("Erreur pour Feature, e.g:");
+						logger.error("Pour un corpus en chaîne: calculateFeature c C:/Users/buggr/Documents/stage/ancor/corpus_OTG generated/corpus/corpus_OTG_traits_caclules");
+						logger.error("Pour un corpus en première mention: calculateFeature p C:/Users/buggr/Documents/stage/ancor/corpus_OTG generated/corpus/corpus_OTG_traits_caclules");
+					}
+					return;
 				}
-				if( args[ 1 ].equalsIgnoreCase( "p" ) ){
-					//first mention
-					//calculate REF feature 
-					generateFeature( corpus, true, outputPath);			
-				}else if( args[ 1 ].equalsIgnoreCase( "c" ) ){
-					//in chain
-					//calculate REF feature 
-					generateFeature( corpus, false, outputPath);	
-				}else{
-					logger.error("Erreur pour Feature, e.g:");
-					logger.error("Pour un corpus en chaîne: calculateFeature c C:/Users/buggr/Documents/stage/ancor/corpus_OTG generated/corpus_OTG_traits_caclules");
-					logger.error("Pour un corpus en première mention: calculateFeature p C:/Users/buggr/Documents/stage/ancor/corpus_OTG generated/corpus_OTG_traits_caclules");
-				}
-				return;
+
 			}else if( args[ 0 ].equalsIgnoreCase( "arff" ) ){
+				//arff command
+				/**     
+				 * - paramètre de sortie
+				 * 			"all" --> toutes les relations
+				 * 			"no_assoc" --> toutes les relations sans les associatives, ni les associatives pronominales (le no_assoc me paraît un peu long ?)
+				 * - -i chemin du ou des corpus à extraire, peut aussi être un simple fichier .aa (pour garder l'intégrité d'un texte)
+				 * 			(si non spécifié, prend tous les corpus dans generated/feature/) (le(s) corpus doit avoir ses features calculés (précédente commande))
+				 * - -q quantité de nombre d'instances positives, et d'instances négatives
+				 * - -o nom du fichier .arff qui sera exporté (si non spécifié, generated/arff/dateDuJour_Heure.arff)
+				 **/
+
+				String parameter = "all";
+				String inputPath = "";
+				String outputPath = "";
+				int pos = 0;
+				int neg = 0;
+
+				if( args.length > 1 ){
+					if( args[ 1 ].equalsIgnoreCase( "all" ) || args[ 1 ].equalsIgnoreCase( "no_assoc" ) ) {
+						parameter = args[ 1 ];
+					}else{
+						//error first argument
+						logger.error( "Premier argument invalide, il doit être égal à 'all' ou 'no_assoc'.");
+						logger.error( "Pour plus d'information taper, invoquez help.");
+					}
+
+					for( int a = 2; a < args.length; a++){
+						if(args[ a ].equalsIgnoreCase( "-i" ) ){
+							//input path
+							if( a + 1 <= args.length ){
+								inputPath = args[ a + 1 ];
+							}else{
+								//error missing arguement
+								logger.error("Aucun paramètre indiqué après -i.");
+							}
+						}else if(args[ a ].equalsIgnoreCase( "-q" ) ){
+							//quantity of negative, positive instances
+							if( a + 2 <= args.length ){
+
+								try{
+									pos = Integer.valueOf( args[ a + 1] );
+									neg = Integer.valueOf( args[ a + 2] );
+								}catch(NumberFormatException e){
+									logger.error("Deux nombres sont attendus après -q.");
+								}
+							}else{
+								//error missing arguement
+								logger.error("Aucun paramètre indiqué après -q.");
+							}
+						}else if(args[ a ].equalsIgnoreCase( "-o" ) ){
+							//ouput path
+							if( a + 1 <= args.length ){
+								outputPath = args[ a + 1 ];
+							}else{
+								//error missing arguement
+								logger.error("Aucun paramètre indiqué après -o.");
+							}
+						}
+					}
+					
+					List<Corpus> corpusList = new ArrayList<Corpus>();
+					
+					if( inputPath.isEmpty() ){
+						//charger les corpus dans generated/
+						String pathFolder = "generated/corpus/";
+						ArrayList<String> corpusPathList = fileManager.getFolderFromFolder( new File( pathFolder ) );
+						for(int c = 0; c < corpusPathList.size(); c++){
+							corpusList.add( new Corpus( corpusPathList.get( c ) ) );
+						}
+					}else{
+						//tester si c'est un dossier ou non
+						//ensuite tester si le dossier contient des corpus ou si le dossier est un corpus
+						//sinon fichier
+						File fileInput = new File( inputPath );
+						if( fileInput.isDirectory() ){
+							//dossier
+							ArrayList<String> folderList = fileManager.getFolderFromFolder( fileInput );
+							boolean isFolderCorpus = false;
+							for( int f = 0; f < folderList.size(); f++ ){
+								if( folderList.get( f ).equalsIgnoreCase("aa_fichiers" ) ){
+									isFolderCorpus = true;
+								}
+							}
+							if( isFolderCorpus ){
+								//dossier de corpus
+								corpusList.add( new Corpus( fileInput.getAbsolutePath() ) );
+							}else{
+								//liste de dossier de corpus
+								for( int f = 0; f < folderList.size(); f++ ){
+									corpusList.add( new Corpus( folderList.get( f ) ) );
+								}
+							}
+						}else{
+							//fichier
+							//TODO charger fichier et le mettre dans un corpus
+						}
+					}
+					
+					//OUTPUTPATH
+					if(outputPath.isEmpty() ){
+						// sortie par defaut
+						Calendar calendar = Calendar.getInstance();
+						String fileName = calendar.getTime().toString();
+						outputPath = "generated/arff/" + fileName;
+					}else{
+						//tester si le chemin de sortie est un dossier
+						File outputFile = new File( outputPath );
+						if( ! outputFile.isDirectory() ){
+							logger.error("Le chemin de sortie doit être un dossier: "+outputPath);
+							return;
+						}
+					}
+					
+					
+				}
+
+
+
+				/**
 				if(args.length >= 4){
 					int pos = 0;
 					int neg = 0;
@@ -86,8 +226,8 @@ public class AncorToDemocrat {
 				}else{
 					logger.error("e.g. arff fileName nbPositiveInstance nbNegativeInstance");
 					logger.error("e.g. arff corpus : to generate all arff file from corpus");
-				}
-			}else{
+				}**/
+			}else if( args[ 0 ].equalsIgnoreCase("chaine") ){
 				//loading corpus via command line
 				List<Corpus> corpusList = new ArrayList<Corpus>();
 				for(int a = 1; a < args.length; a++){
