@@ -186,6 +186,7 @@ public class AncorToDemocrat {
 						}else{
 							//fichier
 							//TODO charger fichier et le mettre dans un corpus
+							Annotation annotation = XmlLoader.loadAnnotationFromFile( inputPath );
 						}
 					}
 					
@@ -250,22 +251,6 @@ public class AncorToDemocrat {
 
 			convertCorpus( corpusList );
 		}
-
-
-
-		//trying generate xsd schema and verify one xml .aa from glozz
-		//SchemaOutput.generate();
-		/**
-		JAXBContext context = null;
-		try {
-			context = JAXBContext.newInstance(Annotation.class);
-		} catch (JAXBException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		boolean toast = xmlValidation(context, "test.xml");
-		System.out.println("==>"+toast);
-		 **/
 
 	}
 
@@ -414,8 +399,9 @@ public class AncorToDemocrat {
 	}
 
 	/**
-	 * @param isFirstMention 
-	 * @param outputPath 
+	 * Calcule de nouveaux traits pour chaque relations, unités du corpus
+	 * @param isFirstMention Si le corpus est annoté en première mention ou non
+	 * @param outputPath chemin de sortie du corpus avec les nouveaux traits.
 	 * 
 	 */
 	public static void generateFeature( Corpus corpus, boolean isFirstMention, String outputPath ){
@@ -438,9 +424,11 @@ public class AncorToDemocrat {
 		th.start();
 	}
 
+	/**
+	 * Convertie des corpus annoté en première mention vers un typage en chaîne
+	 * @param corpusList Liste des corpus qui seront convertis en chaîne
+	 */
 	public static void convertCorpus(List<Corpus> corpusList){
-
-
 		//loading annotation of corpus
 		for(Corpus corpus : corpusList){
 			logger.info("Loading annotation on: " + corpus.getName() );
@@ -458,47 +446,6 @@ public class AncorToDemocrat {
 			conversionWorkerList.add( conversionWorker );
 			conversionWorker.start();
 		}
-	}
-
-	/**
-	 * test if a xml can be used
-	 * @param name
-	 * @return
-	 */
-	public static boolean xmlValidation(JAXBContext context, String xmlFile){
-		SchemaFactory schemaFactory = SchemaFactory.newInstance("http://www.w3.org/2001/XMLSchema");
-
-		//load xml file
-		InputStream xmlStream = AncorToDemocrat.class.getClassLoader().getResourceAsStream(xmlFile);
-		Schema schema = null;
-		try {
-			schema = schemaFactory.newSchema(new File(".", "schema1.xsd"));
-
-
-		} catch (SAXException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			return false;
-		}
-
-		Unmarshaller unmarshaller = null;
-		try {
-			unmarshaller = context.createUnmarshaller();
-		} catch (JAXBException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			return false;
-		}
-		unmarshaller.setSchema(schema);
-		try {
-			unmarshaller.unmarshal(xmlStream);
-		} catch (JAXBException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			return false;
-		}
-
-		return true;
 	}
 
 
