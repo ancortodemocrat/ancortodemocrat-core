@@ -60,7 +60,7 @@ public class CalculateFeature implements Runnable {
 
 
 			//ID_NOMBRE
-			if(relation.getFeature( "NOMBRE" ).equals( "NULL") ){
+			if(relation.getFeature( "NOMBRE" ).equals( "UNK") ){
 				String nbElement = element.getFeature( "NB" );
 				String nbPreElement = preElement.getFeature( "NB" );
 				if(nbElement.equals( nbPreElement ) ){
@@ -70,7 +70,7 @@ public class CalculateFeature implements Runnable {
 				}
 			}
 			//ID_GENRE
-			if(relation.getFeature( "GENRE" ).equals( "NULL") ){
+			if(relation.getFeature( "GENRE" ).equals( "UNK") ){
 				String genreElement = element.getFeature( "GENRE" );
 				String genrePreElement = preElement.getFeature( "GENRE" );
 				if(genreElement.equals( genrePreElement ) ){
@@ -359,6 +359,7 @@ public class CalculateFeature implements Runnable {
 					return contentNextSplitted[ 0 ];
 				}
 			}
+			
 		}
 		return null;
 	}
