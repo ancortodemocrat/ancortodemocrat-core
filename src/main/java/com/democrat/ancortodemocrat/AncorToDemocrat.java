@@ -8,8 +8,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
+import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import javax.xml.bind.JAXBContext;
@@ -74,6 +76,12 @@ public class AncorToDemocrat {
 							logger.error("Arguement -o manquant pour le nombre d'arguement passé.");
 						}
 					}
+					if( outputPath.isEmpty() ){
+						outputPath = "generated/feature/";
+						fileManager.mkdir( outputPath );
+						outputPath += corpus.getName();
+						fileManager.mkdir(outputPath);
+					}
 					if( args[ 1 ].equalsIgnoreCase( "p" ) ){
 						//first mention
 						//calculate REF feature 
@@ -102,19 +110,23 @@ public class AncorToDemocrat {
 				 * - -o nom du fichier .arff qui sera exporté (si non spécifié, generated/arff/dateDuJour_Heure.arff)
 				 **/
 
-				String parameter = "all";
+				ParamToArff parameter = ParamToArff.ALL;
 				String inputPath = "";
 				String outputPath = "";
 				int pos = 0;
 				int neg = 0;
 
 				if( args.length > 1 ){
-					if( args[ 1 ].equalsIgnoreCase( "all" ) || args[ 1 ].equalsIgnoreCase( "no_assoc" ) ) {
-						parameter = args[ 1 ];
+					if( args[ 1 ].equalsIgnoreCase( "all" ) ) {
+						
+					}else if( args[ 1 ].equalsIgnoreCase( "no_assoc") ){
+							parameter = ParamToArff.NO_ASSOC;
+					
 					}else{
 						//error first argument
 						logger.error( "Premier argument invalide, il doit être égal à 'all' ou 'no_assoc'.");
-						logger.error( "Pour plus d'information taper, invoquez help.");
+						logger.error( "Pour plus d'information, invoquez help.");
+						return;
 					}
 
 					for( int a = 2; a < args.length; a++){
@@ -158,7 +170,7 @@ public class AncorToDemocrat {
 						String pathFolder = "generated/corpus/";
 						ArrayList<String> corpusPathList = fileManager.getFolderFromFolder( new File( pathFolder ) );
 						for(int c = 0; c < corpusPathList.size(); c++){
-							corpusList.add( new Corpus( corpusPathList.get( c ) ) );
+							corpusList.add( new Corpus( "generated/corpus/" + corpusPathList.get( c ) ) );
 						}
 					}else{
 						//tester si c'est un dossier ou non
@@ -180,13 +192,19 @@ public class AncorToDemocrat {
 							}else{
 								//liste de dossier de corpus
 								for( int f = 0; f < folderList.size(); f++ ){
-									corpusList.add( new Corpus( folderList.get( f ) ) );
+									if( ! inputPath.endsWith("\\") && ! inputPath.endsWith("/") ){
+										inputPath += "/";
+									}
+									corpusList.add( new Corpus( inputPath + folderList.get( f ) ) );
 								}
 							}
 						}else{
 							//fichier
 							//TODO charger fichier et le mettre dans un corpus
 							Annotation annotation = XmlLoader.loadAnnotationFromFile( inputPath );
+							List<Annotation> annotationList = new ArrayList<Annotation>();
+							annotationList.add( annotation );
+							corpusList.add( new Corpus("/default", annotationList ) );
 						}
 					}
 					
@@ -194,7 +212,15 @@ public class AncorToDemocrat {
 					if(outputPath.isEmpty() ){
 						// sortie par defaut
 						Calendar calendar = Calendar.getInstance();
-						String fileName = calendar.getTime().toString();
+						
+						DateFormat shortDateFormat = DateFormat.getDateTimeInstance(
+						        DateFormat.SHORT,
+						        DateFormat.SHORT);
+						String fileName = shortDateFormat.format( new Date() );
+						logger.info( fileName );
+						fileName = fileName.replace(" ", "-");
+						fileName = fileName.replace("/", "_");
+						fileName = fileName.replace(":", "H");
 						outputPath = "generated/arff/" + fileName;
 					}else{
 						//tester si le chemin de sortie est un dossier
@@ -205,7 +231,9 @@ public class AncorToDemocrat {
 						}
 					}
 					
-					
+					ConversionToArff conversionToArff = new ConversionToArff(corpusList, pos, neg, parameter, outputPath);
+					Thread th = new Thread( conversionToArff );
+					th.start();
 				}
 
 

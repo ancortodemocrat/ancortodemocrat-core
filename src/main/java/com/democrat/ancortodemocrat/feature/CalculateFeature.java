@@ -359,8 +359,6 @@ public class CalculateFeature implements Runnable {
 					return contentNextSplitted[ 0 ];
 				}
 			}
-
-
 		}
 		return null;
 	}

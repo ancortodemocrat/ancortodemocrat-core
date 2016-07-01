@@ -80,7 +80,9 @@ public class Element {
 				return features.get( f ).getValue();
 			}
 		}
-		if(featureName.equalsIgnoreCase( "DEF" )){
+		if(featureName.equalsIgnoreCase( "DEF" ) ||
+				featureName.equalsIgnoreCase( "GENRE" ) ||
+				featureName.equalsIgnoreCase( "nombre" ) ){
 			return new String( "UNK" );
 		}else if(featureName.equalsIgnoreCase("id_def") ||
 				featureName.equalsIgnoreCase("id_type") ||
@@ -100,7 +102,7 @@ public class Element {
 			featureName.equalsIgnoreCase( "incl_rate" ) ||
 			featureName.toLowerCase().contains("distance") ){
 				return new String("0");
-			}
+		}
 		return new String("NULL");
 	}
 
