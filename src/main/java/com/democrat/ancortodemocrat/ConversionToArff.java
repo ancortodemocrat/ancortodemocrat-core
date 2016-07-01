@@ -75,6 +75,8 @@ public class ConversionToArff implements Runnable{
 	private ParamToArff param;
 
 	private String outputPath;
+	private int split;
+	private int percentPos;
 
 	public ConversionToArff(Corpus corpus){
 		this.corpusList.add( corpus );
@@ -87,20 +89,22 @@ public class ConversionToArff implements Runnable{
 	 * @param param Paramètre indiquant si on garde ou non les associatives
 	 * @param outputPath chemin de sortie du fichier arff
 	 */
-	private ConversionToArff(int positif, int negatif, ParamToArff param, String outputPath){
+	private ConversionToArff(int positif, int negatif, ParamToArff param, String outputPath, int split, int percentPos){
 		this.positif = positif;
 		this.negatif = negatif;
 		this.param = param;
-		this.outputPath = outputPath;		
+		this.outputPath = outputPath;	
+		this.split = split;
+		this.percentPos = percentPos;
 	}
 
-	public ConversionToArff(Corpus corpus, int positif, int negatif, ParamToArff param, String outputPath){
-		this(positif, negatif, param, outputPath );
+	public ConversionToArff(Corpus corpus, int positif, int negatif, ParamToArff param, String outputPath, int split, int percentPos){
+		this(positif, negatif, param, outputPath, split, percentPos );
 		this.corpusList.add( corpus );
 	}
 
-	public ConversionToArff(List<Corpus> corpusList, int positif, int negatif, ParamToArff param,  String outputPath){
-		this(positif, negatif, param, outputPath );
+	public ConversionToArff(List<Corpus> corpusList, int positif, int negatif, ParamToArff param,  String outputPath, int split, int percentPos){
+		this(positif, negatif, param, outputPath, split, percentPos );
 		this.corpusList = corpusList;
 	}
 
@@ -145,27 +149,6 @@ public class ConversionToArff implements Runnable{
 			//m2_nombre
 			line += element.getFeature( "NB" );
 			line += " ";
-
-			//m1_previous
-			//line += preElement.getFeature( "PREVIOUS" );
-			//line += " ";
-			//m2_previous
-			//line += element.getFeature( "PREVIOUS" );
-			//line += " ";
-
-			//m1_next
-			//line += preElement.getFeature( "NEXT" );
-			//line += " ";
-			//m2_next
-			//line += element.getFeature( "NEXT" );
-			//line += " ";
-
-			//m1_spk
-			//line += preElement.getFeature( "SPK" );
-			//line += " ";
-			//m2_spk
-			//line += element.getFeature( "SPK" );
-			//line += " ";
 
 			//m1_new
 			line += preElement.getFeature( "NEW" );
@@ -265,7 +248,7 @@ public class ConversionToArff implements Runnable{
 			int a = 1;
 			for(Annotation annotation : corpus.getAnnotation()){
 				annotation.removeTxtImporter();
-				
+
 				for( Relation relation : annotation.getRelation() ){
 					if(this.param.equals( ParamToArff.NO_ASSOC ) ){
 						//test si la relation est une associative ou non
@@ -292,7 +275,7 @@ public class ConversionToArff implements Runnable{
 		this.writeInstance();
 
 	}
-	
+
 	private void writeInstance(){
 		PrintWriter writer = null;
 		if( this.positif > this.positiveRelation.size() ){
@@ -301,39 +284,75 @@ public class ConversionToArff implements Runnable{
 			float sum = this.positif + this.negatif;
 			float percentPositive = this.positif / sum;
 			float percentNegative = this.negatif / sum;
-			
+
 			this.positif = (int) ( percentPositive * this.positiveRelation.size() );
 			this.negatif = (int) ( percentNegative * this.negativeRelation.size() );
 			logger.info(percentPositive + "% soit " + this.positif + " instances positives");
 			logger.info(percentNegative + "% soit " + this.negatif + " instances négatives");
 		}
-		
-		//ajout nombre de pos/neg à la fin du nom
-		this.outputPath += "_" + this.positif + "_" + this.negatif;
-		
 		if(this.positif == 0){
 			//tout prendre
-			try {
-				writer = new PrintWriter(this.outputPath + ".arff", "UTF-8");
-				writer.println( ARFF_ATTRIBUTE );
-				writer.println("");
+			if( split > 0 ){
+				//sauf si on doit splitter le/les corpus
 				
-				for(int p = 0; p < this.positiveRelation.size(); p++){
-					writer.println( this.positiveRelation.get( p ) );				
+				for(int f = 1; f < split + 1; f++){
+					try {
+						writer = new PrintWriter(this.outputPath + "_" + f + ".arff", "UTF-8");
+						writer.println( ARFF_ATTRIBUTE );
+						writer.println("");
+						
+						//écriture instances positives
+						int start = (f - 1) * this.positiveRelation.size() / split;
+						int end = start + this.positiveRelation.size() / split;
+						for( int l = start; l < end; l++){
+							writer.println( this.positiveRelation.get( l ) );
+						}
+						
+						//écriture instances négatives
+						start = (f - 1) * this.negativeRelation.size() / split;
+						end = start + this.negativeRelation.size() / split;
+						for( int l = start; l < end; l++){
+							writer.println( this.negativeRelation.get( l ) );
+						}
+						
+					} catch (FileNotFoundException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (UnsupportedEncodingException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}finally{
+						if(writer != null){
+							writer.close();
+						}
+					}
 				}
-				for(int n = 0; n < this.negativeRelation.size(); n++){
-					writer.println( this.negativeRelation.get( n ));
-				}
+			}else{
 
-			} catch (FileNotFoundException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (UnsupportedEncodingException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}finally{
-				if(writer != null){
-					writer.close();
+				//ajout nombre de pos/neg à la fin du nom
+				this.outputPath += "_" + this.positif + "_" + this.negatif;
+				try {
+					writer = new PrintWriter(this.outputPath + ".arff", "UTF-8");
+					writer.println( ARFF_ATTRIBUTE );
+					writer.println("");
+
+					for(int p = 0; p < this.positiveRelation.size(); p++){
+						writer.println( this.positiveRelation.get( p ) );				
+					}
+					for(int n = 0; n < this.negativeRelation.size(); n++){
+						writer.println( this.negativeRelation.get( n ));
+					}
+
+				} catch (FileNotFoundException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (UnsupportedEncodingException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}finally{
+					if(writer != null){
+						writer.close();
+					}
 				}
 			}
 		}else{
@@ -381,10 +400,17 @@ public class ConversionToArff implements Runnable{
 			}
 		}
 	}	
-	
 
+
+	/**
+	 * Génère entre une à trois relations négatives, en prenant comme unité, le premier élément 
+	 * de la relation.
+	 * @param corpus Corpus sur lequel la relation est basée
+	 * @param annotation Annotation qui contient la relation
+	 * @param relation relation à partir de laquelle sera generée entre 1 à 3 relation négative
+	 */
 	private void generateNegativeRelation(Corpus corpus, Annotation annotation, Relation relation) {
-		int negativeRelationToGenerate = AncorToDemocrat.randomNumber(1, 5);
+		int negativeRelationToGenerate = AncorToDemocrat.randomNumber(1, 3);
 		List<Unit> unitList = annotation.getUnit();
 		for(int turn = 0; turn < negativeRelationToGenerate; turn++){
 			boolean done = false;
@@ -428,13 +454,13 @@ public class ConversionToArff implements Runnable{
 	@Override
 	public void run() {
 		//charger chaque corpus..
-		
+
 		for(Corpus corpus : this.corpusList ){
 			logger.info("Chargement du corpus "+corpus.getName() );
 			corpus.loadAnnotation();
 			corpus.loadText();
 		}
-		
+
 		this.work( );
 		logger.info("[" + this.outputPath + "] arff file writed.");
 		logger.info("COREF: "+countPositiveRelation);

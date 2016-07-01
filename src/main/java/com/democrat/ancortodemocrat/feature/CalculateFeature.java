@@ -304,6 +304,12 @@ public class CalculateFeature implements Runnable {
 				relation.setFeature("ID_NEXT", "NO");				
 			}
 
+			
+			if( preElement.getFeature( "EN" ).equalsIgnoreCase( element.getFeature( "EN" ) ) ){
+				relation.setFeature( "id_en", "YES");
+			}else{
+				relation.setFeature( "id_en", "NO");
+			}
 
 		}
 	}
