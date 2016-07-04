@@ -290,6 +290,7 @@ public class ConversionToArff implements Runnable{
 			logger.info(percentPositive + "% soit " + this.positif + " instances positives");
 			logger.info(percentNegative + "% soit " + this.negatif + " instances négatives");
 		}
+		
 		if(this.positif == 0){
 			//tout prendre
 			if( split > 0 ){
@@ -328,7 +329,8 @@ public class ConversionToArff implements Runnable{
 					}
 				}
 			}else{
-
+				this.positif = this.positiveRelation.size();
+				this.negatif = this.negativeRelation.size();
 				//ajout nombre de pos/neg à la fin du nom
 				this.outputPath += "_" + this.positif + "_" + this.negatif;
 				try {

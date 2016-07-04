@@ -121,10 +121,10 @@ public class AncorToDemocrat {
 
 				if( args.length > 1 ){
 					if( args[ 1 ].equalsIgnoreCase( "all" ) ) {
-						
+
 					}else if( args[ 1 ].equalsIgnoreCase( "no_assoc") ){
-							parameter = ParamToArff.NO_ASSOC;
-					
+						parameter = ParamToArff.NO_ASSOC;
+
 					}else{
 						//error first argument
 						logger.error( "Premier argument invalide, il doit être égal à 'all' ou 'no_assoc'.");
@@ -187,9 +187,9 @@ public class AncorToDemocrat {
 							}
 						}
 					}
-					
+
 					List<Corpus> corpusList = new ArrayList<Corpus>();
-					
+
 					if( inputPath.isEmpty() ){
 						//charger les corpus dans generated/
 						String pathFolder = "generated/corpus/";
@@ -231,15 +231,15 @@ public class AncorToDemocrat {
 							corpusList.add( new Corpus("/default", annotationList ) );
 						}
 					}
-					
+
 					//OUTPUTPATH
 					if(outputPath.isEmpty() ){
 						// sortie par defaut
 						Calendar calendar = Calendar.getInstance();
-						
+
 						DateFormat shortDateFormat = DateFormat.getDateTimeInstance(
-						        DateFormat.SHORT,
-						        DateFormat.SHORT);
+								DateFormat.SHORT,
+								DateFormat.SHORT);
 						String fileName = shortDateFormat.format( new Date() );
 						logger.info( fileName );
 						fileName = fileName.replace(" ", "-");
@@ -249,18 +249,18 @@ public class AncorToDemocrat {
 					}else{
 						//tester si le chemin de sortie est un dossier
 						File outputFile = new File( outputPath );
-						if( ! outputFile.isDirectory() ){
-							logger.error("Le chemin de sortie doit être un dossier: "+outputPath);
+						if( outputFile.isDirectory() ){
+							logger.error("Le fichier de sortie ne doit pas être un fichier: "+outputPath);
 							return;
 						}
 					}
-					
+
 					if( split != 0 && pos != 0 ){
 						pos = 0;
 						neg = 0;
 						logger.info("Seul l'option split est prise en compte face à -q.");
 					}
-					
+
 					ConversionToArff conversionToArff = new ConversionToArff(corpusList, pos, neg, parameter, outputPath, split, percentPos);
 					Thread th = new Thread( conversionToArff );
 					th.start();
@@ -273,6 +273,24 @@ public class AncorToDemocrat {
 				}
 				convertCorpus( corpusList );
 
+			}else if( args[ 0 ].equalsIgnoreCase( "ownarff" ) ){
+				if(args.length >= 4){
+					int pos = 0;
+					int neg = 0;
+					try{
+						pos = Integer.valueOf( args[ 3 ] );
+						neg = Integer.valueOf( args[ 4 ] );
+					}catch(NumberFormatException e){
+						logger.error("nbPositiveInstance et nbNegative doivent être des nombres");
+						logger.error("e.g. arff fromFolderName fileName nbPositiveInstance nbNegativeInstance");
+					}
+					generateOwnArff(args[ 1 ], args[ 2 ], pos, neg );
+				}else if(args[ 1 ].equalsIgnoreCase("corpus" ) ){
+					generateCorpusArff();
+				}else{
+					logger.error("e.g. arff fileName nbPositiveInstance nbNegativeInstance");
+					logger.error("e.g. arff corpus : to generate all arff file from corpus");
+				}
 			}
 		}else if(args.length == 1){
 			//help
@@ -322,15 +340,16 @@ public class AncorToDemocrat {
 	 * nb negative instance from other arff file
 	 * and generate one file with the name,
 	 * 
-	 * @param fileName if is null or empty, the name will  be 'coreferences'
-	 * @param nbPos should be > 0
-	 * @param nbNeg should be > 0
+	 * @param folderName chemin d'entrée
+	 * @param fileName Nom du fichier de sortie, si null ou vide, le nom sera 'coreferences'
+	 * @param nbPos doit être > 0
+	 * @param nbNeg doit être > 0
 	 */
 	public static void generateOwnArff(String folderName, String fileName, int nbPos, int nbNeg){
 		final String defaultFileName = "coreferences";
 
 		if( nbPos < 0 || nbNeg < 0 ){
-			logger.error("nbPos and nbNeg should be > 0");
+			logger.error("nbPos et nbNeg doit être > 0");
 			return;
 		}
 
@@ -351,7 +370,7 @@ public class AncorToDemocrat {
 			//TODO help user with command
 			ArrayList<String> fileList = fileManager.getFileFromFolder(new File( folderName ), "arff");
 			if( fileList.size() == 0 ){
-				logger.error("No arff file found, generate it before please");		
+				logger.error("Pas de fichier arff trouvé dans ce dossier: "+folderName);		
 				return;
 			}
 			writer = new PrintWriter("generated/" + fileName + ".arff", "UTF-8");
