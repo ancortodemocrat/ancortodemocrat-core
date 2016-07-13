@@ -2,6 +2,8 @@ package com.democrat.ancortodemocrat;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.util.ArrayList;
@@ -78,6 +80,24 @@ public class Corpus {
 		AncorToDemocrat.fileManager.mkdir( path + "/aa_fichiers/");
 		for(Annotation a : this.annotation){
 			XmlWriter.writeXml(a, path + "/aa_fichiers/" + a.getFileName() + ".aa");
+		}
+		AncorToDemocrat.fileManager.mkdir( path + "/ac_fichiers/");
+		for(Text text : this.text){
+			PrintWriter writer = null;
+			try {
+				writer = new PrintWriter( path + "/ac_fichiers/" + text.getFileName() + ".ac", "UTF-8");
+				writer.print( text.getContent() );
+			} catch (FileNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (UnsupportedEncodingException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}finally{
+				if( writer != null ){
+					writer.close();
+				}
+			}
 		}
 		
 	}

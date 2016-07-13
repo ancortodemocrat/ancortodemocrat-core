@@ -64,6 +64,12 @@ public class Element {
 		this.characterisation = value;
 	}
 
+	
+	/**
+	 * Retourne la valeur de la feature voulue
+	 * @param featureName nom de la feature
+	 * @return la valeur de la feature passée
+	 */
 	public String getFeature(String featureName){
 		Characterisation charact = this.getCharacterisation();
 		List<Feature> features = charact.getFeatureSet().getFeature();
@@ -106,6 +112,13 @@ public class Element {
 		return new String("NULL");
 	}
 
+	
+	/**
+	 * Change la valeur de la feature si elle existe déjà
+	 * Sinon ajoute la feature avec sa valeurs
+	 * @param featureName nom de la feature
+	 * @param value valeur de la feature
+	 */
 	public void setFeature(String featureName, String value){
 		//check if feature already exist
 

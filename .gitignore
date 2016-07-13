@@ -86,3 +86,4 @@ local.properties
 hs_err_pid*
 
 path.txt
+target/

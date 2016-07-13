@@ -204,8 +204,9 @@ public class Text {
 			int startOfUnit = unit.getStart( annotation );
 			int endOfUnit = unit.getEnd( annotation );
 			int indexOfTurn = this.indexOf( turn );
+			int endOfTurn = indexOfTurn + turn.getContent().length();
 			if(  indexOfTurn <= startOfUnit &&
-					indexOfTurn + turn.getContent().length() >= endOfUnit ){
+					endOfTurn >= endOfUnit ){
 				return true;
 			}
 		}

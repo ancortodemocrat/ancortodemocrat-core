@@ -337,10 +337,10 @@ public class CalculateFeature implements Runnable {
 	}
 
 	/**
-	 * get the next token of the mention
-	 * @param annotation
-	 * @param text
-	 * @param unit
+	 * Retourne le token/mot juste après l'unité indiqué
+	 * @param annotation annnotation contenant l'unité
+	 * @param text Text correspondant à l'unité de cette annotation
+	 * @param unit unité de correspondance
 	 * @return
 	 */
 	private String getNextToken( Annotation annotation, Text text, Unit unit ){
@@ -348,13 +348,11 @@ public class CalculateFeature implements Runnable {
 			return null;
 		}
 		Turn turn = text.getTurnCorresponding(annotation, unit);
-		String contentUnit = text.getContentFromUnit(annotation, unit);
 		if( turn != null ){
 			String contentTurn = turn.getContent();
-			//String[] contentTurnSplitted = splitMention( contentTurn );
 
-			int positionStart = unit.getEnd( annotation ) - text.indexOf(turn);
-			String contentTurnSplitted = contentTurn.substring( positionStart, contentTurn.length());
+			int positionStart = unit.getEnd( annotation );
+			String contentTurnSplitted = text.getContent().substring( positionStart, text.getContent().length() );
 			if( contentTurnSplitted.length() > 1 ){
 				return splitMention( contentTurnSplitted )[0];
 			}else{
@@ -365,11 +363,18 @@ public class CalculateFeature implements Runnable {
 					return contentNextSplitted[ 0 ];
 				}
 			}
-			
-		}
+		}		
 		return null;
 	}
 
+	
+	/**
+	 * Retourne le token/mot juste après l'unité indiqué
+	 * @param annotation annnotation contenant l'unité
+	 * @param text Text correspondant à l'unité de cette annotation
+	 * @param unit unité de correspondance
+	 * @return
+	 */
 	private String getPreToken( Annotation annotation, Text text, Unit unit ){
 		if(text == null){
 			return null;
@@ -383,7 +388,7 @@ public class CalculateFeature implements Runnable {
 				//mention start the turn, check the previous turn
 				Turn previousTurn = text.getPreviousTurn( turn );
 				if( previousTurn == null ){
-					return null;
+					return "";
 				}
 				String[] contentSplitted = splitMention( previousTurn.getContent() );
 				return contentSplitted[ contentSplitted.length - 1 ];
@@ -395,6 +400,7 @@ public class CalculateFeature implements Runnable {
 				return contentSplitted[ contentSplitted.length - 1 ];
 			}
 		}
+		//logger.debug("PRE TOKEN NULL");
 		return null;
 	}
 
