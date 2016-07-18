@@ -7,11 +7,12 @@ import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
+import java.util.Random;
 
 import weka.classifiers.AbstractClassifier;
-import weka.classifiers.Classifier;
-import weka.classifiers.evaluation.Evaluation;
+import weka.classifiers.Evaluation;
 import weka.core.Instances;
+import weka.core.SerializationHelper;
 
 public class Model {
 
@@ -22,7 +23,7 @@ public class Model {
 	private AbstractClassifier classifier;
 
 
-	public Model( AbstractClassifier classifier ){
+	private Model( AbstractClassifier classifier ){
 		this.classifier = classifier;
 
 	}
@@ -142,25 +143,28 @@ public class Model {
 	 * celle-ci est ajoutée
 	 * @param fileName
 	 */
-	public void export(String fileName){
-		ObjectOutputStream objectOutputStream = null;
+	public void export(String fileName){		
+		Toast.fileManager.mkdir( "generated/models" );
 		try {
-			objectOutputStream = new ObjectOutputStream(
-					new FileOutputStream("/models/" + fileName + ".model"));
-
-			objectOutputStream.writeObject( classifier );
-			objectOutputStream.flush();
-		} catch (FileNotFoundException e1) {
-			e1.printStackTrace();
-		} catch (IOException e1) {
-			e1.printStackTrace();
-		}
-		try {
-			objectOutputStream.close();
-		} catch (IOException e) {
+			SerializationHelper.write("generated/models/" + fileName + ".model", this.classifier);
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
+	
+	public Evaluation crossValidate( Instances instances, int nbFolds ){
+		Evaluation eval = null;
+		try {
+			 eval = new Evaluation( instances );
+			eval.crossValidateModel(this.classifier, instances, nbFolds, new Random(1) );
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return eval;
+		
+	}
+	
 
 }
