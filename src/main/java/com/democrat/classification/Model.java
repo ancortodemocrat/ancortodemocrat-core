@@ -2,9 +2,14 @@ package com.democrat.classification;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.ObjectOutputStream;
 
+import weka.classifiers.AbstractClassifier;
+import weka.classifiers.Classifier;
 import weka.classifiers.evaluation.Evaluation;
 import weka.core.Instances;
 
@@ -14,13 +19,12 @@ public class Model {
 	 * model d'évaluation pour test sur un nouvel 
 	 * ensemble
 	 */
-	private Evaluation evaluation;
-	private ClassifierParameter classifierParam;
+	private AbstractClassifier classifier;
 
 
-	public Model(Evaluation evaluation, ClassifierParameter classifier){
-		this.evaluation = evaluation;
-		this.classifierParam = classifier;
+	public Model( AbstractClassifier classifier ){
+		this.classifier = classifier;
+
 	}
 
 	/**
@@ -39,12 +43,12 @@ public class Model {
 
 	/**
 	 * retourne un modèle appris sur un ensemble de donnée
-	 * et grâce à un classifier avec ses paramètres
+	 * et grâce à un classifier avec ses paramètres/options déjà données
 	 * @param arffFile ensemble de donnée sous format arff 
 	 * @param classifier classifier étendu de ClassifierParameter
 	 * @return
 	 */
-	public static Model learnModel(String arffFile, ClassifierParameter classifier ){
+	public static Model learnModel(String arffFile, AbstractClassifier classifier ){
 		File file = new File( arffFile );
 		if( Model.isModelFile( file ) ){
 			//chargement des attributs et des instances
@@ -56,11 +60,10 @@ public class Model {
 				//selection du dernier attribut pour le choisir comme classe
 				train.setClassIndex( train.numAttributes() - 1 );
 
-				Evaluation eval = new Evaluation( train );
 
 				classifier.buildClassifier( train );
 
-				return new Model(eval, classifier);
+				return new Model( classifier );
 
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
@@ -90,20 +93,22 @@ public class Model {
 
 
 	/**
-	 * Charge un fichier modele donnée,
+	 * Charge un fichier modele donné,
 	 * retourne une erreur si le type de fichier n'est pas bon.
 	 * @param modelFile 
 	 * @return
 	 */
 	public static Model loadModel(String modelFile){
-
+		try {
+			AbstractClassifier cls = ( AbstractClassifier ) weka.core.SerializationHelper.read( modelFile );
+			return new Model( cls );
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return null;
 	}
 
-
-	public void useModel( Instances instances){
-		return;
-	}
 
 	/**
 	 * le model retrouve la classe de chaque instance donnée
@@ -118,12 +123,11 @@ public class Model {
 		// create copy
 		Instances labeled = new Instances(unlabeled);
 		// label instances
-		for (int i = 0; i < unlabeled.numInstances(); i++) {
+		for (int u = 0; u < unlabeled.numInstances(); u++) {
 			double clsLabel;
 			try {
-				clsLabel = classifierParam.getClassifier().classifyInstance(unlabeled.instance(i));
-
-				labeled.instance(i).setClassValue(clsLabel);
+				clsLabel = classifier.classifyInstance( unlabeled.instance( u ) );
+				labeled.instance( u ).setClassValue( clsLabel );
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -132,8 +136,31 @@ public class Model {
 		return labeled;
 	}
 
-	public void export(){
+	/**
+	 * Sauvegarde le modèle avec le nom spécifié
+	 * pas besoin d'ajouter le nom dans l'extension
+	 * celle-ci est ajoutée
+	 * @param fileName
+	 */
+	public void export(String fileName){
+		ObjectOutputStream objectOutputStream = null;
+		try {
+			objectOutputStream = new ObjectOutputStream(
+					new FileOutputStream("/models/" + fileName + ".model"));
 
+			objectOutputStream.writeObject( classifier );
+			objectOutputStream.flush();
+		} catch (FileNotFoundException e1) {
+			e1.printStackTrace();
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
+		try {
+			objectOutputStream.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 }
