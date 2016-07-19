@@ -108,6 +108,14 @@ public class ConversionToArff implements Runnable{
 		this.corpusList = corpusList;
 	}
 
+	
+	/**
+	 * Pour une relation donnée, écrit dans un string la liste
+	 * des valeurs de ses traits, et renvoie cette ligne.
+	 * @param annotation Annotation nécessaire qui contient la relation pour récupérer les traits
+	 * @param relation Relation concernée où les traits seront extraits
+	 * @return
+	 */
 	private String makeRelation( Annotation annotation, Relation relation ){
 		String line = "";
 		Element element = relation.getElement( annotation );
@@ -245,7 +253,6 @@ public class ConversionToArff implements Runnable{
 		//first step: séléction de toutes les relations du/des corpus
 		for(Corpus corpus : corpusList){
 			logger.info("corpus ==> " + corpus.getName() );
-			int a = 1;
 			for(Annotation annotation : corpus.getAnnotation()){
 				annotation.removeTxtImporter();
 
