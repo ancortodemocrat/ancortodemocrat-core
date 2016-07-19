@@ -52,7 +52,7 @@ public class ConversionWorker implements Runnable{
 		logger.info("[" + corpus.getName() +"] Nombre d'indirect: " + countIndirect);
 		logger.info("[" + corpus.getName() +"] Nombre d'indirect avec accord en nombre: " + countIndirectWithDeal);
 		 **/
-		logger.info("[" + corpus.getName() +"] done !");
+		logger.info("[" + corpus.getName() +"] Converting done !");
 		corpus.setDone( true );
 	}
 

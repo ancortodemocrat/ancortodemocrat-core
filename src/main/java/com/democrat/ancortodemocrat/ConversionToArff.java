@@ -16,12 +16,7 @@ import com.democrat.ancortodemocrat.feature.CalculateFeature;
 
 public class ConversionToArff implements Runnable{
 
-	private static Logger logger = Logger.getLogger(ConversionToArff.class);
-	private List<Corpus> corpusList = new ArrayList<Corpus>();
-
-	private int positif;
-
-	private int negatif;
+	
 	public final static String ARFF_ATTRIBUTE = "@RELATION coreference\n"+
 			"@ATTRIBUTE m1_type {N, PR, NULL}\n"+
 			"@ATTRIBUTE m2_type {N, PR, NULL}\n"+
@@ -65,6 +60,11 @@ public class ConversionToArff implements Runnable{
 			 "@DATA";
 
 
+	private static Logger logger = Logger.getLogger(ConversionToArff.class);
+	private List<Corpus> corpusList = new ArrayList<Corpus>();
+
+	private int positif;
+	private int negatif;
 
 	public static int countPositiveRelation = 0;
 	public static int countNegativeRelation = 0;

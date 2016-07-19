@@ -102,7 +102,7 @@ public class AncorToDemocrat {
 				/**     
 				 * - paramètre de sortie
 				 * 			"all" --> toutes les relations
-				 * 			"no_assoc" --> toutes les relations sans les associatives, ni les associatives pronominales (le no_assoc me paraît un peu long ?)
+				 * 			"no_assoc" --> toutes les relations sans les associatives, ni les associatives pronominales 
 				 * - -i chemin du ou des corpus à extraire, peut aussi être un simple fichier .aa (pour garder l'intégrité d'un texte)
 				 * 			(si non spécifié, prend tous les corpus dans generated/feature/) (le(s) corpus doit avoir ses features calculés (précédente commande))
 				 * - -q quantité de nombre d'instances positives, et d'instances négatives
@@ -235,8 +235,6 @@ public class AncorToDemocrat {
 					//OUTPUTPATH
 					if(outputPath.isEmpty() ){
 						// sortie par defaut
-						Calendar calendar = Calendar.getInstance();
-
 						DateFormat shortDateFormat = DateFormat.getDateTimeInstance(
 								DateFormat.SHORT,
 								DateFormat.SHORT);
@@ -265,7 +263,7 @@ public class AncorToDemocrat {
 					Thread th = new Thread( conversionToArff );
 					th.start();
 				}
-			}else if( args[ 0 ].equalsIgnoreCase("chaine") ){
+			}else if( args[ 0 ].equalsIgnoreCase("chain") ){
 				//loading corpus via command line
 				List<Corpus> corpusList = new ArrayList<Corpus>();
 				for(int a = 1; a < args.length; a++){

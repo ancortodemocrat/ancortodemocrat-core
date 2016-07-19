@@ -4,8 +4,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
-import java.nio.charset.Charset;
-import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -13,7 +11,6 @@ import java.util.Scanner;
 import org.apache.log4j.Logger;
 
 import com.democrat.ancortodemocrat.element.Annotation;
-import com.democrat.ancortodemocrat.element.Relation;
 
 public class Corpus {
 	
@@ -76,6 +73,7 @@ public class Corpus {
 	 * @param path dossier où sera exporté le dossier aa_fichiers du corpus avec les .aa dedans
 	 */
 	public void export( String path ){
+		logger.info("[" + this.name + "] Writing files..");
 		AncorToDemocrat.fileManager.mkdir( path );
 		AncorToDemocrat.fileManager.mkdir( path + "/aa_fichiers/");
 		for(Annotation a : this.annotation){
@@ -99,7 +97,8 @@ public class Corpus {
 				}
 			}
 		}
-		
+
+		logger.info("[" + this.name + "] Writing files done !");
 	}
 	
 	/**

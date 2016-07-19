@@ -50,12 +50,12 @@ public class FileManager {
 		}
 
 		//generated folder
-		File folderGenerated = new File("generated");
-		//if path doesnt exist
-		if( ! folderGenerated.exists() && ! folderGenerated.isDirectory() ){
-			folderGenerated.mkdir();
-		}
-		createArffFoler();
+		mkdir( "generated" );
+		
+		//corpus folder
+		mkdir( "generated/corpus" );
+		
+		mkdir( "generated/arff" );
 	}
 
 	/**
@@ -169,15 +169,5 @@ public class FileManager {
 		}
 		return new ArrayList<String>();
 	}
-
-	private void createArffFoler(){
-		//arff folder
-		File folder = new File("generated/arff");
-		//if path doesnt exist
-		if( ! folder.exists() && ! folder.isDirectory() ){
-			folder.mkdir();
-		}
-	}
-
 
 }
