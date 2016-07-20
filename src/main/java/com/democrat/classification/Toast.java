@@ -140,6 +140,8 @@ public class Toast {
 		//et ensuite les négatives relations
 		Map<Relation, Annotation> positiveRelation = conversion.getPositiveRelationSelected();
 		Map<Relation, Annotation> negativeRelation = conversion.getNegativeRelationSelected();
+		
+		
 
 	}
 

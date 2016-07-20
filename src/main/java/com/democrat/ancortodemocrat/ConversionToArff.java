@@ -96,6 +96,8 @@ public class ConversionToArff implements Runnable{
 	private ParamToArff param;
 
 	private String outputPath;
+	
+	public List<String> fileOuput = new ArrayList<String>();
 	private int split;
 
 	public ConversionToArff(Corpus corpus){
@@ -402,6 +404,7 @@ public class ConversionToArff implements Runnable{
 				for(int f = 1; f < split + 1; f++){
 					try {
 						writer = new PrintWriter(this.outputPath + "_" + f + ".arff", "UTF-8");
+						this.fileOuput.add( this.outputPath + "_" + f + ".arff" );
 						writer.println( ARFF_ATTRIBUTE );
 						writer.println("");
 
@@ -443,14 +446,19 @@ public class ConversionToArff implements Runnable{
 				this.outputPath += "_" + this.positif + "_" + this.negatif;
 				try {
 					writer = new PrintWriter(this.outputPath + ".arff", "UTF-8");
+					this.fileOuput.add( this.outputPath + ".arff" );
 					writer.println( ARFF_ATTRIBUTE );
 					writer.println("");
 
+					Relation[] relationArray = (Relation[]) this.positiveRelationSelected.keySet().toArray();
 					for(int p = 0; p < this.positiveRelationSelected.size(); p++){
-						writer.println( this.positiveRelationSelected.get( p ) );				
+						String line = this.makeRelation(this.positiveRelationSelected.get( relationArray[ p ] ), relationArray[ p ] );
+						writer.println( line );			
 					}
+					relationArray = (Relation[]) this.negativeRelationSelected.keySet().toArray();
 					for(int n = 0; n < this.negativeRelationSelected.size(); n++){
-						writer.println( this.negativeRelationSelected.get( n ));
+						String line = this.makeRelation(this.negativeRelationSelected.get( relationArray[ n ] ), relationArray[ n ] );
+						writer.println( line );
 					}
 
 				} catch (FileNotFoundException e) {
@@ -469,15 +477,19 @@ public class ConversionToArff implements Runnable{
 			//les instances sont déjà séléctionnées, juste besoin de les écrire
 			try {
 				writer = new PrintWriter(this.outputPath + ".arff", "UTF-8");
+				this.fileOuput.add( this.outputPath + ".arff" );
 				writer.println( ARFF_ATTRIBUTE );
 				writer.println("");
 
+				Relation[] relationArray = (Relation[]) this.positiveRelationSelected.keySet().toArray();
 				for(int p = 0; p < this.positiveRelationSelected.size(); p++){
-					writer.println( this.positiveRelationSelected.get( p ) );
-
+					String line = this.makeRelation(this.positiveRelationSelected.get( relationArray[ p ] ), relationArray[ p ] );
+					writer.println( line );			
 				}
-				for(int n = 0; n < this.negativeRelationSelected.size(); n++){			
-					writer.println( negativeRelationSelected.get( n ) );
+				relationArray = (Relation[]) this.negativeRelationSelected.keySet().toArray();
+				for(int n = 0; n < this.negativeRelationSelected.size(); n++){
+					String line = this.makeRelation(this.negativeRelationSelected.get( relationArray[ n ] ), relationArray[ n ] );
+					writer.println( line );
 				}
 			} catch (FileNotFoundException e) {
 				// TODO Auto-generated catch block
