@@ -116,8 +116,6 @@ public class AncorToDemocrat {
 				//quantité
 				int pos = 0;
 				int neg = 0;
-				//pourcentage
-				int percentPos = 0;
 
 				if( args.length > 1 ){
 					if( args[ 1 ].equalsIgnoreCase( "all" ) ) {
@@ -173,17 +171,6 @@ public class AncorToDemocrat {
 							}else{
 								//error missing arguement
 								logger.error("Aucun paramètre indiqué après -s.");								
-							}
-						}else if( args[ a ].equalsIgnoreCase( "-p" ) ){
-							if( a + 1 <= args.length ){
-								try{
-									percentPos = Integer.valueOf( args[ a + 1 ] );
-								}catch(NumberFormatException e){
-									logger.error("Un chiffre est attendue après -p.");
-								}
-							}else{
-								//error missing arguement
-								logger.error("Aucun paramètre indiqué après -p.");								
 							}
 						}
 					}
@@ -259,7 +246,7 @@ public class AncorToDemocrat {
 						logger.info("Seul l'option split est prise en compte face à -q.");
 					}
 
-					ConversionToArff conversionToArff = new ConversionToArff(corpusList, pos, neg, parameter, outputPath, split, percentPos);
+					ConversionToArff conversionToArff = new ConversionToArff(corpusList, pos, neg, parameter, outputPath, split);
 					Thread th = new Thread( conversionToArff );
 					th.start();
 				}

@@ -4,7 +4,10 @@ import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import org.apache.log4j.Logger;
 
@@ -16,7 +19,7 @@ import com.democrat.ancortodemocrat.feature.CalculateFeature;
 
 public class ConversionToArff implements Runnable{
 
-	
+
 	public final static String ARFF_ATTRIBUTE = "@RELATION coreference\n"+
 			"@ATTRIBUTE m1_type {N, PR, NULL}\n"+
 			"@ATTRIBUTE m2_type {N, PR, NULL}\n"+
@@ -61,22 +64,39 @@ public class ConversionToArff implements Runnable{
 
 
 	private static Logger logger = Logger.getLogger(ConversionToArff.class);
+
+	/**
+	 * Liste des corpus dans laquelle
+	 * les instances doivent être séléctionnées
+	 */
 	private List<Corpus> corpusList = new ArrayList<Corpus>();
 
+	/**
+	 * Paramètres de l'utilisateur
+	 * qui indique combien d'instances
+	 * positives et négatives doivent être
+	 * extraites.
+	 */
 	private int positif;
 	private int negatif;
 
 	public static int countPositiveRelation = 0;
 	public static int countNegativeRelation = 0;
 
-	public List<String> positiveRelation = new ArrayList<String>();
-	public List<String> negativeRelation = new ArrayList<String>();
+
+	/**
+	 * Listes des instances séléctionnées 
+	 * filtrage grâce aux paramètres
+	 * C'est donc les listes finales des instances attendues
+	 */
+	public Map<Relation, Annotation> positiveRelationSelected = new HashMap<Relation, Annotation>();
+	public Map<Relation, Annotation> negativeRelationSelected = new HashMap<Relation, Annotation>();
+
 
 	private ParamToArff param;
 
 	private String outputPath;
 	private int split;
-	private int percentPos;
 
 	public ConversionToArff(Corpus corpus){
 		this.corpusList.add( corpus );
@@ -89,26 +109,26 @@ public class ConversionToArff implements Runnable{
 	 * @param param Paramètre indiquant si on garde ou non les associatives
 	 * @param outputPath chemin de sortie du fichier arff
 	 */
-	private ConversionToArff(int positif, int negatif, ParamToArff param, String outputPath, int split, int percentPos){
+	private ConversionToArff(int positif, int negatif, ParamToArff param, String outputPath, int split){
 		this.positif = positif;
 		this.negatif = negatif;
 		this.param = param;
 		this.outputPath = outputPath;	
 		this.split = split;
-		this.percentPos = percentPos;
+
 	}
 
-	public ConversionToArff(Corpus corpus, int positif, int negatif, ParamToArff param, String outputPath, int split, int percentPos){
-		this(positif, negatif, param, outputPath, split, percentPos );
+	public ConversionToArff(Corpus corpus, int positif, int negatif, ParamToArff param, String outputPath, int split){
+		this(positif, negatif, param, outputPath, split );
 		this.corpusList.add( corpus );
 	}
 
-	public ConversionToArff(List<Corpus> corpusList, int positif, int negatif, ParamToArff param,  String outputPath, int split, int percentPos){
-		this(positif, negatif, param, outputPath, split, percentPos );
+	public ConversionToArff(List<Corpus> corpusList, int positif, int negatif, ParamToArff param,  String outputPath, int split){
+		this(positif, negatif, param, outputPath, split );
 		this.corpusList = corpusList;
 	}
 
-	
+
 	/**
 	 * Pour une relation donnée, écrit dans un string la liste
 	 * des valeurs de ses traits, et renvoie cette ligne.
@@ -250,7 +270,27 @@ public class ConversionToArff implements Runnable{
 	}
 
 	private void work( ){
-		//first step: séléction de toutes les relations du/des corpus
+
+		//first step: séléction de toutes les relations du/des corpus avec
+		//génération des négatives, en triant selon la ParamToArff.
+		sortInstance();
+		//second step: séléction de p positive, et n negative comme voulue
+		this.selectInstance();
+		//puis écriture des instances
+		this.writeInstance();
+
+	}
+
+
+	public Map<Relation, Annotation> getPositiveRelationSelected() {
+		return positiveRelationSelected;
+	}
+
+	public Map<Relation, Annotation> getNegativeRelationSelected() {
+		return negativeRelationSelected;
+	}
+
+	public void sortInstance(){
 		for(Corpus corpus : corpusList){
 			logger.info("corpus ==> " + corpus.getName() );
 			for(Annotation annotation : corpus.getAnnotation()){
@@ -264,65 +304,121 @@ public class ConversionToArff implements Runnable{
 							continue;
 						}
 					}
+					this.positiveRelationSelected.put(relation, annotation);
+					Relation negativeRelation = generateNegativeRelation( corpus, annotation, relation );
+					if( negativeRelation != null){
+						this.negativeRelationSelected.put(negativeRelation, annotation );
+					}
 					//for positive class
-					String line = makeRelation( annotation, relation );
-					if( ! line.isEmpty() ){
+					//String line = makeRelation( annotation, relation );
+					/**if( ! line.isEmpty() ){
 						line += "COREF";
 						//writer.println( line );
-						this.positiveRelation.add( line );
+						//this.positiveRelation.add( line );
+
 						countPositiveRelation++;
 						//for negative class
-						generateNegativeRelation( corpus, annotation, relation);
-					}
+					}**/
 				}
 			}
 		}
-
-		//second step: séléction de p positive, et n negative comme voulu
-		this.writeInstance();
-
 	}
 
-	private void writeInstance(){
-		PrintWriter writer = null;
-		if( this.positif > this.positiveRelation.size() ){
-			logger.info("Trop d'instances positives attendues, restriction au maxium " + this.positiveRelation.size() + ".");
+	/**
+	 * Séléctionne les instances positives et négatives selon les paramètres
+	 * dans la liste de ceux trouvées dans les corpus
+	 */
+	public void selectInstance(){
+		if( this.positif > this.positiveRelationSelected.size() ){
+			logger.info("Trop d'instances positives attendues, restriction au maxium " + this.positiveRelationSelected.size() + ".");
 			logger.info("Respect des pourcentages, positifs/négatifs.");
 			float sum = this.positif + this.negatif;
 			float percentPositive = this.positif / sum;
 			float percentNegative = this.negatif / sum;
 
-			this.positif = (int) ( percentPositive * this.positiveRelation.size() );
-			this.negatif = (int) ( percentNegative * this.negativeRelation.size() );
+			this.positif = (int) ( percentPositive * this.positiveRelationSelected.size() );
+			this.negatif = (int) ( percentNegative * this.negativeRelationSelected.size() );
 			logger.info(percentPositive + "% soit " + this.positif + " instances positives");
 			logger.info(percentNegative + "% soit " + this.negatif + " instances négatives");
 		}
-		
+
+		if(this.positif == 0){
+			//on prend tout 
+			//this.positiveRelationSelected = this.positiveRelation;
+			//this.negativeRelationSelected = this.negativeRelation;
+		}else{
+			//séléction aléatoire de p positive, et n négative
+			int random = 0;
+			ArrayList<Integer> nbGenerated = new ArrayList<Integer>();
+			//on fait une liste temporaire pour ne garder que le nombre stricte
+			//de positive et négative relation
+			Map<Relation, Annotation> tmpPositiveRelation = new HashMap<Relation, Annotation>();
+			Relation[] relationArray = (Relation[]) this.positiveRelationSelected.keySet().toArray();
+			for(int p = 0; p < this.positif; p++){
+				random = AncorToDemocrat.randomNumber( 0, this.positiveRelationSelected.size() - 1);
+				if( nbGenerated.contains( random ) ){
+					while( nbGenerated.contains( random ) ){
+						random = AncorToDemocrat.randomNumber( 0, positiveRelationSelected.size() - 1);						
+					}
+				}
+				nbGenerated.add( random );
+				
+				tmpPositiveRelation.put(relationArray[ random ], this.positiveRelationSelected.get( relationArray[ random ] ));
+				//this.positiveRelationSelected.add( positiveRelationSelected.get( random ) );
+
+			}
+			//et on assigne cette liste temporaire à la liste total
+			this.positiveRelationSelected = tmpPositiveRelation;
+			nbGenerated.clear();
+			//de même pour les négatifs
+			Map<Relation, Annotation> tmpNegativeRelation = new HashMap<Relation, Annotation>();
+			relationArray = (Relation[]) this.negativeRelationSelected.keySet().toArray();
+			for(int p = 0; p < this.positif; p++){
+				random = AncorToDemocrat.randomNumber( 0, this.negativeRelationSelected.size() - 1);
+				if( nbGenerated.contains( random ) ){
+					while( nbGenerated.contains( random ) ){
+						random = AncorToDemocrat.randomNumber( 0, negativeRelationSelected.size() - 1);						
+					}
+				}
+				nbGenerated.add( random );
+				
+				tmpNegativeRelation.put(relationArray[ random ], this.negativeRelationSelected.get( relationArray[ random ] ));
+				//this.positiveRelationSelected.add( positiveRelationSelected.get( random ) );
+
+			}
+			this.negativeRelationSelected = tmpNegativeRelation;
+		}
+	}
+
+	public void writeInstance(){
+		PrintWriter writer = null;
+
+
 		if(this.positif == 0){
 			//tout prendre
 			if( split > 0 ){
 				//sauf si on doit splitter le/les corpus
-				
+
 				for(int f = 1; f < split + 1; f++){
 					try {
 						writer = new PrintWriter(this.outputPath + "_" + f + ".arff", "UTF-8");
 						writer.println( ARFF_ATTRIBUTE );
 						writer.println("");
-						
+
 						//écriture instances positives
-						int start = (f - 1) * this.positiveRelation.size() / split;
-						int end = start + this.positiveRelation.size() / split;
+						int start = (f - 1) * this.positiveRelationSelected.size() / split;
+						int end = start + this.positiveRelationSelected.size() / split;
 						for( int l = start; l < end; l++){
-							writer.println( this.positiveRelation.get( l ) );
+							writer.println( this.positiveRelationSelected.get( l ) );
 						}
-						
+
 						//écriture instances négatives
-						start = (f - 1) * this.negativeRelation.size() / split;
-						end = start + this.negativeRelation.size() / split;
+						start = (f - 1) * this.negativeRelationSelected.size() / split;
+						end = start + this.negativeRelationSelected.size() / split;
 						for( int l = start; l < end; l++){
-							writer.println( this.negativeRelation.get( l ) );
+							writer.println( this.negativeRelationSelected.get( l ) );
 						}
-						
+
 					} catch (FileNotFoundException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
@@ -336,8 +432,8 @@ public class ConversionToArff implements Runnable{
 					}
 				}
 			}else{
-				this.positif = this.positiveRelation.size();
-				this.negatif = this.negativeRelation.size();
+				this.positif = this.positiveRelationSelected.size();
+				this.negatif = this.negativeRelationSelected.size();
 				//ajout nombre de pos/neg à la fin du nom
 				this.outputPath += "_" + this.positif + "_" + this.negatif;
 				try {
@@ -345,11 +441,11 @@ public class ConversionToArff implements Runnable{
 					writer.println( ARFF_ATTRIBUTE );
 					writer.println("");
 
-					for(int p = 0; p < this.positiveRelation.size(); p++){
-						writer.println( this.positiveRelation.get( p ) );				
+					for(int p = 0; p < this.positiveRelationSelected.size(); p++){
+						writer.println( this.positiveRelationSelected.get( p ) );				
 					}
-					for(int n = 0; n < this.negativeRelation.size(); n++){
-						writer.println( this.negativeRelation.get( n ));
+					for(int n = 0; n < this.negativeRelationSelected.size(); n++){
+						writer.println( this.negativeRelationSelected.get( n ));
 					}
 
 				} catch (FileNotFoundException e) {
@@ -365,36 +461,18 @@ public class ConversionToArff implements Runnable{
 				}
 			}
 		}else{
-			//prendre aléatoirement sans remise
+			//les instances sont déjà séléctionnées, juste besoin de les écrire
 			try {
 				writer = new PrintWriter(this.outputPath + ".arff", "UTF-8");
 				writer.println( ARFF_ATTRIBUTE );
 				writer.println("");
-				ArrayList<Integer> nbGenerated = new ArrayList<Integer>();
 
-				int random = 0;
-				//select the intances
-				for(int p = 0; p < this.positif; p++){
-					random = AncorToDemocrat.randomNumber( 0, this.positiveRelation.size() - 1);
-					if( nbGenerated.contains( random ) ){
-						while( nbGenerated.contains( random ) ){
-							random = AncorToDemocrat.randomNumber( 0, positiveRelation.size() - 1);						
-						}
-					}
-					nbGenerated.add( random );	
-					writer.println( positiveRelation.get( random ) );
+				for(int p = 0; p < this.positiveRelationSelected.size(); p++){
+					writer.println( this.positiveRelationSelected.get( p ) );
 
 				}
-				nbGenerated.clear();
-				for(int n = 0; n < this.negatif; n++){
-					random = AncorToDemocrat.randomNumber( 0, this.negativeRelation.size() - 1);
-					if( nbGenerated.contains( random ) ){
-						while( nbGenerated.contains( random ) ){
-							random = AncorToDemocrat.randomNumber( 0, negativeRelation.size() - 1);						
-						}
-					}
-					nbGenerated.add( random );				
-					writer.println( negativeRelation.get( random ) );
+				for(int n = 0; n < this.negativeRelationSelected.size(); n++){			
+					writer.println( negativeRelationSelected.get( n ) );
 				}
 			} catch (FileNotFoundException e) {
 				// TODO Auto-generated catch block
@@ -418,7 +496,7 @@ public class ConversionToArff implements Runnable{
 	 * @param annotation Annotation qui contient la relation
 	 * @param relation relation à partir de laquelle sera generée entre 1 à 3 relation négative
 	 */
-	private void generateNegativeRelation(Corpus corpus, Annotation annotation, Relation relation) {
+	private Relation generateNegativeRelation(Corpus corpus, Annotation annotation, Relation relation) {
 		int negativeRelationToGenerate = AncorToDemocrat.randomNumber(1, 3);
 		List<Unit> unitList = annotation.getUnit();
 		for(int turn = 0; turn < negativeRelationToGenerate; turn++){
@@ -440,14 +518,14 @@ public class ConversionToArff implements Runnable{
 					calculateFeature.calculateFeatureOnRelation(annotation, newRelation);
 
 					//then calculate feature of the new relation
-					String line = makeRelation( annotation, newRelation );
+					/**String line = makeRelation( annotation, newRelation );
 					if( ! line.isEmpty() ){
 						line += "NOT_COREF";
 						//writer.println( line );
 						this.negativeRelation.add( line );
 						countNegativeRelation++;
-					}
-					done = true;
+					}**/
+					return newRelation;
 				}
 				//}
 				if( attempt > 15 ){
@@ -457,6 +535,7 @@ public class ConversionToArff implements Runnable{
 				attempt++;
 			}
 		}
+		return null;
 	}
 
 
