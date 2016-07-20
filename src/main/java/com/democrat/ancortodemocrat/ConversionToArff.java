@@ -408,15 +408,20 @@ public class ConversionToArff implements Runnable{
 						//écriture instances positives
 						int start = (f - 1) * this.positiveRelationSelected.size() / split;
 						int end = start + this.positiveRelationSelected.size() / split;
+
+						Relation[] relationArray = (Relation[]) this.positiveRelationSelected.keySet().toArray();
 						for( int l = start; l < end; l++){
-							writer.println( this.positiveRelationSelected.get( l ) );
+							String line = this.makeRelation(this.positiveRelationSelected.get( relationArray[ l ] ), relationArray[ l ] );
+							writer.println( line );
 						}
 
 						//écriture instances négatives
+						relationArray = (Relation[]) this.negativeRelationSelected.keySet().toArray();
 						start = (f - 1) * this.negativeRelationSelected.size() / split;
 						end = start + this.negativeRelationSelected.size() / split;
 						for( int l = start; l < end; l++){
-							writer.println( this.negativeRelationSelected.get( l ) );
+							String line = this.makeRelation(this.negativeRelationSelected.get( relationArray[ l ] ), relationArray[ l ] );
+							writer.println( line );
 						}
 
 					} catch (FileNotFoundException e) {
