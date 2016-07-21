@@ -27,6 +27,8 @@ import org.xml.sax.SAXException;
 import com.democrat.ancortodemocrat.element.Annotation;
 import com.democrat.ancortodemocrat.feature.CalculateFeature;
 import com.democrat.ancortodemocrat.treetagger.TreeTagger;
+import com.democrat.classification.Model;
+import com.democrat.classification.Toast;
 
 
 public class AncorToDemocrat {
@@ -49,6 +51,23 @@ public class AncorToDemocrat {
 		treeTagger = new TreeTagger();
 
 		fileManager = new FileManager();
+		
+		
+
+		Model model = Model.loadModel("generated/models/toast.model");
+
+		
+		List<Corpus> list = new ArrayList<Corpus>();
+		list.add( new Corpus( "C:/Users/buggr/workspace/AncorToDemocrat/generated/corpus/corpus_UBS" ) );
+		String outpath = "C:/Users/buggr/Documents/stage/callScorer";
+		Toast.scorerTask( list, model.getPath(), 100, 900, ParamToArff.NO_ASSOC, outpath, 0, 5);
+		
+		
+
+	}
+	
+	public static void back(String[] args){
+
 
 
 		if( args.length > 1){
@@ -291,7 +310,6 @@ public class AncorToDemocrat {
 
 			convertCorpus( corpusList );
 		}
-
 	}
 
 	public static void generateCorpusArff(){

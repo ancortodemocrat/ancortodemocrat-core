@@ -21,6 +21,8 @@ public class Model {
 	 * ensemble
 	 */
 	private AbstractClassifier classifier;
+	
+	private String path;
 
 
 	private Model( AbstractClassifier classifier ){
@@ -102,7 +104,9 @@ public class Model {
 	public static Model loadModel(String modelFile){
 		try {
 			AbstractClassifier cls = ( AbstractClassifier ) weka.core.SerializationHelper.read( modelFile );
-			return new Model( cls );
+			Model model = new Model( cls );
+			model.setPath( modelFile );
+			return model;
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -110,6 +114,14 @@ public class Model {
 		return null;
 	}
 
+
+	public String getPath() {
+		return path;
+	}
+
+	public void setPath(String path) {
+		this.path = path;
+	}
 
 	/**
 	 * le model retrouve la classe de chaque instance donnée

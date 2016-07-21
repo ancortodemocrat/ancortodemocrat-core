@@ -7,11 +7,13 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
 import org.apache.log4j.Logger;
+import org.apache.log4j.xml.DOMConfigurator;
 
 import com.democrat.ancortodemocrat.ConversionInSet;
 import com.democrat.ancortodemocrat.ConversionToArff;
@@ -34,12 +36,9 @@ public class Toast {
 
 	public static void main(String[] args) {
 
-		Model model = Model.loadModel("generated/models/toast.model");
-		Evaluation eval = model.crossValidate( loadInstance("generated/2016_07_05_10000_no_assoc_40_60_1-4_C.arff"),
-				5);
-		System.out.println(eval.toSummaryString("\nResults\n========\n", true));
-		System.out.println("PRECISION " + eval.precision(0)+" RAPPEL "+eval.recall(0)+" F-MESURE "+eval.fMeasure(0));
-		System.out.println("PRECISION " + eval.precision(1)+" RAPPEL "+eval.recall(1)+" F-MESURE "+eval.fMeasure(1));
+
+		DOMConfigurator.configure("cfg/log4j-config.xml");
+		
 
 	}
 
@@ -179,21 +178,30 @@ public class Toast {
 		//GOLD
 		for(int f = 0; f < fileArff.size(); f++){
 			File file = new File( fileArff.get( f ) );
+			PrintWriter writer = null;
 			try {
-				PrintWriter writer = new PrintWriter(outputPath + file.getName() + "_gold.txt", "UTF-8");
+				writer = new PrintWriter(outputPath + file.getName() + "_gold.txt", "UTF-8");
 
-				//for(int s = 0; s < split; s++){
-					int start = (f - 1) * positiveRelationSelected.size() / split;
-					int end = start + positiveRelationSelected.size() / split;
-					Relation[] relationArray = (Relation[]) positiveRelationSelected.keySet().toArray();
-					for(int p = start; p < end; p++){
-						Relation relation = relationArray[ p ];
-						Annotation annotation = positiveRelationSelected.get( relation );
-						writer.println( p + "\t" + "(" + relation.getPreElement( annotation ).getFeature( "REF" ) + ")" );
-						writer.println( (p + 1) + "\t" + "(" + relation.getPreElement( annotation ).getFeature( "REF" ) + ")" );
-					}
-
-				//}
+				int start = (f - 1) * positiveRelationSelected.size() / split;
+				int end = start + positiveRelationSelected.size() / split;
+				Relation[] relationArray = (Relation[]) positiveRelationSelected.keySet().toArray();
+				for(int p = start; p < end; p++){
+					Relation relation = relationArray[ p ];
+					Annotation annotation = positiveRelationSelected.get( relation );
+					writer.println( indexUnit + "\t" + "(" + relation.getPreElement( annotation ).getFeature( "REF" ) + ")" );
+					writer.println( ( ++indexUnit ) + "\t" + "(" + relation.getPreElement( annotation ).getFeature( "REF" ) + ")" );
+				}
+				
+				//écriture instances négatives
+				relationArray = (Relation[]) negativeRelationSelected.keySet().toArray();
+				start = (f - 1) * negativeRelationSelected.size() / split;
+				end = start + negativeRelationSelected.size() / split;
+				for( int l = start; l < end; l++){
+					Relation relation = relationArray[ l ];
+					Annotation annotation = positiveRelationSelected.get( relation );
+					writer.println( indexUnit + "\t" + "(" + relation.getPreElement( annotation ).getFeature( "REF" ) + ")" );
+					writer.println( ( ++indexUnit ) + "\t" + "(" + relation.getPreElement( annotation ).getFeature( "REF" ) + ")" );
+				}
 
 			} catch (FileNotFoundException e) {
 				// TODO Auto-generated catch block
@@ -201,6 +209,10 @@ public class Toast {
 			} catch (UnsupportedEncodingException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
+			}finally{
+				if( writer != null ){
+					writer.close();
+				}
 			}
 
 		}
