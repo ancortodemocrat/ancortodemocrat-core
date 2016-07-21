@@ -97,7 +97,7 @@ public class ConversionToArff implements Runnable{
 
 	private String outputPath;
 	
-	public List<String> fileOuput = new ArrayList<String>();
+	private List<String> fileOuput = new ArrayList<String>();
 	private int split;
 
 	public ConversionToArff(Corpus corpus){
@@ -130,6 +130,11 @@ public class ConversionToArff implements Runnable{
 		this.corpusList = corpusList;
 	}
 
+	
+	
+	public List<String> getFileOuput() {
+		return fileOuput;
+	}
 
 	/**
 	 * Pour une relation donnée, écrit dans un string la liste

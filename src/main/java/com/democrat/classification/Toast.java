@@ -1,9 +1,12 @@
 package com.democrat.classification;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
@@ -57,8 +60,13 @@ public class Toast {
 			int negatif,
 			ParamToArff param,
 			String outputPath,
-			int split){
-		
+			int split,
+			int nbFolds){
+
+		//chargement du modèle pour tester
+		//si c'est un bon ou pas
+		Model model = Model.loadModel( modelPath );
+
 		//chargement des corpus
 		for(Corpus corpus : corpusList ){
 			logger.info("Chargement du corpus "+corpus.getName() );
@@ -118,8 +126,9 @@ public class Toast {
 			}
 		}
 		//REF OK
-		
 
+
+		logger.info("Création des fichiers arff..");
 		//première étape séléctionner les pos/neg
 		ConversionToArff conversion = new ConversionToArff( corpusList,
 				positif, negatif, param, outputPath, split );
@@ -130,7 +139,7 @@ public class Toast {
 
 		//second step: séléction de p positive, et n negative comme voulue
 		conversion.selectInstance();
-		
+
 		//on écrit le fichier arff
 		conversion.writeInstance();
 
@@ -138,11 +147,66 @@ public class Toast {
 		//pour plus tard on sait que les instances positives sont
 		//écrite en premier temps, dans l'ordre de la liste
 		//et ensuite les négatives relations
-		Map<Relation, Annotation> positiveRelation = conversion.getPositiveRelationSelected();
-		Map<Relation, Annotation> negativeRelation = conversion.getNegativeRelationSelected();
-		
-		
+		Map<Relation, Annotation> positiveRelationSelected = conversion.getPositiveRelationSelected();
+		Map<Relation, Annotation> negativeRelationSelected = conversion.getNegativeRelationSelected();
 
+		//liste des fichiers arff générés
+		List<String> fileArff = conversion.getFileOuput();
+
+		if( split == 0 ){
+			split = 1;
+		}
+		//Liste pour chaque fichier arff généré
+		//des instances pour le fichier GOLD au format CoNLL
+		Double[][] fileListInstance = new Double[ fileArff.size() ][ ( positiveRelationSelected.size() / split ) + ( negativeRelationSelected.size() / split )];
+
+
+		//on fait ensuite le test sur le modèle de chaque fichier sortie
+		for(int f = 0; f < fileArff.size(); f++){
+			logger.info("Apprentissage depuis le model sur les instances de " + fileArff.get( f ) );
+			Instances instances = loadInstance( fileArff.get( f ) );
+			//Evaluation eval = model.crossValidate( instances, nbFolds );
+			Instances instancesLabeled = model.classifyInstance( instances );
+			for(int i = 0; i < instancesLabeled.size(); i++){
+				fileListInstance[ f ][ i ] = instancesLabeled.get( i ).classValue();				
+			}
+		}
+
+		//creation des fichiers GOLD et SYST en CONLL
+		logger.info("Creation des fichiers CoNLL..");
+		int indexUnit = 0;
+		int lastChainSingleton = 0;
+		//GOLD
+		for(int f = 0; f < fileArff.size(); f++){
+			File file = new File( fileArff.get( f ) );
+			try {
+				PrintWriter writer = new PrintWriter(outputPath + file.getName() + "_gold.txt", "UTF-8");
+
+				//for(int s = 0; s < split; s++){
+					int start = (f - 1) * positiveRelationSelected.size() / split;
+					int end = start + positiveRelationSelected.size() / split;
+					Relation[] relationArray = (Relation[]) positiveRelationSelected.keySet().toArray();
+					for(int p = start; p < end; p++){
+						Relation relation = relationArray[ p ];
+						Annotation annotation = positiveRelationSelected.get( relation );
+						writer.println( p + "\t" + "(" + relation.getPreElement( annotation ).getFeature( "REF" ) + ")" );
+						writer.println( (p + 1) + "\t" + "(" + relation.getPreElement( annotation ).getFeature( "REF" ) + ")" );
+					}
+
+				//}
+
+			} catch (FileNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (UnsupportedEncodingException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+		}
+
+
+		//on appel le scorer
 	}
 
 	public static Instances loadInstance(String arffFile){
