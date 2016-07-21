@@ -182,9 +182,9 @@ public class Toast {
 			try {
 				writer = new PrintWriter(outputPath + file.getName() + "_gold.txt", "UTF-8");
 
-				int start = (f - 1) * positiveRelationSelected.size() / split;
+				int start = f  * positiveRelationSelected.size() / split;
 				int end = start + positiveRelationSelected.size() / split;
-				Relation[] relationArray = (Relation[]) positiveRelationSelected.keySet().toArray();
+				Relation[] relationArray = (Relation[]) positiveRelationSelected.keySet().toArray( new Relation[ positiveRelationSelected.size() ] );
 				for(int p = start; p < end; p++){
 					Relation relation = relationArray[ p ];
 					Annotation annotation = positiveRelationSelected.get( relation );
@@ -193,12 +193,14 @@ public class Toast {
 				}
 				
 				//écriture instances négatives
-				relationArray = (Relation[]) negativeRelationSelected.keySet().toArray();
-				start = (f - 1) * negativeRelationSelected.size() / split;
+				relationArray = (Relation[]) negativeRelationSelected.keySet().toArray( new Relation[ negativeRelationSelected.size() ] );
+				start = f * negativeRelationSelected.size() / split;
 				end = start + negativeRelationSelected.size() / split;
 				for( int l = start; l < end; l++){
 					Relation relation = relationArray[ l ];
+					logger.debug( "RELATION: " + relation );
 					Annotation annotation = positiveRelationSelected.get( relation );
+					logger.debug("ANNOTATION: " + annotation  );
 					writer.println( indexUnit + "\t" + "(" + relation.getPreElement( annotation ).getFeature( "REF" ) + ")" );
 					writer.println( ( ++indexUnit ) + "\t" + "(" + relation.getPreElement( annotation ).getFeature( "REF" ) + ")" );
 				}
