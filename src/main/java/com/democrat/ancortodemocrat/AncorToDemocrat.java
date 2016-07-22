@@ -59,7 +59,7 @@ public class AncorToDemocrat {
 		
 		List<Corpus> list = new ArrayList<Corpus>();
 		list.add( new Corpus( "C:/Users/buggr/workspace/AncorToDemocrat/generated/feature/corpus_OTG" ) );
-		String outpath = "C:/Users/buggr/Documents/stage/callScorer";
+		String outpath = "C:/Users/buggr/Documents/stage/callScorer/";
 		Toast.scorerTask( list, model.getPath(), 100, 900, ParamToArff.NO_ASSOC, outpath, 0, 5);
 		
 		

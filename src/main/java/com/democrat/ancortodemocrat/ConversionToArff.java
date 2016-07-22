@@ -364,7 +364,8 @@ public class ConversionToArff implements Runnable{
 			//on fait une liste temporaire pour ne garder que le nombre stricte
 			//de positive et négative relation
 			Map<Relation, Annotation> tmpPositiveRelation = new HashMap<Relation, Annotation>();
-			Relation[] relationArray = (Relation[]) this.positiveRelationSelected.keySet().toArray(new Relation[ this.positiveRelationSelected.size() ]);
+			//Relation[] relationArray = (Relation[]) this.positiveRelationSelected.keySet().toArray(new Relation[ this.positiveRelationSelected.size() ]);
+			List<Relation> relationList = new ArrayList<Relation>( this.positiveRelationSelected.keySet() );
 			for(int p = 0; p < this.positif; p++){
 				random = AncorToDemocrat.randomNumber( 0, this.positiveRelationSelected.size() - 1);
 				if( nbGenerated.contains( random ) ){
@@ -373,8 +374,7 @@ public class ConversionToArff implements Runnable{
 					}
 				}
 				nbGenerated.add( random );
-
-				tmpPositiveRelation.put(relationArray[ random ], this.positiveRelationSelected.get( relationArray[ random ] ));
+				tmpPositiveRelation.put(relationList.get( random ), this.positiveRelationSelected.get( relationList.get( random ) ));
 				//this.positiveRelationSelected.add( positiveRelationSelected.get( random ) );
 
 			}
@@ -384,8 +384,9 @@ public class ConversionToArff implements Runnable{
 			nbGenerated.clear();
 			//de même pour les négatifs
 			Map<Relation, Annotation> tmpNegativeRelation = new HashMap<Relation, Annotation>();
-			relationArray = (Relation[]) this.negativeRelationSelected.keySet().toArray( new Relation[ this.negativeRelationSelected.size() ]);
-			for(int p = 0; p < this.positif; p++){
+			//relationArray = (Relation[]) this.negativeRelationSelected.keySet().toArray( new Relation[ this.negativeRelationSelected.size() ]);
+			relationList = new ArrayList<Relation>( this.negativeRelationSelected.keySet() );
+			for(int p = 0; p < this.negatif; p++){
 				random = AncorToDemocrat.randomNumber( 0, this.negativeRelationSelected.size() - 1);
 				if( nbGenerated.contains( random ) ){
 					while( nbGenerated.contains( random ) ){
@@ -394,7 +395,7 @@ public class ConversionToArff implements Runnable{
 				}
 				nbGenerated.add( random );
 
-				tmpNegativeRelation.put(relationArray[ random ], this.negativeRelationSelected.get( relationArray[ random ] ));
+				tmpNegativeRelation.put(relationList.get( random ), this.negativeRelationSelected.get( relationList.get( random ) ));
 				//this.positiveRelationSelected.add( positiveRelationSelected.get( random ) );
 
 			}

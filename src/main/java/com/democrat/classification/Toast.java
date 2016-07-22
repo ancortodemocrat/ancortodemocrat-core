@@ -180,7 +180,9 @@ public class Toast {
 			File file = new File( fileArff.get( f ) );
 			PrintWriter writer = null;
 			try {
-				writer = new PrintWriter(outputPath + file.getName() + "_gold.txt", "UTF-8");
+				writer = new PrintWriter(outputPath + file.getName().replace(".arff", "") + "_gold.txt", "UTF-8");
+				
+				writer.println("#begin document " + file.getName().replace(".arff", "") + "_gold.txt");
 
 				int start = f  * positiveRelationSelected.size() / split;
 				int end = start + positiveRelationSelected.size() / split;
@@ -188,8 +190,16 @@ public class Toast {
 				for(int p = start; p < end; p++){
 					Relation relation = relationArray[ p ];
 					Annotation annotation = positiveRelationSelected.get( relation );
-					writer.println( indexUnit + "\t" + "(" + relation.getPreElement( annotation ).getFeature( "REF" ) + ")" );
-					writer.println( ( ++indexUnit ) + "\t" + "(" + relation.getPreElement( annotation ).getFeature( "REF" ) + ")" );
+					if( relation.getElement( annotation ).getFeature( "REF" ).equalsIgnoreCase("NULL") ){
+						writer.println( ( indexUnit++ ) + "\t" + "(" + ( lastChainSingleton++ ) + ")" );						
+					}else{
+						writer.println( ( indexUnit++ ) + "\t" + "(" + relation.getElement( annotation ).getFeature( "REF" ) + ")" );
+					}
+					if( relation.getPreElement( annotation ).getFeature( "REF" ).equalsIgnoreCase("NULL") ){
+						writer.println( ( indexUnit++ ) + "\t" + "(" + ( lastChainSingleton++ ) + ")" );	
+					}else{
+						writer.println( ( indexUnit++ ) + "\t" + "(" + relation.getPreElement( annotation ).getFeature( "REF" ) + ")" );						
+					}
 				}
 				
 				//écriture instances négatives
@@ -198,12 +208,21 @@ public class Toast {
 				end = start + negativeRelationSelected.size() / split;
 				for( int l = start; l < end; l++){
 					Relation relation = relationArray[ l ];
-					logger.debug( "RELATION: " + relation );
-					Annotation annotation = positiveRelationSelected.get( relation );
-					logger.debug("ANNOTATION: " + annotation  );
-					writer.println( indexUnit + "\t" + "(" + relation.getPreElement( annotation ).getFeature( "REF" ) + ")" );
-					writer.println( ( ++indexUnit ) + "\t" + "(" + relation.getPreElement( annotation ).getFeature( "REF" ) + ")" );
+					Annotation annotation = negativeRelationSelected.get( relation );
+					if( relation.getElement( annotation ).getFeature( "REF" ).equalsIgnoreCase("NULL") ){
+						writer.println( ( indexUnit++ ) + "\t" + "(" + ( lastChainSingleton++ ) + ")" );						
+					}else{
+						writer.println( ( indexUnit++ ) + "\t" + "(" + relation.getElement( annotation ).getFeature( "REF" ) + ")" );
+					}
+					if( relation.getPreElement( annotation ).getFeature( "REF" ).equalsIgnoreCase("NULL") ){
+						writer.println( ( indexUnit++ ) + "\t" + "(" + ( lastChainSingleton++ ) + ")" );	
+					}else{
+						writer.println( ( indexUnit++ ) + "\t" + "(" + relation.getPreElement( annotation ).getFeature( "REF" ) + ")" );						
+					}
 				}
+				
+				
+				writer.println("#end document");
 
 			} catch (FileNotFoundException e) {
 				// TODO Auto-generated catch block
