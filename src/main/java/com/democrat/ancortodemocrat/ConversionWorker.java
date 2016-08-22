@@ -14,6 +14,10 @@ import com.democrat.ancortodemocrat.element.Unit;
 import com.democrat.ancortodemocrat.positioning.PositioningRelation;
 import com.democrat.ancortodemocrat.treetagger.TokenConvertRelationHandler;
 
+/**
+ * Classe permettant de convertir un corpus en première mention
+ * vers un corpus en chaîne
+ */
 public class ConversionWorker implements Runnable{
 
 	private static Logger logger = Logger.getLogger(ConversionWorker.class);
@@ -26,9 +30,8 @@ public class ConversionWorker implements Runnable{
 
 	public ConversionWorker( Corpus corpus ){
 		this.corpus = corpus;
-		//treeTaggerManager = new TreeTaggerManager();
 	}
-
+	
 	/**
 	 * Iterate every annotation of the corpus, and convert it
 	 */

@@ -22,6 +22,17 @@ public class ConversionInSet {
 
 	private static Logger logger = Logger.getLogger(ConversionInSet.class);
 
+	public static void toSetFromFirstMention( Corpus corpus ){
+		for(Annotation annotation : corpus.getAnnotation() ){
+			toSetFromFirstMention( annotation );
+		}
+	}
+	
+	public static void toSetFromChain( Corpus corpus ){
+		for(Annotation annotation : corpus.getAnnotation() ){
+			toSetFromChain( annotation );
+		}
+	}
 
 	public static void toSetFromFirstMention( Annotation annotation ){
 
@@ -130,6 +141,7 @@ public class ConversionInSet {
 			setRefOnUnit( annotation, (Schema) unit, currentRef);
 		}
 		List<Relation> relationAssociated = annotation.getRelationContaining( unit );
+		
 		if( relationAssociated.size() == 0){
 			return;
 		}
@@ -200,7 +212,7 @@ public class ConversionInSet {
 				}
 				
 			}else{
-				//catahore case
+				//cataphore case
 				
 				for(int r = 0; r < relationAssociated.size(); r++){
 					if( ! (relationAssociated.get( r ).getOtherElement( annotation, unit) instanceof Relation)){

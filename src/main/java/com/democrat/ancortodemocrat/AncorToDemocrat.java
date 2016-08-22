@@ -43,7 +43,6 @@ public class AncorToDemocrat {
 
 		fileManager = new FileManager();
 		
-		
 
 		Model model = Model.loadModel("generated/models/toast.model");
 

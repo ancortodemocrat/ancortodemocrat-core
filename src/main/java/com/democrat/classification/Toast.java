@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.text.DateFormat;
@@ -13,6 +14,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
+import java.util.StringTokenizer;
 
 import org.apache.log4j.Logger;
 import org.apache.log4j.xml.DOMConfigurator;
@@ -40,7 +42,7 @@ public class Toast {
 
 
 		DOMConfigurator.configure("cfg/log4j-config.xml");
-		
+
 
 	}
 
@@ -152,7 +154,6 @@ public class Toast {
 		//et ensuite les négatives relations
 		Map<Relation, Annotation> positiveRelationSelected = conversion.getPositiveRelationSelected();
 		Map<Relation, Annotation> negativeRelationSelected = conversion.getNegativeRelationSelected();
-		logger.debug(negativeRelationSelected.size() );
 		//liste des fichiers arff générés
 		List<String> fileArff = conversion.getFileOuput();
 
@@ -179,26 +180,17 @@ public class Toast {
 		logger.info("Creation des fichiers CoNLL..");
 		int indexUnit = 0;
 		int lastChainSingleton = 0;
-		//GOLD
-		logger.info("Création du fichier CoNLL Gold.");
+		//GOLD && SYSTEM
 		for(int f = 0; f < fileArff.size(); f++){
 			File file = new File( fileArff.get( f ) );
 			PrintWriter writer = null;
+			PrintWriter writerSystem = null;
 			try {
-				String fileName = file.getName();
-				if( file.getName().replace(".arff", "").isEmpty() ){
-					DateFormat shortDateFormat = DateFormat.getDateTimeInstance(
-							DateFormat.SHORT,
-							DateFormat.SHORT);
-					fileName = shortDateFormat.format( new Date() );
-					logger.info( fileName );
-					fileName = fileName.replace(" ", "_");
-					fileName = fileName.replace("/", "_");
-					fileName = fileName.replace(":", "H");
-				}
-				writer = new PrintWriter(outputPath + fileName.replace(".arff", "") + "_gold.txt", "UTF-8");
-				
-				writer.println("#begin document " + fileName.replace(".arff", "") + "_gold.txt");
+				writer = new PrintWriter(outputPath + file.getName().replace(".arff", "") + "_GOLD.txt", "UTF-8");
+				writerSystem = new PrintWriter(outputPath + file.getName().replace(".arff", "") + "_SYSTEM.txt", "UTF8");
+
+				writer.println("#begin document " + file.getName().replace(".arff", "") + ".txt");
+				writerSystem.println("#begin document " + file.getName().replace(".arff", "") + ".txt");
 
 				int start = f  * positiveRelationSelected.size() / split;
 				int end = start + positiveRelationSelected.size() / split;
@@ -206,18 +198,50 @@ public class Toast {
 				for(int p = start; p < end; p++){
 					Relation relation = relationArray[ p ];
 					Annotation annotation = positiveRelationSelected.get( relation );
+
+					String element = "";
+					String preElement = "";
+					boolean refNotFound = false;
 					if( relation.getElement( annotation ).getFeature( "REF" ).equalsIgnoreCase("NULL") ){
-						writer.println( ( indexUnit++ ) + "\t" + "(" + ( lastChainSingleton++ ) + ")" );						
+						if( relation.getFeature( "REF" ).equalsIgnoreCase("null")){
+							element = ( indexUnit++ ) + "\t" + "(" + ( lastChainSingleton ) + ")" ;
+							refNotFound = true;
+						}else{
+							element = ( indexUnit++ ) + "\t" + "(" + ( relation.getFeature( "REF" ) ) + ")" ;							
+						}
 					}else{
-						writer.println( ( indexUnit++ ) + "\t" + "(" + relation.getElement( annotation ).getFeature( "REF" ) + ")" );
+						element = ( indexUnit++ ) + "\t" + "(" + relation.getElement( annotation ).getFeature( "REF" ) + ")";
 					}
 					if( relation.getPreElement( annotation ).getFeature( "REF" ).equalsIgnoreCase("NULL") ){
-						writer.println( ( indexUnit++ ) + "\t" + "(" + ( lastChainSingleton++ ) + ")" );	
+						if( relation.getFeature( "REF" ).equalsIgnoreCase("null")){
+							if( refNotFound ){
+								preElement = ( indexUnit++ ) + "\t" + "(" + ( lastChainSingleton++ ) + ")" ;
+							}else{
+								preElement = ( indexUnit++ ) + "\t" + "(" + ( ++lastChainSingleton ) + ")" ;								
+							}
+						}else{
+							preElement = ( indexUnit++ ) + "\t" + "(" + ( relation.getFeature( "REF" ) ) + ")" ;							
+						}
 					}else{
-						writer.println( ( indexUnit++ ) + "\t" + "(" + relation.getPreElement( annotation ).getFeature( "REF" ) + ")" );						
+						preElement =  ( indexUnit++ ) + "\t" + "(" + relation.getPreElement( annotation ).getFeature( "REF" ) + ")";						
 					}
+					writer.println( element );
+					writer.println( preElement );
+
+					//on écrit le fichier system en même temps
+					if( fileListInstance[ f ][ p ] == 1.0D ){
+						//le classifieur l'a mis NOT_COREF alors qu'il a été donné COREF par GOLD
+						writerSystem.println( ( indexUnit - 2 ) + "\t" + "(" + ( lastChainSingleton++ ) + ")" );
+						writerSystem.println( ( indexUnit - 1 ) + "\t" + "(" + ( lastChainSingleton++ ) + ")" );
+
+					}else{
+						//Le classifieur l'a mis COREF comme GOLD on écrit la même chose
+						writerSystem.println( element );
+						writerSystem.println( preElement );
+					}
+
 				}
-				
+
 				//écriture instances négatives
 				relationArray = (Relation[]) negativeRelationSelected.keySet().toArray( new Relation[ negativeRelationSelected.size() ] );
 				start = f * negativeRelationSelected.size() / split;
@@ -225,20 +249,53 @@ public class Toast {
 				for( int l = start; l < end; l++){
 					Relation relation = relationArray[ l ];
 					Annotation annotation = negativeRelationSelected.get( relation );
+					String element = "";
+					String preElement = "";
+					boolean refNotFound = false;
 					if( relation.getElement( annotation ).getFeature( "REF" ).equalsIgnoreCase("NULL") ){
-						writer.println( ( indexUnit++ ) + "\t" + "(" + ( lastChainSingleton++ ) + ")" );						
+						if( relation.getFeature( "REF" ).equalsIgnoreCase("null")){
+							element = ( indexUnit++ ) + "\t" + "(" + ( lastChainSingleton ) + ")" ;
+							refNotFound = true;
+						}else{
+							element = ( indexUnit++ ) + "\t" + "(" + ( relation.getFeature( "REF" ) ) + ")" ;							
+						}
 					}else{
-						writer.println( ( indexUnit++ ) + "\t" + "(" + relation.getElement( annotation ).getFeature( "REF" ) + ")" );
+						element = ( indexUnit++ ) + "\t" + "(" + relation.getElement( annotation ).getFeature( "REF" ) + ")";
 					}
 					if( relation.getPreElement( annotation ).getFeature( "REF" ).equalsIgnoreCase("NULL") ){
-						writer.println( ( indexUnit++ ) + "\t" + "(" + ( lastChainSingleton++ ) + ")" );	
+						if( relation.getFeature( "REF" ).equalsIgnoreCase("null")){
+							if( refNotFound ){
+								preElement = ( indexUnit++ ) + "\t" + "(" + ( lastChainSingleton++ ) + ")" ;
+							}else{
+								preElement = ( indexUnit++ ) + "\t" + "(" + ( ++lastChainSingleton ) + ")" ;								
+							}
+						}else{
+							preElement = ( indexUnit++ ) + "\t" + "(" + ( relation.getFeature( "REF" ) ) + ")" ;							
+						}
 					}else{
-						writer.println( ( indexUnit++ ) + "\t" + "(" + relation.getPreElement( annotation ).getFeature( "REF" ) + ")" );						
+						preElement =  ( indexUnit++ ) + "\t" + "(" + relation.getPreElement( annotation ).getFeature( "REF" ) + ")";						
 					}
+					writer.println( element );
+					writer.println( preElement );
+
+
+					//on écrit le fichier system en même temps
+					if( fileListInstance[ f ][ l ] == 0.0D ){
+						//le classifieur l'a mis COREF alors qu'il a été donné NOT_COREF par GOLD
+						writerSystem.println( ( indexUnit - 2 ) + "\t" + "(" + ( lastChainSingleton++ ) + ")" );
+						writerSystem.println( ( indexUnit - 1 ) + "\t" + "(" + ( lastChainSingleton++ ) + ")" );
+
+					}else{
+						//Le classifieur l'a bien mis NOT_COREF
+						writerSystem.println( element );
+						writerSystem.println( preElement );
+					}
+
 				}
-				
-				
+
+
 				writer.println("#end document");
+				writerSystem.println("#end document");
 
 			} catch (FileNotFoundException e) {
 				// TODO Auto-generated catch block
@@ -250,14 +307,45 @@ public class Toast {
 				if( writer != null ){
 					writer.close();
 				}
+				if(writerSystem != null){
+					writerSystem.close();
+				}
 			}
 
 		}
-		//SYSTEM
-		logger.info("Création du fichier CoNLL System.");
 		
+		//call scorer
+		for(int f = 0; f < fileArff.size(); f++){
+			File file = new File( fileArff.get( f ) );
+			try {
+				logger.info( PerlEval("muc", outputPath + file.getName().replace(".arff", "") + "_GOLD.txt" ,outputPath + file.getName().replace(".arff", "") + "_SYSTEM.txt"));
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
 
-		//on appel le scorer
+
+
+	public static String PerlEval( String metric, String trueFile, String systemFile ) throws Exception{
+		Process p = Runtime.getRuntime(  ).exec( "scorer.bat "+metric+" "+trueFile+" "+systemFile );
+		BufferedReader br = new BufferedReader( new InputStreamReader( p.getInputStream(  ) ) );
+		String line = null;
+		List<String> resu = new ArrayList<String>(  );
+		while ( ( line = br.readLine(  ) ) != null ){
+			resu.add( line );
+		}
+		logger.debug( resu );
+		String last = resu.get( resu.size(  )-2 );
+		StringTokenizer st = new StringTokenizer( last );
+		List<String> exemple = new ArrayList<String>(  );
+		while ( st.hasMoreTokens(  ) ){
+			exemple.add( st.nextToken(  ) );
+		}
+		String resultat = exemple.get( exemple.size(  )-1 );
+		int index = resultat.indexOf( "%" );
+		return resultat.substring( 0, index );
 	}
 
 	public static Instances loadInstance(String arffFile){
