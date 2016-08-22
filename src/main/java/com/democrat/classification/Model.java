@@ -132,6 +132,7 @@ public class Model {
 	public Instances classifyInstance( Instances unlabeled ){
 		// set class attribute
 		unlabeled.setClassIndex(unlabeled.numAttributes() - 1);
+		
 
 		// create copy
 		Instances labeled = new Instances(unlabeled);

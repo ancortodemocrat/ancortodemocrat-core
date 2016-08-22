@@ -1,9 +1,12 @@
 package com.democrat.ancortodemocrat;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
+import java.text.DateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -115,7 +118,7 @@ public class ConversionToArff implements Runnable{
 		this.positif = positif;
 		this.negatif = negatif;
 		this.param = param;
-		this.outputPath = outputPath;	
+		this.outputPath = outputPath;
 		this.split = split;
 
 	}
@@ -312,7 +315,7 @@ public class ConversionToArff implements Runnable{
 						}
 					}
 					if( relation.getPreElement( annotation ) == null ||
-						relation.getElement( annotation ) == null ){
+							relation.getElement( annotation ) == null ){
 						continue;
 					}
 					this.positiveRelationSelected.put(relation, annotation);
@@ -379,7 +382,7 @@ public class ConversionToArff implements Runnable{
 
 			}
 			//et on assigne cette liste temporaire à la liste total
-			this.positiveRelationSelected = tmpPositiveRelation;
+			this.positiveRelationSelected = new HashMap<Relation, Annotation>( tmpPositiveRelation );
 			tmpPositiveRelation.clear();
 			nbGenerated.clear();
 			//de même pour les négatifs
@@ -487,6 +490,17 @@ public class ConversionToArff implements Runnable{
 		}else{
 			//les instances sont déjà séléctionnées, juste besoin de les écrire
 			try {
+				String fileName;
+				DateFormat shortDateFormat = DateFormat.getDateTimeInstance(
+						DateFormat.SHORT,
+						DateFormat.SHORT);
+				fileName = shortDateFormat.format( new Date() );
+				logger.info( fileName );
+				fileName = fileName.replace(" ", "_");
+				fileName = fileName.replace("/", "_");
+				fileName = fileName.replace(":", "H");
+				this.outputPath += fileName;
+				
 				writer = new PrintWriter(this.outputPath + ".arff", "UTF-8");
 				this.fileOuput.add( this.outputPath + ".arff" );
 				writer.println( ARFF_ATTRIBUTE );

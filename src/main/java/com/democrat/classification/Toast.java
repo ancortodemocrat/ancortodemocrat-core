@@ -7,7 +7,9 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
+import java.text.DateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
@@ -115,10 +117,12 @@ public class Toast {
 				}
 				if( paramUser.contains( "c" ) ){
 					for(int a = 0; a < annotationList.size(); a++){
+						logger.info("Ajout du champ REF.");
 						ConversionInSet.toSetFromChain( annotationList.get( a ) );
 					}
 				}else{
 					for(int a = 0; a < annotationList.size(); a++){
+						logger.info("Ajout du champ REF.");
 						ConversionInSet.toSetFromFirstMention( annotationList.get( a ) );
 					}					
 				}
@@ -148,7 +152,7 @@ public class Toast {
 		//et ensuite les négatives relations
 		Map<Relation, Annotation> positiveRelationSelected = conversion.getPositiveRelationSelected();
 		Map<Relation, Annotation> negativeRelationSelected = conversion.getNegativeRelationSelected();
-
+		logger.debug(negativeRelationSelected.size() );
 		//liste des fichiers arff générés
 		List<String> fileArff = conversion.getFileOuput();
 
@@ -164,10 +168,10 @@ public class Toast {
 		for(int f = 0; f < fileArff.size(); f++){
 			logger.info("Apprentissage depuis le model sur les instances de " + fileArff.get( f ) );
 			Instances instances = loadInstance( fileArff.get( f ) );
-			//Evaluation eval = model.crossValidate( instances, nbFolds );
 			Instances instancesLabeled = model.classifyInstance( instances );
 			for(int i = 0; i < instancesLabeled.size(); i++){
-				fileListInstance[ f ][ i ] = instancesLabeled.get( i ).classValue();				
+				fileListInstance[ f ][ i ] = instancesLabeled.get( i ).classValue();	
+				//logger.debug( instances.get( i ).classValue() + " class " + instancesLabeled.get( i ).classValue() + "  " + instancesLabeled.classAttribute().value( (int) instancesLabeled.get( i ).classValue()  ));
 			}
 		}
 
@@ -176,13 +180,25 @@ public class Toast {
 		int indexUnit = 0;
 		int lastChainSingleton = 0;
 		//GOLD
+		logger.info("Création du fichier CoNLL Gold.");
 		for(int f = 0; f < fileArff.size(); f++){
 			File file = new File( fileArff.get( f ) );
 			PrintWriter writer = null;
 			try {
-				writer = new PrintWriter(outputPath + file.getName().replace(".arff", "") + "_gold.txt", "UTF-8");
+				String fileName = file.getName();
+				if( file.getName().replace(".arff", "").isEmpty() ){
+					DateFormat shortDateFormat = DateFormat.getDateTimeInstance(
+							DateFormat.SHORT,
+							DateFormat.SHORT);
+					fileName = shortDateFormat.format( new Date() );
+					logger.info( fileName );
+					fileName = fileName.replace(" ", "_");
+					fileName = fileName.replace("/", "_");
+					fileName = fileName.replace(":", "H");
+				}
+				writer = new PrintWriter(outputPath + fileName.replace(".arff", "") + "_gold.txt", "UTF-8");
 				
-				writer.println("#begin document " + file.getName().replace(".arff", "") + "_gold.txt");
+				writer.println("#begin document " + fileName.replace(".arff", "") + "_gold.txt");
 
 				int start = f  * positiveRelationSelected.size() / split;
 				int end = start + positiveRelationSelected.size() / split;
@@ -237,7 +253,9 @@ public class Toast {
 			}
 
 		}
-
+		//SYSTEM
+		logger.info("Création du fichier CoNLL System.");
+		
 
 		//on appel le scorer
 	}
