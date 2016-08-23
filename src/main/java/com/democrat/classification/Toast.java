@@ -185,7 +185,13 @@ public class Toast {
 			File file = new File( fileArff.get( f ) );
 			PrintWriter writer = null;
 			PrintWriter writerSystem = null;
+			//liste des unités déjà écrites dans le fichier
+			//pour éviter de mettre deux fois le même unit
+			//sachant que l'on parcourt chaque relation
+			List<String> unitSet = new ArrayList<String>();
 			try {
+
+				//création des fichiers
 				writer = new PrintWriter(outputPath + file.getName().replace(".arff", "") + "_GOLD.txt", "UTF-8");
 				writerSystem = new PrintWriter(outputPath + file.getName().replace(".arff", "") + "_SYSTEM.txt", "UTF8");
 
@@ -202,56 +208,72 @@ public class Toast {
 					String element = "";
 					String preElement = "";
 					boolean refNotFound = false;
-					if( relation.getElement( annotation ).getFeature( "REF" ).equalsIgnoreCase("NULL") ){
-						if( relation.getFeature( "REF" ).equalsIgnoreCase("null")){
-							element = ( indexUnit++ ) + "\t" + "(" + ( lastChainSingleton ) + ")" ;
-							refNotFound = true;
-						}else{
-							element = ( indexUnit++ ) + "\t" + "(" + ( relation.getFeature( "REF" ) ) + ")" ;							
-						}
-					}else{
-						element = ( indexUnit++ ) + "\t" + "(" + relation.getElement( annotation ).getFeature( "REF" ) + ")";
-					}
-					if( relation.getPreElement( annotation ).getFeature( "REF" ).equalsIgnoreCase("NULL") ){
-						if( relation.getFeature( "REF" ).equalsIgnoreCase("null")){
-							if( refNotFound ){
-								preElement = ( indexUnit++ ) + "\t" + "(" + ( lastChainSingleton++ ) + ")" ;
+					if( ! unitSet.contains( relation.getElement( annotation ).getId() ) ){
+						unitSet.add( relation.getElement( annotation ).getId() );
+						if( relation.getElement( annotation ).getFeature( "REF" ).equalsIgnoreCase("NULL") ){
+							if( relation.getFeature( "REF" ).equalsIgnoreCase("null")){
+								element = ( indexUnit++ ) + "\t" + "(" + ( lastChainSingleton ) + ")" ;
+								refNotFound = true;
 							}else{
-								preElement = ( indexUnit++ ) + "\t" + "(" + ( ++lastChainSingleton ) + ")" ;								
+								element = ( indexUnit++ ) + "\t" + "(" + ( relation.getFeature( "REF" ) ) + ")" ;							
 							}
 						}else{
-							preElement = ( indexUnit++ ) + "\t" + "(" + ( relation.getFeature( "REF" ) ) + ")" ;							
+							element = ( indexUnit++ ) + "\t" + "(" + relation.getElement( annotation ).getFeature( "REF" ) + ")";
 						}
-					}else{
-						preElement =  ( indexUnit++ ) + "\t" + "(" + relation.getPreElement( annotation ).getFeature( "REF" ) + ")";						
-					}
-					writer.println( element );
-					writer.println( preElement );
-
-					//on écrit le fichier system en même temps
-					if( fileListInstance[ f ][ p ] == 1.0D ){
-						//le classifieur l'a mis NOT_COREF alors qu'il a été donné COREF par GOLD
-						writerSystem.println( ( indexUnit - 2 ) + "\t" + "(" + ( lastChainSingleton++ ) + ")" );
-						writerSystem.println( ( indexUnit - 1 ) + "\t" + "(" + ( lastChainSingleton++ ) + ")" );
-
-					}else{
-						//Le classifieur l'a mis COREF comme GOLD on écrit la même chose
-						writerSystem.println( element );
-						writerSystem.println( preElement );
+						writer.println( element );
+						//on écrit l'element sur le fichier de reponse aussi
+						//on écrit le fichier system en même temps
+						if( fileListInstance[ f ][ p ] == 1.0D ){
+							//le classifieur l'a mis NOT_COREF alors qu'il a été donné COREF par GOLD
+							writerSystem.println( ( indexUnit - 1 ) + "\t" + "(" + ( lastChainSingleton++ ) + ")" );
+						}else{
+							writerSystem.println( element );							
+						}
 					}
 
+					if( ! unitSet.contains( relation.getPreElement( annotation ).getId() ) ){
+						unitSet.add( relation.getPreElement( annotation ).getId() );
+						if( relation.getPreElement( annotation ).getFeature( "REF" ).equalsIgnoreCase("NULL") ){
+							if( relation.getFeature( "REF" ).equalsIgnoreCase("null")){
+								if( refNotFound ){
+									preElement = ( indexUnit++ ) + "\t" + "(" + ( lastChainSingleton++ ) + ")" ;
+								}else{
+									preElement = ( indexUnit++ ) + "\t" + "(" + ( ++lastChainSingleton ) + ")" ;								
+								}
+							}else{
+								preElement = ( indexUnit++ ) + "\t" + "(" + ( relation.getFeature( "REF" ) ) + ")" ;							
+							}
+						}else{
+							preElement =  ( indexUnit++ ) + "\t" + "(" + relation.getPreElement( annotation ).getFeature( "REF" ) + ")";						
+						}
+						writer.println( preElement );
+						//on écrit l'element sur le fichier de reponse aussi
+						//on écrit le fichier system en même temps
+						if( fileListInstance[ f ][ p ] == 1.0D ){
+							//le classifieur l'a mis NOT_COREF alors qu'il a été donné COREF par GOLD
+							writerSystem.println( ( indexUnit - 1 ) + "\t" + "(" + ( lastChainSingleton++ ) + ")" );
+						}else{
+							writerSystem.println( preElement );							
+						}
+					}
 				}
 
-				//écriture instances négatives
-				relationArray = (Relation[]) negativeRelationSelected.keySet().toArray( new Relation[ negativeRelationSelected.size() ] );
-				start = f * negativeRelationSelected.size() / split;
-				end = start + negativeRelationSelected.size() / split;
-				for( int l = start; l < end; l++){
-					Relation relation = relationArray[ l ];
-					Annotation annotation = negativeRelationSelected.get( relation );
-					String element = "";
-					String preElement = "";
-					boolean refNotFound = false;
+
+			
+
+			//écriture instances négatives
+			relationArray = (Relation[]) negativeRelationSelected.keySet().toArray( new Relation[ negativeRelationSelected.size() ] );
+			start = f * negativeRelationSelected.size() / split;
+			end = start + negativeRelationSelected.size() / split;
+			for( int l = start; l < end; l++){
+				Relation relation = relationArray[ l ];
+				Annotation annotation = negativeRelationSelected.get( relation );
+				String element = "";
+				String preElement = "";
+				boolean refNotFound = false;
+
+				if( ! unitSet.contains( relation.getElement( annotation ).getId() ) ){
+					unitSet.add( relation.getElement( annotation ).getId() );
 					if( relation.getElement( annotation ).getFeature( "REF" ).equalsIgnoreCase("NULL") ){
 						if( relation.getFeature( "REF" ).equalsIgnoreCase("null")){
 							element = ( indexUnit++ ) + "\t" + "(" + ( lastChainSingleton ) + ")" ;
@@ -262,117 +284,146 @@ public class Toast {
 					}else{
 						element = ( indexUnit++ ) + "\t" + "(" + relation.getElement( annotation ).getFeature( "REF" ) + ")";
 					}
-					if( relation.getPreElement( annotation ).getFeature( "REF" ).equalsIgnoreCase("NULL") ){
-						if( relation.getFeature( "REF" ).equalsIgnoreCase("null")){
-							if( refNotFound ){
-								preElement = ( indexUnit++ ) + "\t" + "(" + ( lastChainSingleton++ ) + ")" ;
-							}else{
-								preElement = ( indexUnit++ ) + "\t" + "(" + ( ++lastChainSingleton ) + ")" ;								
-							}
-						}else{
-							preElement = ( indexUnit++ ) + "\t" + "(" + ( relation.getFeature( "REF" ) ) + ")" ;							
-						}
-					}else{
-						preElement =  ( indexUnit++ ) + "\t" + "(" + relation.getPreElement( annotation ).getFeature( "REF" ) + ")";						
-					}
 					writer.println( element );
-					writer.println( preElement );
-
-
+					//on écrit l'element sur le fichier de reponse aussi
 					//on écrit le fichier system en même temps
 					if( fileListInstance[ f ][ l ] == 0.0D ){
 						//le classifieur l'a mis COREF alors qu'il a été donné NOT_COREF par GOLD
-						writerSystem.println( ( indexUnit - 2 ) + "\t" + "(" + ( lastChainSingleton++ ) + ")" );
 						writerSystem.println( ( indexUnit - 1 ) + "\t" + "(" + ( lastChainSingleton++ ) + ")" );
-
 					}else{
-						//Le classifieur l'a bien mis NOT_COREF
-						writerSystem.println( element );
-						writerSystem.println( preElement );
+						writerSystem.println( element );							
 					}
-
+				}
+				if( ! unitSet.contains( relation.getPreElement( annotation ).getId() ) ){
+					unitSet.add( relation.getPreElement( annotation ).getId() );
+					if( relation.getPreElement( annotation ).getFeature( "REF" ).equalsIgnoreCase("NULL") ){
+						if( relation.getFeature( "REF" ).equalsIgnoreCase("null")){
+							if( refNotFound ){
+								preElement = ( indexUnit++ ) + "\t" + "(" + ( lastChainSingleton++ ) + ")" ;
+							}else{
+								preElement = ( indexUnit++ ) + "\t" + "(" + ( ++lastChainSingleton ) + ")" ;								
+							}
+						}else{
+							preElement = ( indexUnit++ ) + "\t" + "(" + ( relation.getFeature( "REF" ) ) + ")" ;							
+						}
+					}else{
+						preElement =  ( indexUnit++ ) + "\t" + "(" + relation.getPreElement( annotation ).getFeature( "REF" ) + ")";						
+					}
+					writer.println( preElement );
+					//on écrit l'element sur le fichier de reponse aussi
+					//on écrit le fichier system en même temps
+					if( fileListInstance[ f ][ l ] == 0.0D ){
+						//le classifieur l'a mis COREF alors qu'il a été donné NOT_COREF par GOLD
+						writerSystem.println( ( indexUnit - 1 ) + "\t" + "(" + ( lastChainSingleton++ ) + ")" );
+					}else{
+						writerSystem.println( preElement );							
+					}
 				}
 
-
-				writer.println("#end document");
-				writerSystem.println("#end document");
-
-			} catch (FileNotFoundException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (UnsupportedEncodingException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}finally{
-				if( writer != null ){
-					writer.close();
-				}
-				if(writerSystem != null){
-					writerSystem.close();
-				}
 			}
 
-		}
-		
-		//call scorer
-		for(int f = 0; f < fileArff.size(); f++){
-			File file = new File( fileArff.get( f ) );
-			try {
-				logger.info( PerlEval("muc", outputPath + file.getName().replace(".arff", "") + "_GOLD.txt" ,outputPath + file.getName().replace(".arff", "") + "_SYSTEM.txt"));
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-	}
 
+			writer.println("#end document");
+			writerSystem.println("#end document");
 
-
-	public static String PerlEval( String metric, String trueFile, String systemFile ) throws Exception{
-		Process p = Runtime.getRuntime(  ).exec( "scorer.bat "+metric+" "+trueFile+" "+systemFile );
-		BufferedReader br = new BufferedReader( new InputStreamReader( p.getInputStream(  ) ) );
-		String line = null;
-		List<String> resu = new ArrayList<String>(  );
-		while ( ( line = br.readLine(  ) ) != null ){
-			resu.add( line );
-		}
-		logger.debug( resu );
-		String last = resu.get( resu.size(  )-2 );
-		StringTokenizer st = new StringTokenizer( last );
-		List<String> exemple = new ArrayList<String>(  );
-		while ( st.hasMoreTokens(  ) ){
-			exemple.add( st.nextToken(  ) );
-		}
-		String resultat = exemple.get( exemple.size(  )-1 );
-		int index = resultat.indexOf( "%" );
-		return resultat.substring( 0, index );
-	}
-
-	public static Instances loadInstance(String arffFile){
-		BufferedReader reader = null;
-		Instances instances = null;
-		try {
-			reader = new BufferedReader( new FileReader( arffFile ) );
-			instances = new Instances( reader );
-
-			instances.setClassIndex( instances.numAttributes() - 1 );
-		} catch (FileNotFoundException e2) {
+		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
-			e2.printStackTrace();
-		} catch (Throwable e) {
+			e.printStackTrace();
+		} catch (UnsupportedEncodingException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}finally{
-			if(reader != null){
-				try {
-					reader.close();
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+			if( writer != null ){
+				writer.close();
+			}
+			if(writerSystem != null){
+				writerSystem.close();
 			}
 		}
-		return instances;
+
 	}
+
+	//call scorer
+	logger.info("Scorer:");
+	for(int f = 0; f < fileArff.size(); f++){
+		File file = new File( fileArff.get( f ) );
+		PrintWriter writer = null;
+		try {
+			String results = "";
+			results += System.lineSeparator() + "Muc:" + System.lineSeparator();
+			results += eval("muc", outputPath + file.getName().replace(".arff", "") + "_GOLD.txt" ,outputPath + file.getName().replace(".arff", "") + "_SYSTEM.txt" );
+			results += System.lineSeparator() + "B3:" + System.lineSeparator();
+			results +=  eval("bcub", outputPath + file.getName().replace(".arff", "") + "_GOLD.txt" ,outputPath + file.getName().replace(".arff", "") + "_SYSTEM.txt" );
+			results += System.lineSeparator() + "ceafe:" + System.lineSeparator();
+			results += eval("ceafe", outputPath + file.getName().replace(".arff", "") + "_GOLD.txt" ,outputPath + file.getName().replace(".arff", "") + "_SYSTEM.txt" );
+			results += System.lineSeparator() + "blanc:" + System.lineSeparator();
+			results += eval("blanc", outputPath + file.getName().replace(".arff", "") + "_GOLD.txt" ,outputPath + file.getName().replace(".arff", "") + "_SYSTEM.txt" );
+			logger.info( results );
+			//on écrit les résultats dans un fichier
+			writer = new PrintWriter( outputPath + file.getName().replace(".arff", "") + "_RESULTS.txt", "UTF-8" );
+			writer.println( results );
+			writer.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+}
+
+
+
+public static String eval( String metric, String trueFile, String systemFile ){
+	Process p;
+	String result = "";
+	try {
+		p = Runtime.getRuntime(  ).exec( "scorer.bat " + metric + " " + trueFile + " " + systemFile );
+		BufferedReader br = new BufferedReader( new InputStreamReader( p.getInputStream(  ) ) );
+		String line = null;
+		while ( ( line = br.readLine(  ) ) != null ){
+			result += line;
+		}
+	} catch (IOException e1) {
+		// TODO Auto-generated catch block
+		e1.printStackTrace();
+	}
+
+	int indexOfCoreference = result.indexOf( "Coreference:" );
+	String output = "";
+	try{
+		output = result.substring( indexOfCoreference, result.length() ).replace("--", "");
+	}catch(StringIndexOutOfBoundsException e ){
+		logger.debug(metric + " error: " + result);
+	}
+
+	return output;
+}
+
+public static Instances loadInstance(String arffFile){
+	BufferedReader reader = null;
+	Instances instances = null;
+	try {
+		reader = new BufferedReader( new FileReader( arffFile ) );
+		instances = new Instances( reader );
+
+		instances.setClassIndex( instances.numAttributes() - 1 );
+	} catch (FileNotFoundException e2) {
+		// TODO Auto-generated catch block
+		e2.printStackTrace();
+	} catch (Throwable e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}finally{
+		if(reader != null){
+			try {
+				reader.close();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
+	return instances;
+}
 
 }
