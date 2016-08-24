@@ -21,7 +21,7 @@ public class Model {
 	 * ensemble
 	 */
 	private AbstractClassifier classifier;
-	
+
 	private String path;
 
 
@@ -132,10 +132,10 @@ public class Model {
 	public Instances classifyInstance( Instances unlabeled ){
 		// set class attribute
 		unlabeled.setClassIndex(unlabeled.numAttributes() - 1);
-		
+
 
 		// create copy
-		Instances labeled = new Instances(unlabeled);
+		Instances labeled = new Instances( unlabeled );
 		// label instances
 		for (int u = 0; u < unlabeled.numInstances(); u++) {
 			double clsLabel;
@@ -165,19 +165,20 @@ public class Model {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public Evaluation crossValidate( Instances instances, int nbFolds ){
 		Evaluation eval = null;
 		try {
-			 eval = new Evaluation( instances );
+			instances.setClassIndex( instances.numAttributes() - 1 );
+			eval = new Evaluation( instances );
 			eval.crossValidateModel(this.classifier, instances, nbFolds, new Random(1) );
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return eval;
-		
+
 	}
-	
+
 
 }

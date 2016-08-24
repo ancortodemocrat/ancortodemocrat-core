@@ -319,10 +319,10 @@ public class ConversionToArff implements Runnable{
 						continue;
 					}
 					this.positiveRelationSelected.put(relation, annotation);
-					Relation negativeRelation = generateNegativeRelation( corpus, annotation, relation );
-					if( negativeRelation != null){
-						this.negativeRelationSelected.put(negativeRelation, annotation );
-					}
+					generateNegativeRelation( corpus, annotation, relation );
+					//if( negativeRelation != null){
+						//this.negativeRelationSelected.put(negativeRelation, annotation );
+					//}
 					//for positive class
 					//String line = makeRelation( annotation, relation );
 					/**if( ! line.isEmpty() ){
@@ -343,16 +343,21 @@ public class ConversionToArff implements Runnable{
 	 * dans la liste de ceux trouvées dans les corpus
 	 */
 	public void selectInstance(){
-		if( this.positif > this.positiveRelationSelected.size() ){
-			logger.info("Trop d'instances positives attendues, restriction au maxium " + this.positiveRelationSelected.size() + ".");
+		if( this.positif > this.positiveRelationSelected.size() || this.negatif > this.negativeRelationSelected.size() ){
+			if( this.positif > this.positiveRelationSelected.size() ){
+				logger.info("Trop d'instances positives attendues par rapport au corpus, restriction au maxium " + this.positiveRelationSelected.size() + ".");
+			}
+			if( this.negatif > this.negativeRelationSelected.size() ){
+				logger.info("Trop d'instances négatives (" + this.negatif + ") attendues par rapport au corpus, restriction au maxium " + this.negativeRelationSelected.size() + ".");				
+			}
 			logger.info("Respect des pourcentages, positifs/négatifs.");
 			float sum = this.positif + this.negatif;
-			float percentPositive = this.positif / sum;
-			float percentNegative = this.negatif / sum;
+			float percentPositive = this.positif / sum * 100;
+			float percentNegative = this.negatif / sum * 100;
 
 			this.positif = (int) ( percentPositive * this.positiveRelationSelected.size() );
 			this.negatif = (int) ( percentNegative * this.negativeRelationSelected.size() );
-			logger.info(percentPositive + "% soit " + this.positif + " instances positives");
+			logger.info(percentPositive + "% soit " + ( this.positif ) + " instances positives");
 			logger.info(percentNegative + "% soit " + this.negatif + " instances négatives");
 		}
 
@@ -373,7 +378,7 @@ public class ConversionToArff implements Runnable{
 				random = AncorToDemocrat.randomNumber( 0, this.positiveRelationSelected.size() - 1);
 				if( nbGenerated.contains( random ) ){
 					while( nbGenerated.contains( random ) ){
-						random = AncorToDemocrat.randomNumber( 0, positiveRelationSelected.size() - 1);						
+						random = AncorToDemocrat.randomNumber( 0, positiveRelationSelected.size() - 1);
 					}
 				}
 				nbGenerated.add( random );
@@ -393,7 +398,7 @@ public class ConversionToArff implements Runnable{
 				random = AncorToDemocrat.randomNumber( 0, this.negativeRelationSelected.size() - 1);
 				if( nbGenerated.contains( random ) ){
 					while( nbGenerated.contains( random ) ){
-						random = AncorToDemocrat.randomNumber( 0, negativeRelationSelected.size() - 1);						
+						random = AncorToDemocrat.randomNumber( 0, negativeRelationSelected.size() - 1);
 					}
 				}
 				nbGenerated.add( random );
@@ -428,8 +433,10 @@ public class ConversionToArff implements Runnable{
 
 						Relation[] relationArray = (Relation[]) this.positiveRelationSelected.keySet().toArray();
 						for( int l = start; l < end; l++){
+							int idElement = relationArray[ l ].getElement( this.positiveRelationSelected.get( relationArray[ l ] ) ).getIdMention();
+							int idPreElement = relationArray[ l ].getPreElement( this.positiveRelationSelected.get( relationArray[ l ] ) ).getIdMention();
 							String line = this.makeRelation(this.positiveRelationSelected.get( relationArray[ l ] ), relationArray[ l ] );
-							writer.println( line + " COREF" );
+							writer.println( line + " COREF %" + idElement + " " + idPreElement);
 						}
 
 						//écriture instances négatives
@@ -437,8 +444,10 @@ public class ConversionToArff implements Runnable{
 						start = (f - 1) * this.negativeRelationSelected.size() / split;
 						end = start + this.negativeRelationSelected.size() / split;
 						for( int l = start; l < end; l++){
+							int idElement = relationArray[ l ].getElement( this.negativeRelationSelected.get( relationArray[ l ] ) ).getIdMention();
+							int idPreElement = relationArray[ l ].getPreElement( this.negativeRelationSelected.get( relationArray[ l ] ) ).getIdMention();
 							String line = this.makeRelation(this.negativeRelationSelected.get( relationArray[ l ] ), relationArray[ l ] );
-							writer.println( line + "NOT_COREF" );
+							writer.println( line + "NOT_COREF%" + idElement + " " + idPreElement);
 						}
 
 					} catch (FileNotFoundException e) {
@@ -508,13 +517,17 @@ public class ConversionToArff implements Runnable{
 
 				Relation[] relationArray = (Relation[]) this.positiveRelationSelected.keySet().toArray( new Relation[ this.positiveRelationSelected.size() ] );
 				for(int p = 0; p < this.positiveRelationSelected.size(); p++){
+					int idElement = relationArray[ p ].getElement( this.positiveRelationSelected.get( relationArray[ p ] ) ).getIdMention();
+					int idPreElement = relationArray[ p ].getPreElement( this.positiveRelationSelected.get( relationArray[ p ] ) ).getIdMention();
 					String line = this.makeRelation(this.positiveRelationSelected.get( relationArray[ p ] ), relationArray[ p ] );
-					writer.println( line + "COREF" );			
+					writer.println( line + " COREF %IDE-" + idElement + " IDPRE-" + idPreElement + " IDCHAIN-" + relationArray[ p ].getFeature("REF") );			
 				}
 				relationArray = (Relation[]) this.negativeRelationSelected.keySet().toArray( new Relation[ this.negativeRelationSelected.size() ] );
-				for(int n = 0; n < this.negativeRelationSelected.size(); n++){
-					String line = this.makeRelation(this.negativeRelationSelected.get( relationArray[ n ] ), relationArray[ n ] );
-					writer.println( line + "NOT_COREF" );
+				for(int l = 0; l < this.negativeRelationSelected.size(); l++){
+					int idElement = relationArray[ l ].getElement( this.negativeRelationSelected.get( relationArray[ l ] ) ).getIdMention();
+					int idPreElement = relationArray[ l ].getPreElement( this.negativeRelationSelected.get( relationArray[ l ] ) ).getIdMention();
+					String line = this.makeRelation(this.negativeRelationSelected.get( relationArray[ l ] ), relationArray[ l ] );
+					writer.println( line + "NOT_COREF %IDE-" + idElement + " IDPRE-" + idPreElement + " IDCHAIN-" + relationArray[ l ].getFeature("REF") );
 				}
 			} catch (FileNotFoundException e) {
 				// TODO Auto-generated catch block
@@ -538,7 +551,7 @@ public class ConversionToArff implements Runnable{
 	 * @param annotation Annotation qui contient la relation
 	 * @param relation relation à partir de laquelle sera generée entre 1 à 3 relation négative
 	 */
-	private Relation generateNegativeRelation(Corpus corpus, Annotation annotation, Relation relation) {
+	private void generateNegativeRelation(Corpus corpus, Annotation annotation, Relation relation) {
 		int negativeRelationToGenerate = AncorToDemocrat.randomNumber(1, 3);
 		List<Unit> unitList = annotation.getUnit();
 		for(int turn = 0; turn < negativeRelationToGenerate; turn++){
@@ -568,7 +581,8 @@ public class ConversionToArff implements Runnable{
 						this.negativeRelation.add( line );
 						countNegativeRelation++;
 					}**/
-						return newRelation;
+						//return newRelation;
+						this.negativeRelationSelected.put(newRelation, annotation );
 					}
 				}
 				//}
@@ -579,7 +593,7 @@ public class ConversionToArff implements Runnable{
 				attempt++;
 			}
 		}
-		return null;
+		//return null;
 	}
 
 

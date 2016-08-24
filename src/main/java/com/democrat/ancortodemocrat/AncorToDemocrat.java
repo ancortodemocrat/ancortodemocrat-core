@@ -21,6 +21,9 @@ import com.democrat.ancortodemocrat.treetagger.TreeTagger;
 import com.democrat.classification.Model;
 import com.democrat.classification.Toast;
 
+import weka.classifiers.Evaluation;
+import weka.core.Instances;
+
 
 public class AncorToDemocrat {
 
@@ -43,12 +46,31 @@ public class AncorToDemocrat {
 
 		fileManager = new FileManager();
 		
+/**
+		Model model = Model.loadModel("generated/models/toast.model");
+		String pathArff = "C:/Users/buggr/Documents/stage/callScorer/23_08_16_11H43.arff";
+		BufferedReader reader;
+		try {
+			reader = new BufferedReader( new FileReader( pathArff ) );
+			Instances instances = new Instances( reader );
+			Evaluation eval = model.crossValidate(instances, 10);
+			
+			//System.out.println(instances.classAttribute().value( 0 ) + " PRECISION " + eval.precision(0)+" RAPPEL "+eval.recall(0)+" F-MESURE "+eval.fMeasure(0));
+			//System.out.println(instances.classAttribute().value( 1 ) + " PRECISION " + eval.precision(1)+" RAPPEL "+eval.recall(1)+" F-MESURE "+eval.fMeasure(1));
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+**/
 
 		Model model = Model.loadModel("generated/models/toast.model");
-
-		
 		List<Corpus> list = new ArrayList<Corpus>();
 		list.add( new Corpus( "C:/Users/buggr/workspace/AncorToDemocrat/generated/feature/corpus_OTG" ) );
+		list.add( new Corpus( "C:/Users/buggr/workspace/AncorToDemocrat/generated/feature/corpus_UBS" ) );
 		String outpath = "C:/Users/buggr/Documents/stage/callScorer/";
 		Toast.scorerTask( list, model.getPath(), 100, 900, ParamToArff.NO_ASSOC, outpath, 0, 5);
 		

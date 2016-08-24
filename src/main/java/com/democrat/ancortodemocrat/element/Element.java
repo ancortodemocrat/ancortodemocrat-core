@@ -19,6 +19,7 @@ public class Element {
 
 	protected Characterisation characterisation  = new Characterisation();
 	private String id;
+	private int idMention;
 
 
 	public void setId(String id) {
@@ -34,6 +35,14 @@ public class Element {
 	@XmlAttribute(name="id")
 	public String getId() {
 		return this.id;
+	}
+
+	public int getIdMention() {
+		return idMention;
+	}
+
+	public void setIdMention(int idMention) {
+		this.idMention = idMention;
 	}
 
 	/**
