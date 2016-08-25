@@ -147,7 +147,12 @@ public class Toast {
 		logger.info("Création des liste de set..");
 
 		lastChainSingleton = createGoldSet( listPerGoldFile, negativeRelationSelected, negativeRelationSelected, split, fileArff, lastChainSingleton);
-		createSystemSet( model, listPerSystemFile, listPerGoldFile, negativeRelationSelected, negativeRelationSelected, split, fileArff, lastChainSingleton);
+		
+		// !!								!!
+		// !!	 ECRIRE LE FICHIER GOLD 	!!
+		// !!								!!
+		
+		createSystemSet( model, listPerGoldFile, negativeRelationSelected, negativeRelationSelected, split, fileArff, lastChainSingleton);
 
 
 		//creation des fichiers GOLD et SYST en CONLL
@@ -364,7 +369,6 @@ public class Toast {
 
 	public static int createSystemSet( Model model,
 			List<Chain>[] perFile,
-			List<Chain>[] perFileGold,
 			Map<Relation, Annotation> positiveRelationSelected,
 			Map<Relation, Annotation> negativeRelationSelected,
 			int split,
@@ -400,66 +404,47 @@ public class Toast {
 				}
 
 
+				List<Chain> system = perFile[ f ];
 				if( instances.get( i ).classValue() != instancesLabeled.get( i ).classValue() ){
+					Element element = relation.getElement( annotation );
+					Element preElement = relation.getPreElement( annotation );
 					if( instances.get( i ).classValue() == 0.0D ){
 						//cas où c'était COREF et le system dit NOT-COREF
 						//on met les deux mentions concerné à FAUX
-						Element element = relation.getElement( annotation );
-						Element preElement = relation.getPreElement( annotation );
-						List<Chain> gold = perFileGold[ f ];
-						for( Chain chain : gold ){
+						for( Chain chain : system ){
 							if( chain.containsMention( element.getIdMention() ) &&
 									chain.containsMention( preElement.getIdMention() )){
 								//on a bien trouvé la chaîne qui conteant les deux mentions
-								//dans le fichier gold
-								//on les copie dans le fichier system mais on met à jour la logique (cf doc)
-								
-								
+								//dans la liste
+								//on met à jour la logique (cf doc
+
+								chain.getMention( element.getIdMention() ).setCoref( false );
+								chain.getMention( preElement.getIdMention() ).setCoref( false );
+
 							}
 						}
 					}else{
 						//cas où c'était NOT-COREF et le système dit COREF
 						//les deux mentions de la relation sont maintenant
-						//contenu danns une chaîne
+						//contenu danns une seule chaîne
+						
+						//on supprime les chaînes qui contenaient les deux mentions
+						removeChainFromList( system, element.getRefGoldChain() );
+						removeChainFromList( system, preElement.getRefGoldChain() );
+
+						
+						//et on en crée une qui contient les deux mentions
+						Chain currentChain = new Chain( lastChainSingleton++ );
+						currentChain.addMention( new Mention( element.getIdMention() ) );
+						currentChain.addMention( new Mention( preElement.getIdMention() ) );
+						system.add( currentChain );
+						
+						
 					}					
 				}else{
 					//le système predit la même chose
-					//on va chercher dans les set GOLD ce qui a été mis
-					Element element = relation.getElement( annotation );
-					Element preElement = relation.getPreElement( annotation );
-
-					List<Chain> gold = perFileGold[ f ];
-					boolean doneElement = false;
-					boolean donePreElement = false;
-					for( Chain chain : gold ){
-						if( chain.containsMention( element.getIdMention() ) &&
-								chain.getRef() == element.getRefGoldChain() ){
-							//un élément est trouvé, on le place dans la même chaîne
-							if( ! containsChain( setListSystem, chain.getRef() ) ){
-								setListSystem.add( new Chain( chain.getRef() ) );
-							}
-							Chain currentChain = getChainFromList( setListSystem, chain.getRef() );
-							currentChain.addMention( chain.getMention( element.getIdMention() ) );
-							doneElement = true;
-						}
-						if(	chain.containsMention( preElement.getIdMention() )  &&
-								chain.getRef() == preElement.getRefGoldChain() ){
-							//un élément est trouvé, on le place dans la même chaîne
-							if( ! containsChain( setListSystem, chain.getRef() ) ){
-								setListSystem.add( new Chain( chain.getRef() ) );
-							}
-							Chain currentChain = getChainFromList( setListSystem, chain.getRef() );
-							currentChain.addMention( chain.getMention( preElement.getIdMention() ) );
-							donePreElement = true;
-						}
-					}
-					if( ! doneElement && ! donePreElement ){
-						logger.debug( "ERROR ");
-					}
-
 				}
 			}
-			perFile[ f ] = setListSystem;
 			float correct = 0.0F;
 			float toI = 0.0F;
 			float ownToI = 0.0F;
@@ -487,8 +472,17 @@ public class Toast {
 		return lastChainSingleton;
 	}
 	
-	public static void writeCoNNL(){
+	public static void writeCoNNL( List<Chain>[] chainListPerFile ){
 		
+	}
+	
+	public static void removeChainFromList( List<Chain> chainList, int ref ){
+		for( int c = 0; c < chainList.size(); c++ ){
+			if( chainList.get( c ).getRef() == ref ){
+				chainList.remove( c );
+				break;
+			}
+		}
 	}
 
 	public static boolean containsChain( List<Chain> chainList, int ref ){

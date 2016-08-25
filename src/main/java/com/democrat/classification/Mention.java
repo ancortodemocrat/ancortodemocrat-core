@@ -3,18 +3,19 @@ package com.democrat.classification;
 public class Mention {
 
 	
-	public int id;
-	public boolean bool;
+	private int id;
+	private boolean coref;
+	private boolean corefSet = false;
 	
 	
 	public Mention( int id ){
 		this.id = id;
-		this.bool = true;
+		this.coref = false;
 	}
 	
-	public Mention(int id, boolean bool ){
+	public Mention(int id, boolean coref ){
 		this.id = id;
-		this.bool = bool;
+		this.coref = coref;
 	}
 	
 	
@@ -24,11 +25,26 @@ public class Mention {
 	public void setId(int id) {
 		this.id = id;
 	}
-	public boolean isBool() {
-		return bool;
+
+	public boolean isCoref() {
+		return coref;
 	}
-	public void setBool(boolean bool) {
-		this.bool = bool;
+
+	/**
+	 * Si il a pas défini on rempli simplement
+	 * Sinon on fait ou logique
+	 * @param coref
+	 */
+	public void setCoref(boolean coref) {
+		if( ! corefSet ){
+			//coref non indiqué
+			this.coref = coref;
+			this.corefSet = true;
+		}else{
+			this.coref = this.coref | coref;
+		}
 	}
+
+	
 	
 }
