@@ -20,7 +20,22 @@ public class Element {
 	protected Characterisation characterisation  = new Characterisation();
 	private String id;
 	private int idMention;
+	/**
+	 * Indique dans quel id
+	 * de la chaîne il a été mis
+	 * dans le fichier gold
+	 */
+	private int refGoldChain;
 
+
+
+	public int getRefGoldChain() {
+		return refGoldChain;
+	}
+
+	public void setRefGoldChain(int refGoldChain) {
+		this.refGoldChain = refGoldChain;
+	}
 
 	public void setId(String id) {
 		this.id = id;

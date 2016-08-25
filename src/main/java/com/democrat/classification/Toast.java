@@ -100,7 +100,417 @@ public class Toast {
 		//sinon on l'ajoute, il serviera pour extraire
 		//les mentions des relations, et créer les chaînes
 		//pour le scorer
+		setRefIfNeed( corpusList );
+		//REF OK
 
+
+		logger.info("Création des fichiers arff..");
+		//première étape séléctionner les pos/neg
+		ConversionToArff conversion = new ConversionToArff( corpusList,
+				positif, negatif, param, outputPath, split );
+
+		//first step: séléction de toutes les relations du/des corpus avec
+		//génération des négatives, en triant selon la ParamToArff.
+		logger.info("Génération des instances négatives et positives.");
+		conversion.sortInstance();
+
+
+		logger.info("Séléction des instances négatives et positives.");
+		//second step: séléction de p positive, et n negative comme voulue
+		conversion.selectInstance();
+
+		//on écrit le fichier arff
+		logger.info("Ecriture du fichier arff.");
+		conversion.writeInstance();
+
+		//on récupère les instances voulues
+		//pour plus tard on sait que les instances positives sont
+		//écrite en premier temps, dans l'ordre de la liste
+		//et ensuite les négatives relations
+		Map<Relation, Annotation> positiveRelationSelected = conversion.getPositiveRelationSelected();
+		Map<Relation, Annotation> negativeRelationSelected = conversion.getNegativeRelationSelected();
+		//liste des fichiers arff générés
+		List<String> fileArff = conversion.getFileOuput();
+
+		if( split == 0 ){
+			split = 1;
+		}
+
+		List<Chain>[] listPerGoldFile = new List[ fileArff.size() ];
+		List<Chain>[] listPerSystemFile = new List[ fileArff.size() ];
+
+		//id des mentions qui sont seules, ceci concerne
+		//principalement les NOT-COREF
+		int lastChainSingleton = 9999;
+
+
+		logger.info("Création des liste de set..");
+
+		lastChainSingleton = createGoldSet( listPerGoldFile, negativeRelationSelected, negativeRelationSelected, split, fileArff, lastChainSingleton);
+		createSystemSet( model, listPerSystemFile, listPerGoldFile, negativeRelationSelected, negativeRelationSelected, split, fileArff, lastChainSingleton);
+
+
+		//creation des fichiers GOLD et SYST en CONLL
+		logger.info("Creation des fichiers CoNLL..");
+		int indexUnit = 0;
+		//GOLD && SYSTEM
+		for(int f = 0; f < fileArff.size(); f++){
+			File file = new File( fileArff.get( f ) );
+			PrintWriter writer = null;
+			PrintWriter writerSystem = null;
+			try {
+
+				//création des fichiers
+				writer = new PrintWriter(outputPath + file.getName().replace(".arff", "") + "_GOLD.txt", "UTF-8");
+				writerSystem = new PrintWriter(outputPath + file.getName().replace(".arff", "") + "_SYSTEM.txt", "UTF8");
+
+				writer.println("#begin document " + file.getName().replace(".arff", "") + ".txt");
+				writerSystem.println("#begin document " + file.getName().replace(".arff", "") + ".txt");
+
+				List<Chain> setGoldList = listPerGoldFile[ f ];
+				for(Chain chain : setGoldList ){
+					//on écrit pour chaque chaine les id des mentions puis l'id de la chaine
+					for(int i = 0; i < chain.size(); i++){
+						writer.println( chain.getMentionList().get( i ) + "\t" + "(" + chain.getRef() + ")");
+					}
+				}
+
+
+				List<Chain> setSystemList = listPerSystemFile[ f ];
+				for( Chain chain : setSystemList ){
+					//on écrit pour chaque chaine les id des mentions puis l'id de la chaine
+					for(int i = 0; i < chain.size(); i++){
+						writer.println( chain.getMentionList().get( i ) + "\t" + "(" + chain.getRef() + ")");
+					}
+				}
+
+/**
+				Map<Integer, Integer> check = new HashMap<Integer, Integer>();
+
+				for(int idRef : keySystem){
+					for(int i = 0; i < setListSystem.get( idRef ).size(); i++){
+						if( ! check.containsKey( setListSystem.get( idRef ).get( i )) ){
+							check.put( setListSystem.get( idRef ).get( i ), 1);
+						}else{
+							check.put(setListSystem.get( idRef ).get( i ), check.get( setListSystem.get( idRef ).get( i ) ) + 1);
+						}
+					}
+				}
+				Map<Integer, Integer> checkOther = new HashMap<Integer, Integer>();
+
+				for(int idRef : keyGold){
+					for(int i = 0; i < setListGold.get( idRef ).size(); i++){
+						if( ! checkOther.containsKey( setListGold.get( idRef ).get( i )) ){
+							checkOther.put( setListGold.get( idRef ).get( i ), 1);
+						}else{
+							checkOther.put( setListGold.get( idRef ).get( i ), checkOther.get( setListGold.get( idRef ).get( i ) ) + 1);
+						}
+					}
+				}
+
+				for(int idMention : check.keySet() ){
+					if(check.get( idMention ) != checkOther.get( idMention) ){
+						logger.debug( "DIFFFFFF " + idMention );
+					}
+				}
+
+**/
+				writer.println("#end document");
+				writerSystem.println("#end document");
+
+			} catch (FileNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (UnsupportedEncodingException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}finally{
+				if( writer != null ){
+					writer.close();
+				}
+				if(writerSystem != null){
+					writerSystem.close();
+				}
+			}
+
+		}
+
+		//call scorer
+		logger.info("Scorer:");
+		for(int f = 0; f < fileArff.size(); f++){
+			File file = new File( fileArff.get( f ) );
+			PrintWriter writer = null;
+			try {
+				String results = "";
+				results += System.lineSeparator() + "Muc:" + System.lineSeparator();
+				results += eval("muc", outputPath + file.getName().replace(".arff", "") + "_GOLD.txt" ,outputPath + file.getName().replace(".arff", "") + "_SYSTEM.txt" );
+				results += System.lineSeparator() + "B3:" + System.lineSeparator();
+				results +=  eval("bcub", outputPath + file.getName().replace(".arff", "") + "_GOLD.txt" ,outputPath + file.getName().replace(".arff", "") + "_SYSTEM.txt" );
+				results += System.lineSeparator() + "ceafe:" + System.lineSeparator();
+				results += eval("ceafe", outputPath + file.getName().replace(".arff", "") + "_GOLD.txt" ,outputPath + file.getName().replace(".arff", "") + "_SYSTEM.txt" );
+				results += System.lineSeparator() + "blanc:" + System.lineSeparator();
+				results += eval("blanc", outputPath + file.getName().replace(".arff", "") + "_GOLD.txt" ,outputPath + file.getName().replace(".arff", "") + "_SYSTEM.txt" );
+				logger.info( results );
+				//on écrit les résultats dans un fichier
+				writer = new PrintWriter( outputPath + file.getName().replace(".arff", "") + "_RESULTS.txt", "UTF-8" );
+				writer.println( results );
+				writer.close();
+				logger.info( ( f + 1 ) + " / " + fileArff.size() );
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+
+	}
+
+	/**
+	 * Rempli pour chaque fichier (perFile)
+	 * une liste de chaîne qui sont créees à partir des listes
+	 * des relations données
+	 * @param perFile Tableau des listes des chaînes qui sont à créer
+	 * @param positiveRelationSelected Liste des relations positives pour tous les fichiers
+	 * @param negativeRelationSelected Liste des relations négatives pour tous les fichiers
+	 * @param split En combien de partie les fichiers ont été découpé
+	 * @param fileArff Les des fichiers
+	 * @param lastChainSingleton ID des nouvelles chaînes pour les relations négatives
+	 * @return
+	 */
+	public static int createGoldSet( List<Chain>[] perFile,
+			Map<Relation, Annotation> positiveRelationSelected,
+			Map<Relation, Annotation> negativeRelationSelected,
+			int split,
+			List<String> fileArff,
+			int lastChainSingleton){
+
+
+		for(int f = 0; f < fileArff.size(); f++){
+			logger.info( ( f + 1 ) + " / " + fileArff.size( ) );
+			int start = f  * positiveRelationSelected.size() / split;
+			int end = start + positiveRelationSelected.size() / split;
+			Relation[] relationArray = (Relation[]) positiveRelationSelected.keySet().toArray( new Relation[ positiveRelationSelected.size() ] );
+
+			//liste des set à partir des instances choisies pour le fichier arff
+			/**
+			 * Integer: id de la chaine/set
+			 * List<IntegerWithBool>: liste des id des mentions de la chaîne/set, le bool permet
+			 * de connaitre si une mention été annotation coréférente à une autre ou non
+			 * ce qui permet ensuite de faire un test logique avec les réponses du système
+			 * pour reconstruire les chaînes
+			 */
+			List<Chain> setGoldList = new ArrayList<Chain>();
+
+			//on parcourt les relations en fonction du fichier arff courant
+			for(int p = start; p < end; p++){
+				Relation relation = relationArray[ p ];
+				Annotation annotation = positiveRelationSelected.get( relation );
+
+				int ref;
+				if( ! relation.getFeature( "REF" ).equalsIgnoreCase( "null" ) ){
+					ref = Integer.valueOf( relation.getFeature( "REF" ) );
+				}else{
+					ref = lastChainSingleton++;
+				}
+
+				int idMentionElement = relation.getElement( annotation ).getIdMention();
+				int idMentionPreElement = relation.getPreElement( annotation ).getIdMention();
+				if( ! containsChain( setGoldList, ref ) ){
+					setGoldList.add( new Chain( ref ) );
+				}
+				Chain currentChain = getChainFromList( setGoldList, ref );
+				currentChain.addMention( new Mention( idMentionElement ) );
+				currentChain.addMention( new Mention( idMentionPreElement ) );
+				//on place l'id pour ensuite pouvoir retrouver cet élément avec les résultats 
+				//du system
+				relation.getElement( annotation ).setRefGoldChain( ref );
+				relation.getPreElement( annotation ).setRefGoldChain( ref );
+			}
+
+			//de même pour les instances négatives
+			relationArray = (Relation[]) negativeRelationSelected.keySet().toArray( new Relation[ negativeRelationSelected.size() ] );
+			start = f * negativeRelationSelected.size() / split;
+			end = start + negativeRelationSelected.size() / split;
+			for( int l = start; l < end; l++){
+				Relation relation = relationArray[ l ];
+				Annotation annotation = negativeRelationSelected.get( relation );
+
+				int ref = lastChainSingleton++;
+
+				int idMentionElement = relation.getElement( annotation ).getIdMention();
+				int idMentionPreElement = relation.getPreElement( annotation ).getIdMention();
+				//on ajoute les mentions à deux chaines differentes
+				if( ! containsChain( setGoldList, ref ) ){
+					setGoldList.add( new Chain( ref ) );
+				}
+				Chain currentChain = getChainFromList( setGoldList, ref );
+				currentChain.addMention( new Mention( idMentionElement, false ) );
+				//on place l'id pour ensuite pouvoir retrouver cet élément avec les résultats 
+				//du system
+				relation.getElement( annotation ).setRefGoldChain( ref );
+				ref = lastChainSingleton++;
+				if( ! containsChain( setGoldList, ref ) ){
+					setGoldList.add( new Chain( ref ) );
+				}
+				currentChain = getChainFromList( setGoldList, ref );
+				currentChain.addMention( new Mention( idMentionPreElement, false ) );
+				//on place l'id pour ensuite pouvoir retrouver cet élément avec les résultats 
+				//du system
+				relation.getPreElement( annotation ).setRefGoldChain( ref );
+			}
+			perFile[ f ] = setGoldList;
+		}
+		return lastChainSingleton;
+	}
+
+	public static int createSystemSet( Model model,
+			List<Chain>[] perFile,
+			List<Chain>[] perFileGold,
+			Map<Relation, Annotation> positiveRelationSelected,
+			Map<Relation, Annotation> negativeRelationSelected,
+			int split,
+			List<String> fileArff,
+			int lastChainSingleton){
+
+
+
+
+		//test sur le modèle de chaque fichier sortie
+		//et on rempli le fichier systems
+		for(int f = 0; f < fileArff.size(); f++){
+			logger.info("Apprentissage depuis le model sur les instances de " + fileArff.get( f ) );
+			Instances instances = loadInstance( fileArff.get( f ) );
+			Instances instancesLabeled = model.classifyInstance( instances );
+			//même liste mais rempli des nouveaux set calculés par le system
+			List<Chain> setListSystem = new ArrayList<Chain>();
+			//liste des relations positives déjà traitées
+			for(int i = 0; i < instancesLabeled.size(); i++){
+
+				int start = f * ( positiveRelationSelected.size() + negativeRelationSelected.size() ) / split;
+				int relationId = start + i;
+				Relation relation;
+				Annotation annotation;
+				if(relationId >= positiveRelationSelected.size() ){
+					Relation[] relationArray = (Relation[]) negativeRelationSelected.keySet().toArray( new Relation[ negativeRelationSelected.size() ] );
+					relation = relationArray[ relationId - positiveRelationSelected.size() ];
+					annotation = negativeRelationSelected.get( relation );
+				}else{
+					Relation[] relationArray = (Relation[]) positiveRelationSelected.keySet().toArray( new Relation[ positiveRelationSelected.size() ] );
+					relation = relationArray[ relationId ];
+					annotation = positiveRelationSelected.get( relation );
+				}
+
+
+				if( instances.get( i ).classValue() != instancesLabeled.get( i ).classValue() ){
+					if( instances.get( i ).classValue() == 0.0D ){
+						//cas où c'était COREF et le system dit NOT-COREF
+						//on met les deux mentions concerné à FAUX
+						Element element = relation.getElement( annotation );
+						Element preElement = relation.getPreElement( annotation );
+						List<Chain> gold = perFileGold[ f ];
+						for( Chain chain : gold ){
+							if( chain.containsMention( element.getIdMention() ) &&
+									chain.containsMention( preElement.getIdMention() )){
+								//on a bien trouvé la chaîne qui conteant les deux mentions
+								//dans le fichier gold
+								//on les copie dans le fichier system mais on met à jour la logique (cf doc)
+								
+								
+							}
+						}
+					}else{
+						//cas où c'était NOT-COREF et le système dit COREF
+						//les deux mentions de la relation sont maintenant
+						//contenu danns une chaîne
+					}					
+				}else{
+					//le système predit la même chose
+					//on va chercher dans les set GOLD ce qui a été mis
+					Element element = relation.getElement( annotation );
+					Element preElement = relation.getPreElement( annotation );
+
+					List<Chain> gold = perFileGold[ f ];
+					boolean doneElement = false;
+					boolean donePreElement = false;
+					for( Chain chain : gold ){
+						if( chain.containsMention( element.getIdMention() ) &&
+								chain.getRef() == element.getRefGoldChain() ){
+							//un élément est trouvé, on le place dans la même chaîne
+							if( ! containsChain( setListSystem, chain.getRef() ) ){
+								setListSystem.add( new Chain( chain.getRef() ) );
+							}
+							Chain currentChain = getChainFromList( setListSystem, chain.getRef() );
+							currentChain.addMention( chain.getMention( element.getIdMention() ) );
+							doneElement = true;
+						}
+						if(	chain.containsMention( preElement.getIdMention() )  &&
+								chain.getRef() == preElement.getRefGoldChain() ){
+							//un élément est trouvé, on le place dans la même chaîne
+							if( ! containsChain( setListSystem, chain.getRef() ) ){
+								setListSystem.add( new Chain( chain.getRef() ) );
+							}
+							Chain currentChain = getChainFromList( setListSystem, chain.getRef() );
+							currentChain.addMention( chain.getMention( preElement.getIdMention() ) );
+							donePreElement = true;
+						}
+					}
+					if( ! doneElement && ! donePreElement ){
+						logger.debug( "ERROR ");
+					}
+
+				}
+			}
+			perFile[ f ] = setListSystem;
+			float correct = 0.0F;
+			float toI = 0.0F;
+			float ownToI = 0.0F;
+			for(int i = 0; i < instances.size(); i++){
+				if(instances.get( i ).classValue() == instancesLabeled.get( i ).classValue()
+						/** && instances.get( i ).classValue() == 0.0D **/ ){
+					correct++;
+				}
+				if( instancesLabeled.get( i ).classValue() == 0.0D){
+					toI++;
+				}
+				if( instances.get( i ).classValue() == 0.0D ){
+					ownToI++;
+				}
+			}
+			logger.info( "=======================> " + ownToI );
+			logger.debug( correct + "/" + instances.size() );
+			float rappel = correct / ownToI;
+			float precision = correct / toI;
+			logger.debug("PRECISION: " + precision);
+			logger.debug("RAPPEL: " + rappel );
+		}
+
+
+		return lastChainSingleton;
+	}
+	
+	public static void writeCoNNL(){
+		
+	}
+
+	public static boolean containsChain( List<Chain> chainList, int ref ){
+		for( Chain chain : chainList ){
+			if( chain.getRef() == ref ){
+				return true;
+			}
+		}	
+		return false;
+	}
+
+	public static Chain getChainFromList( List<Chain> chainList, int ref ){
+		for( Chain chain : chainList ){
+			if( chain.getRef() == ref ){
+				return chain;
+			}
+		}	
+		return null;
+	}
+
+
+	public static void setRefIfNeed( List<Corpus> corpusList ){
 		//on parcours chaque unit de chaque corpus pour voir si un unit contient ref ou non,
 		//si un unit ne contient pas de ref, ref à ajouter.
 		for(int c = 0; c < corpusList.size(); c++){
@@ -149,354 +559,6 @@ public class Toast {
 				}
 			}
 		}
-		//REF OK
-
-
-		logger.info("Création des fichiers arff..");
-		//première étape séléctionner les pos/neg
-		ConversionToArff conversion = new ConversionToArff( corpusList,
-				positif, negatif, param, outputPath, split );
-
-		//first step: séléction de toutes les relations du/des corpus avec
-		//génération des négatives, en triant selon la ParamToArff.
-		logger.info("Génération des instances négatives et positives.");
-		conversion.sortInstance();
-
-
-		logger.info("Séléction des instances négatives et positives.");
-		//second step: séléction de p positive, et n negative comme voulue
-		conversion.selectInstance();
-
-		//on écrit le fichier arff
-		logger.info("Ecriture du fichier arff.");
-		conversion.writeInstance();
-
-		//on récupère les instances voulues
-		//pour plus tard on sait que les instances positives sont
-		//écrite en premier temps, dans l'ordre de la liste
-		//et ensuite les négatives relations
-		Map<Relation, Annotation> positiveRelationSelected = conversion.getPositiveRelationSelected();
-		Map<Relation, Annotation> negativeRelationSelected = conversion.getNegativeRelationSelected();
-		//liste des fichiers arff générés
-		List<String> fileArff = conversion.getFileOuput();
-
-		if( split == 0 ){
-			split = 1;
-		}
-
-
-
-		Map<Integer, List<Integer>>[] mapPerFileGold = new Map[ fileArff.size() ];
-		Map<Integer, List<Integer>>[] mapPerFileSystem = new Map[ fileArff.size() ];
-		int lastChainSingleton = 9999;
-		//remplissage de la map
-		logger.info("Création des liste de set..");
-		for(int f = 0; f < fileArff.size(); f++){
-			logger.info( ( f + 1 ) + " / " + fileArff.size( ) );
-			int start = f  * positiveRelationSelected.size() / split;
-			int end = start + positiveRelationSelected.size() / split;
-			Relation[] relationArray = (Relation[]) positiveRelationSelected.keySet().toArray( new Relation[ positiveRelationSelected.size() ] );
-
-
-
-			//liste des set à partir des instances choisies pour le fichier arff
-			/**
-			 * Integer: id de la chaine/set
-			 * List<Integer>: liste des id des mentions de la chaîne/set
-			 */
-			Map<Integer, List<Integer>> setListGold = new HashMap<Integer, List<Integer>>();
-
-			//on parcourt les relations en fonction du fichier dans laquelle 
-			//le for est
-			for(int p = start; p < end; p++){
-				Relation relation = relationArray[ p ];
-				Annotation annotation = positiveRelationSelected.get( relation );
-
-				int ref;
-				if( ! relation.getFeature( "REF" ).equalsIgnoreCase( "null" ) ){
-					ref = Integer.valueOf( relation.getFeature( "REF" ) );
-				}else{
-					ref = lastChainSingleton++;
-				}
-
-				int idMentionElement = relation.getElement( annotation ).getIdMention();
-				int idMentionPreElement = relation.getPreElement( annotation ).getIdMention();
-				if( ! setListGold.containsKey( ref ) ){
-					setListGold.put( ref, new ArrayList<Integer>() );
-				}
-				//on s'assure que les id des mentions n'ont pas déjà été ajoutées
-				if( ! setListGold.get( ref ).contains( idMentionElement ) ){
-					setListGold.get( ref ).add( idMentionElement );
-				}
-				if( ! setListGold.get( ref ).contains( idMentionPreElement ) ){
-					setListGold.get( ref ).add( idMentionPreElement );
-				}
-			}
-
-			//de même pour les instances négatives
-			relationArray = (Relation[]) negativeRelationSelected.keySet().toArray( new Relation[ negativeRelationSelected.size() ] );
-			start = f * negativeRelationSelected.size() / split;
-			end = start + negativeRelationSelected.size() / split;
-			for( int l = start; l < end; l++){
-				Relation relation = relationArray[ l ];
-				Annotation annotation = negativeRelationSelected.get( relation );
-
-				int ref = lastChainSingleton++;
-
-				int idMentionElement = relation.getElement( annotation ).getIdMention();
-				int idMentionPreElement = relation.getPreElement( annotation ).getIdMention();
-				if( ! setListGold.containsKey( ref ) ){
-					setListGold.put( ref, new ArrayList<Integer>() );
-				}
-				//on s'assure que les id des mentions n'ont pas déjà été ajoutées
-				if( ! setListGold.get( ref ).contains( idMentionElement ) ){
-					setListGold.get( ref ).add( idMentionElement );
-				}
-				lastChainSingleton++;
-				if( ! setListGold.get( ref ).contains( idMentionPreElement ) ){
-					setListGold.get( ref ).add( idMentionPreElement );
-					lastChainSingleton++;
-				}
-			}
-			mapPerFileGold[ f ] = setListGold;
-		}
-
-
-
-		//lastChainSingleton = 9999;
-		//on fait ensuite le test sur le modèle de chaque fichier sortie
-		//et on remplie le fichier systems
-		for(int f = 0; f < fileArff.size(); f++){
-			logger.info("Apprentissage depuis le model sur les instances de " + fileArff.get( f ) );
-			Instances instances = loadInstance( fileArff.get( f ) );
-			Instances instancesLabeled = model.classifyInstance( instances );
-			//même liste mais rempli des nouveaux set calculés par le system
-			Map<Integer, List<Integer>> setListSystem = new HashMap<Integer, List<Integer>>();
-			//liste des relations positives déjà traitées
-			List<Relation> relationSetPositive = new ArrayList<Relation>();
-			for(int i = 0; i < instancesLabeled.size(); i++){
-
-				int start = f * ( positiveRelationSelected.size() + negativeRelationSelected.size() ) / split;
-				int relationId = start + i;
-				Relation relation;
-				Annotation annotation;
-				if(relationId >= positiveRelationSelected.size() ){
-					Relation[] relationArray = (Relation[]) negativeRelationSelected.keySet().toArray( new Relation[ negativeRelationSelected.size() ] );
-					relation = relationArray[ relationId - positiveRelationSelected.size() ];
-					annotation = negativeRelationSelected.get( relation );
-				}else{
-					Relation[] relationArray = (Relation[]) positiveRelationSelected.keySet().toArray( new Relation[ positiveRelationSelected.size() ] );
-					relation = relationArray[ relationId ];
-					annotation = positiveRelationSelected.get( relation );
-				}
-
-
-				//fileListInstance[ f ][ i ] = instancesLabeled.get( i ).classValue();
-				if( instances.get( i ).classValue() != instancesLabeled.get( i ).classValue() ){
-					//cas où c'était COREF et le system dit NOT-COREF
-					if( instances.get( i ).classValue() == 0.0D ){
-						int idMentionElement = relation.getElement( annotation ).getIdMention();
-						int idMentionPreElement = relation.getPreElement( annotation ).getIdMention();
-						//on vérifie si un des éléments de la relation a déjà été mis ou non
-						//si c'est le cas ça veut dire que l'element est présent sur au moins deux relations
-						//différentes et que les deux relations faisait partie de la même chaîne
-						//mais le système à décider que la relation actuelle n'est pas coréférente et donc
-						//n'appartient plus à cette chaîne
-						//donc l'autre élément va être mis sur une nouvelle chaîne mais on touche pas à 
-						//l'élément en commun
-						
-						List<Integer> idMentionList = new ArrayList<Integer>();
-						idMentionList.add( idMentionElement );
-						setListSystem.put( lastChainSingleton++ , idMentionList);
-
-						List<Integer> idPreMentionList = new ArrayList<Integer>();
-						idPreMentionList.add( idMentionPreElement );
-						setListSystem.put( lastChainSingleton++ , idPreMentionList);
-					}else{
-						//cas où c'était NOT-COREF et le système dit COREF
-						int idMentionElement = relation.getElement( annotation ).getIdMention();
-						int idMentionPreElement = relation.getPreElement( annotation ).getIdMention();
-
-						List<Integer> idMentionList = new ArrayList<Integer>();
-						idMentionList.add( idMentionElement );
-						idMentionList.add( idMentionPreElement );
-						setListSystem.put( lastChainSingleton++ , idMentionList);
-
-						relationSetPositive.add( relation );
-					}					
-				}else{
-					//le système predit la même chose
-					//on va chercher dans les set GOLD ce qui a été mis
-					int idMentionElement = relation.getElement( annotation ).getIdMention();
-					int idMentionPreElement = relation.getPreElement( annotation ).getIdMention();
-
-					Map<Integer, List<Integer>> gold = mapPerFileGold[ f ];
-					Set<Integer> goldKey = gold.keySet();
-					boolean done = false;
-					for(int refKey : goldKey){
-						if( gold.get( refKey ).contains( idMentionElement ) && gold.get( refKey ).contains( idMentionPreElement ) ){
-							//la relation est trouvée avec ses deux elements
-							//on la met aussi dans le setListSystem
-							if( ! setListSystem.containsKey( refKey ) ){
-								setListSystem.put( refKey, new ArrayList<Integer>() );
-							}
-							if( ! setListSystem.get( refKey ).contains( idMentionElement ) ) {
-								setListSystem.get( refKey ).add( idMentionElement );	
-							}
-							if( ! setListSystem.get( refKey ).contains( idMentionPreElement ) ){
-								setListSystem.get( refKey ).add( idMentionPreElement );								
-							}
-
-							relationSetPositive.add( relation );
-							done = true;
-						}
-					}
-					if( ! done ){
-						logger.debug( "ERROR ");
-					}
-
-				}
-			}
-			mapPerFileSystem[ f ] = setListSystem;
-			float correct = 0.0F;
-			float toI = 0.0F;
-			float ownToI = 0.0F;
-			for(int i = 0; i < instances.size(); i++){
-				if(instances.get( i ).classValue() == instancesLabeled.get( i ).classValue()
-						/** && instances.get( i ).classValue() == 0.0D **/ ){
-					correct++;
-				}
-				if( instancesLabeled.get( i ).classValue() == 0.0D){
-					toI++;
-				}
-				if( instances.get( i ).classValue() == 0.0D ){
-					ownToI++;
-				}
-			}
-			logger.info( "=======================> " + ownToI );
-			logger.debug( correct + "/" + instances.size() );
-			float rappel = correct / ownToI;
-			float precision = correct / toI;
-			logger.debug("PRECISION: " + precision);
-			logger.debug("RAPPEL: " + rappel );
-		}
-
-
-
-		//creation des fichiers GOLD et SYST en CONLL
-		logger.info("Creation des fichiers CoNLL..");
-		int indexUnit = 0;
-		//GOLD && SYSTEM
-		for(int f = 0; f < fileArff.size(); f++){
-			File file = new File( fileArff.get( f ) );
-			PrintWriter writer = null;
-			PrintWriter writerSystem = null;
-			try {
-
-				//création des fichiers
-				writer = new PrintWriter(outputPath + file.getName().replace(".arff", "") + "_GOLD.txt", "UTF-8");
-				writerSystem = new PrintWriter(outputPath + file.getName().replace(".arff", "") + "_SYSTEM.txt", "UTF8");
-
-				writer.println("#begin document " + file.getName().replace(".arff", "") + ".txt");
-				writerSystem.println("#begin document " + file.getName().replace(".arff", "") + ".txt");
-
-				Map<Integer, List<Integer>> setListGold = mapPerFileGold[ f ];
-				Set<Integer> keyGold = setListGold.keySet();
-				for(int idRef : keyGold){
-					//on écrit pour chaque chaine les id des mentions puis l'id de la chaine
-					for(int i = 0; i < setListGold.get( idRef ).size(); i++){
-						writer.println( setListGold.get( idRef ).get( i ) + "\t" + "(" + idRef + ")");
-					}
-				}
-
-
-				Map<Integer, List<Integer>> setListSystem = mapPerFileSystem[ f ];
-				Set<Integer> keySystem = setListSystem.keySet();
-				for(int idRef : keySystem){
-					//on écrit pour chaque chaine les id des mentions puis l'id de la chaine
-					for(int i = 0; i < setListSystem.get( idRef ).size(); i++){
-						writerSystem.println( setListSystem.get( idRef ).get( i ) + "\t" + "(" + idRef + ")");
-					}
-				}
-
-
-				Map<Integer, Integer> check = new HashMap<Integer, Integer>();
-
-				for(int idRef : keySystem){
-					for(int i = 0; i < setListSystem.get( idRef ).size(); i++){
-						if( ! check.containsKey( setListSystem.get( idRef ).get( i )) ){
-							check.put( setListSystem.get( idRef ).get( i ), 1);
-						}else{
-							check.put(setListSystem.get( idRef ).get( i ), check.get( setListSystem.get( idRef ).get( i ) ) + 1);
-						}
-					}
-				}
-				Map<Integer, Integer> checkOther = new HashMap<Integer, Integer>();
-
-				for(int idRef : keyGold){
-					for(int i = 0; i < setListGold.get( idRef ).size(); i++){
-						if( ! checkOther.containsKey( setListGold.get( idRef ).get( i )) ){
-							checkOther.put( setListGold.get( idRef ).get( i ), 1);
-						}else{
-							checkOther.put( setListGold.get( idRef ).get( i ), checkOther.get( setListGold.get( idRef ).get( i ) ) + 1);
-						}
-					}
-				}
-				
-				for(int idMention : check.keySet() ){
-					if(check.get( idMention ) != checkOther.get( idMention) ){
-						logger.debug( "DIFFFFFF " + idMention );
-					}
-				}
-
-
-				writer.println("#end document");
-				writerSystem.println("#end document");
-
-			} catch (FileNotFoundException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (UnsupportedEncodingException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}finally{
-				if( writer != null ){
-					writer.close();
-				}
-				if(writerSystem != null){
-					writerSystem.close();
-				}
-			}
-
-		}
-
-		//call scorer
-		logger.info("Scorer:");
-		for(int f = 0; f < fileArff.size(); f++){
-			File file = new File( fileArff.get( f ) );
-			PrintWriter writer = null;
-			try {
-				String results = "";
-				results += System.lineSeparator() + "Muc:" + System.lineSeparator();
-				results += eval("muc", outputPath + file.getName().replace(".arff", "") + "_GOLD.txt" ,outputPath + file.getName().replace(".arff", "") + "_SYSTEM.txt" );
-				results += System.lineSeparator() + "B3:" + System.lineSeparator();
-				results +=  eval("bcub", outputPath + file.getName().replace(".arff", "") + "_GOLD.txt" ,outputPath + file.getName().replace(".arff", "") + "_SYSTEM.txt" );
-				results += System.lineSeparator() + "ceafe:" + System.lineSeparator();
-				results += eval("ceafe", outputPath + file.getName().replace(".arff", "") + "_GOLD.txt" ,outputPath + file.getName().replace(".arff", "") + "_SYSTEM.txt" );
-				results += System.lineSeparator() + "blanc:" + System.lineSeparator();
-				results += eval("blanc", outputPath + file.getName().replace(".arff", "") + "_GOLD.txt" ,outputPath + file.getName().replace(".arff", "") + "_SYSTEM.txt" );
-				logger.info( results );
-				//on écrit les résultats dans un fichier
-				writer = new PrintWriter( outputPath + file.getName().replace(".arff", "") + "_RESULTS.txt", "UTF-8" );
-				writer.println( results );
-				writer.close();
-				logger.info( ( f + 1 ) + " / " + fileArff.size() );
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-
 	}
 
 

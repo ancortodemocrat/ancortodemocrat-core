@@ -70,7 +70,7 @@ public class AncorToDemocrat {
 		Model model = Model.loadModel("generated/models/toast.model");
 		List<Corpus> list = new ArrayList<Corpus>();
 		list.add( new Corpus( "C:/Users/buggr/workspace/AncorToDemocrat/generated/feature/corpus_OTG" ) );
-		list.add( new Corpus( "C:/Users/buggr/workspace/AncorToDemocrat/generated/feature/corpus_UBS" ) );
+		//list.add( new Corpus( "C:/Users/buggr/workspace/AncorToDemocrat/generated/feature/corpus_UBS" ) );
 		String outpath = "C:/Users/buggr/Documents/stage/callScorer/";
 		Toast.scorerTask( list, model.getPath(), 100, 900, ParamToArff.NO_ASSOC, outpath, 0, 5);
 		
