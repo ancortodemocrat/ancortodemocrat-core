@@ -137,7 +137,6 @@ public class Toast {
 		}
 
 		List<Chain>[] listPerGoldFile = new List[ fileArff.size() ];
-		List<Chain>[] listPerSystemFile = new List[ fileArff.size() ];
 
 		//id des mentions qui sont seules, ceci concerne
 		//principalement les NOT-COREF
@@ -146,99 +145,22 @@ public class Toast {
 
 		logger.info("Création des liste de set..");
 
-		lastChainSingleton = createGoldSet( listPerGoldFile, negativeRelationSelected, negativeRelationSelected, split, fileArff, lastChainSingleton);
+		lastChainSingleton = createGoldSet( listPerGoldFile, positiveRelationSelected, negativeRelationSelected, split, fileArff, lastChainSingleton);
 		
-		// !!								!!
-		// !!	 ECRIRE LE FICHIER GOLD 	!!
-		// !!								!!
+		//
+		// ECRIRE LE FICHIER CoNLL GOLD
+		//
+		logger.info("Ecriture du fichier CoNNL Gold.");
+		writeCoNNL( fileArff, listPerGoldFile, outputPath, "_GOLD.txt" );
 		
 		createSystemSet( model, listPerGoldFile, negativeRelationSelected, negativeRelationSelected, split, fileArff, lastChainSingleton);
 
-
-		//creation des fichiers GOLD et SYST en CONLL
-		logger.info("Creation des fichiers CoNLL..");
-		int indexUnit = 0;
-		//GOLD && SYSTEM
-		for(int f = 0; f < fileArff.size(); f++){
-			File file = new File( fileArff.get( f ) );
-			PrintWriter writer = null;
-			PrintWriter writerSystem = null;
-			try {
-
-				//création des fichiers
-				writer = new PrintWriter(outputPath + file.getName().replace(".arff", "") + "_GOLD.txt", "UTF-8");
-				writerSystem = new PrintWriter(outputPath + file.getName().replace(".arff", "") + "_SYSTEM.txt", "UTF8");
-
-				writer.println("#begin document " + file.getName().replace(".arff", "") + ".txt");
-				writerSystem.println("#begin document " + file.getName().replace(".arff", "") + ".txt");
-
-				List<Chain> setGoldList = listPerGoldFile[ f ];
-				for(Chain chain : setGoldList ){
-					//on écrit pour chaque chaine les id des mentions puis l'id de la chaine
-					for(int i = 0; i < chain.size(); i++){
-						writer.println( chain.getMentionList().get( i ) + "\t" + "(" + chain.getRef() + ")");
-					}
-				}
-
-
-				List<Chain> setSystemList = listPerSystemFile[ f ];
-				for( Chain chain : setSystemList ){
-					//on écrit pour chaque chaine les id des mentions puis l'id de la chaine
-					for(int i = 0; i < chain.size(); i++){
-						writer.println( chain.getMentionList().get( i ) + "\t" + "(" + chain.getRef() + ")");
-					}
-				}
-
-/**
-				Map<Integer, Integer> check = new HashMap<Integer, Integer>();
-
-				for(int idRef : keySystem){
-					for(int i = 0; i < setListSystem.get( idRef ).size(); i++){
-						if( ! check.containsKey( setListSystem.get( idRef ).get( i )) ){
-							check.put( setListSystem.get( idRef ).get( i ), 1);
-						}else{
-							check.put(setListSystem.get( idRef ).get( i ), check.get( setListSystem.get( idRef ).get( i ) ) + 1);
-						}
-					}
-				}
-				Map<Integer, Integer> checkOther = new HashMap<Integer, Integer>();
-
-				for(int idRef : keyGold){
-					for(int i = 0; i < setListGold.get( idRef ).size(); i++){
-						if( ! checkOther.containsKey( setListGold.get( idRef ).get( i )) ){
-							checkOther.put( setListGold.get( idRef ).get( i ), 1);
-						}else{
-							checkOther.put( setListGold.get( idRef ).get( i ), checkOther.get( setListGold.get( idRef ).get( i ) ) + 1);
-						}
-					}
-				}
-
-				for(int idMention : check.keySet() ){
-					if(check.get( idMention ) != checkOther.get( idMention) ){
-						logger.debug( "DIFFFFFF " + idMention );
-					}
-				}
-
-**/
-				writer.println("#end document");
-				writerSystem.println("#end document");
-
-			} catch (FileNotFoundException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (UnsupportedEncodingException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}finally{
-				if( writer != null ){
-					writer.close();
-				}
-				if(writerSystem != null){
-					writerSystem.close();
-				}
-			}
-
-		}
+		//
+		// ECRIRE LE FICHIER CoNLL system
+		//
+		logger.info("Ecriture du fichier CoNNL System.");
+		writeCoNNL( fileArff, listPerGoldFile, outputPath, "_SYSTEM.txt" );
+		
 
 		//call scorer
 		logger.info("Scorer:");
@@ -311,12 +233,11 @@ public class Toast {
 				Annotation annotation = positiveRelationSelected.get( relation );
 
 				int ref;
-				if( ! relation.getFeature( "REF" ).equalsIgnoreCase( "null" ) ){
-					ref = Integer.valueOf( relation.getFeature( "REF" ) );
+				if( ! relation.getFeature( "ref" ).equalsIgnoreCase( "null" ) ){
+					ref = Integer.valueOf( relation.getFeature( "ref" ) );
 				}else{
 					ref = lastChainSingleton++;
 				}
-
 				int idMentionElement = relation.getElement( annotation ).getIdMention();
 				int idMentionPreElement = relation.getPreElement( annotation ).getIdMention();
 				if( ! containsChain( setGoldList, ref ) ){
@@ -348,7 +269,7 @@ public class Toast {
 					setGoldList.add( new Chain( ref ) );
 				}
 				Chain currentChain = getChainFromList( setGoldList, ref );
-				currentChain.addMention( new Mention( idMentionElement, false ) );
+				currentChain.addMention( new Mention( idMentionElement ) );
 				//on place l'id pour ensuite pouvoir retrouver cet élément avec les résultats 
 				//du system
 				relation.getElement( annotation ).setRefGoldChain( ref );
@@ -357,7 +278,7 @@ public class Toast {
 					setGoldList.add( new Chain( ref ) );
 				}
 				currentChain = getChainFromList( setGoldList, ref );
-				currentChain.addMention( new Mention( idMentionPreElement, false ) );
+				currentChain.addMention( new Mention( idMentionPreElement ) );
 				//on place l'id pour ensuite pouvoir retrouver cet élément avec les résultats 
 				//du system
 				relation.getPreElement( annotation ).setRefGoldChain( ref );
@@ -384,9 +305,9 @@ public class Toast {
 			logger.info("Apprentissage depuis le model sur les instances de " + fileArff.get( f ) );
 			Instances instances = loadInstance( fileArff.get( f ) );
 			Instances instancesLabeled = model.classifyInstance( instances );
-			//même liste mais rempli des nouveaux set calculés par le system
-			List<Chain> setListSystem = new ArrayList<Chain>();
-			//liste des relations positives déjà traitées
+			
+			List<Chain> system = perFile[ f ];
+			
 			for(int i = 0; i < instancesLabeled.size(); i++){
 
 				int start = f * ( positiveRelationSelected.size() + negativeRelationSelected.size() ) / split;
@@ -404,13 +325,16 @@ public class Toast {
 				}
 
 
-				List<Chain> system = perFile[ f ];
+				Element element = relation.getElement( annotation );
+				Element preElement = relation.getPreElement( annotation );
 				if( instances.get( i ).classValue() != instancesLabeled.get( i ).classValue() ){
-					Element element = relation.getElement( annotation );
-					Element preElement = relation.getPreElement( annotation );
 					if( instances.get( i ).classValue() == 0.0D ){
 						//cas où c'était COREF et le system dit NOT-COREF
 						//on met les deux mentions concerné à FAUX
+						String attribute = instances.classAttribute().value( (int) instancesLabeled.get( i ).classValue());
+						logger.debug( i + "] IDR (" + relationId + ") COREF ==> NOT-COREF !! TODO !! " + element.getIdMention() + " -- " + preElement.getIdMention());
+						logger.debug("NOW -->		" + instancesLabeled.classAttribute().value( (int) instancesLabeled.get( i ).classValue()));
+						logger.debug("BEFORE -->	" + instances.classAttribute().value( (int) instances.get( i ).classValue()));
 						for( Chain chain : system ){
 							if( chain.containsMention( element.getIdMention() ) &&
 									chain.containsMention( preElement.getIdMention() )){
@@ -420,7 +344,8 @@ public class Toast {
 
 								chain.getMention( element.getIdMention() ).setCoref( false );
 								chain.getMention( preElement.getIdMention() ).setCoref( false );
-
+								
+								logger.debug( "COREF ==> NOT-COREF " + chain.getRef() );
 							}
 						}
 					}else{
@@ -439,41 +364,91 @@ public class Toast {
 						currentChain.addMention( new Mention( preElement.getIdMention() ) );
 						system.add( currentChain );
 						
-						
+
+						logger.debug( "NOT-COREF ==> COREF " + currentChain.getRef() );
 					}					
 				}else{
 					//le système predit la même chose
+					//on met juste à jour la logique de coref
+					for( Chain chain : system ){
+						if( chain.containsMention( element.getIdMention() ) &&
+								chain.containsMention( preElement.getIdMention() )){
+							//on a bien trouvé la chaîne qui conteant les deux mentions
+							//dans la liste
+							//on met à jour la logique (cf doc
+
+							chain.getMention( element.getIdMention() ).setCoref( true );
+							chain.getMention( preElement.getIdMention() ).setCoref( true );
+							break;
+						}
+					}
 				}
 			}
-			float correct = 0.0F;
-			float toI = 0.0F;
-			float ownToI = 0.0F;
-			for(int i = 0; i < instances.size(); i++){
-				if(instances.get( i ).classValue() == instancesLabeled.get( i ).classValue()
-						/** && instances.get( i ).classValue() == 0.0D **/ ){
-					correct++;
-				}
-				if( instancesLabeled.get( i ).classValue() == 0.0D){
-					toI++;
-				}
-				if( instances.get( i ).classValue() == 0.0D ){
-					ownToI++;
+			//on enlève ensuite les mentions des chaînes qui ont
+			// été défini NOT-COREF par le system cad isCoref == false pour une mention
+			// dans une chaîne
+			List<Chain> futurChainList = new ArrayList<Chain>();
+			for( Chain chain : system ){
+				List<Mention> mentionList = chain.getMentionList();
+				for( int m = 0; m < mentionList.size(); m++ ){
+					if( ! mentionList.get( m ).isCoref() ){
+						//on l'ajoute à une chaîne seule
+						Chain newChain = new Chain( lastChainSingleton ++ );
+						newChain.addMention( mentionList.get( m ) );
+						futurChainList.add( newChain );
+						//mention supprimée
+						mentionList.remove( m );
+						m--;						
+					}
 				}
 			}
-			logger.info( "=======================> " + ownToI );
-			logger.debug( correct + "/" + instances.size() );
-			float rappel = correct / ownToI;
-			float precision = correct / toI;
-			logger.debug("PRECISION: " + precision);
-			logger.debug("RAPPEL: " + rappel );
+			system.addAll( futurChainList ); 
 		}
 
 
 		return lastChainSingleton;
 	}
 	
-	public static void writeCoNNL( List<Chain>[] chainListPerFile ){
+	public static void writeCoNNL( List<String> fileArff, 
+			List<Chain>[] chainListPerFile,
+			String outputPath,
+			String fileName ){
+
 		
+		for(int f = 0; f < fileArff.size(); f++){
+			File file = new File( fileArff.get( f ) );
+			PrintWriter writer = null;
+			try {
+
+				//création des fichiers
+				writer = new PrintWriter(outputPath + file.getName().replace(".arff", "") + fileName, "UTF-8");
+				//writerSystem = new PrintWriter(outputPath + file.getName().replace(".arff", "") + "_SYSTEM.txt", "UTF8");
+
+				writer.println("#begin document " + file.getName().replace(".arff", "") + ".txt");
+
+				List<Chain> list = chainListPerFile[ f ];
+				for(Chain chain : list ){
+					//on écrit pour chaque chaine les id des mentions puis l'id de la chaine
+					for(int i = 0; i < chain.size(); i++){
+						writer.println( chain.getMentionList().get( i ).getId() + "\t" + "(" + chain.getRef() + ")");
+					}
+				}
+
+				writer.println("#end document");
+
+			} catch (FileNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (UnsupportedEncodingException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}finally{
+				if( writer != null ){
+					writer.close();
+				}
+			}
+
+		}
 	}
 	
 	public static void removeChainFromList( List<Chain> chainList, int ref ){

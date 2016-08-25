@@ -71,7 +71,14 @@ public class Chain {
 		return null;
 	}
 
-
+	public void removeMention( int idMention ){
+		for( int m = 0; m < this.mentionList.size(); m++ ){
+			if( this.mentionList.get( m ).getId() == idMention ){
+				this.mentionList.remove( m );
+				break;
+			}
+		}
+	}
 
 	/**
 	 * Retourne le nombre de mentions comprises dans la chaîne

@@ -27,6 +27,9 @@ public class Mention {
 	}
 
 	public boolean isCoref() {
+		if( ! corefSet ){
+			return true;
+		}
 		return coref;
 	}
 
