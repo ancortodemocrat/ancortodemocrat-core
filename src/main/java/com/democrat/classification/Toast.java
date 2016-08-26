@@ -153,7 +153,7 @@ public class Toast {
 		logger.info("Ecriture du fichier CoNNL Gold.");
 		writeCoNNL( fileArff, listPerGoldFile, outputPath, "_GOLD.txt" );
 		
-		createSystemSet( model, listPerGoldFile, negativeRelationSelected, negativeRelationSelected, split, fileArff, lastChainSingleton);
+		createSystemSet( model, listPerGoldFile, positiveRelationSelected, negativeRelationSelected, split, fileArff, lastChainSingleton);
 
 		//
 		// ECRIRE LE FICHIER CoNLL system
@@ -240,6 +240,7 @@ public class Toast {
 				}
 				int idMentionElement = relation.getElement( annotation ).getIdMention();
 				int idMentionPreElement = relation.getPreElement( annotation ).getIdMention();
+				logger.debug("REF: " + ref + " " + idMentionElement + " " + idMentionPreElement );
 				if( ! containsChain( setGoldList, ref ) ){
 					setGoldList.add( new Chain( ref ) );
 				}
@@ -331,10 +332,7 @@ public class Toast {
 					if( instances.get( i ).classValue() == 0.0D ){
 						//cas où c'était COREF et le system dit NOT-COREF
 						//on met les deux mentions concerné à FAUX
-						String attribute = instances.classAttribute().value( (int) instancesLabeled.get( i ).classValue());
-						logger.debug( i + "] IDR (" + relationId + ") COREF ==> NOT-COREF !! TODO !! " + element.getIdMention() + " -- " + preElement.getIdMention());
-						logger.debug("NOW -->		" + instancesLabeled.classAttribute().value( (int) instancesLabeled.get( i ).classValue()));
-						logger.debug("BEFORE -->	" + instances.classAttribute().value( (int) instances.get( i ).classValue()));
+						logger.debug( i + "] IDR (" + relation.getFeature( "ref" ) + ") COREF ==> NOT-COREF !! TODO !! " + element.getIdMention() + " -- " + preElement.getIdMention());
 						for( Chain chain : system ){
 							if( chain.containsMention( element.getIdMention() ) &&
 									chain.containsMention( preElement.getIdMention() )){
@@ -344,8 +342,6 @@ public class Toast {
 
 								chain.getMention( element.getIdMention() ).setCoref( false );
 								chain.getMention( preElement.getIdMention() ).setCoref( false );
-								
-								logger.debug( "COREF ==> NOT-COREF " + chain.getRef() );
 							}
 						}
 					}else{
@@ -354,8 +350,23 @@ public class Toast {
 						//contenu danns une seule chaîne
 						
 						//on supprime les chaînes qui contenaient les deux mentions
-						removeChainFromList( system, element.getRefGoldChain() );
-						removeChainFromList( system, preElement.getRefGoldChain() );
+						//les chaînes doivent contenir une seule mention
+						for( int c = 0; c < system.size(); c++ ){
+							if( system.get( c ).getRef() == element.getRefGoldChain() &&
+									system.get( c ).getMentionList().size() == 1 ){
+								system.remove( c );
+								break;
+							}
+						}
+						for( int c = 0; c < system.size(); c++ ){
+							if( system.get( c ).getRef() == preElement.getRefGoldChain() &&
+									system.get( c ).getMentionList().size() == 1 ){
+								system.remove( c );
+								break;
+							}
+						}
+						//removeChainFromList( system, element.getRefGoldChain() );
+						//removeChainFromList( system, preElement.getRefGoldChain() );
 
 						
 						//et on en crée une qui contient les deux mentions
@@ -363,9 +374,7 @@ public class Toast {
 						currentChain.addMention( new Mention( element.getIdMention() ) );
 						currentChain.addMention( new Mention( preElement.getIdMention() ) );
 						system.add( currentChain );
-						
-
-						logger.debug( "NOT-COREF ==> COREF " + currentChain.getRef() );
+					
 					}					
 				}else{
 					//le système predit la même chose

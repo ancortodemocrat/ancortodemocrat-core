@@ -436,7 +436,7 @@ public class ConversionToArff implements Runnable{
 							int idElement = relationArray[ l ].getElement( this.positiveRelationSelected.get( relationArray[ l ] ) ).getIdMention();
 							int idPreElement = relationArray[ l ].getPreElement( this.positiveRelationSelected.get( relationArray[ l ] ) ).getIdMention();
 							String line = this.makeRelation(this.positiveRelationSelected.get( relationArray[ l ] ), relationArray[ l ] );
-							writer.println( line + " COREF %" + idElement + " " + idPreElement);
+							writer.println( line + "COREF %" + idElement + " " + idPreElement);
 						}
 
 						//écriture instances négatives
@@ -476,7 +476,7 @@ public class ConversionToArff implements Runnable{
 					Relation[] relationArray = (Relation[]) this.positiveRelationSelected.keySet().toArray();
 					for(int p = 0; p < this.positiveRelationSelected.size(); p++){
 						String line = this.makeRelation(this.positiveRelationSelected.get( relationArray[ p ] ), relationArray[ p ] );
-						writer.println( line + " COREF" );			
+						writer.println( line + "COREF" );			
 					}
 					relationArray = (Relation[]) this.negativeRelationSelected.keySet().toArray();
 					for(int n = 0; n < this.negativeRelationSelected.size(); n++){
@@ -520,7 +520,7 @@ public class ConversionToArff implements Runnable{
 					int idElement = relationArray[ p ].getElement( this.positiveRelationSelected.get( relationArray[ p ] ) ).getIdMention();
 					int idPreElement = relationArray[ p ].getPreElement( this.positiveRelationSelected.get( relationArray[ p ] ) ).getIdMention();
 					String line = this.makeRelation(this.positiveRelationSelected.get( relationArray[ p ] ), relationArray[ p ] );
-					writer.println( line + " COREF %IDE-" + idElement + " IDPRE-" + idPreElement + " IDCHAIN-" + relationArray[ p ].getFeature("REF") );			
+					writer.println( line + "COREF %IDE-" + idElement + " IDPRE-" + idPreElement + " IDCHAIN-" + relationArray[ p ].getFeature("REF") );			
 				}
 				relationArray = (Relation[]) this.negativeRelationSelected.keySet().toArray( new Relation[ this.negativeRelationSelected.size() ] );
 				for(int l = 0; l < this.negativeRelationSelected.size(); l++){

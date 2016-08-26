@@ -13,13 +13,9 @@ public class Chain {
 		this.mentionList = new ArrayList<Mention>();
 	}
 	
-	
-	
 	public int getRef() {
 		return ref;
 	}
-
-
 
 	public List<Mention> getMentionList() {
 		return mentionList;

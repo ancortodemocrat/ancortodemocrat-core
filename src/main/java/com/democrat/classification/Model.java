@@ -131,7 +131,7 @@ public class Model {
 	 */
 	public Instances classifyInstance( Instances unlabeled ){
 		// set class attribute
-		unlabeled.setClassIndex(unlabeled.numAttributes() - 1);
+		unlabeled.setClassIndex( unlabeled.numAttributes() - 1 );
 
 
 		// create copy
@@ -140,7 +140,7 @@ public class Model {
 		for (int u = 0; u < unlabeled.numInstances(); u++) {
 			double clsLabel;
 			try {
-				clsLabel = classifier.classifyInstance( unlabeled.instance( u ) );
+				clsLabel = classifier.classifyInstance( labeled.instance( u ) );
 				labeled.instance( u ).setClassValue( clsLabel );
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
