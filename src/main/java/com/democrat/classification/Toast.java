@@ -42,6 +42,8 @@ public class Toast {
 	public static FileManager fileManager;
 	private static Logger logger = Logger.getLogger(Toast.class);
 
+
+
 	public static void main(String[] args) {
 
 
@@ -146,21 +148,77 @@ public class Toast {
 		logger.info("Création des liste de set..");
 
 		lastChainSingleton = createGoldSet( listPerGoldFile, positiveRelationSelected, negativeRelationSelected, split, fileArff, lastChainSingleton);
-		
+
+		// DEBUG
+		//création liste copie de gold
+		List<Chain>[] goldFileDEBUG = new List[ listPerGoldFile.length ];
+		for( int g = 0; g < listPerGoldFile.length; g++ ){
+			List<Chain> currentChainList = listPerGoldFile[ g ];
+			List<Chain> copyList = new ArrayList<Chain>();
+			for(Chain chain : currentChainList){
+				Chain newChain = new Chain( chain.getRef() );
+				for( Mention mention : chain.getMentionList() ){
+					newChain.addMention( new Mention( mention.getId() ) );
+				}
+				copyList.add( newChain );
+			}
+			goldFileDEBUG[ g ] = copyList;
+
+		}
+
+
 		//
 		// ECRIRE LE FICHIER CoNLL GOLD
 		//
 		logger.info("Ecriture du fichier CoNNL Gold.");
 		writeCoNNL( fileArff, listPerGoldFile, outputPath, "_GOLD.txt" );
-		
+
 		createSystemSet( model, listPerGoldFile, positiveRelationSelected, negativeRelationSelected, split, fileArff, lastChainSingleton);
+
 
 		//
 		// ECRIRE LE FICHIER CoNLL system
 		//
 		logger.info("Ecriture du fichier CoNNL System.");
 		writeCoNNL( fileArff, listPerGoldFile, outputPath, "_SYSTEM.txt" );
-		
+
+		/**
+		 * DEBUG COMPARAISON DES DEUX LISTES
+		 */
+		Map<Integer, Integer> countMentionGOLD = new HashMap<Integer, Integer>();
+		for( int g = 0; g < goldFileDEBUG.length; g++ ){
+			List<Chain> chainSystemList = goldFileDEBUG[ g ];
+			for( Chain chain : chainSystemList ){
+				for( Mention mention : chain.getMentionList() ){
+					if( ! countMentionGOLD.containsKey( mention.getId() ) ){
+						countMentionGOLD.put( mention.getId() , 1);
+					}else{
+						countMentionGOLD.put( mention.getId(), countMentionGOLD.get( mention.getId() ) + 1 );
+					}
+				}
+			}
+		}
+		Map<Integer, Integer> countMentionSYSTEM = new HashMap<Integer, Integer>();
+		for( int g = 0; g < listPerGoldFile.length; g++ ){
+			List<Chain> chainSystemList = listPerGoldFile[ g ];
+			for( Chain chain : chainSystemList ){
+				for( Mention mention : chain.getMentionList() ){
+					if( ! countMentionSYSTEM.containsKey( mention.getId() ) ){
+						countMentionSYSTEM.put( mention.getId() , 1);
+					}else{
+						countMentionSYSTEM.put( mention.getId(), countMentionSYSTEM.get( mention.getId() ) + 1 );
+					}
+				}
+			}
+		}
+
+		//DEBUG ON CHECK SI YA UNE DIFF
+		Set<Integer> keyGold = countMentionGOLD.keySet();
+		for( int idMention : keyGold ){
+			if( countMentionGOLD.get( idMention ) != countMentionSYSTEM.get( idMention ) ){
+				logger.debug("ERROR DIFF: idMENTION " + idMention + " - " + countMentionGOLD.get( idMention ) + " __ " + countMentionSYSTEM.get( idMention ) );
+			}
+		}
 
 		//call scorer
 		logger.info("Scorer:");
@@ -240,7 +298,6 @@ public class Toast {
 				}
 				int idMentionElement = relation.getElement( annotation ).getIdMention();
 				int idMentionPreElement = relation.getPreElement( annotation ).getIdMention();
-				logger.debug("REF: " + ref + " " + idMentionElement + " " + idMentionPreElement );
 				if( ! containsChain( setGoldList, ref ) ){
 					setGoldList.add( new Chain( ref ) );
 				}
@@ -274,6 +331,7 @@ public class Toast {
 				//on place l'id pour ensuite pouvoir retrouver cet élément avec les résultats 
 				//du system
 				relation.getElement( annotation ).setRefGoldChain( ref );
+
 				ref = lastChainSingleton++;
 				if( ! containsChain( setGoldList, ref ) ){
 					setGoldList.add( new Chain( ref ) );
@@ -306,9 +364,9 @@ public class Toast {
 			logger.info("Apprentissage depuis le model sur les instances de " + fileArff.get( f ) );
 			Instances instances = loadInstance( fileArff.get( f ) );
 			Instances instancesLabeled = model.classifyInstance( instances );
-			
+
 			List<Chain> system = perFile[ f ];
-			
+
 			for(int i = 0; i < instancesLabeled.size(); i++){
 
 				int start = f * ( positiveRelationSelected.size() + negativeRelationSelected.size() ) / split;
@@ -332,7 +390,7 @@ public class Toast {
 					if( instances.get( i ).classValue() == 0.0D ){
 						//cas où c'était COREF et le system dit NOT-COREF
 						//on met les deux mentions concerné à FAUX
-						logger.debug( i + "] IDR (" + relation.getFeature( "ref" ) + ") COREF ==> NOT-COREF !! TODO !! " + element.getIdMention() + " -- " + preElement.getIdMention());
+						logger.debug( i + "] COREF ==> NOT-COREF !! " + element.getIdMention() + " -- " + preElement.getIdMention() + "] IDR ("  + element.getRefGoldChain() + ")");
 						for( Chain chain : system ){
 							if( chain.containsMention( element.getIdMention() ) &&
 									chain.containsMention( preElement.getIdMention() )){
@@ -348,33 +406,37 @@ public class Toast {
 						//cas où c'était NOT-COREF et le système dit COREF
 						//les deux mentions de la relation sont maintenant
 						//contenu danns une seule chaîne
-						
+
+						logger.debug( i + "] IDR element (" + element.getRefGoldChain() + ") preElement (" + preElement.getRefGoldChain() + ") NOT-COREF ==> COREF !! " + element.getIdMention() + " -- " + preElement.getIdMention());
+
+
 						//on supprime les chaînes qui contenaient les deux mentions
 						//les chaînes doivent contenir une seule mention
 						for( int c = 0; c < system.size(); c++ ){
-							if( system.get( c ).getRef() == element.getRefGoldChain() &&
+							if( system.get( c ).containsMention( element.getIdMention() ) &&
 									system.get( c ).getMentionList().size() == 1 ){
+								logger.debug( "REMOVED REF " + system.get( c ).getRef() + " metionID " + element.getIdMention() + " REF SETT " + element.getRefGoldChain() );
 								system.remove( c );
+								
 								break;
 							}
 						}
 						for( int c = 0; c < system.size(); c++ ){
-							if( system.get( c ).getRef() == preElement.getRefGoldChain() &&
+							if( system.get( c ).containsMention( preElement.getIdMention() ) &&
 									system.get( c ).getMentionList().size() == 1 ){
+								logger.debug( "REMOVED REF " + system.get( c ).getRef() + " metionID " + preElement.getIdMention() + " REF SETT " + preElement.getRefGoldChain()  );
 								system.remove( c );
 								break;
 							}
 						}
-						//removeChainFromList( system, element.getRefGoldChain() );
-						//removeChainFromList( system, preElement.getRefGoldChain() );
 
-						
+
 						//et on en crée une qui contient les deux mentions
 						Chain currentChain = new Chain( lastChainSingleton++ );
 						currentChain.addMention( new Mention( element.getIdMention() ) );
 						currentChain.addMention( new Mention( preElement.getIdMention() ) );
 						system.add( currentChain );
-					
+
 					}					
 				}else{
 					//le système predit la même chose
@@ -417,13 +479,12 @@ public class Toast {
 
 		return lastChainSingleton;
 	}
-	
+
 	public static void writeCoNNL( List<String> fileArff, 
 			List<Chain>[] chainListPerFile,
 			String outputPath,
 			String fileName ){
 
-		
 		for(int f = 0; f < fileArff.size(); f++){
 			File file = new File( fileArff.get( f ) );
 			PrintWriter writer = null;
@@ -459,7 +520,7 @@ public class Toast {
 
 		}
 	}
-	
+
 	public static void removeChainFromList( List<Chain> chainList, int ref ){
 		for( int c = 0; c < chainList.size(); c++ ){
 			if( chainList.get( c ).getRef() == ref ){

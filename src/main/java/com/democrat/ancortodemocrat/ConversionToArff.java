@@ -352,11 +352,13 @@ public class ConversionToArff implements Runnable{
 			}
 			logger.info("Respect des pourcentages, positifs/négatifs.");
 			float sum = this.positif + this.negatif;
-			float percentPositive = this.positif / sum * 100;
-			float percentNegative = this.negatif / sum * 100;
+			float percentPositive = this.positif / sum;
+			float percentNegative = this.negatif / sum;
 
 			this.positif = (int) ( percentPositive * this.positiveRelationSelected.size() );
 			this.negatif = (int) ( percentNegative * this.negativeRelationSelected.size() );
+			percentPositive *= 100;
+			percentNegative *= 100;
 			logger.info(percentPositive + "% soit " + ( this.positif ) + " instances positives");
 			logger.info(percentNegative + "% soit " + this.negatif + " instances négatives");
 		}
