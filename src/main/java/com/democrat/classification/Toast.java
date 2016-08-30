@@ -36,6 +36,8 @@ import weka.classifiers.Classifier;
 import weka.classifiers.Evaluation;
 import weka.classifiers.functions.SMO;
 import weka.core.Instances;
+import weka.filters.Filter;
+import weka.filters.unsupervised.attribute.Remove;
 
 public class Toast {
 
@@ -70,7 +72,7 @@ public class Toast {
 			ParamToArff param,
 			String outputPath,
 			int split,
-			int nbFolds){
+			List<String> listRemoveAttribute){
 
 		//chargement du modèle pour tester
 		//si c'est un bon ou pas
@@ -173,7 +175,9 @@ public class Toast {
 		logger.info("Ecriture du fichier CoNNL Gold.");
 		writeCoNNL( fileArff, listPerGoldFile, outputPath, "_GOLD.txt" );
 
-		createSystemSet( model, listPerGoldFile, positiveRelationSelected, negativeRelationSelected, split, fileArff, lastChainSingleton);
+		//même liste de chaîne que pour GOLD mais elle sera modifée et contiendra donc les chaînes de sortie
+		//du system
+		createSystemSet( model, listPerGoldFile, positiveRelationSelected, negativeRelationSelected, split, fileArff, lastChainSingleton, listRemoveAttribute);
 
 
 		//
@@ -353,7 +357,8 @@ public class Toast {
 			Map<Relation, Annotation> negativeRelationSelected,
 			int split,
 			List<String> fileArff,
-			int lastChainSingleton){
+			int lastChainSingleton,
+			List<String> removeAttribute){
 
 
 
@@ -362,7 +367,61 @@ public class Toast {
 		//et on rempli le fichier systems
 		for(int f = 0; f < fileArff.size(); f++){
 			logger.info("Apprentissage depuis le model sur les instances de " + fileArff.get( f ) );
+
+
 			Instances instances = loadInstance( fileArff.get( f ) );
+			if( removeAttribute.size() > 0 ){
+
+
+				BufferedReader reader = null;
+				try {
+					reader = new BufferedReader( new FileReader( fileArff.get( f ) ) );
+				} catch (FileNotFoundException e2) {
+					// TODO Auto-generated catch block
+					e2.printStackTrace();
+				}
+				String line = "";
+
+				int[] indices = new int[ 30 - removeAttribute.size() ];
+				int i = 0;
+				int index = 0;
+				// on crée la liste des indices à utiliser en enlevant ceux de l'utilisateur
+				try {
+					while( ( line = reader.readLine() ) != null ){
+						String attributeName = line.split( " " )[ 1 ];
+						if( line.contains( "@ATTRIBUTE" ) && ! line.contains( "class" ) ){
+							if( ! removeAttribute.contains( attributeName ) ){
+								indices[ index++ ]  = i;
+							}
+							i++;
+						}
+					}
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}finally{
+					if( reader != null ){
+						try {
+							reader.close();
+						} catch (IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					}
+				}
+				Remove remove = new Remove();
+
+				remove.setAttributeIndicesArray( indices );
+				remove.setInvertSelection( false );
+				try {
+					remove.setInputFormat( instances );
+					instances = Filter.useFilter( instances, remove );
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+
 			Instances instancesLabeled = model.classifyInstance( instances );
 
 			List<Chain> system = perFile[ f ];
@@ -417,7 +476,7 @@ public class Toast {
 									system.get( c ).getMentionList().size() == 1 ){
 								logger.debug( "REMOVED REF " + system.get( c ).getRef() + " metionID " + element.getIdMention() + " REF SETT " + element.getRefGoldChain() );
 								system.remove( c );
-								
+
 								break;
 							}
 						}
