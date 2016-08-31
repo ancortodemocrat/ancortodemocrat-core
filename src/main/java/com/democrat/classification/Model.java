@@ -13,6 +13,7 @@ import weka.classifiers.AbstractClassifier;
 import weka.classifiers.Evaluation;
 import weka.core.Instances;
 import weka.core.SerializationHelper;
+import weka.filters.Filter;
 
 public class Model {
 
@@ -125,29 +126,24 @@ public class Model {
 
 	/**
 	 * le model retrouve la classe de chaque instance donnée
-	 * retourne le résultat de toutes les instances
-	 * @param unlabeled
-	 * @return
+	 * @param unlabeled: Liste des instances à classifier
 	 */
-	public Instances classifyInstance( Instances unlabeled ){
+	public void classifyInstance( Instances unlabeled ){
 		// set class attribute
 		unlabeled.setClassIndex( unlabeled.numAttributes() - 1 );
 
 
-		// create copy
-		Instances labeled = new Instances( unlabeled );
 		// label instances
 		for (int u = 0; u < unlabeled.numInstances(); u++) {
 			double clsLabel;
 			try {
-				clsLabel = classifier.classifyInstance( labeled.instance( u ) );
-				labeled.instance( u ).setClassValue( clsLabel );
+				clsLabel = classifier.classifyInstance( unlabeled.instance( u ) );
+				unlabeled.instance( u ).setClassValue( clsLabel );
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
-		return labeled;
 	}
 
 	/**

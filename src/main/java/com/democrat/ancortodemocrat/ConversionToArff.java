@@ -522,14 +522,14 @@ public class ConversionToArff implements Runnable{
 					int idElement = relationArray[ p ].getElement( this.positiveRelationSelected.get( relationArray[ p ] ) ).getIdMention();
 					int idPreElement = relationArray[ p ].getPreElement( this.positiveRelationSelected.get( relationArray[ p ] ) ).getIdMention();
 					String line = this.makeRelation(this.positiveRelationSelected.get( relationArray[ p ] ), relationArray[ p ] );
-					writer.println( line + "COREF %IDE-" + idElement + " IDPRE-" + idPreElement + " IDCHAIN-" + relationArray[ p ].getFeature("REF") );			
+					writer.println( line + "COREF" );			
 				}
 				relationArray = (Relation[]) this.negativeRelationSelected.keySet().toArray( new Relation[ this.negativeRelationSelected.size() ] );
 				for(int l = 0; l < this.negativeRelationSelected.size(); l++){
 					int idElement = relationArray[ l ].getElement( this.negativeRelationSelected.get( relationArray[ l ] ) ).getIdMention();
 					int idPreElement = relationArray[ l ].getPreElement( this.negativeRelationSelected.get( relationArray[ l ] ) ).getIdMention();
 					String line = this.makeRelation(this.negativeRelationSelected.get( relationArray[ l ] ), relationArray[ l ] );
-					writer.println( line + "NOT_COREF %IDE-" + idElement + " IDPRE-" + idPreElement + " IDCHAIN-" + relationArray[ l ].getFeature("REF") );
+					writer.println( line + "NOT_COREF" );
 				}
 			} catch (FileNotFoundException e) {
 				// TODO Auto-generated catch block

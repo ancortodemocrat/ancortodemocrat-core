@@ -46,42 +46,6 @@ public class AncorToDemocrat {
 
 		fileManager = new FileManager();
 
-		/**
-		Model model = Model.loadModel("generated/models/toast.model");
-		String pathArff = "C:/Users/buggr/Documents/stage/callScorer/23_08_16_11H43.arff";
-		BufferedReader reader;
-		try {
-			reader = new BufferedReader( new FileReader( pathArff ) );
-			Instances instances = new Instances( reader );
-			Evaluation eval = model.crossValidate(instances, 10);
-
-			//System.out.println(instances.classAttribute().value( 0 ) + " PRECISION " + eval.precision(0)+" RAPPEL "+eval.recall(0)+" F-MESURE "+eval.fMeasure(0));
-			//System.out.println(instances.classAttribute().value( 1 ) + " PRECISION " + eval.precision(1)+" RAPPEL "+eval.recall(1)+" F-MESURE "+eval.fMeasure(1));
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-		 **/
-
-		Model model = Model.loadModel("generated/models/toast.model");
-		List<Corpus> list = new ArrayList<Corpus>();
-		list.add( new Corpus( "C:/Users/buggr/workspace/AncorToDemocrat/generated/feature/corpus_OTG" ) );
-		list.add( new Corpus( "C:/Users/buggr/workspace/AncorToDemocrat/generated/feature/corpus_UBS" ) );
-		String outpath = "C:/Users/buggr/Documents/stage/callScorer/";
-
-		List<String> listRemoveAttributes = new ArrayList<String>();
-
-		Scorer.scorerTask( list, model.getPath(), 100, 400, ParamToArff.NO_ASSOC, outpath, 0, listRemoveAttributes);
-
-
-
-	}
-
-	public static void back(String[] args){
 
 		if( args.length > 1){
 			if( args[0].equalsIgnoreCase( "feature" )){
@@ -146,13 +110,16 @@ public class AncorToDemocrat {
 				 * Cas où c'est scorer on doit avoir en plus
 				 * - -m chemin du model
 				 * - -r liste des paramètres à supprimer
-				 * - -a type de traits à garder TODO
+				 * - -a type de traits à garder NO_ORAL || ONLY_RELATIONAL
+				 * - -r et -a peuvent être complémentaire
 				 * 
 				 **/
 
 				ParamToArff parameter = ParamToArff.ALL;
 				String inputPath = "";
 				String outputPath = "";
+				String modelPath = "";
+				List<String> removeAttribute = new ArrayList<String>();
 				int split = 0;
 				//quantité
 				int pos = 0;
@@ -174,7 +141,7 @@ public class AncorToDemocrat {
 					for( int a = 2; a < args.length; a++){
 						if(args[ a ].equalsIgnoreCase( "-i" ) ){
 							//input path
-							if( a + 1 <= args.length ){
+							if( a + 1 < args.length ){
 								inputPath = args[ a + 1 ];
 							}else{
 								//error missing arguement
@@ -182,7 +149,7 @@ public class AncorToDemocrat {
 							}
 						}else if(args[ a ].equalsIgnoreCase( "-q" ) ){
 							//quantity of negative, positive instances
-							if( a + 2 <= args.length ){
+							if( a + 2 < args.length ){
 
 								try{
 									pos = Integer.valueOf( args[ a + 1] );
@@ -196,14 +163,14 @@ public class AncorToDemocrat {
 							}
 						}else if(args[ a ].equalsIgnoreCase( "-o" ) ){
 							//ouput path
-							if( a + 1 <= args.length ){
+							if( a + 1 < args.length ){
 								outputPath = args[ a + 1 ];
 							}else{
 								//error missing arguement
 								logger.error("Aucun paramètre indiqué après -o.");
 							}
 						}else if( args[ a ].equalsIgnoreCase( "-s" ) ){
-							if( a + 1 <= args.length ){
+							if( a + 1 < args.length ){
 								try{
 									split = Integer.valueOf( args[ a + 1 ] );
 								}catch(NumberFormatException e){
@@ -216,10 +183,43 @@ public class AncorToDemocrat {
 						}
 						if( args[ 0 ].equalsIgnoreCase( "scorer" ) ){
 							if( args[ a ].equalsIgnoreCase( "-m" ) ){
-								
-							}
-							if( args[ a ].equalsIgnoreCase( "-r") ){
-								
+								if( a + 1 < args.length ){
+									modelPath = args[ a + 1 ];
+								}else{
+									//error missing arguement
+									logger.error("Aucun paramètre indiqué après -m.");								
+								}
+							}else if( args[ a ].equalsIgnoreCase( "-r") ){
+								int i = 1;
+								while( a + i < args.length && ! args[ a + i ].contains("-") ){
+									removeAttribute.add( args[ a + i ] );
+									i++;
+								}
+								if( i == 1 ){
+									logger.error( "Aucun paramètre indiqué après -r.");
+								}
+							}else if( args[ a ].equalsIgnoreCase( "-a" ) ){
+								if( a + 1 < args.length ){
+									if( args[ a + 1 ].equalsIgnoreCase( "NO_ORAL" ) ){
+										//on ne prend pas en compte les traits oraux
+										removeAttribute.add( "distance_turn" );
+										removeAttribute.add( "id_spk" );
+									}else if( args[ a + 1 ].equalsIgnoreCase( "ONLY_RELATIONAL" ) ){
+										//18 traits en tout que les relationnels
+										removeAttribute.add( "m1_type" );
+										removeAttribute.add( "m2_type" );
+										removeAttribute.add( "m1_def" );
+										removeAttribute.add( "m2_def" );
+										removeAttribute.add( "m1_genre" );
+										removeAttribute.add( "m2_genre" );
+										removeAttribute.add( "m1_nombre" );
+										removeAttribute.add( "m2_nombre" );
+										removeAttribute.add( "m1_new" );
+										removeAttribute.add( "m2_new" );
+										removeAttribute.add( "m1_en" );
+										removeAttribute.add( "m2_en" );
+									}
+								}
 							}
 						}
 					}
@@ -283,12 +283,19 @@ public class AncorToDemocrat {
 					}else{
 						//tester si le chemin de sortie est un dossier
 						File outputFile = new File( outputPath );
-						if( outputFile.isDirectory() ){
-							logger.error("Le fichier de sortie ne doit pas être un fichier: "+outputPath);
+						if( outputFile.isDirectory() && args[ 0 ].equalsIgnoreCase( "arff" ) ){
+							logger.error("Le fichier de sortie ne doit pas être un dossier: "+outputPath);
 							return;
+						}else if( ! outputFile.isDirectory() && args[ 0 ].equalsIgnoreCase( "scorer" ) ){
+							logger.error("Le fichier de sortie ne doit pas être un fichier: "+outputPath);
+							return;							
 						}
 					}
 
+					if( args[ 0 ].equalsIgnoreCase( "scorer" ) && 
+							( ! outputPath.endsWith("\\") || ! outputPath.endsWith( "/" ) ) ){
+						outputPath += "/";
+					}
 					if( split != 0 && pos != 0 ){
 						pos = 0;
 						neg = 0;
@@ -301,6 +308,7 @@ public class AncorToDemocrat {
 						th.start();
 					}else{
 						//SCORER
+						Scorer.scorerTask( corpusList, modelPath, pos, neg, parameter, outputPath, split, removeAttribute );
 					}
 				}
 			}else if( args[ 0 ].equalsIgnoreCase("chain") ){

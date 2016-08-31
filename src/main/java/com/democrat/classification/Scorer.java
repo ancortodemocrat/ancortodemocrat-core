@@ -138,13 +138,13 @@ public class Scorer {
 		int lastChainSingleton = 9999;
 
 
-		logger.info("Création des liste de set..");
+		logger.info("Création des listes de chaînes..");
 
 		lastChainSingleton = createGoldSet( listPerGoldFile, positiveRelationSelected, negativeRelationSelected, split, fileArff, lastChainSingleton);
 
 		// DEBUG
 		//création liste copie de gold
-		List<Chain>[] goldFileDEBUG = new List[ listPerGoldFile.length ];
+		/**List<Chain>[] goldFileDEBUG = new List[ listPerGoldFile.length ];
 		for( int g = 0; g < listPerGoldFile.length; g++ ){
 			List<Chain> currentChainList = listPerGoldFile[ g ];
 			List<Chain> copyList = new ArrayList<Chain>();
@@ -158,7 +158,7 @@ public class Scorer {
 			goldFileDEBUG[ g ] = copyList;
 
 		}
-
+		**/
 
 		//
 		// ECRIRE LE FICHIER CoNLL GOLD
@@ -180,6 +180,7 @@ public class Scorer {
 		/**
 		 * DEBUG COMPARAISON DES DEUX LISTES
 		 */
+		/**
 		Map<Integer, Integer> countMentionGOLD = new HashMap<Integer, Integer>();
 		for( int g = 0; g < goldFileDEBUG.length; g++ ){
 			List<Chain> chainSystemList = goldFileDEBUG[ g ];
@@ -206,14 +207,16 @@ public class Scorer {
 				}
 			}
 		}
-
+		**/
 		//DEBUG ON CHECK SI YA UNE DIFF
+		/**
 		Set<Integer> keyGold = countMentionGOLD.keySet();
 		for( int idMention : keyGold ){
 			if( countMentionGOLD.get( idMention ) != countMentionSYSTEM.get( idMention ) ){
-				logger.debug("ERROR DIFF: idMENTION " + idMention + " - " + countMentionGOLD.get( idMention ) + " __ " + countMentionSYSTEM.get( idMention ) );
+				//logger.debug("ERROR DIFF: idMENTION " + idMention + " - " + countMentionGOLD.get( idMention ) + " __ " + countMentionSYSTEM.get( idMention ) );
 			}
 		}
+		**/
 
 		//call scorer
 		logger.info("Scorer:");
@@ -221,7 +224,18 @@ public class Scorer {
 			File file = new File( fileArff.get( f ) );
 			PrintWriter writer = null;
 			try {
-				String results = "";
+				String results = "POS: " + positif;
+				results += System.lineSeparator() + "NEG: " + negatif;
+				results += System.lineSeparator() + "MODEL: " + model.getPath();
+				results += System.lineSeparator() + "PARAM: " + param;
+				results += System.lineSeparator() + "CORPUS:" + System.lineSeparator();
+				for( Corpus corpus : corpusList ){
+					results += "- " + corpus.getName() + System.lineSeparator();
+				}
+				results += "ATTRIBUTES REMOVE:" + System.lineSeparator();
+				for(String attr : listRemoveAttribute ){
+					results += "- " + attr + System.lineSeparator();
+				}
 				results += System.lineSeparator() + "Muc:" + System.lineSeparator();
 				results += eval("muc", outputPath + file.getName().replace(".arff", "") + "_GOLD.txt" ,outputPath + file.getName().replace(".arff", "") + "_SYSTEM.txt" );
 				results += System.lineSeparator() + "B3:" + System.lineSeparator();
@@ -353,7 +367,7 @@ public class Scorer {
 
 
 
-
+		Remove remove;
 		//test sur le modèle de chaque fichier sortie
 		//et on rempli le fichier systems
 		for(int f = 0; f < fileArff.size(); f++){
@@ -361,6 +375,7 @@ public class Scorer {
 
 
 			Instances instances = loadInstance( fileArff.get( f ) );
+			Instances instancesLabeled = loadInstance( fileArff.get( f ) ); //model.classifyInstance( instances );
 			if( removeAttribute.size() > 0 ){
 
 
@@ -379,9 +394,12 @@ public class Scorer {
 				// on crée la liste des indices à utiliser en enlevant ceux de l'utilisateur
 				try {
 					while( ( line = reader.readLine() ) != null ){
+						if(line.toLowerCase().contains( "@data" ) ){
+							break;
+						}
 						String attributeName = line.split( " " )[ 1 ];
 						if( line.contains( "@ATTRIBUTE" ) && ! line.contains( "class" ) ){
-							if( ! removeAttribute.contains( attributeName ) ){
+							if( removeAttribute.contains( attributeName ) ){
 								indices[ index++ ]  = i;
 							}
 							i++;
@@ -400,20 +418,24 @@ public class Scorer {
 						}
 					}
 				}
-				Remove remove = new Remove();
+				remove = new Remove();
 
 				remove.setAttributeIndicesArray( indices );
 				remove.setInvertSelection( false );
 				try {
 					remove.setInputFormat( instances );
 					instances = Filter.useFilter( instances, remove );
+					
+
+					remove.setInputFormat( instancesLabeled );
+					instances = Filter.useFilter( instancesLabeled, remove );
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}
-
-			Instances instancesLabeled = model.classifyInstance( instances );
+			model.classifyInstance( instancesLabeled );
+			
 
 			List<Chain> system = perFile[ f ];
 
@@ -440,7 +462,7 @@ public class Scorer {
 					if( instances.get( i ).classValue() == 0.0D ){
 						//cas où c'était COREF et le system dit NOT-COREF
 						//on met les deux mentions concerné à FAUX
-						logger.debug( i + "] COREF ==> NOT-COREF !! " + element.getIdMention() + " -- " + preElement.getIdMention() + "] IDR ("  + element.getRefGoldChain() + ")");
+						//logger.debug( i + "] COREF ==> NOT-COREF !! " + element.getIdMention() + " -- " + preElement.getIdMention() + "] IDR ("  + element.getRefGoldChain() + ")");
 						for( Chain chain : system ){
 							if( chain.containsMention( element.getIdMention() ) &&
 									chain.containsMention( preElement.getIdMention() )){
@@ -457,7 +479,7 @@ public class Scorer {
 						//les deux mentions de la relation sont maintenant
 						//contenu danns une seule chaîne
 
-						logger.debug( i + "] IDR element (" + element.getRefGoldChain() + ") preElement (" + preElement.getRefGoldChain() + ") NOT-COREF ==> COREF !! " + element.getIdMention() + " -- " + preElement.getIdMention());
+						//logger.debug( i + "] IDR element (" + element.getRefGoldChain() + ") preElement (" + preElement.getRefGoldChain() + ") NOT-COREF ==> COREF !! " + element.getIdMention() + " -- " + preElement.getIdMention());
 
 
 						//on supprime les chaînes qui contenaient les deux mentions
@@ -465,7 +487,7 @@ public class Scorer {
 						for( int c = 0; c < system.size(); c++ ){
 							if( system.get( c ).containsMention( element.getIdMention() ) &&
 									system.get( c ).getMentionList().size() == 1 ){
-								logger.debug( "REMOVED REF " + system.get( c ).getRef() + " metionID " + element.getIdMention() + " REF SETT " + element.getRefGoldChain() );
+								//logger.debug( "REMOVED REF " + system.get( c ).getRef() + " metionID " + element.getIdMention() + " REF SETT " + element.getRefGoldChain() );
 								system.remove( c );
 
 								break;
@@ -474,7 +496,7 @@ public class Scorer {
 						for( int c = 0; c < system.size(); c++ ){
 							if( system.get( c ).containsMention( preElement.getIdMention() ) &&
 									system.get( c ).getMentionList().size() == 1 ){
-								logger.debug( "REMOVED REF " + system.get( c ).getRef() + " metionID " + preElement.getIdMention() + " REF SETT " + preElement.getRefGoldChain()  );
+								//logger.debug( "REMOVED REF " + system.get( c ).getRef() + " metionID " + preElement.getIdMention() + " REF SETT " + preElement.getRefGoldChain()  );
 								system.remove( c );
 								break;
 							}
