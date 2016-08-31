@@ -308,7 +308,11 @@ public class AncorToDemocrat {
 						th.start();
 					}else{
 						//SCORER
-						Scorer.scorerTask( corpusList, modelPath, pos, neg, parameter, outputPath, split, removeAttribute );
+						String command = "";
+						for( int c = 0; c < args.length; c++){
+							command += args[ c ] + " ";
+						}
+						Scorer.scorerTask(command, corpusList, modelPath, pos, neg, parameter, outputPath, split, removeAttribute );
 					}
 				}
 			}else if( args[ 0 ].equalsIgnoreCase("chain") ){

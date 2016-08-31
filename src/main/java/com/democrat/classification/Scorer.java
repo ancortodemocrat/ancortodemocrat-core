@@ -56,6 +56,7 @@ public class Scorer {
 	 * @param split Si on doit splter le/les corpus indiqué(s), sinon 0 et aucun split est appliqué
 	 */
 	public static void scorerTask(
+			String command,
 			List<Corpus> corpusList,
 			String modelPath,
 			int positif,
@@ -224,7 +225,8 @@ public class Scorer {
 			File file = new File( fileArff.get( f ) );
 			PrintWriter writer = null;
 			try {
-				String results = "POS: " + positif;
+				String results = command + System.lineSeparator();
+				results += "POS: " + positif;
 				results += System.lineSeparator() + "NEG: " + negatif;
 				results += System.lineSeparator() + "MODEL: " + model.getPath();
 				results += System.lineSeparator() + "PARAM: " + param;
