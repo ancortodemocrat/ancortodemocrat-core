@@ -103,7 +103,6 @@ public class Scorer {
 		//première étape séléctionner les pos/neg
 		ConversionToArff conversion = new ConversionToArff( corpusList,
 				positif, negatif, param, outputPath, split );
-		conversion.setRemoveAttribute( listRemoveAttribute ); 
 
 		//first step: séléction de toutes les relations du/des corpus avec
 		//génération des négatives, en triant selon la ParamToArff.
