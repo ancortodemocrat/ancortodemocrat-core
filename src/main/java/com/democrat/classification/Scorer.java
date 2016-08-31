@@ -103,6 +103,7 @@ public class Scorer {
 		//première étape séléctionner les pos/neg
 		ConversionToArff conversion = new ConversionToArff( corpusList,
 				positif, negatif, param, outputPath, split );
+		conversion.setRemoveAttribute( listRemoveAttribute ); 
 
 		//first step: séléction de toutes les relations du/des corpus avec
 		//génération des négatives, en triant selon la ParamToArff.
@@ -232,7 +233,7 @@ public class Scorer {
 				for( Corpus corpus : corpusList ){
 					results += "- " + corpus.getName() + System.lineSeparator();
 				}
-				results += "ATTRIBUTES REMOVE:" + System.lineSeparator();
+				results += "ATTRIBUTES REMOVED:" + System.lineSeparator();
 				for(String attr : listRemoveAttribute ){
 					results += "- " + attr + System.lineSeparator();
 				}
@@ -356,6 +357,19 @@ public class Scorer {
 		return lastChainSingleton;
 	}
 
+	
+	/**
+	 * 
+	 * @param perFile Tableau des listes des chaînes qui sont à modifier en fonction des résultats de l'apprentissage avec le model
+	 * @param positiveRelationSelected Liste des relations positives pour tous les fichiers
+	 * @param negativeRelationSelected Liste des relations négatives pour tous les fichiers
+	 * @param split En combien de partie les fichiers ont été découpé
+	 * @param fileArff Les des fichiers
+	 * @param lastChainSingleton ID des nouvelles chaînes pour les relations négatives
+	 * @param model Model qui servira d'apprentissage pour classer les relations
+	 * @param removeAttribute Liste des attributes qui ne sont pas à prendre en compte pour l'apprentissage
+	 * @return
+	 */
 	public static int createSystemSet( Model model,
 			List<Chain>[] perFile,
 			Map<Relation, Annotation> positiveRelationSelected,

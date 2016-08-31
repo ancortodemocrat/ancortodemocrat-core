@@ -134,7 +134,6 @@ public class ConversionToArff implements Runnable{
 	}
 
 
-
 	public List<String> getFileOuput() {
 		return fileOuput;
 	}
