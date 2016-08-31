@@ -39,20 +39,11 @@ import weka.core.Instances;
 import weka.filters.Filter;
 import weka.filters.unsupervised.attribute.Remove;
 
-public class Toast {
+public class Scorer {
 
 	public static FileManager fileManager;
-	private static Logger logger = Logger.getLogger(Toast.class);
+	private static Logger logger = Logger.getLogger(Scorer.class);
 
-
-
-	public static void main(String[] args) {
-
-
-		DOMConfigurator.configure("cfg/log4j-config.xml");
-
-
-	}
 
 	/**
 	 * 

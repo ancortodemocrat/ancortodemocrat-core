@@ -19,7 +19,7 @@ import com.democrat.ancortodemocrat.element.Annotation;
 import com.democrat.ancortodemocrat.feature.CalculateFeature;
 import com.democrat.ancortodemocrat.treetagger.TreeTagger;
 import com.democrat.classification.Model;
-import com.democrat.classification.Toast;
+import com.democrat.classification.Scorer;
 
 import weka.classifiers.Evaluation;
 import weka.core.Instances;
@@ -45,8 +45,8 @@ public class AncorToDemocrat {
 		treeTagger = new TreeTagger();
 
 		fileManager = new FileManager();
-		
-/**
+
+		/**
 		Model model = Model.loadModel("generated/models/toast.model");
 		String pathArff = "C:/Users/buggr/Documents/stage/callScorer/23_08_16_11H43.arff";
 		BufferedReader reader;
@@ -54,7 +54,7 @@ public class AncorToDemocrat {
 			reader = new BufferedReader( new FileReader( pathArff ) );
 			Instances instances = new Instances( reader );
 			Evaluation eval = model.crossValidate(instances, 10);
-			
+
 			//System.out.println(instances.classAttribute().value( 0 ) + " PRECISION " + eval.precision(0)+" RAPPEL "+eval.recall(0)+" F-MESURE "+eval.fMeasure(0));
 			//System.out.println(instances.classAttribute().value( 1 ) + " PRECISION " + eval.precision(1)+" RAPPEL "+eval.recall(1)+" F-MESURE "+eval.fMeasure(1));
 		} catch (FileNotFoundException e) {
@@ -64,23 +64,23 @@ public class AncorToDemocrat {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-**/
+
+		 **/
 
 		Model model = Model.loadModel("generated/models/toast.model");
 		List<Corpus> list = new ArrayList<Corpus>();
 		list.add( new Corpus( "C:/Users/buggr/workspace/AncorToDemocrat/generated/feature/corpus_OTG" ) );
 		list.add( new Corpus( "C:/Users/buggr/workspace/AncorToDemocrat/generated/feature/corpus_UBS" ) );
 		String outpath = "C:/Users/buggr/Documents/stage/callScorer/";
-		
+
 		List<String> listRemoveAttributes = new ArrayList<String>();
-		
-		Toast.scorerTask( list, model.getPath(), 100, 400, ParamToArff.NO_ASSOC, outpath, 0, listRemoveAttributes);
-		
-		
+
+		Scorer.scorerTask( list, model.getPath(), 100, 400, ParamToArff.NO_ASSOC, outpath, 0, listRemoveAttributes);
+
+
 
 	}
-	
+
 	public static void back(String[] args){
 
 		if( args.length > 1){
@@ -129,7 +129,8 @@ public class AncorToDemocrat {
 					}
 					return;
 				}
-			}else if( args[ 0 ].equalsIgnoreCase( "arff" ) ){
+			}else if( args[ 0 ].equalsIgnoreCase( "arff" ) ||
+					args[ 0 ].equalsIgnoreCase( "scorer" ) ){
 				//arff command
 				/**     
 				 * - paramètre de sortie
@@ -139,6 +140,14 @@ public class AncorToDemocrat {
 				 * 			(si non spécifié, prend tous les corpus dans generated/feature/) (le(s) corpus doit avoir ses features calculés (précédente commande))
 				 * - -q quantité de nombre d'instances positives, et d'instances négatives
 				 * - -o nom du fichier .arff qui sera exporté (si non spécifié, generated/arff/dateDuJour_Heure.arff)
+				 * - -s en combien de partie le/les corpus doivent être splité(s)
+				 * 
+				 * 
+				 * Cas où c'est scorer on doit avoir en plus
+				 * - -m chemin du model
+				 * - -r liste des paramètres à supprimer
+				 * - -a type de traits à garder TODO
+				 * 
 				 **/
 
 				ParamToArff parameter = ParamToArff.ALL;
@@ -203,6 +212,14 @@ public class AncorToDemocrat {
 							}else{
 								//error missing arguement
 								logger.error("Aucun paramètre indiqué après -s.");								
+							}
+						}
+						if( args[ 0 ].equalsIgnoreCase( "scorer" ) ){
+							if( args[ a ].equalsIgnoreCase( "-m" ) ){
+								
+							}
+							if( args[ a ].equalsIgnoreCase( "-r") ){
+								
 							}
 						}
 					}
@@ -278,9 +295,13 @@ public class AncorToDemocrat {
 						logger.info("Seul l'option split est prise en compte face à -q.");
 					}
 
-					ConversionToArff conversionToArff = new ConversionToArff(corpusList, pos, neg, parameter, outputPath, split);
-					Thread th = new Thread( conversionToArff );
-					th.start();
+					if( args[ 0 ].equalsIgnoreCase( "arff" ) ){
+						ConversionToArff conversionToArff = new ConversionToArff(corpusList, pos, neg, parameter, outputPath, split);
+						Thread th = new Thread( conversionToArff );
+						th.start();
+					}else{
+						//SCORER
+					}
 				}
 			}else if( args[ 0 ].equalsIgnoreCase("chain") ){
 				//loading corpus via command line

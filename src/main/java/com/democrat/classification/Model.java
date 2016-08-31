@@ -157,7 +157,7 @@ public class Model {
 	 * @param fileName
 	 */
 	public void export(String fileName){		
-		Toast.fileManager.mkdir( "generated/models" );
+		Scorer.fileManager.mkdir( "generated/models" );
 		try {
 			SerializationHelper.write("generated/models/" + fileName + ".model", this.classifier);
 		} catch (Exception e) {
