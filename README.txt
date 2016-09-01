@@ -3,3 +3,6 @@ http://www.cis.uni-muenchen.de/~schmid/tools/TreeTagger/Tagger-Licence
 
 Mais aussi celle de tt4j:
 https://github.com/reckart/tt4j
+
+Utilisation de
+https://github.com/conll/reference-coreference-scorers
