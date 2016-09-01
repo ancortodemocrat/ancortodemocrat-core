@@ -518,9 +518,6 @@ public class CalculateFeature implements Runnable {
 		}
 		this.work();
 		this.corpus.export( outputPath );
-		//ConversionToArff conversionToArff = new ConversionToArff( this.corpus );
-		//Thread th = new Thread( conversionToArff );
-		//th.start();
 	}
 
 }

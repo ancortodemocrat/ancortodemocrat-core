@@ -88,10 +88,12 @@ public class AncorToDemocrat {
 						generateFeature( corpus, false, outputPath);	
 					}else{
 						logger.error("Erreur pour Feature, e.g:");
-						logger.error("Pour un corpus en chaîne: calculateFeature c C:/Users/buggr/Documents/stage/ancor/corpus_OTG generated/corpus/corpus_OTG_traits_caclules");
-						logger.error("Pour un corpus en première mention: calculateFeature p C:/Users/buggr/Documents/stage/ancor/corpus_OTG generated/corpus/corpus_OTG_traits_caclules");
+						logger.error("Pour un corpus en chaîne: feature c C:/Users/buggr/Documents/stage/ancor/corpus_OTG generated/corpus/corpus_OTG_traits_caclules");
+						logger.error("Pour un corpus en première mention: feature p C:/Users/buggr/Documents/stage/ancor/corpus_OTG generated/corpus/corpus_OTG_traits_caclules");
 					}
 					return;
+				}else{
+					logger.info("Argument manquant pour la commande feature.");
 				}
 			}else if( args[ 0 ].equalsIgnoreCase( "arff" ) ||
 					args[ 0 ].equalsIgnoreCase( "scorer" ) ){
@@ -125,7 +127,6 @@ public class AncorToDemocrat {
 				//quantité
 				int pos = 0;
 				int neg = 0;
-
 				if( args.length > 1 ){
 					if( args[ 1 ].equalsIgnoreCase( "all" ) ) {
 
@@ -334,6 +335,8 @@ public class AncorToDemocrat {
 						}
 						Scorer.scorerTask(command, corpusList, modelPath, pos, neg, parameter, outputPath, split, removeAttribute );
 					}
+				}else{
+					logger.info("Arguement manquant pour " + args[ 0 ] );
 				}
 			}else if( args[ 0 ].equalsIgnoreCase("chain") ){
 				//loading corpus via command line
