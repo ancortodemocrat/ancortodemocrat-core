@@ -272,7 +272,6 @@ public class Scorer {
 
 
 		for(int f = 0; f < fileArff.size(); f++){
-			logger.info( ( f + 1 ) + " / " + fileArff.size( ) );
 			int start = f  * positiveRelationSelected.size() / split;
 			int end = start + positiveRelationSelected.size() / split;
 			Relation[] relationArray = (Relation[]) positiveRelationSelected.keySet().toArray( new Relation[ positiveRelationSelected.size() ] );
@@ -345,6 +344,7 @@ public class Scorer {
 				relation.getPreElement( annotation ).setRefGoldChain( ref );
 			}
 			perFile[ f ] = setGoldList;
+			logger.info( ( f + 1 ) + " / " + fileArff.size( ) );
 		}
 		return lastChainSingleton;
 	}

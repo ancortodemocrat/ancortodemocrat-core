@@ -18,11 +18,7 @@ import org.apache.log4j.xml.DOMConfigurator;
 import com.democrat.ancortodemocrat.element.Annotation;
 import com.democrat.ancortodemocrat.feature.CalculateFeature;
 import com.democrat.ancortodemocrat.treetagger.TreeTagger;
-import com.democrat.classification.Model;
 import com.democrat.classification.Scorer;
-
-import weka.classifiers.Evaluation;
-import weka.core.Instances;
 
 
 public class AncorToDemocrat {
@@ -300,7 +296,7 @@ public class AncorToDemocrat {
 						fileName = fileName.replace(" ", "-");
 						fileName = fileName.replace("/", "_");
 						fileName = fileName.replace(":", "H");
-						outputPath = "generated/arff/" + fileName;
+						outputPath = "generated/arff/"; // + fileName;
 					}else{
 						//tester si le chemin de sortie est un dossier
 						File outputFile = new File( outputPath );
@@ -311,12 +307,13 @@ public class AncorToDemocrat {
 							logger.error("Le fichier de sortie ne doit pas être un fichier: "+outputPath);
 							return;							
 						}
+						if( args[ 0 ].equalsIgnoreCase( "scorer" ) && 
+								( ! outputPath.endsWith("\\") || ! outputPath.endsWith( "/" ) ) ){
+							outputPath += "/";
+						}
 					}
 
-					if( args[ 0 ].equalsIgnoreCase( "scorer" ) && 
-							( ! outputPath.endsWith("\\") || ! outputPath.endsWith( "/" ) ) ){
-						outputPath += "/";
-					}
+					
 					if( split != 0 && pos != 0 ){
 						pos = 0;
 						neg = 0;

@@ -9,6 +9,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 
 import org.apache.log4j.Logger;
@@ -321,7 +322,7 @@ public class ConversionToArff implements Runnable{
 						generateNegativeRelation( corpus, annotation, relation );
 					}
 					//if( negativeRelation != null){
-						//this.negativeRelationSelected.put(negativeRelation, annotation );
+					//this.negativeRelationSelected.put(negativeRelation, annotation );
 					//}
 					//for positive class
 					//String line = makeRelation( annotation, relation );
@@ -416,6 +417,15 @@ public class ConversionToArff implements Runnable{
 	public void writeInstance(){
 		PrintWriter writer = null;
 
+		String fileName;
+		DateFormat shortDateFormat = DateFormat.getDateTimeInstance(
+				DateFormat.SHORT,
+				DateFormat.SHORT);
+		fileName = shortDateFormat.format( new Date() );
+		logger.info( fileName );
+		fileName = fileName.replace(" ", "_");
+		fileName = fileName.replace("/", "_");
+		fileName = fileName.replace(":", "H");
 
 		if(this.positif == 0){
 			//tout prendre
@@ -424,8 +434,8 @@ public class ConversionToArff implements Runnable{
 
 				for(int f = 1; f < split + 1; f++){
 					try {
-						writer = new PrintWriter(this.outputPath + "_" + f + ".arff", "UTF-8");
-						this.fileOuput.add( this.outputPath + "_" + f + ".arff" );
+						writer = new PrintWriter(this.outputPath + fileName + "_" + f + ".arff", "UTF-8");
+						this.fileOuput.add( this.outputPath + fileName + "_" + f + ".arff" );
 						writer.println( ARFF_ATTRIBUTE );
 						writer.println("");
 
@@ -433,7 +443,8 @@ public class ConversionToArff implements Runnable{
 						int start = (f - 1) * this.positiveRelationSelected.size() / split;
 						int end = start + this.positiveRelationSelected.size() / split;
 
-						Relation[] relationArray = (Relation[]) this.positiveRelationSelected.keySet().toArray();
+						Relation[] relationArray =  (Relation[]) positiveRelationSelected.keySet().toArray( new Relation[ positiveRelationSelected.size() ] );
+						
 						for( int l = start; l < end; l++){
 							int idElement = relationArray[ l ].getElement( this.positiveRelationSelected.get( relationArray[ l ] ) ).getIdMention();
 							int idPreElement = relationArray[ l ].getPreElement( this.positiveRelationSelected.get( relationArray[ l ] ) ).getIdMention();
@@ -442,7 +453,7 @@ public class ConversionToArff implements Runnable{
 						}
 
 						//écriture instances négatives
-						relationArray = (Relation[]) this.negativeRelationSelected.keySet().toArray();
+						relationArray = (Relation[]) negativeRelationSelected.keySet().toArray( new Relation[ negativeRelationSelected.size() ] );
 						start = (f - 1) * this.negativeRelationSelected.size() / split;
 						end = start + this.negativeRelationSelected.size() / split;
 						for( int l = start; l < end; l++){
@@ -470,8 +481,8 @@ public class ConversionToArff implements Runnable{
 				//ajout nombre de pos/neg à la fin du nom
 				this.outputPath += "_" + this.positif + "_" + this.negatif;
 				try {
-					writer = new PrintWriter(this.outputPath + ".arff", "UTF-8");
-					this.fileOuput.add( this.outputPath + ".arff" );
+					writer = new PrintWriter(this.outputPath + fileName + ".arff", "UTF-8");
+					this.fileOuput.add( this.outputPath + fileName + ".arff" );
 					writer.println( ARFF_ATTRIBUTE );
 					writer.println("");
 
@@ -480,7 +491,7 @@ public class ConversionToArff implements Runnable{
 						String line = this.makeRelation(this.positiveRelationSelected.get( r ), r );
 						writer.println( line + "COREF" );
 					}
-					
+
 					set = negativeRelationSelected.keySet();
 					for( Relation r : set ){
 						String line = this.makeRelation(this.negativeRelationSelected.get( r ), r );
@@ -512,17 +523,9 @@ public class ConversionToArff implements Runnable{
 		}else{
 			//les instances sont déjà séléctionnées, juste besoin de les écrire
 			try {
-				String fileName;
-				DateFormat shortDateFormat = DateFormat.getDateTimeInstance(
-						DateFormat.SHORT,
-						DateFormat.SHORT);
-				fileName = shortDateFormat.format( new Date() );
-				logger.info( fileName );
-				fileName = fileName.replace(" ", "_");
-				fileName = fileName.replace("/", "_");
-				fileName = fileName.replace(":", "H");
 				this.outputPath += fileName;
-				
+
+
 				writer = new PrintWriter(this.outputPath + ".arff", "UTF-8");
 				this.fileOuput.add( this.outputPath + ".arff" );
 				writer.println( ARFF_ATTRIBUTE );
