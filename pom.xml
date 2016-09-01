@@ -2,7 +2,7 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.democrat.ancortodemocrat</groupId>
-	<artifactId>AncorToDemocrat</artifactId>
+	<artifactId>ancor2</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<build>
 		<resources>
@@ -13,6 +13,21 @@
 				</includes>
 				<!-- relative to target/classes i.e. ${project.build.outputDirectory} -->
 				<targetPath>../cfg</targetPath>
+			</resource>
+			<resource>
+				<directory>lib</directory>
+				<includes>
+					<include>*/*</include>
+				</includes>
+				<!-- relative to target/classes i.e. ${project.build.outputDirectory} -->
+				<targetPath>../lib</targetPath>
+			</resource>
+			<resource>
+				<directory></directory>
+				<includes>
+					<include>scorer.bat</include>
+				</includes>
+				<targetPath>../</targetPath>
 			</resource>
 		</resources>
 		<plugins>

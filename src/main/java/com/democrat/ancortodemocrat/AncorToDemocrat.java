@@ -112,6 +112,7 @@ public class AncorToDemocrat {
 				 * - -r liste des paramètres à supprimer
 				 * - -a type de traits à garder NO_ORAL || ONLY_RELATIONAL
 				 * - -r et -a peuvent être complémentaire
+				 * - -f fichier contenant les traits à ignorer
 				 * 
 				 **/
 
@@ -202,22 +203,41 @@ public class AncorToDemocrat {
 								if( a + 1 < args.length ){
 									if( args[ a + 1 ].equalsIgnoreCase( "NO_ORAL" ) ){
 										//on ne prend pas en compte les traits oraux
-										removeAttribute.add( "distance_turn" );
-										removeAttribute.add( "id_spk" );
+										addListIfNotContains( removeAttribute, "distance_turn" );
+										addListIfNotContains( removeAttribute, "id_spk" );
 									}else if( args[ a + 1 ].equalsIgnoreCase( "ONLY_RELATIONAL" ) ){
 										//18 traits en tout que les relationnels
-										removeAttribute.add( "m1_type" );
-										removeAttribute.add( "m2_type" );
-										removeAttribute.add( "m1_def" );
-										removeAttribute.add( "m2_def" );
-										removeAttribute.add( "m1_genre" );
-										removeAttribute.add( "m2_genre" );
-										removeAttribute.add( "m1_nombre" );
-										removeAttribute.add( "m2_nombre" );
-										removeAttribute.add( "m1_new" );
-										removeAttribute.add( "m2_new" );
-										removeAttribute.add( "m1_en" );
-										removeAttribute.add( "m2_en" );
+										//donc - 12
+										addListIfNotContains( removeAttribute, "m1_type" );
+										addListIfNotContains( removeAttribute, "m2_type" );
+										addListIfNotContains( removeAttribute, "m1_def" );
+										addListIfNotContains( removeAttribute, "m2_def" );
+										addListIfNotContains( removeAttribute, "m1_genre" );
+										addListIfNotContains( removeAttribute, "m2_genre" );
+										addListIfNotContains( removeAttribute, "m1_nombre" );
+										addListIfNotContains( removeAttribute, "m2_nombre" );
+										addListIfNotContains( removeAttribute, "m1_new" );
+										addListIfNotContains( removeAttribute, "m2_new" );
+										addListIfNotContains( removeAttribute, "m1_en" );
+										addListIfNotContains( removeAttribute, "m2_en" );
+									}
+								}
+							}else if( args[ a ].equalsIgnoreCase( "-f" ) ){
+								if( a + 1 < args.length ){
+									BufferedReader reader = null;
+									try {
+										String content = "";
+										String line;
+										reader = new BufferedReader( new FileReader( args[ a + 1 ] ) );
+										while( ( line = reader.readLine() ) != null ){
+											content += line;
+										}
+										String[] attribute = content.split(",");
+										for( int t = 0; t < attribute.length; t++ ){
+											addListIfNotContains( removeAttribute, attribute[ t ].replace(" ", "") );
+										}										
+									}catch( IOException e ){
+										logger.error( "Fichire non valide " + args[ a + 1 ] );
 									}
 								}
 							}
@@ -381,6 +401,12 @@ public class AncorToDemocrat {
 			ConversionToArff conversionToArff = new ConversionToArff( corpus );
 			Thread th = new Thread( conversionToArff );
 			th.start();
+		}
+	}
+
+	private static void addListIfNotContains( List<String> list, String str ){
+		if( ! list.contains( str ) ){
+			list.add( str );
 		}
 	}
 

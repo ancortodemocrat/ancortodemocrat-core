@@ -8,19 +8,11 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
-import java.text.DateFormat;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
-import java.util.Set;
-import java.util.StringTokenizer;
-
 import org.apache.log4j.Logger;
-import org.apache.log4j.xml.DOMConfigurator;
-
 import com.democrat.ancortodemocrat.ConversionInSet;
 import com.democrat.ancortodemocrat.ConversionToArff;
 import com.democrat.ancortodemocrat.Corpus;
@@ -32,9 +24,6 @@ import com.democrat.ancortodemocrat.element.Relation;
 import com.democrat.ancortodemocrat.element.Schema;
 import com.democrat.ancortodemocrat.element.Unit;
 
-import weka.classifiers.Classifier;
-import weka.classifiers.Evaluation;
-import weka.classifiers.functions.SMO;
 import weka.core.Instances;
 import weka.filters.Filter;
 import weka.filters.unsupervised.attribute.Remove;
