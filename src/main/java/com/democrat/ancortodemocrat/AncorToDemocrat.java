@@ -248,10 +248,10 @@ public class AncorToDemocrat {
 
 					if( inputPath.isEmpty() ){
 						//charger les corpus dans generated/
-						String pathFolder = "generated/corpus/";
+						String pathFolder = "generated/feature/";
 						ArrayList<String> corpusPathList = fileManager.getFolderFromFolder( new File( pathFolder ) );
 						for(int c = 0; c < corpusPathList.size(); c++){
-							corpusList.add( new Corpus( "generated/corpus/" + corpusPathList.get( c ) ) );
+							corpusList.add( new Corpus( "generated/feature/" + corpusPathList.get( c ) ) );
 						}
 					}else{
 						//tester si c'est un dossier ou non

@@ -29,6 +29,13 @@
 				</includes>
 				<targetPath>../</targetPath>
 			</resource>
+			<resource>
+				<directory>TreeTagger</directory>
+				<includes>
+					<include>*/*</include>
+				</includes>
+				<targetPath>../TreeTagger</targetPath>
+			</resource>
 		</resources>
 		<plugins>
 			<plugin>

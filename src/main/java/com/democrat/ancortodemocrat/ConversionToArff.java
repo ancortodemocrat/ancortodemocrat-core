@@ -9,6 +9,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+
 import org.apache.log4j.Logger;
 
 import com.democrat.ancortodemocrat.element.Annotation;
@@ -314,8 +316,10 @@ public class ConversionToArff implements Runnable{
 							relation.getElement( annotation ) == null ){
 						continue;
 					}
-					this.positiveRelationSelected.put(relation, annotation);
-					generateNegativeRelation( corpus, annotation, relation );
+					if( relation != null && relation instanceof Relation ){
+						this.positiveRelationSelected.put(relation, annotation);
+						generateNegativeRelation( corpus, annotation, relation );
+					}
 					//if( negativeRelation != null){
 						//this.negativeRelationSelected.put(negativeRelation, annotation );
 					//}
@@ -434,7 +438,7 @@ public class ConversionToArff implements Runnable{
 							int idElement = relationArray[ l ].getElement( this.positiveRelationSelected.get( relationArray[ l ] ) ).getIdMention();
 							int idPreElement = relationArray[ l ].getPreElement( this.positiveRelationSelected.get( relationArray[ l ] ) ).getIdMention();
 							String line = this.makeRelation(this.positiveRelationSelected.get( relationArray[ l ] ), relationArray[ l ] );
-							writer.println( line + "COREF %" + idElement + " " + idPreElement);
+							writer.println( line + "COREF");
 						}
 
 						//écriture instances négatives
@@ -445,7 +449,7 @@ public class ConversionToArff implements Runnable{
 							int idElement = relationArray[ l ].getElement( this.negativeRelationSelected.get( relationArray[ l ] ) ).getIdMention();
 							int idPreElement = relationArray[ l ].getPreElement( this.negativeRelationSelected.get( relationArray[ l ] ) ).getIdMention();
 							String line = this.makeRelation(this.negativeRelationSelected.get( relationArray[ l ] ), relationArray[ l ] );
-							writer.println( line + "NOT_COREF%" + idElement + " " + idPreElement);
+							writer.println( line + "NOT_COREF" );
 						}
 
 					} catch (FileNotFoundException e) {
@@ -471,16 +475,27 @@ public class ConversionToArff implements Runnable{
 					writer.println( ARFF_ATTRIBUTE );
 					writer.println("");
 
-					Relation[] relationArray = (Relation[]) this.positiveRelationSelected.keySet().toArray();
+					Set<Relation> set = positiveRelationSelected.keySet();
+					for( Relation r : set ){
+						String line = this.makeRelation(this.positiveRelationSelected.get( r ), r );
+						writer.println( line + "COREF" );
+					}
+					
+					set = negativeRelationSelected.keySet();
+					for( Relation r : set ){
+						String line = this.makeRelation(this.negativeRelationSelected.get( r ), r );
+						writer.println( line + "NOT-COREF" );	
+					}
+					/**Relation[] relationArray = (Relation[]) this.positiveRelationSelected.keySet().toArray();
 					for(int p = 0; p < this.positiveRelationSelected.size(); p++){
 						String line = this.makeRelation(this.positiveRelationSelected.get( relationArray[ p ] ), relationArray[ p ] );
 						writer.println( line + "COREF" );			
-					}
-					relationArray = (Relation[]) this.negativeRelationSelected.keySet().toArray();
+					}**/
+					/**relationArray = (Relation[]) this.negativeRelationSelected.keySet().toArray();
 					for(int n = 0; n < this.negativeRelationSelected.size(); n++){
 						String line = this.makeRelation(this.negativeRelationSelected.get( relationArray[ n ] ), relationArray[ n ] );
 						writer.println( line + "NOT_COREF" );
-					}
+					}**/
 
 				} catch (FileNotFoundException e) {
 					// TODO Auto-generated catch block
@@ -600,15 +615,15 @@ public class ConversionToArff implements Runnable{
 		//charger chaque corpus..
 
 		for(Corpus corpus : this.corpusList ){
-			logger.info("Chargement du corpus "+corpus.getName() );
+			logger.info("Chargement du corpus " + corpus.getName() );
 			corpus.loadAnnotation();
 			corpus.loadText();
 		}
 
 		this.work( );
 		logger.info("[" + this.outputPath + "] arff file writed.");
-		logger.info("COREF: "+countPositiveRelation);
-		logger.info("NOT-COREF: "+countNegativeRelation);
+		logger.info("COREF: " + this.positiveRelationSelected.size() );
+		logger.info("NOT-COREF: " + this.negativeRelationSelected.size() );
 	}
 
 }
