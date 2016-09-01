@@ -36,13 +36,15 @@ public class Scorer {
 
 	/**
 	 * 
+	 * @param command String de la commande exéctuée pour cette fonction
 	 * @param corpusList liste des corpus où sont extrait les relations
 	 * @param modelPath chemin du fichier model à appliquer pour faire le test
-	 * @param positif nombre d'instance positive, sinon 0 et toutes les relations négatives seront prises
-	 * @param negatif nombre d'instance négative, sinon 0 et toutes les relations négatives seront prises
+	 * @param positif nombre d'instance positive
+	 * @param negatif nombre d'instance négative
 	 * @param param Quel type de relation l'on doit prendre
 	 * @param outputPath Chemin de sortie des résultats
 	 * @param split Si on doit splter le/les corpus indiqué(s), sinon 0 et aucun split est appliqué
+	 * @param listRemoveAttribute Liste des attributs à ignorer pour l'apprentissage
 	 */
 	public static void scorerTask(
 			String command,
@@ -280,7 +282,7 @@ public class Scorer {
 			 * Integer: id de la chaine/set
 			 * List<IntegerWithBool>: liste des id des mentions de la chaîne/set, le bool permet
 			 * de connaitre si une mention été annotation coréférente à une autre ou non
-			 * ce qui permet ensuite de faire un test logique avec les réponses du système
+			 * ce qui permet ensuite de faire un test logique avec les réponses du système (cf. Mention DOC)
 			 * pour reconstruire les chaînes
 			 */
 			List<Chain> setGoldList = new ArrayList<Chain>();
@@ -472,7 +474,7 @@ public class Scorer {
 									chain.containsMention( preElement.getIdMention() )){
 								//on a bien trouvé la chaîne qui conteant les deux mentions
 								//dans la liste
-								//on met à jour la logique (cf doc
+								//on met à jour la logique (cf. Mention DOC)
 
 								chain.getMention( element.getIdMention() ).setCoref( false );
 								chain.getMention( preElement.getIdMention() ).setCoref( false );
@@ -522,7 +524,7 @@ public class Scorer {
 								chain.containsMention( preElement.getIdMention() )){
 							//on a bien trouvé la chaîne qui conteant les deux mentions
 							//dans la liste
-							//on met à jour la logique (cf doc
+							//on met à jour la logique (cf. Mention DOC)
 
 							chain.getMention( element.getIdMention() ).setCoref( true );
 							chain.getMention( preElement.getIdMention() ).setCoref( true );

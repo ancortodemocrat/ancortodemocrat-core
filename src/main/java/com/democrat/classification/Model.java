@@ -31,19 +31,6 @@ public class Model {
 
 	}
 
-	/**
-	 * charge le fichier passé en argument
-	 * et test si il contient bien la structure d'un
-	 * fichier .model de Weka ou non
-	 * @param pathFile chemin du fichier à tester
-	 * @return vrai si c'est un .model de Weka
-	 */
-	public static boolean isModelFile(File file){
-
-		//TODO		
-		return true;
-
-	}
 
 	/**
 	 * retourne un modèle appris sur un ensemble de donnée
@@ -54,45 +41,37 @@ public class Model {
 	 */
 	public static Model learnModel(String arffFile, AbstractClassifier classifier ){
 		File file = new File( arffFile );
-		if( Model.isModelFile( file ) ){
-			//chargement des attributs et des instances
+		//chargement des attributs et des instances
 
-			BufferedReader reader = null;
-			try {
-				reader = new BufferedReader( new FileReader( arffFile ) );
-				Instances train = new Instances( reader );
-				//selection du dernier attribut pour le choisir comme classe
-				train.setClassIndex( train.numAttributes() - 1 );
+		BufferedReader reader = null;
+		try {
+			reader = new BufferedReader( new FileReader( arffFile ) );
+			Instances train = new Instances( reader );
+			//selection du dernier attribut pour le choisir comme classe
+			train.setClassIndex( train.numAttributes() - 1 );
 
 
-				classifier.buildClassifier( train );
+			classifier.buildClassifier( train );
 
-				return new Model( classifier );
+			return new Model( classifier );
 
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (Throwable e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}finally{
-				if(reader != null){
-					try {
-						reader.close();
-					} catch (IOException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (Throwable e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally{
+			if(reader != null){
+				try {
+					reader.close();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
 				}
 			}
-			return null;
-
-
-		}else{
-			//TODO reponse en retour de fichier non correct
-			return null;
 		}
-
+		return null;
 	}
 
 
