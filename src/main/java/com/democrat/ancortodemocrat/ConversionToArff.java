@@ -284,6 +284,7 @@ public class ConversionToArff implements Runnable{
 		//génération des négatives, en triant selon la ParamToArff.
 		sortInstance();
 		//second step: séléction de p positive, et n negative comme voulue
+//		System.out.println("pos: " + this.positif + " neg: " + this.negatif + " selPos: " + this.positiveRelationSelected.size() + " negSel " + this.negativeRelationSelected.size() );
 		this.selectInstance();
 		//puis écriture des instances
 		this.writeInstance();
@@ -599,6 +600,7 @@ public class ConversionToArff implements Runnable{
 					}**/
 						//return newRelation;
 						this.negativeRelationSelected.put(newRelation, annotation );
+						done = true;
 					}
 				}
 				//}
