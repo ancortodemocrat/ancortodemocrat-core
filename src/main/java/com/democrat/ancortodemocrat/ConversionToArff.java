@@ -496,7 +496,7 @@ public class ConversionToArff implements Runnable{
 					set = negativeRelationSelected.keySet();
 					for( Relation r : set ){
 						String line = this.makeRelation(this.negativeRelationSelected.get( r ), r );
-						writer.println( line + "NOT-COREF" );	
+						writer.println( line + "NOT_COREF" );	
 					}
 					/**Relation[] relationArray = (Relation[]) this.positiveRelationSelected.keySet().toArray();
 					for(int p = 0; p < this.positiveRelationSelected.size(); p++){
