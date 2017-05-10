@@ -32,6 +32,7 @@ public class CalculateFeature implements Runnable {
 		logger.info("Start calculate feature: [" + corpus.getName() +"]");
 
 
+		//TODO: May be parallelized
 		for( int a = 0; a < this.corpus.getAnnotation().size(); a++ ){
 
 			logger.info("[" + corpus.getName() +"] Calculate new features for : "+(a + 1)+"/"+this.corpus.getAnnotation().size() + " : " + this.corpus.getAnnotation().get( a ).getFileName() );
@@ -82,7 +83,7 @@ public class CalculateFeature implements Runnable {
 
 			//ID_TYPE
 			String typeElement = element.getCharacterisation().getType().getValue();
-			String typePreElement = element.getCharacterisation().getType().getValue();
+			String typePreElement = preElement.getCharacterisation().getType().getValue();
 			if( typeElement.equals( typePreElement ) ){
 				relation.setFeature( "ID_TYPE", "YES");
 			}else{
