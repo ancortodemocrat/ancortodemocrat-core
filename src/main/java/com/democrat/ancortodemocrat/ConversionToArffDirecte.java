@@ -17,12 +17,13 @@ import org.apache.log4j.Logger;
 import com.democrat.ancortodemocrat.element.Annotation;
 import com.democrat.ancortodemocrat.element.Element;
 import com.democrat.ancortodemocrat.element.Relation;
+import com.democrat.ancortodemocrat.element.Type;
 import com.democrat.ancortodemocrat.element.Unit;
 import com.democrat.ancortodemocrat.feature.CalculateFeature;
 
-public class ConversionToArff implements Runnable{
-	
-	
+public class ConversionToArffDirecte implements Runnable{
+
+
 	public final static String ARFF_ATTRIBUTE = "@RELATION coreference\n"+
 			"@ATTRIBUTE m1_type {N, PR, NULL}\n"+
 			"@ATTRIBUTE m2_type {N, PR, NULL}\n"+
@@ -58,15 +59,15 @@ public class ConversionToArff implements Runnable{
 			 "@ATTRIBUTE distance_turn real\n" +
 			 "@ATTRIBUTE distance_word real\n" + 
 			 "@ATTRIBUTE distance_char real\n" +
-		//	 "@ATTRIBUTE id_new {YES, NO, NA}\n" +
+//			 "@ATTRIBUTE id_new {YES, NO, NA}\n" +
 			 "@ATTRIBUTE EMBEDDED {YES, NO, NA}\n" +
 			 "@ATTRIBUTE id_previous {YES, NO, NA}\n" +
 			 "@ATTRIBUTE id_next {YES, NO, NA}\n" +
-			 "@ATTRIBUTE class {COREF, NOT_COREF}\n" +
+			 "@ATTRIBUTE class {DIRECTE, NOT_DIRECTE}\n" +
 			 "@DATA";
 
 
-	private static Logger logger = Logger.getLogger(ConversionToArff.class);
+	private static Logger logger = Logger.getLogger(ConversionToArffDirecte.class);
 
 	/**
 	 * Liste des corpus dans laquelle
@@ -86,6 +87,8 @@ public class ConversionToArff implements Runnable{
 	public static int countPositiveRelation = 0;
 	public static int countNegativeRelation = 0;
 
+	public static int countDirecteRelation = 0;
+	public static int countNotDirecteRelation = 0;
 
 	/**
 	 * Listes des instances séléctionnées 
@@ -103,7 +106,7 @@ public class ConversionToArff implements Runnable{
 	private List<String> fileOuput = new ArrayList<String>();
 	private int split;
 
-	public ConversionToArff(Corpus corpus){
+	public ConversionToArffDirecte(Corpus corpus){
 		this.corpusList.add( corpus );
 	}
 
@@ -114,7 +117,7 @@ public class ConversionToArff implements Runnable{
 	 * @param param Paramètre indiquant si on garde ou non les associatives
 	 * @param outputPath chemin de sortie du fichier arff
 	 */
-	private ConversionToArff(int positif, int negatif, ParamToArff param, String outputPath, int split){
+	private ConversionToArffDirecte(int positif, int negatif, ParamToArff param, String outputPath, int split){
 		this.positif = positif;
 		this.negatif = negatif;
 		this.param = param;
@@ -123,12 +126,12 @@ public class ConversionToArff implements Runnable{
 
 	}
 
-	public ConversionToArff(Corpus corpus, int positif, int negatif, ParamToArff param, String outputPath, int split){
+	public ConversionToArffDirecte(Corpus corpus, int positif, int negatif, ParamToArff param, String outputPath, int split){
 		this(positif, negatif, param, outputPath, split );
 		this.corpusList.add( corpus );
 	}
 
-	public ConversionToArff(List<Corpus> corpusList, int positif, int negatif, ParamToArff param,  String outputPath, int split){
+	public ConversionToArffDirecte(List<Corpus> corpusList, int positif, int negatif, ParamToArff param,  String outputPath, int split){
 		this(positif, negatif, param, outputPath, split );
 		this.corpusList = corpusList;
 	}
@@ -284,6 +287,7 @@ public class ConversionToArff implements Runnable{
 		//génération des négatives, en triant selon la ParamToArff.
 		sortInstance();
 		//second step: séléction de p positive, et n negative comme voulue
+//		System.out.println("pos: " + this.positif + " neg: " + this.negatif + " selPos: " + this.positiveRelationSelected.size() + " negSel " + this.negativeRelationSelected.size() );
 		this.selectInstance();
 		//puis écriture des instances
 		this.writeInstance();
@@ -313,10 +317,13 @@ public class ConversionToArff implements Runnable{
 							continue;
 						}
 					}
+					else if(this.param.equals( ParamToArff.DIRECTE )){
+					}
 					if( relation.getPreElement( annotation ) == null ||
 							relation.getElement( annotation ) == null ){
 						continue;
 					}
+					
 					if( relation != null && relation instanceof Relation ){
 						this.positiveRelationSelected.put(relation, annotation);
 						generateNegativeRelation( corpus, annotation, relation );
@@ -427,57 +434,6 @@ public class ConversionToArff implements Runnable{
 		fileName = fileName.replace("/", "_");
 		fileName = fileName.replace(":", "H");
 
-		// Si le paramètre NOTCOREF est activé, on ne ressort que les relations not_coref
-		
-		if(this.param.equals( ParamToArff.NOTCOREF )){
-						
-			//this.positif = this.positiveRelationSelected.size();
-			this.negatif = this.negativeRelationSelected.size();
-			//ajout nombre de pos/neg à la fin du nom
-			this.outputPath += "_" + this.positif + "_" + this.negatif;
-			try {
-				writer = new PrintWriter(this.outputPath + fileName + ".arff", "UTF-8");
-				this.fileOuput.add( this.outputPath + fileName + ".arff" );
-				writer.println( ARFF_ATTRIBUTE );
-				writer.println("");
-
-			//	Set<Relation> set = positiveRelationSelected.keySet();
-//				for( Relation r : set ){
-//					String line = this.makeRelation(this.positiveRelationSelected.get( r ), r );
-//					writer.println( line + "COREF" );
-//				}
-
-				Set <Relation> set_negatif = negativeRelationSelected.keySet();
-				for( Relation r : set_negatif ){
-					String line = this.makeRelation(this.negativeRelationSelected.get( r ), r );
-					writer.println( line + "NOT_COREF" );	
-				}
-				/**Relation[] relationArray = (Relation[]) this.positiveRelationSelected.keySet().toArray();
-				for(int p = 0; p < this.positiveRelationSelected.size(); p++){
-					String line = this.makeRelation(this.positiveRelationSelected.get( relationArray[ p ] ), relationArray[ p ] );
-					writer.println( line + "COREF" );			
-				}**/
-				/**relationArray = (Relation[]) this.negativeRelationSelected.keySet().toArray();
-				for(int n = 0; n < this.negativeRelationSelected.size(); n++){
-					String line = this.makeRelation(this.negativeRelationSelected.get( relationArray[ n ] ), relationArray[ n ] );
-					writer.println( line + "NOT_COREF" );
-				}**/
-
-			} catch (FileNotFoundException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (UnsupportedEncodingException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}finally{
-				if(writer != null){
-					writer.close();
-				}
-			}
-		}
-			
-		
-		else{
 		if(this.positif == 0){
 			//tout prendre
 			if( split > 0 ){
@@ -493,27 +449,36 @@ public class ConversionToArff implements Runnable{
 						//écriture instances positives
 						int start = (f - 1) * this.positiveRelationSelected.size() / split;
 						int end = start + this.positiveRelationSelected.size() / split;
-
-						Relation[] relationArray =  (Relation[]) positiveRelationSelected.keySet().toArray( new Relation[ positiveRelationSelected.size() ] );
+						
+						Relation[] relationArray = (Relation[]) this.positiveRelationSelected.keySet().toArray( new Relation[ this.positiveRelationSelected.size() ] );
+						Relation[] relationArray2 = (Relation[]) this.negativeRelationSelected.keySet().toArray( new Relation[ this.negativeRelationSelected.size() ] );
+						
 						
 						for( int l = start; l < end; l++){
-							int idElement = relationArray[ l ].getElement( this.positiveRelationSelected.get( relationArray[ l ] ) ).getIdMention();
-							int idPreElement = relationArray[ l ].getPreElement( this.positiveRelationSelected.get( relationArray[ l ] ) ).getIdMention();
-							String line = this.makeRelation(this.positiveRelationSelected.get( relationArray[ l ] ), relationArray[ l ] );
-							writer.println( line + "COREF");
+							
+							Type type_relation = relationArray[l].getCharacterisation().getType();
+							String string_type_relation = type_relation.getValue();
+							logger.info("Type : " + string_type_relation);
+							
+							if(string_type_relation.equals("DIRECTE")){
+								countDirecteRelation++;
+								
+								int idElement = relationArray[ l ].getElement( this.positiveRelationSelected.get( relationArray[ l ] ) ).getIdMention();
+								int idPreElement = relationArray[ l ].getPreElement( this.positiveRelationSelected.get( relationArray[ l ] ) ).getIdMention();
+								String line = this.makeRelation(this.positiveRelationSelected.get( relationArray[ l ] ), relationArray[ l ] );
+								writer.println( line + "DIRECTE" );
 						}
-
-						//écriture instances négatives
-						relationArray = (Relation[]) negativeRelationSelected.keySet().toArray( new Relation[ negativeRelationSelected.size() ] );
-						start = (f - 1) * this.negativeRelationSelected.size() / split;
-						end = start + this.negativeRelationSelected.size() / split;
-						for( int l = start; l < end; l++){
-							int idElement = relationArray[ l ].getElement( this.negativeRelationSelected.get( relationArray[ l ] ) ).getIdMention();
-							int idPreElement = relationArray[ l ].getPreElement( this.negativeRelationSelected.get( relationArray[ l ] ) ).getIdMention();
-							String line = this.makeRelation(this.negativeRelationSelected.get( relationArray[ l ] ), relationArray[ l ] );
-							writer.println( line + "NOT_COREF" );
+						
+							else{
+								countNotDirecteRelation++;
+								
+								relationArray2[ l ].getElement( this.negativeRelationSelected.get( relationArray2[ l ] ) ).getIdMention();
+								relationArray2[ l ].getPreElement( this.negativeRelationSelected.get( relationArray2[ l ] ) ).getIdMention();
+								String line2 = this.makeRelation(this.negativeRelationSelected.get( relationArray2[ l ] ), relationArray2[ l ] );
+								writer.println( line2 + "NOT_DIRECTE" );		
+							}
 						}
-
+						
 					} catch (FileNotFoundException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
@@ -526,28 +491,60 @@ public class ConversionToArff implements Runnable{
 						}
 					}
 				}
-			}else{
-				this.positif = this.positiveRelationSelected.size();
-				this.negatif = this.negativeRelationSelected.size();
-				//ajout nombre de pos/neg à la fin du nom
-				this.outputPath += "_" + this.positif + "_" + this.negatif;
+			}
+			
+			
+			else{
+				
+				
 				try {
-					writer = new PrintWriter(this.outputPath + fileName + ".arff", "UTF-8");
-					this.fileOuput.add( this.outputPath + fileName + ".arff" );
+					this.outputPath += fileName;
+
+
+					writer = new PrintWriter(this.outputPath + ".arff", "UTF-8");
+					this.fileOuput.add( this.outputPath + ".arff" );
 					writer.println( ARFF_ATTRIBUTE );
 					writer.println("");
 
-					Set<Relation> set = positiveRelationSelected.keySet();
-					for( Relation r : set ){
-						String line = this.makeRelation(this.positiveRelationSelected.get( r ), r );
-						writer.println( line + "COREF" );
-					}
+					Relation[] relationArray = (Relation[]) this.positiveRelationSelected.keySet().toArray( new Relation[ this.positiveRelationSelected.size() ] );
+					Relation[] relationArray2 = (Relation[]) this.negativeRelationSelected.keySet().toArray( new Relation[ this.negativeRelationSelected.size() ] );
 
-					set = negativeRelationSelected.keySet();
-					for( Relation r : set ){
-						String line = this.makeRelation(this.negativeRelationSelected.get( r ), r );
-						writer.println( line + "NOT_COREF" );	
+					for(int p = 0; p < this.positiveRelationSelected.size(); p++){
+						Type type_relation = relationArray[p].getCharacterisation().getType();
+						String string_type_relation = type_relation.getValue();
+						
+						logger.info("Type : " + string_type_relation);
+
+						if(string_type_relation.equals("DIRECTE")){
+							countDirecteRelation++;
+							
+							int idElement = relationArray[ p ].getElement( this.positiveRelationSelected.get( relationArray[ p ] ) ).getIdMention();
+							int idPreElement = relationArray[ p ].getPreElement( this.positiveRelationSelected.get( relationArray[ p ] ) ).getIdMention();
+							String line = this.makeRelation(this.positiveRelationSelected.get( relationArray[ p ] ), relationArray[ p ] );
+							writer.println( line + "DIRECTE" );		
+						}else{
+							countNotDirecteRelation++;
+							
+							relationArray[ p ].getElement( this.positiveRelationSelected.get( relationArray[ p ] ) ).getIdMention();
+							relationArray[ p ].getPreElement( this.positiveRelationSelected.get( relationArray[ p ] ) ).getIdMention();
+							String line = this.makeRelation(this.positiveRelationSelected.get( relationArray[ p ] ), relationArray[ p ] );
+							writer.println( line + "NOT_DIRECTE" );		
+
+						}		
 					}
+					
+					
+					for(int n = 0; n < this.negativeRelationSelected.size(); n++){
+							countNotDirecteRelation++;
+//							
+//							relationArray2[ n ].getElement( this.negativeRelationSelected.get( relationArray2[ n ] ) ).getIdMention();
+//							relationArray2[ n ].getPreElement( this.negativeRelationSelected.get( relationArray2[ n ] ) ).getIdMention();
+							String line2 = this.makeRelation(this.negativeRelationSelected.get( relationArray2[ n ] ), relationArray2[ n ] );
+							writer.println( line2 + "NOT_DIRECTE" );		
+
+						}		
+				}
+	
 					/**Relation[] relationArray = (Relation[]) this.positiveRelationSelected.keySet().toArray();
 					for(int p = 0; p < this.positiveRelationSelected.size(); p++){
 						String line = this.makeRelation(this.positiveRelationSelected.get( relationArray[ p ] ), relationArray[ p ] );
@@ -559,7 +556,7 @@ public class ConversionToArff implements Runnable{
 						writer.println( line + "NOT_COREF" );
 					}**/
 
-				} catch (FileNotFoundException e) {
+				 catch (FileNotFoundException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				} catch (UnsupportedEncodingException e) {
@@ -571,7 +568,11 @@ public class ConversionToArff implements Runnable{
 					}
 				}
 			}
-		}else{
+		}
+	
+		
+		
+		else{
 			//les instances sont déjà séléctionnées, juste besoin de les écrire
 			try {
 				this.outputPath += fileName;
@@ -583,34 +584,44 @@ public class ConversionToArff implements Runnable{
 				writer.println("");
 
 				Relation[] relationArray = (Relation[]) this.positiveRelationSelected.keySet().toArray( new Relation[ this.positiveRelationSelected.size() ] );
-				for(int p = 0; p < this.positiveRelationSelected.size(); p++){
-					int idElement = relationArray[ p ].getElement( this.positiveRelationSelected.get( relationArray[ p ] ) ).getIdMention();
-					int idPreElement = relationArray[ p ].getPreElement( this.positiveRelationSelected.get( relationArray[ p ] ) ).getIdMention();
-					String line = this.makeRelation(this.positiveRelationSelected.get( relationArray[ p ] ), relationArray[ p ] );
-					writer.println( line + "COREF" );	
-					
-					
-//					String feature_id_element = relationArray[ p ].getElement( this.positiveRelationSelected.get( relationArray[ p ] ) ).getFeature("GENRE");
-//					logger.info("Le feature de element est: " + feature_id_element);
-//					
-//					String feature_id_preelement = relationArray[ p ].getPreElement( this.positiveRelationSelected.get( relationArray[ p ] ) ).getFeature("GENRE");
-//					logger.info("Le feature de pre_element est: " + feature_id_preelement);
-//
-//					String feature_element = relationArray[p].getFeature("GENRE");
-//					logger.info("Le feature de la relation est: " + feature_element);
-//					logger.info("___________________");
+				Relation[] relationArray2 = (Relation[]) this.negativeRelationSelected.keySet().toArray( new Relation[ this.negativeRelationSelected.size() ] );
 
+				for(int p = 0; p < this.positiveRelationSelected.size(); p++){
+					Type type_relation = relationArray[p].getCharacterisation().getType();
+					String string_type_relation = type_relation.getValue();
 					
-					
+					logger.info("Type : " + string_type_relation);
+
+					if(string_type_relation.equals("DIRECTE")){
+						countDirecteRelation++;
+						
+						int idElement = relationArray[ p ].getElement( this.positiveRelationSelected.get( relationArray[ p ] ) ).getIdMention();
+						int idPreElement = relationArray[ p ].getPreElement( this.positiveRelationSelected.get( relationArray[ p ] ) ).getIdMention();
+						String line = this.makeRelation(this.positiveRelationSelected.get( relationArray[ p ] ), relationArray[ p ] );
+						writer.println( line + "DIRECTE" );		
+					}else{
+						countNotDirecteRelation++;
+						
+						relationArray[ p ].getElement( this.positiveRelationSelected.get( relationArray[ p ] ) ).getIdMention();
+						relationArray[ p ].getPreElement( this.positiveRelationSelected.get( relationArray[ p ] ) ).getIdMention();
+						String line = this.makeRelation(this.positiveRelationSelected.get( relationArray[ p ] ), relationArray[ p ] );
+						writer.println( line + "NOT_DIRECTE" );		
+
+					}		
 				}
-				relationArray = (Relation[]) this.negativeRelationSelected.keySet().toArray( new Relation[ this.negativeRelationSelected.size() ] );
-				for(int l = 0; l < this.negativeRelationSelected.size(); l++){
-					int idElement = relationArray[ l ].getElement( this.negativeRelationSelected.get( relationArray[ l ] ) ).getIdMention();
-					int idPreElement = relationArray[ l ].getPreElement( this.negativeRelationSelected.get( relationArray[ l ] ) ).getIdMention();
-					String line = this.makeRelation(this.negativeRelationSelected.get( relationArray[ l ] ), relationArray[ l ] );
-					writer.println( line + "NOT_COREF" );
-				}
-			} catch (FileNotFoundException e) {
+				
+				
+				for(int n = 0; n < this.negativeRelationSelected.size(); n++){
+						countNotDirecteRelation++;
+//						
+//						relationArray2[ n ].getElement( this.negativeRelationSelected.get( relationArray2[ n ] ) ).getIdMention();
+//						relationArray2[ n ].getPreElement( this.negativeRelationSelected.get( relationArray2[ n ] ) ).getIdMention();
+						String line2 = this.makeRelation(this.negativeRelationSelected.get( relationArray2[ n ] ), relationArray2[ n ] );
+						writer.println( line2 + "NOT_DIRECTE" );		
+
+					}	
+			}
+			catch (FileNotFoundException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} catch (UnsupportedEncodingException e) {
@@ -622,9 +633,6 @@ public class ConversionToArff implements Runnable{
 				}
 			}
 		}
-		
-		}
-		
 	}	
 
 
@@ -667,6 +675,7 @@ public class ConversionToArff implements Runnable{
 					}**/
 						//return newRelation;
 						this.negativeRelationSelected.put(newRelation, annotation );
+						done = true;
 					}
 				}
 				//}
@@ -680,7 +689,8 @@ public class ConversionToArff implements Runnable{
 		//return null;
 	}
 
-@Override
+
+	@Override
 	public void run() {
 		//charger chaque corpus..
 
@@ -691,9 +701,13 @@ public class ConversionToArff implements Runnable{
 		}
 
 		this.work( );
-		logger.info("[" + this.outputPath + "] arff file writed.");
-		logger.info("COREF : " + this.positiveRelationSelected.size() );
+		logger.info("[" + this.outputPath + "] arff file writed!");
+		logger.info("COREF: " + this.positiveRelationSelected.size() );
 		logger.info("NOT-COREF: " + this.negativeRelationSelected.size() );
+		logger.info("DIRECTE: " + countDirecteRelation );
+		logger.info("NOT-DIRECTE: " + countNotDirecteRelation );
+		
+
 	}
 
 }

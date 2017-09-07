@@ -353,7 +353,6 @@ public class ConversionWorker implements Runnable{
 			}else{
 				relation.setFeature( "GENRE", "UNK" );
 			}
-
 		}
 	}
 

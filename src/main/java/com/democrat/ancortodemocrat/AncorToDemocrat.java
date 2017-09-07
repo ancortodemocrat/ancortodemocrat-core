@@ -126,10 +126,51 @@ public class AncorToDemocrat {
 				if( args.length > 1 ){
 					if( args[ 1 ].equalsIgnoreCase( "all" ) ) {
 
-					}else if( args[ 1 ].equalsIgnoreCase( "no_assoc") ){
+					}
+					else if( args[ 1 ].equalsIgnoreCase( "no_assoc") ){
 						parameter = ParamToArff.NO_ASSOC;
-
-					}else{
+					}
+					
+					// Arguments pour appeler les classes relatives à chaque relation ; mais plus très utiles 
+					
+					else if(  args[ 1 ].equalsIgnoreCase( "directe") ){
+						parameter = ParamToArff.INDIRECTE;
+					}
+					else if(  args[ 1 ].equalsIgnoreCase( "indirecte") ){
+						parameter = ParamToArff.INDIRECTE;
+					}
+					else if(  args[ 1 ].equalsIgnoreCase( "anaphore") ){
+						parameter = ParamToArff.ANAPHORE;
+					}
+					else if(  args[ 1 ].equalsIgnoreCase( "assoc") ){
+						parameter = ParamToArff.ASSOC;
+					}
+					else if(  args[ 1 ].equalsIgnoreCase( "assocpronom") ){
+						parameter = ParamToArff.ASSOCPRONOM;
+					}
+					
+					// Argument permettant d'appeler la classe ConversionToArffMulti qui crée un arff pour les relations :
+					// directe, indirecte, anaphore, coref
+					
+				
+					else if(  args[ 1 ].equalsIgnoreCase( "relation") ){
+						parameter = ParamToArff.RELATION;
+					}
+					
+					// Argument permettant de récupérer seulement les relation not_coref
+					
+					else if(  args[ 1 ].equalsIgnoreCase( "notcoref") ){
+						parameter = ParamToArff.NOTCOREF;
+					}
+					
+					// Argument appelant la classe MultiClassifier qui fera un vote pour chaque classifier 
+					
+					else if(  args[ 1 ].equalsIgnoreCase( "multiclass") ){
+						parameter = ParamToArff.MULTICLASS;
+					}
+					
+			
+					else{
 						//error first argument
 						logger.error( "Premier argument invalide, il doit être égal à 'all' ou 'no_assoc'.");
 						logger.error( "Pour plus d'information, invoquez help.");
@@ -159,7 +200,8 @@ public class AncorToDemocrat {
 								//error missing arguement
 								logger.error("Aucun paramètre indiqué après -q.");
 							}
-						}else if(args[ a ].equalsIgnoreCase( "-o" ) ){
+						}
+						else if(args[ a ].equalsIgnoreCase( "-o" ) ){
 							//ouput path
 							if( a + 1 < args.length ){
 								outputPath = args[ a + 1 ];
@@ -321,9 +363,60 @@ public class AncorToDemocrat {
 					}
 
 					if( args[ 0 ].equalsIgnoreCase( "arff" ) ){
+						if( args[ 1 ].equalsIgnoreCase( "all" ) ){
 						ConversionToArff conversionToArff = new ConversionToArff(corpusList, pos, neg, parameter, outputPath, split);
 						Thread th = new Thread( conversionToArff );
 						th.start();
+						}
+						else if( args[ 1 ].equalsIgnoreCase( "no_assoc" ) ) {
+							ConversionToArff conversionToArff = new ConversionToArff(corpusList, pos, neg, parameter, outputPath, split);
+							Thread th = new Thread( conversionToArff );
+							th.start();
+						}
+
+						// Classe qui génère un arff spécifique à chaque relation  
+						
+						else if( args[ 1 ].equalsIgnoreCase( "directe" ) ) {
+							ConversionToArffDirecte conversionToArffDirecte = new ConversionToArffDirecte(corpusList, pos, neg, parameter, outputPath, split);
+							Thread th = new Thread( conversionToArffDirecte );
+							th.start();
+						}
+						else if( args[ 1 ].equalsIgnoreCase( "indirecte" ) ) {
+							ConversionToArffIndirecte conversionToArffIndirecte = new ConversionToArffIndirecte(corpusList, pos, neg, parameter, outputPath, split);
+							Thread th = new Thread( conversionToArffIndirecte );
+							th.start();
+						}
+						else if( args[ 1 ].equalsIgnoreCase( "anaphore" ) ) {
+							ConversionToArffAnaphore conversionToArffAnaphore = new ConversionToArffAnaphore(corpusList, pos, neg, parameter, outputPath, split);
+							Thread th = new Thread( conversionToArffAnaphore);
+							th.start();
+						}
+						else if( args[ 1 ].equalsIgnoreCase( "assoc" ) ) {
+							ConversionToArffAssoc conversionToArffAssoc = new ConversionToArffAssoc(corpusList, pos, neg, parameter, outputPath, split);
+							Thread th = new Thread( conversionToArffAssoc );
+							th.start();
+						}
+						else if( args[ 1 ].equalsIgnoreCase( "assocpronom" ) ) {
+							ConversionToArffAssocPronom conversionToArffAssocPronom = new ConversionToArffAssocPronom(corpusList, pos, neg, parameter, outputPath, split);
+							Thread th = new Thread( conversionToArffAssocPronom );
+							th.start();
+						}
+						
+						// Classe qui crée simultanément un arff pour les relations directe, indirect, anaphore et coref à partir d'un même corpus 
+						
+						else if( args[ 1 ].equalsIgnoreCase( "relation" ) ) {
+							ConversionToArffMulti conversionToArffMulti = new ConversionToArffMulti(corpusList, pos, neg, parameter, outputPath, split);
+							Thread th = new Thread( conversionToArffMulti);
+							th.start();
+						}
+						
+						
+						else if( args[ 1 ].equalsIgnoreCase( "notcoref" ) ) {
+							ConversionToArff conversionToArff = new ConversionToArff(corpusList, pos, neg, parameter, outputPath, split);
+							Thread th = new Thread( conversionToArff );
+							th.start();
+						}
+						
 					}else{
 						//SCORER
 						String command = "";
@@ -362,6 +455,79 @@ public class AncorToDemocrat {
 					logger.error("e.g. arff corpus : to generate all arff file from corpus");
 				}
 			}
+			
+			// Classe qui génère un vote de chaque classifier de relation directe, indirecte, anaphore 
+			// Pour chaque relation, si un classifier a un YES (i.e le classifier DIRECTE a une relation DIRECTE), il incrémente son vote. Sinon, il ne fait rien.
+			// Si le compteur global des 3 classifieurs (directe, indirecte, anaphore) est supérieur à 0, la relation est COREF. Sinon, elle est NOT COREF. 
+			
+			else if ( args[ 0 ].equalsIgnoreCase( "multiclass" ) ){
+				String outputPath = "";
+				String inputPath = "";
+				outputPath = args[ 4 ];
+				inputPath = args[ 2 ];
+
+				MultiClassifier multi= new MultiClassifier(inputPath,outputPath);
+				Thread th = new Thread( multi );
+				th.start();
+				logger.info("Fichier d'entrée : " +inputPath);
+
+			}
+			else if ( args[ 0 ].equalsIgnoreCase( "conversion" ) ){
+				String outputPath = "";
+				String inputPath = "";
+				outputPath = args[ 4 ];
+				inputPath = args[ 2 ];
+
+				ConversionFichier conv = new ConversionFichier(inputPath,outputPath);
+				Thread th = new Thread( conv );
+				th.start();
+				logger.info("Fichier d'entrée : " +inputPath);
+			}
+			
+			// Classe qui permet de convertir le fichier d'arff des coref (généré par conversionToArffMulti) 
+			// dans la même structure que les résultats de sortie de Weka, afin de pouvoir faire une comparaison
+			
+			else if ( args[ 0 ].equalsIgnoreCase( "conversion_coref" ) ){
+				String outputPath = "";
+				String inputPath = "";
+				outputPath = args[ 4 ];
+				inputPath = args[ 2 ];
+
+				ConversionCoref conv_coref = new ConversionCoref(inputPath,outputPath);
+				Thread th = new Thread( conv_coref );
+				th.start();
+				logger.info("Fichier d'entrée : " +inputPath);
+			}
+			
+			// Classe qui permet de comparer les résultats du multiclassifier avec les résultats de base 
+			// Renvoie les mêmes calculs que ceux de Weka à savoir le rappel, la précision et la f-mesure
+			
+			else if ( args[ 0 ].equalsIgnoreCase( "comparaison" ) ){
+				String outputPath = "";
+				String inputPath = "";
+				outputPath = args[ 4 ];
+				inputPath = args[ 2 ];
+
+				ComparaisonResult comp = new ComparaisonResult(inputPath,outputPath);
+				Thread th = new Thread( comp );
+				th.start();
+				logger.info("Fichier d'entrée : " +inputPath);
+
+			}
+			
+//			else if ( args[ 0 ].equalsIgnoreCase( "comparaison_relation" ) ){
+//				String outputPath = "";
+//				String inputPath = "";
+//				outputPath = args[ 4 ];
+//				inputPath = args[ 2 ];
+//
+//				ComparaisonRelation comp_relation = new ComparaisonRelation(inputPath,outputPath);
+//				Thread th = new Thread( comp_relation );
+//				th.start();
+//				logger.info("Fichier d'entrée : " +inputPath);
+//
+//			}
+			
 		}else if(args.length == 1){
 			//help
 			if(args[ 0 ].equalsIgnoreCase( "help" ) ){
@@ -401,6 +567,7 @@ public class AncorToDemocrat {
 			ConversionToArff conversionToArff = new ConversionToArff( corpus );
 			Thread th = new Thread( conversionToArff );
 			th.start();
+			
 		}
 	}
 
