@@ -410,7 +410,6 @@ public class AncorToDemocrat {
 							th.start();
 						}
 						
-						
 						else if( args[ 1 ].equalsIgnoreCase( "notcoref" ) ) {
 							ConversionToArff conversionToArff = new ConversionToArff(corpusList, pos, neg, parameter, outputPath, split);
 							Thread th = new Thread( conversionToArff );

@@ -63,11 +63,10 @@ public class ConversionToArffMulti implements Runnable{
 			 "@ATTRIBUTE EMBEDDED {YES, NO, NA}\n" +
 			 "@ATTRIBUTE id_previous {YES, NO, NA}\n" +
 			 "@ATTRIBUTE id_next {YES, NO, NA}\n" +
-			 "@ATTRIBUTE class {DIRECTE, NOT_DIRECTE, INDIRECTE, NOT_INDIRECTE, ANAPHORE, NOT_ANAPHORE}\n" +
+			 "@ATTRIBUTE class {COREF, NOT_COREF}\n" +
 			 "@DATA";
 
-	
-	public final static String ARFF_ATTRIBUTE2 ="@RELATION coreference\n"+
+	public final static String ARFF_ATTRIBUTE_DIRECTE = "@RELATION coreference\n"+
 			"@ATTRIBUTE m1_type {N, PR, NULL}\n"+
 			"@ATTRIBUTE m2_type {N, PR, NULL}\n"+
 			"@ATTRIBUTE m1_def {INDEF, EXPL, DEF_SPLE, DEF_DEM, NULL, UNK}\n"+
@@ -106,7 +105,93 @@ public class ConversionToArffMulti implements Runnable{
 			 "@ATTRIBUTE EMBEDDED {YES, NO, NA}\n" +
 			 "@ATTRIBUTE id_previous {YES, NO, NA}\n" +
 			 "@ATTRIBUTE id_next {YES, NO, NA}\n" +
-			 "@ATTRIBUTE class {DIRECTE, NOT_DIRECTE, INDIRECTE, NOT_INDIRECTE, ANAPHORE, NOT_ANAPHORE}\n" +
+			 "@ATTRIBUTE class {DIRECTE, NOT_DIRECTE}\n" +
+			 "@DATA";
+
+	public final static String ARFF_ATTRIBUTE_INDIRECTE = "@RELATION coreference\n"+
+			"@ATTRIBUTE m1_type {N, PR, NULL}\n"+
+			"@ATTRIBUTE m2_type {N, PR, NULL}\n"+
+			"@ATTRIBUTE m1_def {INDEF, EXPL, DEF_SPLE, DEF_DEM, NULL, UNK}\n"+
+			"@ATTRIBUTE m2_def {INDEF, EXPL, DEF_SPLE, DEF_DEM, NULL, UNK}\n"+
+			"@ATTRIBUTE m1_genre {M, F, UNK, NULL}\n"+
+			"@ATTRIBUTE m2_genre {M, F, UNK, NULL}\n"+
+			"@ATTRIBUTE m1_nombre {SG, PL, UNK, NULL}\n"+
+			"@ATTRIBUTE m2_nombre {SG, PL, UNK, NULL}\n"+
+			/**
+			"@ATTRIBUTE m1_previous string\n"+
+			"@ATTRIBUTE m2_previous string\n"+
+			"@ATTRIBUTE m1_next string\n"+
+			"@ATTRIBUTE m2_next string\n"+
+			"@ATTRIBUTE m1_spk string\n"+
+			"@ATTRIBUTE m2_spk string\n"+
+			 **/
+//			 "@ATTRIBUTE m1_new {YES, NO, UNK, NULL}\n"+
+//			 "@ATTRIBUTE m2_new {YES, NO, UNK, NULL}\n"+
+			 "@ATTRIBUTE m1_en {PERS, FONC, LOC, ORG, PROD, TIME, AMOUNT, EVENT, NO, UNK, NULL}\n"+
+			 "@ATTRIBUTE m2_en {PERS, FONC, LOC, ORG, PROD, TIME, AMOUNT, EVENT, NO, UNK, NULL}\n"+
+			 "@ATTRIBUTE id_form {YES, NO, NA}\n"+
+			 "@ATTRIBUTE id_subform {YES, NO, NA}\n"+
+			 "@ATTRIBUTE incl_rate real\n"+
+			 "@ATTRIBUTE com_rate real\n"+
+			 "@ATTRIBUTE id_def {YES, NO, NA}\n"+
+			 "@ATTRIBUTE id_type {YES, NO, NA}\n"+
+			 "@ATTRIBUTE id_en {YES, NO, NA}\n"+
+			 "@ATTRIBUTE id_genre {YES, NO, UNK}\n" +
+			 "@ATTRIBUTE id_nombre {YES, NO, UNK}\n" +
+			 "@ATTRIBUTE id_spk {YES, NO, NA}\n" +
+			 "@ATTRIBUTE distance_mention real\n" +
+			 "@ATTRIBUTE distance_turn real\n" +
+			 "@ATTRIBUTE distance_word real\n" + 
+			 "@ATTRIBUTE distance_char real\n" +
+//			 "@ATTRIBUTE id_new {YES, NO, NA}\n" +
+			 "@ATTRIBUTE EMBEDDED {YES, NO, NA}\n" +
+			 "@ATTRIBUTE id_previous {YES, NO, NA}\n" +
+			 "@ATTRIBUTE id_next {YES, NO, NA}\n" +
+			 "@ATTRIBUTE class {INDIRECTE, NOT_INDIRECTE}\n" +
+			 "@DATA";
+	
+	
+	
+	public final static String ARFF_ATTRIBUTE_ANAPHORE ="@RELATION coreference\n"+
+			"@ATTRIBUTE m1_type {N, PR, NULL}\n"+
+			"@ATTRIBUTE m2_type {N, PR, NULL}\n"+
+			"@ATTRIBUTE m1_def {INDEF, EXPL, DEF_SPLE, DEF_DEM, NULL, UNK}\n"+
+			"@ATTRIBUTE m2_def {INDEF, EXPL, DEF_SPLE, DEF_DEM, NULL, UNK}\n"+
+			"@ATTRIBUTE m1_genre {M, F, UNK, NULL}\n"+
+			"@ATTRIBUTE m2_genre {M, F, UNK, NULL}\n"+
+			"@ATTRIBUTE m1_nombre {SG, PL, UNK, NULL}\n"+
+			"@ATTRIBUTE m2_nombre {SG, PL, UNK, NULL}\n"+
+			/**
+			"@ATTRIBUTE m1_previous string\n"+
+			"@ATTRIBUTE m2_previous string\n"+
+			"@ATTRIBUTE m1_next string\n"+
+			"@ATTRIBUTE m2_next string\n"+
+			"@ATTRIBUTE m1_spk string\n"+
+			"@ATTRIBUTE m2_spk string\n"+
+			 **/
+//			 "@ATTRIBUTE m1_new {YES, NO, UNK, NULL}\n"+
+//			 "@ATTRIBUTE m2_new {YES, NO, UNK, NULL}\n"+
+			 "@ATTRIBUTE m1_en {PERS, FONC, LOC, ORG, PROD, TIME, AMOUNT, EVENT, NO, UNK, NULL}\n"+
+			 "@ATTRIBUTE m2_en {PERS, FONC, LOC, ORG, PROD, TIME, AMOUNT, EVENT, NO, UNK, NULL}\n"+
+			 "@ATTRIBUTE id_form {YES, NO, NA}\n"+
+			 "@ATTRIBUTE id_subform {YES, NO, NA}\n"+
+			 "@ATTRIBUTE incl_rate real\n"+
+			 "@ATTRIBUTE com_rate real\n"+
+			 "@ATTRIBUTE id_def {YES, NO, NA}\n"+
+			 "@ATTRIBUTE id_type {YES, NO, NA}\n"+
+			 "@ATTRIBUTE id_en {YES, NO, NA}\n"+
+			 "@ATTRIBUTE id_genre {YES, NO, UNK}\n" +
+			 "@ATTRIBUTE id_nombre {YES, NO, UNK}\n" +
+			 "@ATTRIBUTE id_spk {YES, NO, NA}\n" +
+			 "@ATTRIBUTE distance_mention real\n" +
+			 "@ATTRIBUTE distance_turn real\n" +
+			 "@ATTRIBUTE distance_word real\n" + 
+			 "@ATTRIBUTE distance_char real\n" +
+//			 "@ATTRIBUTE id_new {YES, NO, NA}\n" +
+			 "@ATTRIBUTE EMBEDDED {YES, NO, NA}\n" +
+			 "@ATTRIBUTE id_previous {YES, NO, NA}\n" +
+			 "@ATTRIBUTE id_next {YES, NO, NA}\n" +
+			 "@ATTRIBUTE class {ANAPHORE, NOT_ANAPHORE}\n" +
 			 "@DATA";
 
 	private static Logger logger = Logger.getLogger(ConversionToArffDirecte.class);
@@ -726,17 +811,17 @@ public class ConversionToArffMulti implements Runnable{
 
 				writer = new PrintWriter(this.outputPath + fileName + "_" + "directe" + ".arff", "UTF-8");
 				this.fileOuput.add( this.outputPath + ".arff" );
-				writer.println( ARFF_ATTRIBUTE );
+				writer.println( ARFF_ATTRIBUTE_DIRECTE );
 				writer.println("");
 				
 				writer2 = new PrintWriter(this.outputPath + fileName + "_" + "indirecte" + ".arff", "UTF-8");
 				this.fileOuput.add( this.outputPath + ".arff" );
-				writer2.println( ARFF_ATTRIBUTE );
+				writer2.println( ARFF_ATTRIBUTE_INDIRECTE );
 				writer2.println("");
 				
 				writer3 = new PrintWriter(this.outputPath + fileName + "_" + "anaphore" + ".arff", "UTF-8");
 				this.fileOuput.add( this.outputPath + ".arff" );
-				writer3.println( ARFF_ATTRIBUTE );
+				writer3.println( ARFF_ATTRIBUTE_ANAPHORE );
 				writer3.println("");
 
 				writer4 = new PrintWriter(this.outputPath + fileName + "_" + "coref" + ".arff", "UTF-8");
