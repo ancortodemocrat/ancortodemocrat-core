@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import com.democrat.classification.ModelGeneration;
 import org.apache.log4j.Logger;
 import org.apache.log4j.xml.DOMConfigurator;
 
@@ -19,6 +20,7 @@ import com.democrat.ancortodemocrat.element.Annotation;
 import com.democrat.ancortodemocrat.feature.CalculateFeature;
 import com.democrat.ancortodemocrat.treetagger.TreeTagger;
 import com.democrat.classification.Scorer;
+import sun.text.normalizer.NormalizerBase;
 
 
 public class AncorToDemocrat {
@@ -44,7 +46,10 @@ public class AncorToDemocrat {
 
 
 		if(args.length > 1){
-			if(args[0].equalsIgnoreCase("feature")){
+			if (args[0].equalsIgnoreCase("model")) {
+				logger.info("Running model creation");
+				new ModelGeneration(args);
+			}else if(args[0].equalsIgnoreCase("feature")){
 				/**
 				 * feature
 				 * - type de corpus en entrée
