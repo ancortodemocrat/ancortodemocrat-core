@@ -26,7 +26,7 @@ public class Model {
 	private String path;
 
 
-	private Model( AbstractClassifier classifier ){
+	private Model(AbstractClassifier classifier){
 		this.classifier = classifier;
 
 	}
@@ -39,21 +39,21 @@ public class Model {
 	 * @param classifier classifier étendu de ClassifierParameter
 	 * @return
 	 */
-	public static Model learnModel(String arffFile, AbstractClassifier classifier ){
-		File file = new File( arffFile );
+	public static Model learnModel(String arffFile, AbstractClassifier classifier){
+		File file = new File(arffFile);
 		//chargement des attributs et des instances
 
 		BufferedReader reader = null;
 		try {
-			reader = new BufferedReader( new FileReader( arffFile ) );
-			Instances train = new Instances( reader );
+			reader = new BufferedReader(new FileReader(arffFile));
+			Instances train = new Instances(reader);
 			//selection du dernier attribut pour le choisir comme classe
-			train.setClassIndex( train.numAttributes() - 1 );
+			train.setClassIndex(train.numAttributes() - 1);
 
 
-			classifier.buildClassifier( train );
+			classifier.buildClassifier(train);
 
-			return new Model( classifier );
+			return new Model(classifier);
 
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -83,9 +83,9 @@ public class Model {
 	 */
 	public static Model loadModel(String modelFile){
 		try {
-			AbstractClassifier cls = ( AbstractClassifier ) weka.core.SerializationHelper.read( modelFile );
-			Model model = new Model( cls );
-			model.setPath( modelFile );
+			AbstractClassifier cls = (AbstractClassifier) weka.core.SerializationHelper.read(modelFile);
+			Model model = new Model(cls);
+			model.setPath(modelFile);
 			return model;
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -107,17 +107,17 @@ public class Model {
 	 * le model retrouve la classe de chaque instance donnée
 	 * @param unlabeled: Liste des instances à classifier
 	 */
-	public void classifyInstance( Instances unlabeled ){
+	public void classifyInstance(Instances unlabeled){
 		// set class attribute
-		unlabeled.setClassIndex( unlabeled.numAttributes() - 1 );
+		unlabeled.setClassIndex(unlabeled.numAttributes() - 1);
 
 
 		// label instances
 		for (int u = 0; u < unlabeled.numInstances(); u++) {
 			double clsLabel;
 			try {
-				clsLabel = classifier.classifyInstance( unlabeled.instance( u ) );
-				unlabeled.instance( u ).setClassValue( clsLabel );
+				clsLabel = classifier.classifyInstance(unlabeled.instance(u));
+				unlabeled.instance(u).setClassValue(clsLabel);
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -132,7 +132,7 @@ public class Model {
 	 * @param fileName
 	 */
 	public void export(String fileName){		
-		Scorer.fileManager.mkdir( "generated/models" );
+		Scorer.fileManager.mkdir("generated/models");
 		try {
 			SerializationHelper.write("generated/models/" + fileName + ".model", this.classifier);
 		} catch (Exception e) {
@@ -141,12 +141,12 @@ public class Model {
 		}
 	}
 
-	public Evaluation crossValidate( Instances instances, int nbFolds ){
+	public Evaluation crossValidate(Instances instances, int nbFolds){
 		Evaluation eval = null;
 		try {
-			instances.setClassIndex( instances.numAttributes() - 1 );
-			eval = new Evaluation( instances );
-			eval.crossValidateModel(this.classifier, instances, nbFolds, new Random(1) );
+			instances.setClassIndex(instances.numAttributes() - 1);
+			eval = new Evaluation(instances);
+			eval.crossValidateModel(this.classifier, instances, nbFolds, new Random(1));
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
