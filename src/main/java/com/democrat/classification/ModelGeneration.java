@@ -71,7 +71,7 @@ public class ModelGeneration {
 
     private void execute(Class<?> theClass, String[] args){
         Method mainMethod;
-        if((mainMethod = getMainMethod(theClass)) != null){
+        if((mainMethod = getMainMethod(theClass)) == null){
             logger.error("La classe " + theClass.getName() + " n'est pas une classe valide pour l'apprentissage.");
             return;
         }
