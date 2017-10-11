@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import com.democrat.classification.ModelGeneration;
 import org.apache.log4j.Logger;
 import org.apache.log4j.xml.DOMConfigurator;
 
@@ -43,8 +44,11 @@ public class AncorToDemocrat {
 		fileManager = new FileManager();
 
 
-		if( args.length > 1){
-			if( args[0].equalsIgnoreCase( "feature" )){
+		if(args.length > 1){
+			if (args[0].equalsIgnoreCase("model")) {
+				logger.info("Running model creation");
+				new ModelGeneration(args);
+			}else if(args[0].equalsIgnoreCase("feature")){
 				/**
 				 * feature
 				 * - type de corpus en entrée
@@ -57,31 +61,31 @@ public class AncorToDemocrat {
 				String outputPath = "";
 
 				Corpus corpus;
-				if( args.length > 2 ){
+				if(args.length > 2){
 					//test if output argument is present
-					corpus = new Corpus( args[ 2 ] );
-					if( args.length > 3 ){
+					corpus = new Corpus(args[ 2 ]);
+					if(args.length > 3){
 
-						if( args[ 3 ].equalsIgnoreCase( "-o" ) ){
+						if(args[ 3 ].equalsIgnoreCase("-o")){
 							outputPath = args[ 4 ];
 						}else{
 							logger.error("Arguement -o manquant pour le nombre d'arguement passé.");
 						}
 					}
-					if( outputPath.isEmpty() ){
+					if(outputPath.isEmpty()){
 						outputPath = "generated/feature/";
-						fileManager.mkdir( outputPath );
+						fileManager.mkdir(outputPath);
 						outputPath += corpus.getName();
 						fileManager.mkdir(outputPath);
 					}
-					if( args[ 1 ].equalsIgnoreCase( "p" ) ){
+					if(args[ 1 ].equalsIgnoreCase("p")){
 						//first mention
 						//calculate REF feature 
-						generateFeature( corpus, true, outputPath);			
-					}else if( args[ 1 ].equalsIgnoreCase( "c" ) ){
+						generateFeature(corpus, true, outputPath);
+					}else if(args[ 1 ].equalsIgnoreCase("c")){
 						//in chain
 						//calculate REF feature 
-						generateFeature( corpus, false, outputPath);	
+						generateFeature(corpus, false, outputPath);
 					}else{
 						logger.error("Erreur pour Feature, e.g:");
 						logger.error("Pour un corpus en chaîne: feature c C:/Users/buggr/Documents/stage/ancor/corpus_OTG generated/corpus/corpus_OTG_traits_caclules");
@@ -91,8 +95,8 @@ public class AncorToDemocrat {
 				}else{
 					logger.info("Argument manquant pour la commande feature.");
 				}
-			}else if( args[ 0 ].equalsIgnoreCase( "arff" ) ||
-					args[ 0 ].equalsIgnoreCase( "scorer" ) ){
+			}else if(args[ 0 ].equalsIgnoreCase("arff") ||
+					args[ 0 ].equalsIgnoreCase("scorer")){
 				//arff command
 				/**     
 				 * - paramètre de sortie
@@ -123,16 +127,15 @@ public class AncorToDemocrat {
 				//quantité
 				int pos = 0;
 				int neg = 0;
-				if( args.length > 1 ){
-					if( args[ 1 ].equalsIgnoreCase( "all" ) ) {
+				if(args.length > 1){
+					if(args[ 1 ].equalsIgnoreCase("all")) {
 
-					}
-					else if( args[ 1 ].equalsIgnoreCase( "no_assoc") ){
+					}else if(args[ 1 ].equalsIgnoreCase("no_assoc")){
 						parameter = ParamToArff.NO_ASSOC;
 					}
-					
-					// Arguments pour appeler les classes relatives à chaque relation ; mais plus très utiles 
-					
+
+					// Arguments pour appeler les classes relatives à chaque relation ; mais plus très utiles
+
 					else if(  args[ 1 ].equalsIgnoreCase( "directe") ){
 						parameter = ParamToArff.INDIRECTE;
 					}
@@ -148,51 +151,51 @@ public class AncorToDemocrat {
 					else if(  args[ 1 ].equalsIgnoreCase( "assocpronom") ){
 						parameter = ParamToArff.ASSOCPRONOM;
 					}
-					
+
 					// Argument permettant d'appeler la classe ConversionToArffMulti qui crée un arff pour les relations :
 					// directe, indirecte, anaphore, coref
-					
-				
+
+
 					else if(  args[ 1 ].equalsIgnoreCase( "relation") ){
 						parameter = ParamToArff.RELATION;
 					}
-					
+
 					// Argument permettant de récupérer seulement les relation not_coref
-					
+
 					else if(  args[ 1 ].equalsIgnoreCase( "notcoref") ){
 						parameter = ParamToArff.NOTCOREF;
 					}
-					
-					// Argument appelant la classe MultiClassifier qui fera un vote pour chaque classifier 
-					
+
+					// Argument appelant la classe MultiClassifier qui fera un vote pour chaque classifier
+
 					else if(  args[ 1 ].equalsIgnoreCase( "multiclass") ){
 						parameter = ParamToArff.MULTICLASS;
 					}
-					
-			
+
+
 					else{
 						//error first argument
-						logger.error( "Premier argument invalide, il doit être égal à 'all' ou 'no_assoc'.");
-						logger.error( "Pour plus d'information, invoquez help.");
+						logger.error("Premier argument invalide, il doit être égal à 'all' ou 'no_assoc'.");
+						logger.error("Pour plus d'information, invoquez help.");
 						return;
 					}
 
-					for( int a = 2; a < args.length; a++){
-						if(args[ a ].equalsIgnoreCase( "-i" ) ){
+					for(int a = 2; a < args.length; a++){
+						if(args[ a ].equalsIgnoreCase("-i")){
 							//input path
-							if( a + 1 < args.length ){
+							if(a + 1 < args.length){
 								inputPath = args[ a + 1 ];
 							}else{
 								//error missing arguement
 								logger.error("Aucun paramètre indiqué après -i.");
 							}
-						}else if(args[ a ].equalsIgnoreCase( "-q" ) ){
+						}else if(args[ a ].equalsIgnoreCase("-q")){
 							//quantity of negative, positive instances
-							if( a + 2 < args.length ){
+							if(a + 2 < args.length){
 
 								try{
-									pos = Integer.valueOf( args[ a + 1] );
-									neg = Integer.valueOf( args[ a + 2] );
+									pos = Integer.valueOf(args[ a + 1]);
+									neg = Integer.valueOf(args[ a + 2]);
 								}catch(NumberFormatException e){
 									logger.error("Deux nombres sont attendus après -q.");
 								}
@@ -200,19 +203,18 @@ public class AncorToDemocrat {
 								//error missing arguement
 								logger.error("Aucun paramètre indiqué après -q.");
 							}
-						}
-						else if(args[ a ].equalsIgnoreCase( "-o" ) ){
+						}else if(args[ a ].equalsIgnoreCase("-o")){
 							//ouput path
-							if( a + 1 < args.length ){
+							if(a + 1 < args.length){
 								outputPath = args[ a + 1 ];
 							}else{
 								//error missing arguement
 								logger.error("Aucun paramètre indiqué après -o.");
 							}
-						}else if( args[ a ].equalsIgnoreCase( "-s" ) ){
-							if( a + 1 < args.length ){
+						}else if(args[ a ].equalsIgnoreCase("-s")){
+							if(a + 1 < args.length){
 								try{
-									split = Integer.valueOf( args[ a + 1 ] );
+									split = Integer.valueOf(args[ a + 1 ]);
 								}catch(NumberFormatException e){
 									logger.error("Un chiffre est attendue après -s.");
 								}
@@ -221,62 +223,62 @@ public class AncorToDemocrat {
 								logger.error("Aucun paramètre indiqué après -s.");								
 							}
 						}
-						if( args[ 0 ].equalsIgnoreCase( "scorer" ) ){
-							if( args[ a ].equalsIgnoreCase( "-m" ) ){
-								if( a + 1 < args.length ){
+						if(args[ 0 ].equalsIgnoreCase("scorer")){
+							if(args[ a ].equalsIgnoreCase("-m")){
+								if(a + 1 < args.length){
 									modelPath = args[ a + 1 ];
 								}else{
 									//error missing arguement
 									logger.error("Aucun paramètre indiqué après -m.");								
 								}
-							}else if( args[ a ].equalsIgnoreCase( "-r") ){
+							}else if(args[ a ].equalsIgnoreCase("-r")){
 								int i = 1;
-								while( a + i < args.length && ! args[ a + i ].contains("-") ){
-									removeAttribute.add( args[ a + i ] );
+								while(a + i < args.length && ! args[ a + i ].contains("-")){
+									removeAttribute.add(args[ a + i ]);
 									i++;
 								}
-								if( i == 1 ){
-									logger.error( "Aucun paramètre indiqué après -r.");
+								if(i == 1){
+									logger.error("Aucun paramètre indiqué après -r.");
 								}
-							}else if( args[ a ].equalsIgnoreCase( "-a" ) ){
-								if( a + 1 < args.length ){
-									if( args[ a + 1 ].equalsIgnoreCase( "NO_ORAL" ) ){
+							}else if(args[ a ].equalsIgnoreCase("-a")){
+								if(a + 1 < args.length){
+									if(args[ a + 1 ].equalsIgnoreCase("NO_ORAL")){
 										//on ne prend pas en compte les traits oraux
-										addListIfNotContains( removeAttribute, "distance_turn" );
-										addListIfNotContains( removeAttribute, "id_spk" );
-									}else if( args[ a + 1 ].equalsIgnoreCase( "ONLY_RELATIONAL" ) ){
+										addListIfNotContains(removeAttribute, "distance_turn");
+										addListIfNotContains(removeAttribute, "id_spk");
+									}else if(args[ a + 1 ].equalsIgnoreCase("ONLY_RELATIONAL")){
 										//18 traits en tout que les relationnels
 										//donc - 12
-										addListIfNotContains( removeAttribute, "m1_type" );
-										addListIfNotContains( removeAttribute, "m2_type" );
-										addListIfNotContains( removeAttribute, "m1_def" );
-										addListIfNotContains( removeAttribute, "m2_def" );
-										addListIfNotContains( removeAttribute, "m1_genre" );
-										addListIfNotContains( removeAttribute, "m2_genre" );
-										addListIfNotContains( removeAttribute, "m1_nombre" );
-										addListIfNotContains( removeAttribute, "m2_nombre" );
-										addListIfNotContains( removeAttribute, "m1_new" );
-										addListIfNotContains( removeAttribute, "m2_new" );
-										addListIfNotContains( removeAttribute, "m1_en" );
-										addListIfNotContains( removeAttribute, "m2_en" );
+										addListIfNotContains(removeAttribute, "m1_type");
+										addListIfNotContains(removeAttribute, "m2_type");
+										addListIfNotContains(removeAttribute, "m1_def");
+										addListIfNotContains(removeAttribute, "m2_def");
+										addListIfNotContains(removeAttribute, "m1_genre");
+										addListIfNotContains(removeAttribute, "m2_genre");
+										addListIfNotContains(removeAttribute, "m1_nombre");
+										addListIfNotContains(removeAttribute, "m2_nombre");
+										addListIfNotContains(removeAttribute, "m1_new");
+										addListIfNotContains(removeAttribute, "m2_new");
+										addListIfNotContains(removeAttribute, "m1_en");
+										addListIfNotContains(removeAttribute, "m2_en");
 									}
 								}
-							}else if( args[ a ].equalsIgnoreCase( "-f" ) ){
-								if( a + 1 < args.length ){
+							}else if(args[ a ].equalsIgnoreCase("-f")){
+								if(a + 1 < args.length){
 									BufferedReader reader = null;
 									try {
 										String content = "";
 										String line;
-										reader = new BufferedReader( new FileReader( args[ a + 1 ] ) );
-										while( ( line = reader.readLine() ) != null ){
+										reader = new BufferedReader(new FileReader(args[ a + 1 ]));
+										while((line = reader.readLine()) != null){
 											content += line;
 										}
 										String[] attribute = content.split(",");
-										for( int t = 0; t < attribute.length; t++ ){
-											addListIfNotContains( removeAttribute, attribute[ t ].replace(" ", "") );
+										for(int t = 0; t < attribute.length; t++){
+											addListIfNotContains(removeAttribute, attribute[ t ].replace(" ", ""));
 										}										
-									}catch( IOException e ){
-										logger.error( "Fichire non valide " + args[ a + 1 ] );
+									}catch(IOException e){
+										logger.error("Fichire non valide " + args[ a + 1 ]);
 									}
 								}
 							}
@@ -285,97 +287,97 @@ public class AncorToDemocrat {
 
 					List<Corpus> corpusList = new ArrayList<Corpus>();
 
-					if( inputPath.isEmpty() ){
+					if(inputPath.isEmpty()){
 						//charger les corpus dans generated/
 						String pathFolder = "generated/feature/";
-						ArrayList<String> corpusPathList = fileManager.getFolderFromFolder( new File( pathFolder ) );
+						ArrayList<String> corpusPathList = fileManager.getFolderFromFolder(new File(pathFolder));
 						for(int c = 0; c < corpusPathList.size(); c++){
-							corpusList.add( new Corpus( "generated/feature/" + corpusPathList.get( c ) ) );
+							corpusList.add(new Corpus("generated/feature/" + corpusPathList.get(c)));
 						}
 					}else{
 						//tester si c'est un dossier ou non
 						//ensuite tester si le dossier contient des corpus ou si le dossier est un corpus
 						//sinon fichier
-						File fileInput = new File( inputPath );
-						if( fileInput.isDirectory() ){
+						File fileInput = new File(inputPath);
+						if(fileInput.isDirectory()){
 							//dossier
-							ArrayList<String> folderList = fileManager.getFolderFromFolder( fileInput );
+							ArrayList<String> folderList = fileManager.getFolderFromFolder(fileInput);
 							boolean isFolderCorpus = false;
-							for( int f = 0; f < folderList.size(); f++ ){
-								if( folderList.get( f ).equalsIgnoreCase("aa_fichiers" ) ){
+							for(int f = 0; f < folderList.size(); f++){
+								if(folderList.get(f).equalsIgnoreCase("aa_fichiers")){
 									isFolderCorpus = true;
 								}
 							}
-							if( isFolderCorpus ){
+							if(isFolderCorpus){
 								//dossier de corpus
-								corpusList.add( new Corpus( fileInput.getAbsolutePath() ) );
+								corpusList.add(new Corpus(fileInput.getAbsolutePath()));
 							}else{
 								//liste de dossier de corpus
-								for( int f = 0; f < folderList.size(); f++ ){
-									if( ! inputPath.endsWith("\\") && ! inputPath.endsWith("/") ){
+								for(int f = 0; f < folderList.size(); f++){
+									if(! inputPath.endsWith("\\") && ! inputPath.endsWith("/")){
 										inputPath += "/";
 									}
-									corpusList.add( new Corpus( inputPath + folderList.get( f ) ) );
+									corpusList.add(new Corpus(inputPath + folderList.get(f)));
 								}
 							}
 						}else{
 							//fichier
-							Annotation annotation = XmlLoader.loadAnnotationFromFile( inputPath );
+							Annotation annotation = XmlLoader.loadAnnotationFromFile(inputPath);
 							List<Annotation> annotationList = new ArrayList<Annotation>();
-							annotationList.add( annotation );
-							corpusList.add( new Corpus("/default", annotationList ) );
+							annotationList.add(annotation);
+							corpusList.add(new Corpus("/default", annotationList));
 						}
 					}
 
 					//OUTPUTPATH
-					if(outputPath.isEmpty() ){
+					if(outputPath.isEmpty()){
 						// sortie par defaut
 						DateFormat shortDateFormat = DateFormat.getDateTimeInstance(
 								DateFormat.SHORT,
 								DateFormat.SHORT);
-						String fileName = shortDateFormat.format( new Date() );
-						logger.info( fileName );
+						String fileName = shortDateFormat.format(new Date());
+						logger.info(fileName);
 						fileName = fileName.replace(" ", "-");
 						fileName = fileName.replace("/", "_");
 						fileName = fileName.replace(":", "H");
 						outputPath = "generated/arff/"; // + fileName;
 					}else{
 						//tester si le chemin de sortie est un dossier
-						File outputFile = new File( outputPath );
-						if( outputFile.isDirectory() && args[ 0 ].equalsIgnoreCase( "arff" ) ){
+						File outputFile = new File(outputPath);
+						if(outputFile.isDirectory() && args[ 0 ].equalsIgnoreCase("arff")){
 							logger.error("Le fichier de sortie ne doit pas être un dossier: "+outputPath);
 							return;
-						}else if( ! outputFile.isDirectory() && args[ 0 ].equalsIgnoreCase( "scorer" ) ){
+						}else if(! outputFile.isDirectory() && args[ 0 ].equalsIgnoreCase("scorer")){
 							logger.error("Le fichier de sortie ne doit pas être un fichier: "+outputPath);
 							return;							
 						}
-						if( args[ 0 ].equalsIgnoreCase( "scorer" ) && 
-								( ! outputPath.endsWith("\\") || ! outputPath.endsWith( "/" ) ) ){
+						if(args[ 0 ].equalsIgnoreCase("scorer") &&
+								(! outputPath.endsWith("\\") || ! outputPath.endsWith("/"))){
 							outputPath += "/";
 						}
 					}
 
 					
-					if( split != 0 && pos != 0 ){
+					if(split != 0 && pos != 0){
 						pos = 0;
 						neg = 0;
 						logger.info("Seul l'option split est prise en compte face à -q.");
 					}
 
-					if( args[ 0 ].equalsIgnoreCase( "arff" ) ){
-						if( args[ 1 ].equalsIgnoreCase( "all" ) ){
-						ConversionToArff conversionToArff = new ConversionToArff(corpusList, pos, neg, parameter, outputPath, split);
-						Thread th = new Thread( conversionToArff );
-						th.start();
-						}
+					if(args[ 0 ].equalsIgnoreCase("arff")){
+					    if(args[1].equalsIgnoreCase("all")) {
+                            ConversionToArff conversionToArff = new ConversionToArff(corpusList, pos, neg, parameter, outputPath, split);
+                            Thread th = new Thread(conversionToArff);
+                            th.start();
+                        }
 						else if( args[ 1 ].equalsIgnoreCase( "no_assoc" ) ) {
 							ConversionToArff conversionToArff = new ConversionToArff(corpusList, pos, neg, parameter, outputPath, split);
 							Thread th = new Thread( conversionToArff );
 							th.start();
 						}
 
-						// Classe qui génère un arff spécifique à chaque relation  
-						
+						// Classe qui génère un arff spécifique à chaque relation
+
 						else if( args[ 1 ].equalsIgnoreCase( "directe" ) ) {
 							ConversionToArffDirecte conversionToArffDirecte = new ConversionToArffDirecte(corpusList, pos, neg, parameter, outputPath, split);
 							Thread th = new Thread( conversionToArffDirecte );
@@ -401,145 +403,72 @@ public class AncorToDemocrat {
 							Thread th = new Thread( conversionToArffAssocPronom );
 							th.start();
 						}
-						
-						// Classe qui crée simultanément un arff pour les relations directe, indirect, anaphore et coref à partir d'un même corpus 
-						
+
+						// Classe qui crée simultanément un arff pour les relations directe, indirect, anaphore et coref à partir d'un même corpus
+
 						else if( args[ 1 ].equalsIgnoreCase( "relation" ) ) {
 							ConversionToArffMulti conversionToArffMulti = new ConversionToArffMulti(corpusList, pos, neg, parameter, outputPath, split);
 							Thread th = new Thread( conversionToArffMulti);
 							th.start();
 						}
-						
+
 						else if( args[ 1 ].equalsIgnoreCase( "notcoref" ) ) {
 							ConversionToArff conversionToArff = new ConversionToArff(corpusList, pos, neg, parameter, outputPath, split);
 							Thread th = new Thread( conversionToArff );
 							th.start();
 						}
-						
+
 					}else{
 						//SCORER
 						String command = "";
-						for( int c = 0; c < args.length; c++){
+						for(int c = 0; c < args.length; c++){
 							command += args[ c ] + " ";
 						}
-						Scorer.scorerTask(command, corpusList, modelPath, pos, neg, parameter, outputPath, split, removeAttribute );
+						Scorer.scorerTask(command, corpusList, modelPath, pos, neg, parameter, outputPath, split, removeAttribute);
 					}
 				}else{
-					logger.info("Arguement manquant pour " + args[ 0 ] );
+					logger.info("Arguement manquant pour " + args[ 0 ]);
 				}
-			}else if( args[ 0 ].equalsIgnoreCase("chain") ){
+			}else if(args[ 0 ].equalsIgnoreCase("chain")){
 				//loading corpus via command line
 				List<Corpus> corpusList = new ArrayList<Corpus>();
 				for(int a = 1; a < args.length; a++){
-					corpusList.add( new Corpus( args[ a ] ) );
+					corpusList.add(new Corpus(args[ a ]));
 				}
-				convertCorpus( corpusList );
+				convertCorpus(corpusList);
 
-			}else if( args[ 0 ].equalsIgnoreCase( "ownarff" ) ){
+			}else if(args[ 0 ].equalsIgnoreCase("ownarff")){
 				if(args.length >= 4){
 					int pos = 0;
 					int neg = 0;
 					try{
-						pos = Integer.valueOf( args[ 3 ] );
-						neg = Integer.valueOf( args[ 4 ] );
+						pos = Integer.valueOf(args[ 3 ]);
+						neg = Integer.valueOf(args[ 4 ]);
 					}catch(NumberFormatException e){
 						logger.error("nbPositiveInstance et nbNegative doivent être des nombres");
 						logger.error("e.g. arff fromFolderName fileName nbPositiveInstance nbNegativeInstance");
 					}
-					generateOwnArff(args[ 1 ], args[ 2 ], pos, neg );
-				}else if(args[ 1 ].equalsIgnoreCase("corpus" ) ){
+					generateOwnArff(args[ 1 ], args[ 2 ], pos, neg);
+				}else if(args[ 1 ].equalsIgnoreCase("corpus")){
 					generateCorpusArff();
 				}else{
 					logger.error("e.g. arff fileName nbPositiveInstance nbNegativeInstance");
 					logger.error("e.g. arff corpus : to generate all arff file from corpus");
 				}
 			}
-			
-			// Classe qui génère un vote de chaque classifier de relation directe, indirecte, anaphore 
-			// Pour chaque relation, si un classifier a un YES (i.e le classifier DIRECTE a une relation DIRECTE), il incrémente son vote. Sinon, il ne fait rien.
-			// Si le compteur global des 3 classifieurs (directe, indirecte, anaphore) est supérieur à 0, la relation est COREF. Sinon, elle est NOT COREF. 
-			
-			else if ( args[ 0 ].equalsIgnoreCase( "multiclass" ) ){
-				String outputPath = "";
-				String inputPath = "";
-				outputPath = args[ 4 ];
-				inputPath = args[ 2 ];
-
-				MultiClassifier multi= new MultiClassifier(inputPath,outputPath);
-				Thread th = new Thread( multi );
-				th.start();
-				logger.info("Fichier d'entrée : " +inputPath);
-
-			}
-			else if ( args[ 0 ].equalsIgnoreCase( "conversion" ) ){
-				String outputPath = "";
-				String inputPath = "";
-				outputPath = args[ 4 ];
-				inputPath = args[ 2 ];
-
-				ConversionFichier conv = new ConversionFichier(inputPath,outputPath);
-				Thread th = new Thread( conv );
-				th.start();
-				logger.info("Fichier d'entrée : " +inputPath);
-			}
-			
-			// Classe qui permet de convertir le fichier d'arff des coref (généré par conversionToArffMulti) 
-			// dans la même structure que les résultats de sortie de Weka, afin de pouvoir faire une comparaison
-			
-			else if ( args[ 0 ].equalsIgnoreCase( "conversion_coref" ) ){
-				String outputPath = "";
-				String inputPath = "";
-				outputPath = args[ 4 ];
-				inputPath = args[ 2 ];
-
-				ConversionCoref conv_coref = new ConversionCoref(inputPath,outputPath);
-				Thread th = new Thread( conv_coref );
-				th.start();
-				logger.info("Fichier d'entrée : " +inputPath);
-			}
-			
-			// Classe qui permet de comparer les résultats du multiclassifier avec les résultats de base 
-			// Renvoie les mêmes calculs que ceux de Weka à savoir le rappel, la précision et la f-mesure
-			
-			else if ( args[ 0 ].equalsIgnoreCase( "comparaison" ) ){
-				String outputPath = "";
-				String inputPath = "";
-				outputPath = args[ 4 ];
-				inputPath = args[ 2 ];
-
-				ComparaisonResult comp = new ComparaisonResult(inputPath,outputPath);
-				Thread th = new Thread( comp );
-				th.start();
-				logger.info("Fichier d'entrée : " +inputPath);
-
-			}
-			
-//			else if ( args[ 0 ].equalsIgnoreCase( "comparaison_relation" ) ){
-//				String outputPath = "";
-//				String inputPath = "";
-//				outputPath = args[ 4 ];
-//				inputPath = args[ 2 ];
-//
-//				ComparaisonRelation comp_relation = new ComparaisonRelation(inputPath,outputPath);
-//				Thread th = new Thread( comp_relation );
-//				th.start();
-//				logger.info("Fichier d'entrée : " +inputPath);
-//
-//			}
-			
 		}else if(args.length == 1){
 			//help
-			if(args[ 0 ].equalsIgnoreCase( "help" ) ){
+			if(args[ 0 ].equalsIgnoreCase("help")){
 				//TODO print all command
 			}
 		}else{//loading corpus via txt file
 			List<String> corpusPath = fileManager.loadPathFile();
 			List<Corpus> corpusList = new ArrayList<Corpus>();
 			for(String path : corpusPath){
-				corpusList.add( new Corpus( path ));
+				corpusList.add(new Corpus(path));
 			}
 
-			convertCorpus( corpusList );
+			convertCorpus(corpusList);
 		}
 	}
 
@@ -548,14 +477,14 @@ public class AncorToDemocrat {
 		List<String> corpusPath = fileManager.loadPathFile();
 		List<Corpus> corpusList = new ArrayList<Corpus>();
 		for(String path : corpusPath){
-			corpusList.add( new Corpus( path ));
+			corpusList.add(new Corpus(path));
 		}
 
 		//loading annotation and text of corpus
 		for(Corpus corpus : corpusList){
-			logger.info("Loading annotation on: " + corpus.getName() );
+			logger.info("Loading annotation on: " + corpus.getName());
 			corpus.loadAnnotation();
-			logger.info("Loading text on: " + corpus.getName() );
+			logger.info("Loading text on: " + corpus.getName());
 			corpus.loadText();
 
 		}
@@ -563,16 +492,15 @@ public class AncorToDemocrat {
 
 		//conversion each corpus
 		for(Corpus corpus : corpusList){
-			ConversionToArff conversionToArff = new ConversionToArff( corpus );
-			Thread th = new Thread( conversionToArff );
+			ConversionToArff conversionToArff = new ConversionToArff(corpus);
+			Thread th = new Thread(conversionToArff);
 			th.start();
-			
 		}
 	}
 
-	private static void addListIfNotContains( List<String> list, String str ){
-		if( ! list.contains( str ) ){
-			list.add( str );
+	private static void addListIfNotContains(List<String> list, String str){
+		if(! list.contains(str)){
+			list.add(str);
 		}
 	}
 
@@ -589,13 +517,13 @@ public class AncorToDemocrat {
 	public static void generateOwnArff(String folderName, String fileName, int nbPos, int nbNeg){
 		final String defaultFileName = "coreferences";
 
-		if( nbPos < 0 || nbNeg < 0 ){
+		if(nbPos < 0 || nbNeg < 0){
 			logger.error("nbPos et nbNeg doit être > 0");
 			return;
 		}
 
 
-		if( fileName.isEmpty() || fileName == null){
+		if(fileName.isEmpty() || fileName == null){
 			fileName = defaultFileName;
 		}
 
@@ -609,8 +537,8 @@ public class AncorToDemocrat {
 			//if no arff file
 			//error
 			//TODO help user with command
-			ArrayList<String> fileList = fileManager.getFileFromFolder(new File( folderName ), "arff");
-			if( fileList.size() == 0 ){
+			ArrayList<String> fileList = fileManager.getFileFromFolder(new File(folderName), "arff");
+			if(fileList.size() == 0){
 				logger.error("Pas de fichier arff trouvé dans ce dossier: "+folderName);		
 				return;
 			}
@@ -619,14 +547,14 @@ public class AncorToDemocrat {
 			for(String file : fileList){
 				BufferedReader br = null;
 				try {
-					br = new BufferedReader(new FileReader( folderName + file ) );
+					br = new BufferedReader(new FileReader(folderName + file));
 					String line;
 					while ((line = br.readLine()) != null) {
-						if( ! line.startsWith("@DATA") && ! line.startsWith("@ATTRIBUTE" ) ){
-							if( line.endsWith(" COREF") ){
-								posInstanceList.add( line );
-							}else if( line.endsWith("NOT_COREF" ) ){
-								negInstanceList.add( line );
+						if(! line.startsWith("@DATA") && ! line.startsWith("@ATTRIBUTE")){
+							if(line.endsWith(" COREF")){
+								posInstanceList.add(line);
+							}else if(line.endsWith("NOT_COREF")){
+								negInstanceList.add(line);
 							}
 						}
 					}
@@ -657,26 +585,26 @@ public class AncorToDemocrat {
 			int random = 0;
 			//select the intances
 			for(int p = 0; p < nbPos; p++){
-				random = AncorToDemocrat.randomNumber( 0, posInstanceList.size() - 1);
-				if( nbGenerated.contains( random ) ){
-					while( nbGenerated.contains( random ) ){
-						random = AncorToDemocrat.randomNumber( 0, posInstanceList.size() - 1);						
+				random = AncorToDemocrat.randomNumber(0, posInstanceList.size() - 1);
+				if(nbGenerated.contains(random)){
+					while(nbGenerated.contains(random)){
+						random = AncorToDemocrat.randomNumber(0, posInstanceList.size() - 1);
 					}
 				}
-				nbGenerated.add( random );	
-				writer.println( posInstanceList.get( random ) );
+				nbGenerated.add(random);
+				writer.println(posInstanceList.get(random));
 
 			}
 			nbGenerated.clear();
 			for(int n = 0; n < nbNeg; n++){
-				random = AncorToDemocrat.randomNumber( 0, negInstanceList.size() - 1);
-				if( nbGenerated.contains( random ) ){
-					while( nbGenerated.contains( random ) ){
-						random = AncorToDemocrat.randomNumber( 0, negInstanceList.size() - 1);						
+				random = AncorToDemocrat.randomNumber(0, negInstanceList.size() - 1);
+				if(nbGenerated.contains(random)){
+					while(nbGenerated.contains(random)){
+						random = AncorToDemocrat.randomNumber(0, negInstanceList.size() - 1);
 					}
 				}
-				nbGenerated.add( random );				
-				writer.println( negInstanceList.get( random ) );
+				nbGenerated.add(random);
+				writer.println(negInstanceList.get(random));
 			}
 
 		} catch (FileNotFoundException e) {
@@ -686,7 +614,7 @@ public class AncorToDemocrat {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}finally{
-			if( writer != null){
+			if(writer != null){
 				writer.close();
 			}
 		}
@@ -701,23 +629,23 @@ public class AncorToDemocrat {
 	 * @param outputPath chemin de sortie du corpus avec les nouveaux traits.
 	 * 
 	 */
-	public static void generateFeature( Corpus corpus, boolean isFirstMention, String outputPath ){
-		logger.info("Loading annotation on: " + corpus.getName() );
+	public static void generateFeature(Corpus corpus, boolean isFirstMention, String outputPath){
+		logger.info("Loading annotation on: " + corpus.getName());
 		corpus.loadAnnotation();
-		logger.info("Loading text on: " + corpus.getName() );
+		logger.info("Loading text on: " + corpus.getName());
 		corpus.loadText();
 		List<Annotation> annotationList = corpus.getAnnotation();
 		for(int a = 0; a < annotationList.size(); a++){
-			if( ! isFirstMention ){
-				ConversionInSet.toSetFromChain( annotationList.get( a ) );
+			if(! isFirstMention){
+				ConversionInSet.toSetFromChain(annotationList.get(a));
 			}else{
-				ConversionInSet.toSetFromFirstMention( annotationList.get( a ) );
+				ConversionInSet.toSetFromFirstMention(annotationList.get(a));
 			}
 		}
 
 
-		CalculateFeature calculate = new CalculateFeature( corpus, outputPath );
-		Thread th = new Thread( calculate );
+		CalculateFeature calculate = new CalculateFeature(corpus, outputPath);
+		Thread th = new Thread(calculate);
 		th.start();
 	}
 
@@ -728,9 +656,9 @@ public class AncorToDemocrat {
 	public static void convertCorpus(List<Corpus> corpusList){
 		//loading annotation of corpus
 		for(Corpus corpus : corpusList){
-			logger.info("Loading annotation on: " + corpus.getName() );
+			logger.info("Loading annotation on: " + corpus.getName());
 			corpus.loadAnnotation();
-			logger.info("Loading text on: " + corpus.getName() );
+			logger.info("Loading text on: " + corpus.getName());
 			corpus.loadText();
 
 		}
@@ -739,8 +667,8 @@ public class AncorToDemocrat {
 
 		//conversion each corpus
 		for(Corpus corpus : corpusList){
-			ConversionWorker conversionWorker = new ConversionWorker( corpus );
-			conversionWorkerList.add( conversionWorker );
+			ConversionWorker conversionWorker = new ConversionWorker(corpus);
+			conversionWorkerList.add(conversionWorker);
 			conversionWorker.start();
 		}
 	}
