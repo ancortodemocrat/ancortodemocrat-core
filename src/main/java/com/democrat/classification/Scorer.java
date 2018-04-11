@@ -1,13 +1,6 @@
 package com.democrat.classification;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
-import java.io.UnsupportedEncodingException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -683,10 +676,11 @@ public class Scorer {
 		Process p;
 		String result = "";
 		try {
-			p = Runtime.getRuntime(  ).exec( "scorer.bat " + metric + " " + trueFile + " " + systemFile );
-			BufferedReader br = new BufferedReader( new InputStreamReader( p.getInputStream(  ) ) );
+			p = Runtime.getRuntime(  ).exec( "perl scorer.pl " + metric + " " + trueFile + " " + systemFile );
+			BufferedReader br = new BufferedReader( new InputStreamReader( p.getInputStream() ) );
+			//p.waitFor();
 			String line = null;
-			while ( ( line = br.readLine(  ) ) != null ){
+			while ( ( line = br.readLine(  ) ) != null ){ // attente d'écritures
 				result += line;
 			}
 		} catch (IOException e1) {
