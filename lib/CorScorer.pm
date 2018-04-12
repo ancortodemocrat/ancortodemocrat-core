@@ -68,7 +68,7 @@ print "version: " . $VERSION . " " . Cwd::realpath(__FILE__) . "\n";
 # 1.02 Corrected BCUB bug. It fails when the key file does not have any mention
 
 # global variables
-my $VERBOSE         = 2;
+my $VERBOSE         = 1;
 my $HEAD_COLUMN     = 8;
 my $RESPONSE_COLUMN = -1;
 my $KEY_COLUMN      = -1;
@@ -369,7 +369,7 @@ sub IdentifMentions {
 
     my $i = 0;
     my @remove;
-		
+
     foreach my $mention (@$entity) {
       if (defined($map{"$mention->[0],$mention->[1]"})) {
         print "Repeated mention in the response: $mention->[0], $mention->[1] ",
@@ -932,7 +932,7 @@ sub ScoreBLANC {
       $f1 = $Fa;
     }
 
-    ShowRPF($R, 1, $P, 1, $f1);
+    ShowRPF($R, 1, $P, 1, $f1);#Recall Precision, F1
   }
   return (
     $acumNRa, $acumDRa, $acumNPa, $acumDPa,
