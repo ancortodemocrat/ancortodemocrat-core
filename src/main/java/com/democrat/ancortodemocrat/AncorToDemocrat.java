@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import com.democrat.classification.Classification;
 import com.democrat.classification.ModelGeneration;
 import org.apache.log4j.Logger;
 import org.apache.log4j.xml.DOMConfigurator;
@@ -48,6 +49,9 @@ public class AncorToDemocrat {
 			if (args[0].equalsIgnoreCase("model")) {
 				logger.info("Running model creation");
 				new ModelGeneration(args);
+			}else if (args[0].equalsIgnoreCase("classify")) {
+				logger.info("Running classification");
+				new Classification(args);
 			}else if(args[0].equalsIgnoreCase("feature")){
 				/**
 				 * feature

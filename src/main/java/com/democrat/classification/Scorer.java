@@ -222,6 +222,7 @@ public class Scorer {
 				for(String attr : listRemoveAttribute ){
 					results += "- " + attr + System.lineSeparator();
 				}
+				/*
 				results += System.lineSeparator() + "Muc:" + System.lineSeparator();
 				results += eval("muc", outputPath + file.getName().replace(".arff", "") + "_GOLD.txt" ,outputPath + file.getName().replace(".arff", "") + "_SYSTEM.txt" );
 				results += System.lineSeparator() + "B3:" + System.lineSeparator();
@@ -230,6 +231,9 @@ public class Scorer {
 				results += eval("ceafe", outputPath + file.getName().replace(".arff", "") + "_GOLD.txt" ,outputPath + file.getName().replace(".arff", "") + "_SYSTEM.txt" );
 				results += System.lineSeparator() + "blanc:" + System.lineSeparator();
 				results += eval("blanc", outputPath + file.getName().replace(".arff", "") + "_GOLD.txt" ,outputPath + file.getName().replace(".arff", "") + "_SYSTEM.txt" );
+				*/
+
+				results += eval("all", outputPath + file.getName().replace(".arff", "") + "_GOLD.txt" ,outputPath + file.getName().replace(".arff", "") + "_SYSTEM.txt" );
 				logger.info( results );
 				//on écrit les résultats dans un fichier
 				writer = new PrintWriter( outputPath + file.getName().replace(".arff", "") + "_RESULTS.txt", "UTF-8" );
@@ -404,6 +408,7 @@ public class Scorer {
 							i++;
 						}
 					}
+					System.out.println(indices.toString());
 				} catch (IOException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -690,10 +695,12 @@ public class Scorer {
 
 		int indexOfCoreference = result.indexOf( "Coreference:" );
 		String output = "";
-		try{
-			output = result.substring( indexOfCoreference, result.length() ).replace("--", "");
-		}catch(StringIndexOutOfBoundsException e ){
-			logger.debug(metric + " error: " + result);
+		while( -1 < (indexOfCoreference=result.indexOf( "Coreference:" ))) {
+			try {
+				output += result.substring(indexOfCoreference, result.length()).replace("--", "");
+			} catch (StringIndexOutOfBoundsException e) {
+				logger.debug(metric + " error: " + result);
+			}
 		}
 
 		return output;
