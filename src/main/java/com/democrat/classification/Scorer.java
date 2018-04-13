@@ -28,8 +28,7 @@ public class Scorer {
 
 
 	/**
-	 * 
-	 * @param command String de la commande exéctuée pour cette fonction
+	 *  @param command String de la commande exéctuée pour cette fonction
 	 * @param corpusList liste des corpus où sont extrait les relations
 	 * @param modelPath chemin du fichier model à appliquer pour faire le test
 	 * @param positif nombre d'instance positive
@@ -38,6 +37,7 @@ public class Scorer {
 	 * @param outputPath Chemin de sortie des résultats
 	 * @param split Si on doit splter le/les corpus indiqué(s), sinon 0 et aucun split est appliqué
 	 * @param listRemoveAttribute Liste des attributs à ignorer pour l'apprentissage
+	 * @param metriques Chaine contenant toutes les métriques à calculer (séparées par des +)
 	 */
 	public static void scorerTask(
 			String command,
@@ -48,7 +48,8 @@ public class Scorer {
 			ParamToArff param,
 			String outputPath,
 			int split,
-			List<String> listRemoveAttribute){
+			List<String> listRemoveAttribute,
+			String metriques){
 
 		//chargement du modèle pour tester
 		//si c'est un bon ou pas
@@ -233,7 +234,7 @@ public class Scorer {
 				results += eval("blanc", outputPath + file.getName().replace(".arff", "") + "_GOLD.txt" ,outputPath + file.getName().replace(".arff", "") + "_SYSTEM.txt" );
 				*/
 
-				results += eval("all", outputPath + file.getName().replace(".arff", "") + "_GOLD.txt" ,outputPath + file.getName().replace(".arff", "") + "_SYSTEM.txt" );
+				results += eval(metriques, outputPath + file.getName().replace(".arff", "") + "_GOLD.txt" ,outputPath + file.getName().replace(".arff", "") + "_SYSTEM.txt" );
 				logger.info( results );
 				//on écrit les résultats dans un fichier
 				writer = new PrintWriter( outputPath + file.getName().replace(".arff", "") + "_RESULTS.txt", "UTF-8" );
@@ -680,13 +681,15 @@ public class Scorer {
 	public static String eval( String metric, String trueFile, String systemFile ){
 		Process p;
 		String result = "";
+		String command = "perl scorer.pl " + metric + " " + trueFile + " " + systemFile;
+		System.out.println(command);
 		try {
-			p = Runtime.getRuntime(  ).exec( "perl scorer.pl " + metric + " " + trueFile + " " + systemFile );
+			p = Runtime.getRuntime(  ).exec(command);
 			BufferedReader br = new BufferedReader( new InputStreamReader( p.getInputStream() ) );
 			//p.waitFor();
 			String line = null;
 			while ( ( line = br.readLine(  ) ) != null ){ // attente d'écritures
-				result += line;
+				result += line+"<newline>";
 			}
 		} catch (IOException e1) {
 			// TODO Auto-generated catch block
@@ -702,7 +705,7 @@ public class Scorer {
 				logger.debug(metric + " error: " + result);
 			}
 		}
-
+		output.replaceAll("<newline>","\n");
 		return output;
 	}
 

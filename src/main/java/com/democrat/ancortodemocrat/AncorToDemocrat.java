@@ -127,6 +127,7 @@ public class AncorToDemocrat {
 				String outputPath = "";
 				String modelPath = "";
 				List<String> removeAttribute = new ArrayList<String>();
+				String metriques = "muc bcub";
 				int split = 0;
 				//quantité
 				int pos = 0;
@@ -243,6 +244,17 @@ public class AncorToDemocrat {
 								}
 								if(i == 1){
 									logger.error("Aucun paramètre indiqué après -r.");
+								}
+							}else if(args[ a ].equalsIgnoreCase("--metric")
+									&& ! args[ a + 1 ].contains("-") ){
+								metriques = args[a+1];
+								int i = 2;
+								while(a + i < args.length && ! args[ a + i ].contains("-")){
+									metriques += "+"+args[a+i];
+									i++;
+								}
+								if(i == 1){
+									logger.error("Aucun paramètre indiqué après --metric.");
 								}
 							}else if(args[ a ].equalsIgnoreCase("-a")){
 								if(a + 1 < args.length){
@@ -428,7 +440,9 @@ public class AncorToDemocrat {
 						for(int c = 0; c < args.length; c++){
 							command += args[ c ] + " ";
 						}
-						Scorer.scorerTask(command, corpusList, modelPath, pos, neg, parameter, outputPath, split, removeAttribute);
+						Scorer.scorerTask(command, corpusList,
+								modelPath, pos, neg, parameter,
+								outputPath, split, removeAttribute, metriques);
 					}
 				}else{
 					logger.info("Arguement manquant pour " + args[ 0 ]);
