@@ -39,8 +39,8 @@ TRAIN_ARFF=train
 TEST_ARFF=test
 
 install:
-	git submodules init
-	git submodules update
+	git submodule init
+	git submodule update
 	mvn install
 
 gen-all: init-env gen-corp features arff gen-model
