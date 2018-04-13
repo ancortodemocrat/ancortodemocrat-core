@@ -245,7 +245,7 @@ public class AncorToDemocrat {
 								if(i == 1){
 									logger.error("Aucun paramètre indiqué après -r.");
 								}
-							}else if(args[ a ].equalsIgnoreCase("--metric")
+							}else if(args[ a ].equalsIgnoreCase("--scorer")
 									&& ! args[ a + 1 ].contains("-") ){
 								metriques = args[a+1];
 								int i = 2;
@@ -254,7 +254,7 @@ public class AncorToDemocrat {
 									i++;
 								}
 								if(i == 1){
-									logger.error("Aucun paramètre indiqué après --metric.");
+									logger.error("Aucun paramètre indiqué après --scorer.");
 								}
 							}else if(args[ a ].equalsIgnoreCase("-a")){
 								if(a + 1 < args.length){
