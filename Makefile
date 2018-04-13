@@ -1,5 +1,5 @@
 ##	PARAMETERS
-
+ROOT=/tp/Augustin# Dossier de travail (>1 Go libre)
 ALGO=J48
 CORPUS_ZIP=./Donnees_corpus.zip
 
@@ -10,7 +10,7 @@ ANCOR_SMALL_SELECT_AA=$(CORPUS_SRC)/Données_corpus/Tableau5/corpus_apprentissa
 
 ## /PARAMETERS
 
-CORPUS_SRC=/tmp/Ancor
+CORPUS_SRC=$(ROOT)/Ancor
 
 WEKA_CLASSIFIER=weka.classifiers
 J48=trees.J48
@@ -27,7 +27,7 @@ ANCOR2=java -jar $(JAR_F)
 CORPUS_NAME=Small
 ANCOR_SMALL=$(CORPUS_SRC)/Small
 
-GENERATED=/tmp/generated/$(CORPUS_NAME)
+GENERATED=$(ROOT)/generated/$(CORPUS_NAME)
 FEATURE=$(GENERATED)/feature
 ARFF=$(GENERATED)/arff
 MODEL=$(GENERATED)/model
@@ -38,8 +38,12 @@ CORPUS=$(GENERATED)/chain/
 TRAIN_ARFF=train
 TEST_ARFF=test
 
+install:
+	git submodules init
+	git submodules update
+	mvn install
 
-all: init-env gen-corp features arff gen-model
+gen-all: init-env gen-corp features arff gen-model
 
 info:
 	@echo CORPUS=$(CORPUS)
@@ -85,20 +89,20 @@ arff:
 
 #	ancor2 model <weka-class-name> -t <arff-training-file>	[-T <arff-test-file>]
 #							[weka-optional-params] -d <MODEL-model-filename>
-gen-model: clean-model
+gen-model:
 	trainArff=$(shell find $(ARFF) -name $(TRAIN_ARFF)*.arff | head -1)
 	testArff=$(shell find $(ARFF) -name $(TEST_ARFF)*.arff | head -1)
 	$(ANCOR2) model $(ALGO_CLASS) \
 		-t $(shell find $(ARFF) -name $(TRAIN_ARFF)*.arff | head -1) \
 		-T $(shell find $(ARFF) -name $(TEST_ARFF)*.arff | head -1) -o -d $(MODEL)/$(ALGO)
 
-run-scorer: clean-cs
+run-scorer:
 	$(ANCOR2) scorer no_assoc -i $(FEATURE)/ -q $(SCORE_DISTRIB) \
 		-o $(CALLSCORER)/ -m $(MODEL)/Model
 
 
 remove-extracted-Ancor:
-	-$(RM) -rf /tmp/Ancor
+	-$(RM) -rf $(ROOT)/Ancor
 	-unlink Ancor
 
 extract-Ancor: remove-extracted-Ancor
@@ -113,14 +117,14 @@ gen-Ancor-Small: extract-Ancor
 	-cp $(ANCOR_SMALL_SELECT_AC) $(ANCOR_SMALL)/ac_fichiers/
 
 init-env: clean-all gen-Ancor-Small
-	-mkdir $(GENERATED)
+	-mkdir -p $(GENERATED)
 	-mkdir $(FEATURE)
 	-mkdir $(ARFF)
 	-mkdir $(MODEL)
 	-mkdir $(CALLSCORER)
 	-mkdir -p $(CORPUS)
 
-T5-init:
+T5-init: init-env
 	-mkdir -p $(MODEL)/J48
 	-mkdir $(MODEL)/SMO
 	-mkdir $(MODEL)/NB
@@ -128,7 +132,7 @@ T5-init:
 	-mkdir $(CALLSCORER)/J48/Medium
 	-mkdir $(CALLSCORER)/J48/Big
 
-T5-arff: clean-arff
+T5-arff:
 	$(ANCOR2) arff no_assoc -i $(FEATURE) -q 3000 2150 -o $(ARFF)/$(TRAIN_ARFF)_small
 	$(ANCOR2) arff no_assoc -i $(FEATURE) -q 3000 3834 -o $(ARFF)/$(TRAIN_ARFF)_medium
 	$(ANCOR2) arff no_assoc -i $(FEATURE) -q 3000 5234 -o $(ARFF)/$(TRAIN_ARFF)_big
@@ -166,3 +170,8 @@ T5-scorer:
 		-o $(CALLSCORER)/J48/Medium -m $(MODEL)/J48/medium.model
 	$(ANCOR2) scorer no_assoc -i $(FEATURE)/ -q $(SCORE_DISTRIB) \
 		-o $(CALLSCORER)/J48/Big -m $(MODEL)/J48/big.model
+
+T5-prepare-all: T5-init gen-corp features T5-arff T5-model
+	@echo ===========================================================
+	@echo READY
+	@echo ===========================================================
