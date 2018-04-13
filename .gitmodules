@@ -1,0 +1,3 @@
+[submodule "reference-coreference-scorers"]
+	path = reference-coreference-scorers
+	url = git@github.com:conll/reference-coreference-scorers.git
