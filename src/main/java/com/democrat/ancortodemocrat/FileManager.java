@@ -60,7 +60,7 @@ public class FileManager {
 
 	/**
 	 * return a list of file name from a folder path
-	 * @param path of the folder
+	 * @param folder of the folder
 	 * @param ext only the extension without the dot
 	 * @return
 	 */

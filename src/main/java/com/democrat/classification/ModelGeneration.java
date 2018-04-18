@@ -5,8 +5,12 @@ import weka.classifiers.AbstractClassifier;
 
 import java.io.File;
 import java.io.PrintStream;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Vector;
 
 /**
@@ -43,7 +47,8 @@ public class ModelGeneration {
 
             this.execute(theClass, argv.toArray(new String[argv.size()]));
         } catch (Exception ex) {
-            System.err.println(ex.getMessage());
+            //System.err.println(ex.getMessage());
+            ex.printStackTrace();
         }
 
 
@@ -110,11 +115,20 @@ public class ModelGeneration {
         }
 
         try {
-            Object[] argsInvoke = { args };
-            mainMethod.invoke(null, argsInvoke);
 
-        } catch (Exception ex) {
-            System.err.println("Problem invoking model from Weka: " + ex.getMessage());
+            Object[] argsInvoke = {args};
+            PrintStream out = System.out;
+            System.setOut(null);
+            mainMethod.invoke(null, argsInvoke);
+            System.setOut(out);
+
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+            System.err.println("Problem invoking model from Weka");
+
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+            System.err.println("Problem invoking model from Weka");
         }
 
         // restore old System.out stream

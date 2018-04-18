@@ -1,10 +1,8 @@
 package com.democrat.classification;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Scanner;
+import java.util.*;
+
 import org.apache.log4j.Logger;
 import com.democrat.ancortodemocrat.ConversionInSet;
 import com.democrat.ancortodemocrat.ConversionToArff;
@@ -234,7 +232,11 @@ public class Scorer {
 				results += eval("blanc", outputPath + file.getName().replace(".arff", "") + "_GOLD.txt" ,outputPath + file.getName().replace(".arff", "") + "_SYSTEM.txt" );
 				*/
 
-				results += eval(metriques, outputPath + file.getName().replace(".arff", "") + "_GOLD.txt" ,outputPath + file.getName().replace(".arff", "") + "_SYSTEM.txt" );
+				String res =
+						eval(metriques,
+								outputPath + file.getName().replace(".arff", "") + "_GOLD.txt",
+								outputPath + file.getName().replace(".arff", "") + "_SYSTEM.txt");
+				results += res.toString();
 				logger.info( results );
 				//on écrit les résultats dans un fichier
 				writer = new PrintWriter( outputPath + file.getName().replace(".arff", "") + "_RESULTS.txt", "UTF-8" );
@@ -678,35 +680,63 @@ public class Scorer {
 	}
 
 
-	public static String eval( String metric, String trueFile, String systemFile ){
+	public static String eval(String metric, String trueFile, String systemFile ){
 		Process p;
 		String result = "";
 		String command = "perl scorer.pl " + metric + " " + trueFile + " " + systemFile;
 		System.out.println(command);
 		try {
-			p = Runtime.getRuntime(  ).exec(command);
+			p = Runtime.getRuntime(  ).exec(command,null,
+					new File("reference-coreference-scorers"));
+
 			BufferedReader br = new BufferedReader( new InputStreamReader( p.getInputStream() ) );
 			//p.waitFor();
 			String line = null;
 			while ( ( line = br.readLine(  ) ) != null ){ // attente d'écritures
-				result += line+"<newline>";
+				result += line+"\n";
 			}
 		} catch (IOException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 
-		int indexOfCoreference = result.indexOf( "Coreference:" );
 		String output = "";
-		while( -1 < (indexOfCoreference=result.indexOf( "Coreference:" ))) {
+		int indexOfCoreference = result.indexOf( "Coreference:" );
+		while( -1 < (indexOfCoreference=result.indexOf( "METRIC" , indexOfCoreference))) {
+			try {
+				output += result.substring(indexOfCoreference, result.length()).replace("--", "");
+			} catch (StringIndexOutOfBoundsException e) {
+				logger.debug(metric + " error: " + result);
+			}
+			indexOfCoreference=result.indexOf( "Coreference:", indexOfCoreference );
 			try {
 				output += result.substring(indexOfCoreference, result.length()).replace("--", "");
 			} catch (StringIndexOutOfBoundsException e) {
 				logger.debug(metric + " error: " + result);
 			}
 		}
-		output.replaceAll("<newline>","\n");
+		/*String[] lignes = result.split("\n");
+		String metrique=null;
+		HashMap<String,HashMap<String,Float>> res = new HashMap<>();
+		Pattern pattern_metrique= Pattern.compile("^METRIC (.*):$");
+
+		Pattern pattern_res= Pattern.compile("^Coreference:" +
+				".*\\s(\\d{1,2}\\.\\d{1,2})\\p{Punct}" + //Recall
+				".*\\s(\\d{1,2}\\.\\d{1,2})\\p{Punct}" + //Precion
+				".*\\s(\\d{1,2}\\.\\d{1,2})\\p{Punct}$"); // F1
+		Matcher m;
+		for(String ligne:lignes){
+			if((m = pattern_metrique.matcher(ligne)).matches())
+				res.put( (metrique = m.group(0)), new HashMap<String, Float>());
+
+			else if ((m = pattern_res.matcher(ligne)).matches()){
+				res.get(metrique).put("Recall",Float.parseFloat(m.group(0)));
+				res.get(metrique).put("Precision",Float.parseFloat(m.group(1)));
+				res.get(metrique).put("F1",Float.parseFloat(m.group(2)));
+			}
+		}*/
 		return output;
+		//return res;
 	}
 
 
