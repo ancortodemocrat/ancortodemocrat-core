@@ -1,12 +1,23 @@
 ##	PARAMETERS
 ROOT=/tp/Augustin# Dossier de travail (>1 Go libre)
 ALGO=J48
-CORPUS_ZIP=./Donnees_corpus.zip
 
-ANCOR_SMALL_SELECT_AC=$(CORPUS_SRC)/Données_corpus/Tableau5/corpus_apprentissage/ac_fichiers/*
-ANCOR_SMALL_SELECT_AA=$(CORPUS_SRC)/Données_corpus/Tableau5/corpus_apprentissage/aa_fichiers/*
-# ANCOR_SMALL_SELECT_AC=$(CORPUS_SRC)/corpus_ESLO/ac_fichiers/00[4-4]*
-# ANCOR_SMALL_SELECT_AA=$(CORPUS_SRC)/corpus_ESLO/aa_fichiers/00[4-4]*
+# CORPUS_ZIP=./Ancor-Centre-CC-BY-NC-SA.zip
+#CORPUS_ZIP=./Donnees_maj.zip# Tableau6, Tableau7,
+CORPUS_ZIP=./Donnees_corpus.zip# Tableau5,
+
+CORPUS_NAME=T5
+
+SCORERS=muc bcub ceafe blanc
+NUM_TEST=1
+
+# ANCOR_SMALL_SELECT_AC=$(CORPUS_SRC)/corpus_ESLO/ac_fichiers/00[1-6]*
+# ANCOR_SMALL_SELECT_AA=$(CORPUS_SRC)/corpus_ESLO/aa_fichiers/00[1-6]*
+# ANCOR_SMALL_SELECT_AC=$(CORPUS_SRC)/Données_corpus/Tableau6/corpus_ESLO_apprentissage/ac_fichiers/*
+# ANCOR_SMALL_SELECT_AA=$(CORPUS_SRC)/Données_corpus/Tableau6/corpus_ESLO_apprentissage/aa_fichiers/*
+ANCOR_SMALL_SELECT_AC=$(CORPUS_SRC)/Données_corpus/Tableau5/corpus_apprentissage/ac_fichiers/*#Tableau5
+ANCOR_SMALL_SELECT_AA=$(CORPUS_SRC)/Données_corpus/Tableau5/corpus_apprentissage/aa_fichiers/*#Tableau5
+
 
 ## /PARAMETERS
 
@@ -15,17 +26,18 @@ CORPUS_SRC=$(ROOT)/Ancor
 WEKA_CLASSIFIER=weka.classifiers
 J48=trees.J48
 SMO=functions.SMO
-NAIVES_BAYES=bayes.NaivesBayes
+SMO_PARAMS=
+NAIVES_BAYES=bayes.NaiveBayes
 ALGO_CLASS=$(WEKA_CLASSIFIER).$($(ALGO))
-TRAINING_DISTRIB=3000 2150
-TEST_PARAMS= -q 2757 3861
-SCORE_DISTRIB=275 786
+TRAINING_DISTRIB=1500 1075
+TEST_PARAMS=-q 2757 3861
+SCORE_DISTRIB=2757 3861
 
-JAR_F=./target/ancor2-0.0.1-SNAPSHOT.jar
+JAR_F=./target/ancor2-0.0.1-SNAPSHOT-jar-with-dependencies.jar
+WEKA_JAR=~/bin/weka*/weka.jar
 ANCOR2=java -jar $(JAR_F)
 
-CORPUS_NAME=Small
-ANCOR_SMALL=$(CORPUS_SRC)/Small
+ANCOR_SMALL=$(CORPUS_SRC)/$(CORPUS_NAME)
 
 GENERATED=$(ROOT)/generated/$(CORPUS_NAME)
 FEATURE=$(GENERATED)/feature
@@ -38,10 +50,15 @@ CORPUS=$(GENERATED)/chain/
 TRAIN_ARFF=train
 TEST_ARFF=test
 
+include *.mk
+
+
 install:
 	git submodule init
 	git submodule update
 	mvn install
+
+expe:	init-env gen-corp expe-feature expe-model expe-scorer
 
 gen-all: init-env gen-corp features arff gen-model
 
@@ -96,9 +113,34 @@ gen-model:
 		-t $(shell find $(ARFF) -name $(TRAIN_ARFF)*.arff | head -1) \
 		-T $(shell find $(ARFF) -name $(TEST_ARFF)*.arff | head -1) -o -d $(MODEL)/$(ALGO)
 
+expe-feature:
+	$(ANCOR2)  feature p $(CORPUS) -o $(FEATURE)
+	mkdir $(FEATURE)/train
+	-mv $(FEATURE)/aa_fichiers/004*.aa $(FEATURE)/train/
+
+expe-arff:
+	$(ANCOR2) arff no_assoc -i $(FEATURE)/train -q $(TRAINING_DISTRIB) -o $(ARFF)/$(TRAIN_ARFF)
+
+expe-model: expe-arff
+	$(ANCOR2) model $(ALGO_CLASS) \
+		-t $(shell find $(ARFF) -name $(TRAIN_ARFF)*.arff | head -1) \
+		-no-cv -d $(MODEL)/$(ALGO).model
+
+expe-scorer:
+	-mkdir  $(CALLSCORER)/1
+	-mkdir  $(CALLSCORER)/2
+	-mkdir  $(CALLSCORER)/3
+
+	$(ANCOR2) scorer no_assoc -i $(FEATURE)/aa_fichiers/00$(NUM_TEST)_C-1.aa -q $(SCORE_DISTRIB) \
+		-o $(CALLSCORER)/1 -m $(MODEL)/$(ALGO).model
+	$(ANCOR2) scorer no_assoc -i $(FEATURE)/aa_fichiers/00$(NUM_TEST)_C-2.aa -q $(SCORE_DISTRIB) \
+		-o $(CALLSCORER)/2 -m $(MODEL)/$(ALGO).model
+	$(ANCOR2) scorer no_assoc -i $(FEATURE)/aa_fichiers/00$(NUM_TEST)_C-3.aa -q $(SCORE_DISTRIB) \
+		-o $(CALLSCORER)/3 -m $(MODEL)/$(ALGO).model
+
 run-scorer:
-	$(ANCOR2) scorer no_assoc -i $(FEATURE)/ -q $(SCORE_DISTRIB) \
-		-o $(CALLSCORER)/ -m $(MODEL)/Model
+	$(ANCOR2) scorer no_assoc -i $(FEATURE) -q $(SCORE_DISTRIB) \
+		-o $(CALLSCORER) -m $(MODEL)/Model
 
 
 remove-extracted-Ancor:
@@ -123,55 +165,3 @@ init-env: clean-all gen-Ancor-Small
 	-mkdir $(MODEL)
 	-mkdir $(CALLSCORER)
 	-mkdir -p $(CORPUS)
-
-T5-init: init-env
-	-mkdir -p $(MODEL)/J48
-	-mkdir $(MODEL)/SMO
-	-mkdir $(MODEL)/NB
-	-mkdir -p $(CALLSCORER)/J48/Small
-	-mkdir $(CALLSCORER)/J48/Medium
-	-mkdir $(CALLSCORER)/J48/Big
-
-T5-arff:
-	$(ANCOR2) arff no_assoc -i $(FEATURE) -q 3000 2150 -o $(ARFF)/$(TRAIN_ARFF)_small
-	$(ANCOR2) arff no_assoc -i $(FEATURE) -q 3000 3834 -o $(ARFF)/$(TRAIN_ARFF)_medium
-	$(ANCOR2) arff no_assoc -i $(FEATURE) -q 3000 5234 -o $(ARFF)/$(TRAIN_ARFF)_big
-	$(ANCOR2) arff no_assoc -i $(FEATURE) $(TEST_PARAMS)					-o $(ARFF)/$(TEST_ARFF)
-
-SMALL=$(shell find $(ARFF) -name $(TRAIN_ARFF)_small*.arff | head -1)
-MEDIUM=$(shell find $(ARFF) -name $(TRAIN_ARFF)_medium*.arff | head -1)
-BIG=$(shell find $(ARFF) -name $(TRAIN_ARFF)_big*.arff | head -1)
-TEST=$(shell find $(ARFF) -name $(TEST_ARFF)* | head -1)
-
-T5-info:
-	@echo $(SMALL)
-	@echo $(MEDIUM)
-	@echo $(BIG)
-
-T5-model:
-	# J48
-	$(ANCOR2) model $(WEKA_CLASSIFIER).$(J48) -t $(SMALL) -T $(TEST) -d $(MODEL)/J48/small.model
-	$(ANCOR2) model $(WEKA_CLASSIFIER).$(J48) -t $(MEDIUM) -T $(TEST) -d $(MODEL)/J48/medium.model
-	$(ANCOR2) model $(WEKA_CLASSIFIER).$(J48) -t $(BIG) -T $(TEST) -d $(MODEL)/J48/big.model
-	# SMO
-	# $(ANCOR2) model $(WEKA_CLASSIFIER).$(SMO) -t $(SMALL) -T $(TEST) -d $(MODEL)/SMO/small.model
-	# $(ANCOR2) model $(WEKA_CLASSIFIER).$(SMO) -t $(MEDIUM) -T $(TEST) -d $(MODEL)/SMO/medium.model
-	# $(ANCOR2) model $(WEKA_CLASSIFIER).$(SMO) -t $(BIG) -T $(TEST) -d $(MODEL)/SMO/big.model
-	# # NaivesBayes
-	# $(ANCOR2) model $(WEKA_CLASSIFIER).$(NAIVES_BAYES) -t $(SMALL) -T $(TEST) -d $(MODEL)/NB/small.model
-	# $(ANCOR2) model $(WEKA_CLASSIFIER).$(NAIVES_BAYES) -t $(MEDIUM) -T $(TEST) -d $(MODEL)/NB/medium.model
-	# $(ANCOR2) model $(WEKA_CLASSIFIER).$(NAIVES_BAYES) -t $(BIG) -T $(TEST) -d $(MODEL)/NB/big.model
-
-T5-scorer:
-	#J48
-	$(ANCOR2) scorer no_assoc -i $(FEATURE)/ -q $(SCORE_DISTRIB) \
-		-o $(CALLSCORER)/J48/Small -m $(MODEL)/J48/small.model
-	$(ANCOR2) scorer no_assoc -i $(FEATURE)/ -q $(SCORE_DISTRIB) \
-		-o $(CALLSCORER)/J48/Medium -m $(MODEL)/J48/medium.model
-	$(ANCOR2) scorer no_assoc -i $(FEATURE)/ -q $(SCORE_DISTRIB) \
-		-o $(CALLSCORER)/J48/Big -m $(MODEL)/J48/big.model
-
-T5-prepare-all: T5-init gen-corp features T5-arff T5-model
-	@echo ===========================================================
-	@echo READY
-	@echo ===========================================================
