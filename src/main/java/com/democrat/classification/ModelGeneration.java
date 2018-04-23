@@ -2,6 +2,7 @@ package com.democrat.classification;
 
 import org.apache.log4j.Logger;
 import weka.classifiers.AbstractClassifier;
+import weka.classifiers.Classifier;
 
 import java.io.File;
 import java.io.PrintStream;
@@ -31,7 +32,7 @@ public class ModelGeneration {
             }
             String className = commandArgs[1];
             commandArgs[1] = "";
-            Class<?> theClass = Class.forName(className);
+            Class<? extends Classifier> theClass = Class.forName(className).asSubclass(Classifier.class);
 
             // some classes expect a fixed order of the args, i.e., they don't
             // use Utils.getOption(...) => create new array without first two
@@ -42,8 +43,10 @@ public class ModelGeneration {
             }
 
             this.execute(theClass, argv.toArray(new String[argv.size()]));
-        } catch (Exception ex) {
-            System.err.println(ex.getMessage());
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
 
@@ -53,7 +56,7 @@ public class ModelGeneration {
      * @param theClass
      * @return Retourne la méthode <b>main</b> si elle est bien accessible
      */
-    private Method getMainMethod(Class<?> theClass) {
+    private Method getMainMethod(Class<? extends Classifier> theClass) {
         Class<?>[] argTemplate = { String[].class };
         Method mainMethod = null;
         try {
@@ -69,7 +72,7 @@ public class ModelGeneration {
         return mainMethod;
     }
 
-    private void execute(Class<?> theClass, String[] args){
+    private void execute(Class<? extends Classifier> theClass, String[] args){
         Method mainMethod;
         if((mainMethod = getMainMethod(theClass)) == null){
             logger.error("La classe " + theClass.getName() + " n'est pas une classe valide pour l'apprentissage.");
@@ -111,7 +114,14 @@ public class ModelGeneration {
 
         try {
             Object[] argsInvoke = { args };
-            mainMethod.invoke(null, argsInvoke);
+            System.out.println(args);
+            String ss = "";
+            for(String s : args)
+                ss += s+" ";
+            System.out.println(ss);
+            //mainMethod.invoke(this, argsInvoke);
+            AbstractClassifier.runClassifier(theClass.newInstance(),args);
+            System.out.println("end");
 
         } catch (Exception ex) {
             System.err.println("Problem invoking model from Weka: " + ex.getMessage());
