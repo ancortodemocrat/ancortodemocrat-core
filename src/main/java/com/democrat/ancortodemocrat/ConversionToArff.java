@@ -313,6 +313,9 @@ public class ConversionToArff implements Runnable{
 							continue;
 						}
 					}
+					if(!this.param.equals(ParamToArff.ALL) && !this.param.equals(ParamToArff.NO_ASSOC)
+							&& ! this.param.equals( relation.getCharacterisation().getType().getValue().toLowerCase()))
+						continue;
 					if( relation.getPreElement( annotation ) == null ||
 							relation.getElement( annotation ) == null ){
 						continue;
@@ -345,23 +348,30 @@ public class ConversionToArff implements Runnable{
 	 */
 	public void selectInstance(){
 		if( this.positif > this.positiveRelationSelected.size() || this.negatif > this.negativeRelationSelected.size() ){
+			float diviseur = 1.f;
 			if( this.positif > this.positiveRelationSelected.size() ){
-				logger.info("Trop d'instances positives attendues par rapport au corpus, restriction au maxium " + this.positiveRelationSelected.size() + ".");
+				logger.info("Trop d'instances positives attendues ("+positif+") par rapport au corpus, restriction au maxium " + this.positiveRelationSelected.size() + ".");
+				diviseur = (float)this.positiveRelationSelected.size() / (float)this.positif;
 			}
 			if( this.negatif > this.negativeRelationSelected.size() ){
-				logger.info("Trop d'instances négatives (" + this.negatif + ") attendues par rapport au corpus, restriction au maxium " + this.negativeRelationSelected.size() + ".");				
+				logger.info("Trop d'instances négatives (" + this.negatif + ") attendues par rapport au corpus, restriction au maxium " + this.negativeRelationSelected.size() + ".");
+				diviseur = Math.min(diviseur, (float)this.negativeRelationSelected.size() / (float)this.negatif);
 			}
-			logger.info("Respect des pourcentages, positifs/négatifs.");
-			float sum = this.positif + this.negatif;
+
+			logger.info("Respect des pourcentages, positifs/négatifs: division par "+1.f/ diviseur);
+			/*float sum = this.positif + this.negatif;
 			float percentPositive = this.positif / sum;
 			float percentNegative = this.negatif / sum;
 
 			this.positif = (int) ( percentPositive * this.positiveRelationSelected.size() );
 			this.negatif = (int) ( percentNegative * this.negativeRelationSelected.size() );
 			percentPositive *= 100;
-			percentNegative *= 100;
-			logger.info(percentPositive + "% soit " + ( this.positif ) + " instances positives");
-			logger.info(percentNegative + "% soit " + this.negatif + " instances négatives");
+			percentNegative *= 100;*/
+			this.positif = (int) (((float)positif) * diviseur);
+			this.negatif = (int) (((float) negatif)* diviseur);
+
+			logger.info("soit " + ( this.positif ) + " instances positives");
+			logger.info("soit " + this.negatif + " instances négatives");
 		}
 
 		if(this.positif == 0){
