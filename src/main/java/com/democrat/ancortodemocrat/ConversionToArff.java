@@ -4,13 +4,8 @@ import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.text.DateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.Map.Entry;
-import java.util.Set;
 
 import org.apache.log4j.Logger;
 
@@ -24,6 +19,7 @@ public class ConversionToArff implements Runnable{
 	
 	
 	public final static String ARFF_ATTRIBUTE = "@RELATION coreference\n"+
+			"@ATTRIBUTE relation_id string\n"+
 			"@ATTRIBUTE m1_type {N, PR, NULL}\n"+
 			"@ATTRIBUTE m2_type {N, PR, NULL}\n"+
 			"@ATTRIBUTE m1_def {INDEF, EXPL, DEF_SPLE, DEF_DEM, NULL, UNK}\n"+
@@ -426,6 +422,7 @@ public class ConversionToArff implements Runnable{
 
 	public void writeInstance(){
 		PrintWriter writer = null;
+		PrintWriter writer_links = null;
 
 		String fileName;
 		DateFormat shortDateFormat = DateFormat.getDateTimeInstance(
@@ -447,6 +444,7 @@ public class ConversionToArff implements Runnable{
 			this.outputPath += "_" + this.positif + "_" + this.negatif;
 			try {
 				writer = new PrintWriter(this.outputPath + fileName + ".arff", "UTF-8");
+				writer_links = new PrintWriter(this.outputPath + fileName + ".idff", "UTF-8"); // instance id file format
 				this.fileOuput.add( this.outputPath + fileName + ".arff" );
 				writer.println( ARFF_ATTRIBUTE );
 				writer.println("");
@@ -460,7 +458,8 @@ public class ConversionToArff implements Runnable{
 				Set <Relation> set_negatif = negativeRelationSelected.keySet();
 				for( Relation r : set_negatif ){
 					String line = this.makeRelation(this.negativeRelationSelected.get( r ), r );
-					writer.println( line + "NOT_COREF" );	
+					writer.println( line + "NOT_COREF" );
+					writer_links.println(r.getId());
 				}
 				/**Relation[] relationArray = (Relation[]) this.positiveRelationSelected.keySet().toArray();
 				for(int p = 0; p < this.positiveRelationSelected.size(); p++){
@@ -483,6 +482,9 @@ public class ConversionToArff implements Runnable{
 				if(writer != null){
 					writer.close();
 				}
+				if(writer_links != null){
+					writer_links.close();
+				}
 			}
 		}
 			
@@ -496,6 +498,7 @@ public class ConversionToArff implements Runnable{
 				for(int f = 1; f < split + 1; f++){
 					try {
 						writer = new PrintWriter(this.outputPath + fileName + "_" + f + ".arff", "UTF-8");
+						writer_links = new PrintWriter(this.outputPath + fileName + "_" + f + ".idff", "UTF-8");
 						this.fileOuput.add( this.outputPath + fileName + "_" + f + ".arff" );
 						writer.println( ARFF_ATTRIBUTE );
 						writer.println("");
@@ -511,6 +514,9 @@ public class ConversionToArff implements Runnable{
 							int idPreElement = relationArray[ l ].getPreElement( this.positiveRelationSelected.get( relationArray[ l ] ) ).getIdMention();
 							String line = this.makeRelation(this.positiveRelationSelected.get( relationArray[ l ] ), relationArray[ l ] );
 							writer.println( line + "COREF");
+							writer_links.println(relationArray[l].getId());
+							if(relationArray[l].getId() == null)
+								new Exception("null id").printStackTrace();
 						}
 
 						//écriture instances négatives
@@ -522,6 +528,9 @@ public class ConversionToArff implements Runnable{
 							int idPreElement = relationArray[ l ].getPreElement( this.negativeRelationSelected.get( relationArray[ l ] ) ).getIdMention();
 							String line = this.makeRelation(this.negativeRelationSelected.get( relationArray[ l ] ), relationArray[ l ] );
 							writer.println( line + "NOT_COREF" );
+							writer_links.println(relationArray[l].getId());
+							if(relationArray[l].getId() == null)
+								new Exception("null id").printStackTrace();
 						}
 
 					} catch (FileNotFoundException e) {
@@ -534,6 +543,9 @@ public class ConversionToArff implements Runnable{
 						if(writer != null){
 							writer.close();
 						}
+						if(writer_links != null){
+							writer_links.close();
+						}
 					}
 				}
 			}else{
@@ -543,6 +555,7 @@ public class ConversionToArff implements Runnable{
 				this.outputPath += "_" + this.positif + "_" + this.negatif;
 				try {
 					writer = new PrintWriter(this.outputPath + fileName + ".arff", "UTF-8");
+					writer_links = new PrintWriter(this.outputPath + fileName + ".idff", "UTF-8");
 					this.fileOuput.add( this.outputPath + fileName + ".arff" );
 					writer.println( ARFF_ATTRIBUTE );
 					writer.println("");
@@ -551,12 +564,18 @@ public class ConversionToArff implements Runnable{
 					for( Relation r : set ){
 						String line = this.makeRelation(this.positiveRelationSelected.get( r ), r );
 						writer.println( line + "COREF" );
+						writer_links.println(r.getId());
+						if(r.getId() == null)
+							new Exception("null id").printStackTrace();
 					}
 
 					set = negativeRelationSelected.keySet();
 					for( Relation r : set ){
 						String line = this.makeRelation(this.negativeRelationSelected.get( r ), r );
-						writer.println( line + "NOT_COREF" );	
+						writer.println( line + "NOT_COREF" );
+						writer_links.println(r.getId());
+						if(r.getId() == null)
+							new Exception("null id").printStackTrace();
 					}
 					/**Relation[] relationArray = (Relation[]) this.positiveRelationSelected.keySet().toArray();
 					for(int p = 0; p < this.positiveRelationSelected.size(); p++){
@@ -579,6 +598,9 @@ public class ConversionToArff implements Runnable{
 					if(writer != null){
 						writer.close();
 					}
+					if(writer_links != null){
+						writer_links.close();
+					}
 				}
 			}
 		}else{
@@ -588,6 +610,7 @@ public class ConversionToArff implements Runnable{
 
 
 				writer = new PrintWriter(this.outputPath + ".arff", "UTF-8");
+				writer_links = new PrintWriter(this.outputPath + ".idff", "UTF-8");
 				this.fileOuput.add( this.outputPath + ".arff" );
 				writer.println( ARFF_ATTRIBUTE );
 				writer.println("");
@@ -598,7 +621,10 @@ public class ConversionToArff implements Runnable{
 					int idPreElement = relationArray[ p ].getPreElement( this.positiveRelationSelected.get( relationArray[ p ] ) ).getIdMention();
 					String line = this.makeRelation(this.positiveRelationSelected.get( relationArray[ p ] ), relationArray[ p ] );
 					writer.println( line + "COREF" );	
-					
+					writer_links.println(relationArray[p].getId());
+					if(relationArray[p].getId() == null)
+						new Exception("null id").printStackTrace();
+
 					
 //					String feature_id_element = relationArray[ p ].getElement( this.positiveRelationSelected.get( relationArray[ p ] ) ).getFeature("GENRE");
 //					logger.info("Le feature de element est: " + feature_id_element);
@@ -619,6 +645,10 @@ public class ConversionToArff implements Runnable{
 					int idPreElement = relationArray[ l ].getPreElement( this.negativeRelationSelected.get( relationArray[ l ] ) ).getIdMention();
 					String line = this.makeRelation(this.negativeRelationSelected.get( relationArray[ l ] ), relationArray[ l ] );
 					writer.println( line + "NOT_COREF" );
+					String rid = relationArray[l].getId();
+					writer_links.println(relationArray[l].getId());
+					if(relationArray[l].getId() == null)
+						new Exception("null id").printStackTrace();
 				}
 			} catch (FileNotFoundException e) {
 				// TODO Auto-generated catch block
@@ -629,6 +659,9 @@ public class ConversionToArff implements Runnable{
 			}finally{
 				if(writer != null){
 					writer.close();
+				}
+				if(writer_links != null){
+					writer_links.close();
 				}
 			}
 		}
@@ -656,11 +689,12 @@ public class ConversionToArff implements Runnable{
 				//if( ! unitList.contains( unitIdRandom ) ){
 				//negative relation generated
 				if( ! unitList.get( unitIdRandom ).getFeature( "REF" ).equals( relation.getFeature( "REF" ) ) ){
-					//the unit is not in the chain of relation
+					//thhttp://www.univ-orleans.tk/unit is not in the chain of relation
 					// we create a new relation between the unit and preElement of the relation
 					Unit unit = (Unit) relation.getElement( annotation );
 					if( unit != null ){
 						Relation newRelation = new Relation();
+						newRelation.setId("generated_rel_("+unit.getId()+','+unitList.get( unitIdRandom ).getId()+')');
 						newRelation.addUnit( unit );
 						newRelation.addUnit( unitList.get( unitIdRandom ) );
 
