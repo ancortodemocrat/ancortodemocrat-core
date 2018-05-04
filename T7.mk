@@ -50,7 +50,7 @@ T7-init-env: clean-all T7-gen_Small
 	-mkdir -p $(CORPUS)
 
 T7-init: T7-init-env
-	-mkdir $(MODEL)/J48
+	-mkdir $(MODEL)/$(ALGO)
 
 T7-features:
 	$(ANCOR2) feature p $(ANCOR_SMALL)/ESLO_TRAIN -o $(FEATURE)/ESLO_TRAIN
@@ -85,9 +85,9 @@ T7-info:
 	@echo MEDIUM_TRAIN=$(MEDIUM_TRAIN)
 
 T7-model:
-	$(ANCOR2) model $(WEKA_CLASSIFIER).$(J48) -t $(ESLO_TRAIN) -T $(ESLO_TEST) -d $(MODEL)/J48/ESLO.model
-	$(ANCOR2) model $(WEKA_CLASSIFIER).$(J48) -t $(OTG_TRAIN) -T $(OTG_TEST) -d $(MODEL)/J48/OTG.model
-	$(ANCOR2) model $(WEKA_CLASSIFIER).$(J48) -t $(MEDIUM_TRAIN) -T $(ESLO_TEST) -d $(MODEL)/J48/MEDIUM.model
+	$(ANCOR2) model $(WEKA_CLASSIFIER).$($(ALGO)) -t $(ESLO_TRAIN) -T $(ESLO_TEST) -d $(MODEL)/$(ALGO)/ESLO.model
+	$(ANCOR2) model $(WEKA_CLASSIFIER).$($(ALGO)) -t $(OTG_TRAIN) -T $(OTG_TEST) -d $(MODEL)/$(ALGO)/OTG.model
+	$(ANCOR2) model $(WEKA_CLASSIFIER).$($(ALGO)) -t $(MEDIUM_TRAIN) -T $(ESLO_TEST) -d $(MODEL)/$(ALGO)/MEDIUM.model
 
 T7-prepare: T7-init T7-features T7-arff T7-model
 	@echo ===========================================================
@@ -95,27 +95,27 @@ T7-prepare: T7-init T7-features T7-arff T7-model
 	@echo ===========================================================
 
 T7-scorer:
-	-mkdir -p $(CALLSCORER)/J48/MEDIUM_OTG
-	-mkdir $(CALLSCORER)/J48/MEDIUM_UBS
-	-mkdir $(CALLSCORER)/J48/MEDIUM_ESLO
+	-mkdir -p $(CALLSCORER)/$(ALGO)/MEDIUM_OTG
+	-mkdir $(CALLSCORER)/$(ALGO)/MEDIUM_UBS
+	-mkdir $(CALLSCORER)/$(ALGO)/MEDIUM_ESLO
 
-	-mkdir $(CALLSCORER)/J48/OTG_OTG
-	-mkdir $(CALLSCORER)/J48/OTG_UBS
+	-mkdir $(CALLSCORER)/$(ALGO)/OTG_OTG
+	-mkdir $(CALLSCORER)/$(ALGO)/OTG_UBS
 
-	-mkdir $(CALLSCORER)/J48/ESLO_ESLO
-
-	$(ANCOR2) scorer no_assoc -i $(FEATURE)/OTG_TEST_$(NUM_TEST) -q $(SCORE_DISTRIB) \
-		-o $(CALLSCORER)/J48/MEDIUM_OTG -m $(MODEL)/J48/MEDIUM.model --scorer $(SCORERS)
-	$(ANCOR2) scorer no_assoc -i $(FEATURE)/UBS_TEST_$(NUM_TEST) -q $(SCORE_DISTRIB) \
-		-o $(CALLSCORER)/J48/MEDIUM_UBS -m $(MODEL)/J48/MEDIUM.model --scorer $(SCORERS)
-
-	$(ANCOR2) scorer no_assoc -i $(FEATURE)/ESLO_TEST_$(NUM_TEST) -q $(SCORE_DISTRIB) \
-		-o $(CALLSCORER)/J48/MEDIUM_ESLO -m $(MODEL)/J48/MEDIUM.model --scorer $(SCORERS)
+	-mkdir $(CALLSCORER)/$(ALGO)/ESLO_ESLO
 
 	$(ANCOR2) scorer no_assoc -i $(FEATURE)/OTG_TEST_$(NUM_TEST) -q $(SCORE_DISTRIB) \
-		-o $(CALLSCORER)/J48/OTG_OTG -m $(MODEL)/J48/OTG.model --scorer $(SCORERS)
+		-o $(CALLSCORER)/$(ALGO)/MEDIUM_OTG -m $(MODEL)/$(ALGO)/MEDIUM.model --scorer $(SCORERS)
 	$(ANCOR2) scorer no_assoc -i $(FEATURE)/UBS_TEST_$(NUM_TEST) -q $(SCORE_DISTRIB) \
-		-o $(CALLSCORER)/J48/OTG_UBS -m $(MODEL)/J48/OTG.model --scorer $(SCORERS)
+		-o $(CALLSCORER)/$(ALGO)/MEDIUM_UBS -m $(MODEL)/$(ALGO)/MEDIUM.model --scorer $(SCORERS)
 
 	$(ANCOR2) scorer no_assoc -i $(FEATURE)/ESLO_TEST_$(NUM_TEST) -q $(SCORE_DISTRIB) \
-		-o $(CALLSCORER)/J48/ESLO_ESLO -m $(MODEL)/J48/ESLO.model --scorer $(SCORERS)
+		-o $(CALLSCORER)/$(ALGO)/MEDIUM_ESLO -m $(MODEL)/$(ALGO)/MEDIUM.model --scorer $(SCORERS)
+
+	$(ANCOR2) scorer no_assoc -i $(FEATURE)/OTG_TEST_$(NUM_TEST) -q $(SCORE_DISTRIB) \
+		-o $(CALLSCORER)/$(ALGO)/OTG_OTG -m $(MODEL)/$(ALGO)/OTG.model --scorer $(SCORERS)
+	$(ANCOR2) scorer no_assoc -i $(FEATURE)/UBS_TEST_$(NUM_TEST) -q $(SCORE_DISTRIB) \
+		-o $(CALLSCORER)/$(ALGO)/OTG_UBS -m $(MODEL)/$(ALGO)/OTG.model --scorer $(SCORERS)
+
+	$(ANCOR2) scorer no_assoc -i $(FEATURE)/ESLO_TEST_$(NUM_TEST) -q $(SCORE_DISTRIB) \
+		-o $(CALLSCORER)/$(ALGO)/ESLO_ESLO -m $(MODEL)/$(ALGO)/ESLO.model --scorer $(SCORERS)

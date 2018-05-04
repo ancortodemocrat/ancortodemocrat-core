@@ -47,10 +47,10 @@ T6-init: T6-init-env
 	-mkdir -p $(MODEL)/J48
 	-mkdir $(MODEL)/SMO
 	-mkdir $(MODEL)/NB
-	-mkdir -p $(CALLSCORER)/J48/OTG_UBS
-	-mkdir $(CALLSCORER)/J48/OTG_ESLO
-	-mkdir $(CALLSCORER)/J48/ESLO_UBS
-	-mkdir $(CALLSCORER)/J48/ESLO_OTG
+	-mkdir -p $(CALLSCORER)/$(ALGO)/OTG_UBS
+	-mkdir $(CALLSCORER)/$(ALGO)/OTG_ESLO
+	-mkdir $(CALLSCORER)/$(ALGO)/ESLO_UBS
+	-mkdir $(CALLSCORER)/$(ALGO)/ESLO_OTG
 
 T6-features:
 	$(ANCOR2)  feature p $(ANCOR_SMALL)/ESLO_TRAIN -o $(FEATURE)/ESLO_TRAIN
@@ -71,8 +71,8 @@ ESLO_TEST=$(shell find $(ARFF) -name ESLO_$(TEST_ARFF)*.arff | head -1)
 OTG_TRAIN=$(shell find $(ARFF) -name OTG_$(TRAIN_ARFF)*.arff | head -1)
 
 T6-model:
-	$(ANCOR2) model $(WEKA_CLASSIFIER).$(J48) -t $(ESLO_TRAIN) -T $(ESLO_TEST) -d $(MODEL)/J48/ESLO.model
-	$(ANCOR2) model $(WEKA_CLASSIFIER).$(J48) -t $(OTG_TRAIN) -T $(ESLO_TEST) -d $(MODEL)/J48/OTG.model
+	$(ANCOR2) model $(WEKA_CLASSIFIER).$($(ALGO)) -t $(ESLO_TRAIN) -T $(ESLO_TEST) -d $(MODEL)/$(ALGO)/ESLO.model
+	$(ANCOR2) model $(WEKA_CLASSIFIER).$($(ALGO)) -t $(OTG_TRAIN) -T $(ESLO_TEST) -d $(MODEL)/$(ALGO)/OTG.model
 
 T6-prepare: T6-init T6-features T6-arff T6-model
 	@echo ===========================================================
@@ -81,10 +81,10 @@ T6-prepare: T6-init T6-features T6-arff T6-model
 
 T6-scorer:
 	$(ANCOR2) scorer no_assoc -i $(FEATURE)/UBS_TEST -q $(SCORE_DISTRIB) \
-		-o $(CALLSCORER)/J48/OTG_UBS -m $(MODEL)/J48/OTG.model --scorer $(SCORERS)
+		-o $(CALLSCORER)/$(ALGO)/OTG_UBS -m $(MODEL)/$(ALGO)/OTG.model --scorer $(SCORERS)
 	$(ANCOR2) scorer no_assoc -i $(FEATURE)/ESLO_TEST -q $(SCORE_DISTRIB) \
-		-o $(CALLSCORER)/J48/OTG_ESLO -m $(MODEL)/J48/OTG.model --scorer $(SCORERS)
+		-o $(CALLSCORER)/$(ALGO)/OTG_ESLO -m $(MODEL)/$(ALGO)/OTG.model --scorer $(SCORERS)
 	$(ANCOR2) scorer no_assoc -i $(FEATURE)/UBS_TEST -q $(SCORE_DISTRIB) \
-		-o $(CALLSCORER)/J48/ESLO_UBS -m $(MODEL)/J48/ESLO.model --scorer $(SCORERS)
+		-o $(CALLSCORER)/$(ALGO)/ESLO_UBS -m $(MODEL)/$(ALGO)/ESLO.model --scorer $(SCORERS)
 	$(ANCOR2) scorer no_assoc -i $(FEATURE)/OTG_TEST -q $(SCORE_DISTRIB) \
-		-o $(CALLSCORER)/J48/ESLO_OTG -m $(MODEL)/J48/ESLO.model --scorer $(SCORERS)
+		-o $(CALLSCORER)/$(ALGO)/ESLO_OTG -m $(MODEL)/$(ALGO)/ESLO.model --scorer $(SCORERS)

@@ -1,22 +1,24 @@
 ##	PARAMETERS
 ROOT=/tp/Augustin# Dossier de travail (>1 Go libre)
+
 ALGO=J48
 
-# CORPUS_ZIP=./Ancor-Centre-CC-BY-NC-SA.zip
+CORPUS_ZIP=./Ancor-Centre-CC-BY-NC-SA.zip
 #CORPUS_ZIP=./Donnees_maj.zip# Tableau6, Tableau7,
-CORPUS_ZIP=./Donnees_corpus.zip# Tableau5,
+#CORPUS_ZIP=./Donnees_corpus.zip# Tableau5,
 
-CORPUS_NAME=T5
+CORPUS_NAME=Small
 
-SCORERS=muc bcub ceafe blanc
+SCORERS=muc bcub# ceafe blanc
+
 NUM_TEST=1
 
-# ANCOR_SMALL_SELECT_AC=$(CORPUS_SRC)/corpus_ESLO/ac_fichiers/00[1-6]*
-# ANCOR_SMALL_SELECT_AA=$(CORPUS_SRC)/corpus_ESLO/aa_fichiers/00[1-6]*
+ANCOR_SMALL_SELECT_AC=$(CORPUS_SRC)/corpus_ESLO/ac_fichiers/00[4]*
+ANCOR_SMALL_SELECT_AA=$(CORPUS_SRC)/corpus_ESLO/aa_fichiers/00[4]*
 # ANCOR_SMALL_SELECT_AC=$(CORPUS_SRC)/Données_corpus/Tableau6/corpus_ESLO_apprentissage/ac_fichiers/*
 # ANCOR_SMALL_SELECT_AA=$(CORPUS_SRC)/Données_corpus/Tableau6/corpus_ESLO_apprentissage/aa_fichiers/*
-ANCOR_SMALL_SELECT_AC=$(CORPUS_SRC)/Données_corpus/Tableau5/corpus_apprentissage/ac_fichiers/*#Tableau5
-ANCOR_SMALL_SELECT_AA=$(CORPUS_SRC)/Données_corpus/Tableau5/corpus_apprentissage/aa_fichiers/*#Tableau5
+# ANCOR_SMALL_SELECT_AC=$(CORPUS_SRC)/Données_corpus/Tableau5/corpus_apprentissage/ac_fichiers/*#Tableau5
+# ANCOR_SMALL_SELECT_AA=$(CORPUS_SRC)/Données_corpus/Tableau5/corpus_apprentissage/aa_fichiers/*#Tableau5
 
 
 ## /PARAMETERS
@@ -26,7 +28,6 @@ CORPUS_SRC=$(ROOT)/Ancor
 WEKA_CLASSIFIER=weka.classifiers
 J48=trees.J48
 SMO=functions.SMO
-SMO_PARAMS=
 NAIVES_BAYES=bayes.NaiveBayes
 ALGO_CLASS=$(WEKA_CLASSIFIER).$($(ALGO))
 TRAINING_DISTRIB=1500 1075
@@ -111,7 +112,7 @@ gen-model:
 	testArff=$(shell find $(ARFF) -name $(TEST_ARFF)*.arff | head -1)
 	$(ANCOR2) model $(ALGO_CLASS) \
 		-t $(shell find $(ARFF) -name $(TRAIN_ARFF)*.arff | head -1) \
-		-T $(shell find $(ARFF) -name $(TEST_ARFF)*.arff | head -1) -o -d $(MODEL)/$(ALGO)
+		-T $(shell find $(ARFF) -name $(TEST_ARFF)*.arff | head -1) -o -d $(MODEL)/$(ALGO).model
 
 expe-feature:
 	$(ANCOR2)  feature p $(CORPUS) -o $(FEATURE)
@@ -140,7 +141,7 @@ expe-scorer:
 
 run-scorer:
 	$(ANCOR2) scorer no_assoc -i $(FEATURE) -q $(SCORE_DISTRIB) \
-		-o $(CALLSCORER) -m $(MODEL)/Model
+		-o $(CALLSCORER) -m $(MODEL)/$(ALGO).model
 
 
 remove-extracted-Ancor:
