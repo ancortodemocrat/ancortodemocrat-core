@@ -19,7 +19,6 @@ public class ConversionToArff implements Runnable{
 	
 	
 	public final static String ARFF_ATTRIBUTE = "@RELATION coreference\n"+
-			"@ATTRIBUTE relation_id string\n"+
 			"@ATTRIBUTE m1_type {N, PR, NULL}\n"+
 			"@ATTRIBUTE m2_type {N, PR, NULL}\n"+
 			"@ATTRIBUTE m1_def {INDEF, EXPL, DEF_SPLE, DEF_DEM, NULL, UNK}\n"+
