@@ -7,6 +7,7 @@ import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
+import java.util.Arrays;
 import java.util.Random;
 
 import weka.classifiers.AbstractClassifier;
@@ -115,9 +116,33 @@ public class Model {
 		// label instances
 		for (int u = 0; u < unlabeled.numInstances(); u++) {
 			double clsLabel;
+			double[] _;
 			try {
 				clsLabel = classifier.classifyInstance(unlabeled.instance(u));
-				unlabeled.instance(u).setClassValue(clsLabel);
+				unlabeled.instance(u).setClassValue(clsLabel); // 0 OU 1
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
+	/**
+	 * le model retrouve la probabilité que la classe soit COREF
+	 *  pour chaque instance donnée
+	 * @param unlabeled: Liste des instances à classifier
+	 */
+	public void classifyInstanceProba(Instances unlabeled){
+		// set class attribute
+		unlabeled.setClassIndex(unlabeled.numAttributes() - 1);
+
+
+		// label instances
+		for (int u = 0; u < unlabeled.numInstances(); u++) {
+			double clsLabel;
+			double[] _;
+			try {
+				clsLabel = classifier.distributionForInstance(unlabeled.instance(u))[1];
+				unlabeled.instance(u).setClassValue(clsLabel); // 0 < x < 1
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
