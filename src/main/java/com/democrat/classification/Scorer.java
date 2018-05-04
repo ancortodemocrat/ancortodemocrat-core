@@ -454,8 +454,8 @@ public class Scorer {
 			}
 			model.classifyInstance( instancesLabeled );
 			Instances instancesProba = new Instances(instancesLabeled);
-			instancesProba.deleteAttributeAt(instancesProba.numAttributes()-1);
-			instancesProba.insertAttributeAt(new Attribute("P(COREF)"),instancesProba.numAttributes());
+			instancesProba.insertAttributeAt(new Attribute("P(COREF)"),instancesProba.numAttributes()-1);
+
 			model.classifyInstanceProba(instancesProba);
 
 			ArffSaver saver = new ArffSaver();
