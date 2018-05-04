@@ -17,7 +17,9 @@ import com.democrat.ancortodemocrat.element.Relation;
 import com.democrat.ancortodemocrat.element.Schema;
 import com.democrat.ancortodemocrat.element.Unit;
 
+import weka.core.Attribute;
 import weka.core.Instances;
+import weka.core.converters.ArffSaver;
 import weka.filters.Filter;
 import weka.filters.unsupervised.attribute.Remove;
 
@@ -380,6 +382,17 @@ public class Scorer {
 
 			Instances instances = loadInstance( fileArff.get( f ) );
 			Instances instancesLabeled = loadInstance( fileArff.get( f ) ); //model.classifyInstance( instances );
+
+			//IDentifiants
+			BufferedReader id_reader = null;
+			try {
+				id_reader = new BufferedReader(
+						new FileReader(
+								fileArff.get(f).replace(".arff",".idff")));
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+			}
+
 			if( removeAttribute.size() > 0 ){
 
 
@@ -440,12 +453,28 @@ public class Scorer {
 				}
 			}
 			model.classifyInstance( instancesLabeled );
-			
+			Instances instancesProba = new Instances(instancesLabeled);
+			instancesProba.deleteAttributeAt(instancesProba.numAttributes()-1);
+			instancesProba.insertAttributeAt(new Attribute("P(COREF)"),instancesProba.numAttributes());
+			model.classifyInstanceProba(instancesProba);
+
+			ArffSaver saver = new ArffSaver();
+			saver.setInstances(instancesProba);
+			try {
+				saver.setFile(new File(fileArff.get(f).replace(".arff","_probas.arff")));
+				saver.writeBatch();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 
 			List<Chain> system = perFile[ f ];
-
+			String relation_xml_id="";
 			for(int i = 0; i < instancesLabeled.size(); i++){
-
+				try {
+					relation_xml_id = id_reader.readLine();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
 				int start = f * ( positiveRelationSelected.size() + negativeRelationSelected.size() ) / split;
 				int relationId = start + i;
 				Relation relation;
@@ -463,6 +492,9 @@ public class Scorer {
 
 				Element element = relation.getElement( annotation );
 				Element preElement = relation.getPreElement( annotation );
+
+				//System.out.println(relation_xml_id);
+				//System.out.println("elem: "+element.getId() + " pre: "+preElement.getId());
 				if( instances.get( i ).classValue() != instancesLabeled.get( i ).classValue() ){
 					if( instances.get( i ).classValue() == 0.0D ){
 						//cas où c'était COREF et le system dit NOT-COREF
