@@ -140,11 +140,10 @@ public class Model {
 			double clsLabel;
 			double[] _;
 			try {
-				System.out.println(unlabeled.classAttribute().toString());
-				System.out.println(Arrays.toString(classifier.distributionForInstance(unlabeled.instance(u))));
-				System.out.println(classifier.classifyInstance(unlabeled.instance(u)));
-				clsLabel = classifier.distributionForInstance(unlabeled.instance(u))[1];
-				unlabeled.instance(u).setValue(unlabeled.numAttributes()-1,clsLabel); // 0 < x < 1
+				clsLabel = classifier.classifyInstance(unlabeled.instance(u));
+				unlabeled.instance(u).setClassValue(clsLabel); // 0 OU 1
+				clsLabel = classifier.distributionForInstance(unlabeled.instance(u))[(int)clsLabel];
+				unlabeled.instance(u).setValue(unlabeled.numAttributes()-2,clsLabel); // 0 < x < 1
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

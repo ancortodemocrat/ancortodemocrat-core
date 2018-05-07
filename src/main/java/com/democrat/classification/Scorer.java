@@ -454,7 +454,8 @@ public class Scorer {
 			}
 			model.classifyInstance( instancesLabeled );
 			Instances instancesProba = new Instances(instancesLabeled);
-			instancesProba.insertAttributeAt(new Attribute("P(COREF)"),instancesProba.numAttributes()-1);
+			instancesProba.insertAttributeAt(new Attribute("P(CLASS)"),
+					instancesProba.numAttributes()-1);
 
 			model.classifyInstanceProba(instancesProba);
 
