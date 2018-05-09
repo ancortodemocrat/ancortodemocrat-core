@@ -380,8 +380,8 @@ public class Scorer {
 			logger.info("Apprentissage depuis le model sur les instances de " + fileArff.get( f ) );
 
 
-			Instances instances = loadInstance( fileArff.get( f ) );
-			Instances instancesLabeled = loadInstance( fileArff.get( f ) ); //model.classifyInstance( instances );
+			Instances instancesGold = loadInstance( fileArff.get( f ) );
+			Instances instancesSysteme = loadInstance( fileArff.get( f ) ); //model.classifyInstance( instances );
 
 			//IDentifiants
 			BufferedReader id_reader = null;
@@ -441,19 +441,19 @@ public class Scorer {
 				remove.setAttributeIndicesArray( indices );
 				remove.setInvertSelection( false );
 				try {
-					remove.setInputFormat( instances );
-					instances = Filter.useFilter( instances, remove );
+					remove.setInputFormat( instancesGold );
+					instancesGold = Filter.useFilter( instancesGold, remove );
 					
 
-					remove.setInputFormat( instancesLabeled );
-					instances = Filter.useFilter( instancesLabeled, remove );
+					remove.setInputFormat( instancesSysteme );
+					instancesSysteme = Filter.useFilter( instancesSysteme, remove );
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}
-			model.classifyInstance( instancesLabeled );
-			Instances instancesProba = new Instances(instancesLabeled);
+			model.classifyInstance( instancesSysteme );
+			Instances instancesProba = new Instances(instancesSysteme);
 			instancesProba.insertAttributeAt(new Attribute("P(CLASS)"),
 					instancesProba.numAttributes()-1);
 
@@ -470,7 +470,9 @@ public class Scorer {
 
 			List<Chain> system = perFile[ f ];
 			String relation_xml_id="";
-			for(int i = 0; i < instancesLabeled.size(); i++){
+
+			//BEST FIRST
+			for(int i = 0; i < instancesSysteme.size(); i++){
 				try {
 					relation_xml_id = id_reader.readLine();
 				} catch (IOException e) {
@@ -496,8 +498,11 @@ public class Scorer {
 
 				//System.out.println(relation_xml_id);
 				//System.out.println("elem: "+element.getId() + " pre: "+preElement.getId());
-				if( instances.get( i ).classValue() != instancesLabeled.get( i ).classValue() ){
-					if( instances.get( i ).classValue() == 0.0D ){
+
+				// .classValue() 0=COREF, 1=NOT_COREF
+				if( instancesGold.get( i ).classValue() != instancesSysteme.get( i ).classValue() ){
+					if( instancesGold.get( i ).classValue() == 0.0D ){
+						//instancesSystem.get( i ).classValue() == 1.0D
 						//cas où c'était COREF et le system dit NOT-COREF
 						//on met les deux mentions concerné à FAUX
 						//logger.debug( i + "] COREF ==> NOT-COREF !! " + element.getIdMention() + " -- " + preElement.getIdMention() + "] IDR ("  + element.getRefGoldChain() + ")");
