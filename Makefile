@@ -103,7 +103,7 @@ features:
 
 arff:
 	$(ANCOR2) arff no_assoc -i $(FEATURE) -q $(TRAINING_DISTRIB) -o $(ARFF)/$(TRAIN_ARFF)
-	$(ANCOR2) arff no_assoc -i $(FEATURE) $(TEST_PARAMS)					-o $(ARFF)/$(TEST_ARFF)
+	$(ANCOR2) arff no_assoc -i $(FEATURE) $(TEST_PARAMS) -o $(ARFF)/$(TEST_ARFF)
 
 #	ancor2 model <weka-class-name> -t <arff-training-file>	[-T <arff-test-file>]
 #							[weka-optional-params] -d <MODEL-model-filename>
@@ -166,3 +166,6 @@ init-env: clean-all gen-Ancor-Small
 	-mkdir $(MODEL)
 	-mkdir $(CALLSCORER)
 	-mkdir -p $(CORPUS)
+
+classify:
+	$(ANCOR2) classify $(MODEL)/$(ALGO).model $(shell find $(ARFF) -name $(TEST_ARFF)*.arff | head -1)
