@@ -1,7 +1,14 @@
 package com.democrat.classification;
 
 import org.apache.log4j.Logger;
+import weka.core.Attribute;
+import weka.core.Instances;
+import weka.core.converters.ArffLoader;
+import weka.core.converters.ArffSaver;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.Vector;
 
 public class Classification {
@@ -16,22 +23,37 @@ public class Classification {
         commandArgs[0] = "";
         try {
             if (commandArgs.length < 3) {
-                throw new Exception("ancor2 <model_file> <arff_file>");
+                throw new NoSuchFieldException("ancor2 <model_file> <arff_file>");
             }
-            String model = commandArgs[1];
-            commandArgs[1] = "";
+            String model_file = commandArgs[1];
+            String arff_file = commandArgs[2];
+            ArffLoader loader = new ArffLoader();
 
-            // some classes expect a fixed order of the args, i.e., they don't
-            // use Utils.getOption(...) => create new array without first two
-            // empty strings (former "java" and "<classname>")
-            Vector<String> argv = new Vector<String>();
-            for (int i = 2; i < commandArgs.length; i++) {
-                argv.add(commandArgs[i]);
+            loader.setSource(new FileInputStream(new File(arff_file)));
+            Instances instances = loader.getDataSet();
+            instances.insertAttributeAt(new Attribute("P(CLASS)"),
+                    instances.numAttributes()-1);
+
+            logger.info("Loaded "+instances.numInstances()+" instances");
+
+            Model model = Model.loadModel(model_file);
+
+            logger.info("Classification");
+            model.classifyInstanceProba(instances);
+            String dst = arff_file.replace(".arff","_classified.arff");
+            logger.info("Saving results to " + dst);
+            ArffSaver saver = new ArffSaver();
+            saver.setInstances(instances);
+            try {
+                saver.setFile(new File(dst));
+                saver.writeBatch();
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-
-
-        } catch (Exception ex) {
-            System.err.println(ex.getMessage());
+        } catch (NoSuchFieldException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 }
