@@ -1,10 +1,8 @@
 package com.democrat.classification;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Scanner;
+import java.util.*;
+
 import org.apache.log4j.Logger;
 import com.democrat.ancortodemocrat.ConversionInSet;
 import com.democrat.ancortodemocrat.ConversionToArff;
@@ -471,7 +469,11 @@ public class Scorer {
 			List<Chain> system = perFile[ f ];
 			String relation_xml_id="";
 
-			//BEST FIRST
+
+			//Sélection de l'antécédent
+			// 1: intégration des données
+
+			HashMap<Element,HashMap<Element,Double>> pre_possibles = new HashMap<>();
 			for(int i = 0; i < instancesSysteme.size(); i++){
 				try {
 					relation_xml_id = id_reader.readLine();
@@ -493,83 +495,46 @@ public class Scorer {
 				}
 
 
+
 				Element element = relation.getElement( annotation );
 				Element preElement = relation.getPreElement( annotation );
+				if(pre_possibles.containsKey(element))
+					pre_possibles.put(element,new HashMap<Element, Double>());
 
-				//System.out.println(relation_xml_id);
-				//System.out.println("elem: "+element.getId() + " pre: "+preElement.getId());
-
-				// .classValue() 0=COREF, 1=NOT_COREF
-				if( instancesGold.get( i ).classValue() != instancesSysteme.get( i ).classValue() ){
-					if( instancesGold.get( i ).classValue() == 0.0D ){
-						//instancesSystem.get( i ).classValue() == 1.0D
-						//cas où c'était COREF et le system dit NOT-COREF
-						//on met les deux mentions concerné à FAUX
-						//logger.debug( i + "] COREF ==> NOT-COREF !! " + element.getIdMention() + " -- " + preElement.getIdMention() + "] IDR ("  + element.getRefGoldChain() + ")");
-						for( Chain chain : system ){
-							if( chain.containsMention( element.getIdMention() ) &&
-									chain.containsMention( preElement.getIdMention() )){
-								//on a bien trouvé la chaîne qui conteant les deux mentions
-								//dans la liste
-								//on met à jour la logique (cf. Mention DOC)
-
-								chain.getMention( element.getIdMention() ).setCoref( false );
-								chain.getMention( preElement.getIdMention() ).setCoref( false );
-							}
-						}
-					}else{
-						//cas où c'était NOT-COREF et le système dit COREF
-						//les deux mentions de la relation sont maintenant
-						//contenu danns une seule chaîne
-
-						//logger.debug( i + "] IDR element (" + element.getRefGoldChain() + ") preElement (" + preElement.getRefGoldChain() + ") NOT-COREF ==> COREF !! " + element.getIdMention() + " -- " + preElement.getIdMention());
+				pre_possibles.get(element)
+						.put(preElement, instancesProba.get(i).value(instancesProba.numAttributes()-2) );
 
 
-						//on supprime les chaînes qui contenaient les deux mentions
-						//les chaînes doivent contenir une seule mention
-						for( int c = 0; c < system.size(); c++ ){
-							if( system.get( c ).containsMention( element.getIdMention() ) &&
-									system.get( c ).getMentionList().size() == 1 ){
-								//logger.debug( "REMOVED REF " + system.get( c ).getRef() + " metionID " + element.getIdMention() + " REF SETT " + element.getRefGoldChain() );
-								system.remove( c );
+			}
 
-								break;
-							}
-						}
-						for( int c = 0; c < system.size(); c++ ){
-							if( system.get( c ).containsMention( preElement.getIdMention() ) &&
-									system.get( c ).getMentionList().size() == 1 ){
-								//logger.debug( "REMOVED REF " + system.get( c ).getRef() + " metionID " + preElement.getIdMention() + " REF SETT " + preElement.getRefGoldChain()  );
-								system.remove( c );
-								break;
-							}
-						}
+			// Sélection de l'antécédent, choix Best-First
+			HashMap<Element,Element> best_first = new HashMap<>();
+			for(Map.Entry<Element,HashMap<Element,Double>> entry : pre_possibles.entrySet()){
+				Element elem = entry.getKey();
+				HashMap antecedents = entry.getValue();
+				// Best-First
+				Map.Entry<Element,Double> maxentry = Collections.max(antecedents.entrySet(),
+						Comparator.comparingDouble( Map.Entry<Element,Double>::getValue ));
+				//maxentry = <antécédent, proba>
 
+				best_first.put(elem,maxentry.getKey());
+			}
 
-						//et on en crée une qui contient les deux mentions
-						Chain currentChain = new Chain( lastChainSingleton++ );
-						currentChain.addMention( new Mention( element.getIdMention() ) );
-						currentChain.addMention( new Mention( preElement.getIdMention() ) );
-						system.add( currentChain );
+			//Best_first contient la liste des couples (élement, antécédent)
 
-					}					
-				}else{
-					//le système predit la même chose
-					//on met juste à jour la logique de coref
-					for( Chain chain : system ){
-						if( chain.containsMention( element.getIdMention() ) &&
-								chain.containsMention( preElement.getIdMention() )){
-							//on a bien trouvé la chaîne qui conteant les deux mentions
-							//dans la liste
-							//on met à jour la logique (cf. Mention DOC)
-
-							chain.getMention( element.getIdMention() ).setCoref( true );
-							chain.getMention( preElement.getIdMention() ).setCoref( true );
-							break;
-						}
+			ArrayList<Chain> chaines = new ArrayList<>();
+			for (Map.Entry<Element,Element> e : best_first.entrySet() ){
+				Element element = e.getKey();
+				Element antecedent = e.getValue();
+				boolean nouvelle_chaine = true;
+				for (Chain chain : chaines){
+					if(chain.containsMention(antecedent.getIdMention())
+							|| chain.containsMention(element.getIdMention())){
+						chain.addMention();
 					}
 				}
 			}
+
 			//on enlève ensuite les mentions des chaînes qui ont
 			// été défini NOT-COREF par le system cad isCoref == false pour une mention
 			// dans une chaîne
@@ -584,11 +549,11 @@ public class Scorer {
 						futurChainList.add( newChain );
 						//mention supprimée
 						mentionList.remove( m );
-						m--;						
+						m--;
 					}
 				}
 			}
-			system.addAll( futurChainList ); 
+			system.addAll( futurChainList );
 		}
 
 
