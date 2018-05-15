@@ -469,11 +469,10 @@ public class Scorer {
 			List<Chain> system = perFile[ f ];
 			String relation_xml_id="";
 
+		//Sélection de l'antécédent
 
-			//Sélection de l'antécédent
-			// 1: intégration des données
-
-			HashMap<Element,HashMap<Element,Double>> pre_possibles = new HashMap<>();
+			HashMap<Element,Map.Entry<Element,Double>> pre_possibles = new HashMap<>();
+			HashSet<Element> singletons = new HashSet<>();
 			for(int i = 0; i < instancesSysteme.size(); i++){
 				try {
 					relation_xml_id = id_reader.readLine();
@@ -497,63 +496,84 @@ public class Scorer {
 
 
 				Element element = relation.getElement( annotation );
-				Element preElement = relation.getPreElement( annotation );
-				if(pre_possibles.containsKey(element))
-					pre_possibles.put(element,new HashMap<Element, Double>());
+				Element antecedent = relation.getPreElement( annotation );
 
-				pre_possibles.get(element)
-						.put(preElement, instancesProba.get(i).value(instancesProba.numAttributes()-2) );
+				singletons.add(element);
+				singletons.add(antecedent);
 
+				Double proba = instancesProba.get(i).value(instancesProba.numAttributes()-2);
+
+				// Conversion proba = P(CLASS) -> proba = P(COREF)
+				proba = instancesProba.get(i).classValue()==0d? proba : 1 - proba;
+				if(proba > 0d) {
+					if (pre_possibles.containsKey(element)) {
+						pre_possibles.put(element,
+								new AbstractMap.SimpleEntry<Element, Double>(antecedent,proba));
+					}
+					// Si proba sup ou égal (si égalité, on prend le plus proche, les instances sont dans l'ordre)
+					else if (pre_possibles.get(element).getValue() <= proba ){
+						pre_possibles.put(element,
+								new AbstractMap.SimpleEntry<Element, Double>(antecedent,proba));
+					}
+
+				}
 
 			}
 
-			// Sélection de l'antécédent, choix Best-First
-			HashMap<Element,Element> best_first = new HashMap<>();
-			for(Map.Entry<Element,HashMap<Element,Double>> entry : pre_possibles.entrySet()){
-				Element elem = entry.getKey();
-				HashMap antecedents = entry.getValue();
-				// Best-First
-				Map.Entry<Element,Double> maxentry = Collections.max(antecedents.entrySet(),
-						Comparator.comparingDouble( Map.Entry<Element,Double>::getValue ));
-				//maxentry = <antécédent, proba>
-
-				best_first.put(elem,maxentry.getKey());
-			}
-
-			//Best_first contient la liste des couples (élement, antécédent)
-
-			ArrayList<Chain> chaines = new ArrayList<>();
-			for (Map.Entry<Element,Element> e : best_first.entrySet() ){
+			// Tri singletons
+			for (Map.Entry<Element,Map.Entry<Element,Double>> e : pre_possibles.entrySet() ) {
 				Element element = e.getKey();
-				Element antecedent = e.getValue();
+				Element antecedent = e.getValue().getKey();
+				singletons.remove(element);
+				singletons.remove(antecedent);
+			}
+
+
+			// Construction des chaines
+			ArrayList<Chain> chaines = new ArrayList<>();
+			int ref = 0;
+
+			// 1: Chaines
+			for (Map.Entry<Element,Map.Entry<Element,Double>> e : pre_possibles.entrySet() ){
+				Element element = e.getKey();
+				Element antecedent = e.getValue().getKey();
+
+				singletons.remove(element);
+				singletons.remove(antecedent);
+
 				boolean nouvelle_chaine = true;
 				for (Chain chain : chaines){
+					// Si l'antécédent appartient à cette chaîne, on ajoute l'élément coref
 					if(chain.containsMention(antecedent.getIdMention())
-							|| chain.containsMention(element.getIdMention())){
-						chain.addMention();
+							&& !chain.containsMention(element.getIdMention())){
+						chain.addMention(new Mention(element.getIdMention()));
+						nouvelle_chaine = false;
 					}
+
+					// Si l'élément coref appartient à cette chaîne, on ajoute son antécédent
+					// (Garantie d'un seul antécédent par mention.)
+					// permet d'éviter la création de deux chaines si élément déclarée avant antécédent
+					if(chain.containsMention(element.getIdMention())
+							&& !chain.containsMention(antecedent.getIdMention())){
+						chain.addMention(new Mention(antecedent.getIdMention()));
+						nouvelle_chaine = false;
+					}
+				}
+				if (nouvelle_chaine){
+					Chain ch  = new Chain(ref++);
+					ch.addMention(new Mention(element.getIdMention()));
+					ch.addMention(new Mention(antecedent.getIdMention()));
+					chaines.add(0,ch);
 				}
 			}
 
-			//on enlève ensuite les mentions des chaînes qui ont
-			// été défini NOT-COREF par le system cad isCoref == false pour une mention
-			// dans une chaîne
-			List<Chain> futurChainList = new ArrayList<Chain>();
-			for( Chain chain : system ){
-				List<Mention> mentionList = chain.getMentionList();
-				for( int m = 0; m < mentionList.size(); m++ ){
-					if( ! mentionList.get( m ).isCoref() ){
-						//on l'ajoute à une chaîne seule
-						Chain newChain = new Chain( lastChainSingleton ++ );
-						newChain.addMention( mentionList.get( m ) );
-						futurChainList.add( newChain );
-						//mention supprimée
-						mentionList.remove( m );
-						m--;
-					}
-				}
+			// 1: Singletons
+			for(Element singl : singletons){
+				Chain ch = new Chain(ref++);
+				ch.addMention(new Mention(singl.getIdMention()));
+				chaines.add(ch);
 			}
-			system.addAll( futurChainList );
+			system.addAll( chaines );
 		}
 
 
