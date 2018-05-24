@@ -119,14 +119,10 @@ public class Scorer {
 
 		List<Chain>[] listPerGoldFile = new List[ fileArff.size() ];
 
-		//id des mentions qui sont seules, ceci concerne
-		//principalement les NOT-COREF
-		int lastChainSingleton = 9999;
-
 
 		logger.info("Création des listes de chaînes..");
 
-		lastChainSingleton = createGoldSet( listPerGoldFile, positiveRelationSelected, negativeRelationSelected, split, fileArff, lastChainSingleton);
+		createGoldSet( listPerGoldFile, positiveRelationSelected, negativeRelationSelected, split, fileArff);
 
 		// DEBUG
 		//création liste copie de gold
@@ -154,7 +150,9 @@ public class Scorer {
 
 		//même liste de chaîne que pour GOLD mais elle sera modifée et contiendra donc les chaînes de sortie
 		//du system
-		createSystemSet( model, listPerGoldFile, positiveRelationSelected, negativeRelationSelected, split, fileArff, lastChainSingleton, listRemoveAttribute);
+		createSystemSet( model, listPerGoldFile,
+				positiveRelationSelected, negativeRelationSelected,
+				split, fileArff, listRemoveAttribute);
 
 
 		//
@@ -250,29 +248,28 @@ public class Scorer {
 	}
 
 	/**
-	 * Rempli pour chaque fichier (perFile)
+	 * Rempli pour chaque fichier (chain_per_fic)
 	 * une liste de chaîne qui sont créees à partir des listes
 	 * des relations données
-	 * @param perFile Tableau des listes des chaînes qui sont à créer
-	 * @param positiveRelationSelected Liste des relations positives pour tous les fichiers
-	 * @param negativeRelationSelected Liste des relations négatives pour tous les fichiers
+	 * @param chain_per_fic Tableau des listes des chaînes qui sont à créer
+	 * @param corefRelationSelected Liste des relations positives pour tous les fichiers
+	 * @param not_corefRelationSelected Liste des relations négatives pour tous les fichiers
 	 * @param split En combien de partie les fichiers ont été découpé
-	 * @param fileArff Les des fichiers
-	 * @param lastChainSingleton ID des nouvelles chaînes pour les relations négatives
+	 * @param arffLines Les des fichiers
 	 * @return
 	 */
-	public static int createGoldSet( List<Chain>[] perFile,
-			Map<Relation, Annotation> positiveRelationSelected,
-			Map<Relation, Annotation> negativeRelationSelected,
+	public static void createGoldSet( List<Chain>[] chain_per_fic,
+			Map<Relation, Annotation> corefRelationSelected,
+			Map<Relation, Annotation> not_corefRelationSelected,
 			int split,
-			List<String> fileArff,
-			int lastChainSingleton){
+			List<String> arffLines){
 
+		int lastChainId = -1;
 
-		for(int f = 0; f < fileArff.size(); f++){
-			int start = f  * positiveRelationSelected.size() / split;
-			int end = start + positiveRelationSelected.size() / split;
-			Relation[] relationArray = (Relation[]) positiveRelationSelected.keySet().toArray( new Relation[ positiveRelationSelected.size() ] );
+		for(int f = 0; f < arffLines.size(); f++){
+			int start = f  * corefRelationSelected.size() / split;
+			int end = start + corefRelationSelected.size() / split;
+			Relation[] relationArray = (Relation[]) corefRelationSelected.keySet().toArray( new Relation[ corefRelationSelected.size() ] );
 
 			//liste des set à partir des instances choisies pour le fichier arff
 			/**
@@ -282,69 +279,52 @@ public class Scorer {
 			 * ce qui permet ensuite de faire un test logique avec les réponses du système (cf. Mention DOC)
 			 * pour reconstruire les chaînes
 			 */
-			List<Chain> setGoldList = new ArrayList<Chain>();
+
+			HashSet<Element> mentions = new HashSet<>();
+			HashMap<Element, Map.Entry<Element, Double>> corefs = new HashMap<>();
 
 			//on parcourt les relations en fonction du fichier arff courant
 			for(int p = start; p < end; p++){
 				Relation relation = relationArray[ p ];
-				Annotation annotation = positiveRelationSelected.get( relation );
 
-				int ref;
-				if( ! relation.getFeature( "ref" ).equalsIgnoreCase( "null" ) ){
-					ref = Integer.valueOf( relation.getFeature( "ref" ) );
-				}else{
-					ref = lastChainSingleton++;
-				}
-				int idMentionElement = relation.getElement( annotation ).getIdMention();
-				int idMentionPreElement = relation.getPreElement( annotation ).getIdMention();
-				if( ! containsChain( setGoldList, ref ) ){
-					setGoldList.add( new Chain( ref ) );
-				}
-				Chain currentChain = getChainFromList( setGoldList, ref );
-				currentChain.addMention( new Mention( idMentionElement ) );
-				currentChain.addMention( new Mention( idMentionPreElement ) );
-				//on place l'id pour ensuite pouvoir retrouver cet élément avec les résultats 
-				//du system
-				relation.getElement( annotation ).setRefGoldChain( ref );
-				relation.getPreElement( annotation ).setRefGoldChain( ref );
+				Annotation annotation = corefRelationSelected.get( relation );
+
+				Element element = relation.getElement( annotation );
+				Element antecedent = relation.getPreElement( annotation );
+
+				mentions.add(element);
+				mentions.add(antecedent);
+
+				//P(COREF) = 1 car gold. On met 2 pour préciser qu'il s'agit de gold
+				corefs.put(element,new AbstractMap.SimpleEntry<Element, Double>(antecedent,2d));
 			}
 
 			//de même pour les instances négatives
-			relationArray = (Relation[]) negativeRelationSelected.keySet().toArray( new Relation[ negativeRelationSelected.size() ] );
-			start = f * negativeRelationSelected.size() / split;
-			end = start + negativeRelationSelected.size() / split;
+			relationArray = (Relation[]) not_corefRelationSelected.keySet().toArray( new Relation[ not_corefRelationSelected.size() ] );
+			start = f * not_corefRelationSelected.size() / split;
+			end = start + not_corefRelationSelected.size() / split;
 			for( int l = start; l < end; l++){
 				Relation relation = relationArray[ l ];
-				Annotation annotation = negativeRelationSelected.get( relation );
+				Annotation annotation = not_corefRelationSelected.get( relation );
 
-				int ref = lastChainSingleton++;
+				Element element = relation.getElement( annotation );
+				Element antecedent = relation.getPreElement( annotation );
 
-				int idMentionElement = relation.getElement( annotation ).getIdMention();
-				int idMentionPreElement = relation.getPreElement( annotation ).getIdMention();
-				//on ajoute les mentions à deux chaines differentes
-				if( ! containsChain( setGoldList, ref ) ){
-					setGoldList.add( new Chain( ref ) );
-				}
-				Chain currentChain = getChainFromList( setGoldList, ref );
-				currentChain.addMention( new Mention( idMentionElement ) );
-				//on place l'id pour ensuite pouvoir retrouver cet élément avec les résultats 
-				//du system
-				relation.getElement( annotation ).setRefGoldChain( ref );
-
-				ref = lastChainSingleton++;
-				if( ! containsChain( setGoldList, ref ) ){
-					setGoldList.add( new Chain( ref ) );
-				}
-				currentChain = getChainFromList( setGoldList, ref );
-				currentChain.addMention( new Mention( idMentionPreElement ) );
-				//on place l'id pour ensuite pouvoir retrouver cet élément avec les résultats 
-				//du system
-				relation.getPreElement( annotation ).setRefGoldChain( ref );
+				mentions.add(element);
+				mentions.add(antecedent);
 			}
-			perFile[ f ] = setGoldList;
-			logger.info( ( f + 1 ) + " / " + fileArff.size( ) );
+
+			List<Chain> l = constructChains(corefs,mentions,TypeChains.GOLD_CHAIN);
+
+			if(chain_per_fic[f] == null) {
+				chain_per_fic[f] = l;
+			} else {
+				chain_per_fic[f].clear();
+				chain_per_fic[f].addAll(l);
+			}
+
+			logger.info( ( f + 1 ) + " / " + arffLines.size( ) );
 		}
-		return lastChainSingleton;
 	}
 
 	
@@ -355,18 +335,16 @@ public class Scorer {
 	 * @param negativeRelationSelected Liste des relations négatives pour tous les fichiers
 	 * @param split En combien de partie les fichiers ont été découpé
 	 * @param fileArff Les des fichiers
-	 * @param lastChainSingleton ID des nouvelles chaînes pour les relations négatives
 	 * @param model Model qui servira d'apprentissage pour classer les relations
 	 * @param removeAttribute Liste des attributes qui ne sont pas à prendre en compte pour l'apprentissage
 	 * @return
 	 */
-	public static int createSystemSet( Model model,
+	public static void createSystemSet( Model model,
 			List<Chain>[] perFile,
 			Map<Relation, Annotation> positiveRelationSelected,
 			Map<Relation, Annotation> negativeRelationSelected,
 			int split,
 			List<String> fileArff,
-			int lastChainSingleton,
 			List<String> removeAttribute){
 
 
@@ -375,21 +353,11 @@ public class Scorer {
 		//test sur le modèle de chaque fichier sortie
 		//et on rempli le fichier systems
 		for(int f = 0; f < fileArff.size(); f++){
-			logger.info("Apprentissage depuis le model sur les instances de " + fileArff.get( f ) );
+			logger.info("Scoring en cours sur le fichier " + fileArff.get( f ) );
 
 
 			Instances instancesGold = loadInstance( fileArff.get( f ) );
 			Instances instancesSysteme = loadInstance( fileArff.get( f ) ); //model.classifyInstance( instances );
-
-			//IDentifiants
-			BufferedReader id_reader = null;
-			try {
-				id_reader = new BufferedReader(
-						new FileReader(
-								fileArff.get(f).replace(".arff",".idff")));
-			} catch (FileNotFoundException e) {
-				e.printStackTrace();
-			}
 
 			if( removeAttribute.size() > 0 ){
 
@@ -450,6 +418,7 @@ public class Scorer {
 					e.printStackTrace();
 				}
 			}
+
 			model.classifyInstance( instancesSysteme );
 			Instances instancesProba = new Instances(instancesSysteme);
 			instancesProba.insertAttributeAt(new Attribute("P(CLASS)"),
@@ -465,20 +434,12 @@ public class Scorer {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-
-			List<Chain> system = perFile[ f ];
-			String relation_xml_id="";
-
 		//Sélection de l'antécédent
 
 			HashMap<Element,Map.Entry<Element,Double>> pre_possibles = new HashMap<>();
 			HashSet<Element> singletons = new HashSet<>();
 			for(int i = 0; i < instancesSysteme.size(); i++){
-				try {
-					relation_xml_id = id_reader.readLine();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
+
 				int start = f * ( positiveRelationSelected.size() + negativeRelationSelected.size() ) / split;
 				int relationId = start + i;
 				Relation relation;
@@ -506,7 +467,7 @@ public class Scorer {
 				// Conversion proba = P(CLASS) -> proba = P(COREF)
 				proba = instancesProba.get(i).classValue()==0d? proba : 1 - proba;
 				if(proba > 0d) {
-					if (pre_possibles.containsKey(element)) {
+					if (!pre_possibles.containsKey(element)) {
 						pre_possibles.put(element,
 								new AbstractMap.SimpleEntry<Element, Double>(antecedent,proba));
 					}
@@ -520,64 +481,83 @@ public class Scorer {
 
 			}
 
-			// Tri singletons
-			for (Map.Entry<Element,Map.Entry<Element,Double>> e : pre_possibles.entrySet() ) {
-				Element element = e.getKey();
-				Element antecedent = e.getValue().getKey();
-				singletons.remove(element);
-				singletons.remove(antecedent);
+			List l = constructChains(pre_possibles, singletons,TypeChains.SYSTEM_CHAIN);
+			// Construction des chaînes
+			if(perFile[f] == null) {
+				perFile[f] = l;
+			} else {
+				perFile[f].clear();
+				perFile[f].addAll(l);
 			}
-
-
-			// Construction des chaines
-			ArrayList<Chain> chaines = new ArrayList<>();
-			int ref = 0;
-
-			// 1: Chaines
-			for (Map.Entry<Element,Map.Entry<Element,Double>> e : pre_possibles.entrySet() ){
-				Element element = e.getKey();
-				Element antecedent = e.getValue().getKey();
-
-				singletons.remove(element);
-				singletons.remove(antecedent);
-
-				boolean nouvelle_chaine = true;
-				for (Chain chain : chaines){
-					// Si l'antécédent appartient à cette chaîne, on ajoute l'élément coref
-					if(chain.containsMention(antecedent.getIdMention())
-							&& !chain.containsMention(element.getIdMention())){
-						chain.addMention(new Mention(element.getIdMention()));
-						nouvelle_chaine = false;
-					}
-
-					// Si l'élément coref appartient à cette chaîne, on ajoute son antécédent
-					// (Garantie d'un seul antécédent par mention.)
-					// permet d'éviter la création de deux chaines si élément déclarée avant antécédent
-					if(chain.containsMention(element.getIdMention())
-							&& !chain.containsMention(antecedent.getIdMention())){
-						chain.addMention(new Mention(antecedent.getIdMention()));
-						nouvelle_chaine = false;
-					}
-				}
-				if (nouvelle_chaine){
-					Chain ch  = new Chain(ref++);
-					ch.addMention(new Mention(element.getIdMention()));
-					ch.addMention(new Mention(antecedent.getIdMention()));
-					chaines.add(0,ch);
-				}
-			}
-
-			// 1: Singletons
-			for(Element singl : singletons){
-				Chain ch = new Chain(ref++);
-				ch.addMention(new Mention(singl.getIdMention()));
-				chaines.add(ch);
-			}
-			system.addAll( chaines );
 		}
+	}
 
+	private enum TypeChains{ GOLD_CHAIN, SYSTEM_CHAIN }
 
-		return lastChainSingleton;
+	/**
+	 * Construit une collection de chaînes a partir d'un ensemble de coréférences et de singletons
+	 * @param paires_coref Paires coréférentes : < Mention, < Antécédent, ScoreClassif > >
+	 * @param mentions Ensemble de toutes les mentions du corpus impliquées dans la classif
+	 * @return	Collection de Chaines
+	 */
+	private static List<Chain> constructChains(
+			HashMap<Element, Map.Entry<Element, Double>> paires_coref,
+			HashSet<Element> mentions,
+			TypeChains typeChains) {
+
+		// Construction des chaines
+		ArrayList<Chain> chaines = new ArrayList<>();
+		int ref = 0;
+
+		// 1: Chaines
+		for (Map.Entry<Element,Map.Entry<Element,Double>> e : paires_coref.entrySet() ){
+			Element element = e.getKey();
+			Element antecedent = e.getValue().getKey();
+
+			// Tri des singletons: element et antecedent ne sont pas des singletons
+			mentions.remove(element);
+			mentions.remove(antecedent);
+
+			boolean nouvelle_chaine = true;
+			for (Chain chain : chaines){
+				// Si l'antécédent appartient à cette chaîne, on ajoute l'élément coref
+				if(chain.containsMention(antecedent.getIdMention())
+						&& !chain.containsMention(element.getIdMention())){
+					chain.addMention(new Mention(element.getIdMention()));
+					nouvelle_chaine = false;
+
+					if(typeChains == TypeChains.GOLD_CHAIN) element.setRefGoldChain(chain.getRef());
+				}
+
+				// Si l'élément coref appartient à cette chaîne, on ajoute son antécédent
+				// (Garantie d'un seul antécédent par mention.)
+				// permet d'éviter la création de deux chaines si élément déclarée avant antécédent
+				if(chain.containsMention(element.getIdMention())
+						&& !chain.containsMention(antecedent.getIdMention())){
+					chain.addMention(new Mention(antecedent.getIdMention()));
+					nouvelle_chaine = false;
+
+					if(typeChains == TypeChains.GOLD_CHAIN) element.setRefGoldChain(chain.getRef());
+				}
+			}
+			if (nouvelle_chaine){
+				Chain ch  = new Chain(ref++);
+				ch.addMention(new Mention(element.getIdMention()));
+				ch.addMention(new Mention(antecedent.getIdMention()));
+				chaines.add(0,ch);
+				if(typeChains == TypeChains.GOLD_CHAIN) element.setRefGoldChain(ch.getRef());
+				if(typeChains == TypeChains.GOLD_CHAIN) antecedent.setRefGoldChain(ch.getRef());
+			}
+		}
+		// mentions ne contient plus que les singletons
+		// 2: Singletons
+		for(Element singl : mentions){
+			Chain ch = new Chain(ref++);
+			ch.addMention(new Mention(singl.getIdMention()));
+			chaines.add(ch);
+			if(typeChains == TypeChains.GOLD_CHAIN) singl.setRefGoldChain(ch.getRef());
+		}
+		return chaines;
 	}
 
 	public static void writeCoNNL( List<String> fileArff, 
