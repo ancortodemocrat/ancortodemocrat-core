@@ -94,7 +94,7 @@ T7-prepare: T7-init T7-features T7-arff T7-model
 	@echo READY
 	@echo ===========================================================
 
-T7-scorer:
+T7-scorer: clean-cs
 	-mkdir -p $(CALLSCORER)/$(ALGO)/MEDIUM_OTG
 	-mkdir $(CALLSCORER)/$(ALGO)/MEDIUM_UBS
 	-mkdir $(CALLSCORER)/$(ALGO)/MEDIUM_ESLO

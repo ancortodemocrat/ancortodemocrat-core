@@ -3,20 +3,20 @@ ROOT=/tp/Augustin# Dossier de travail (>1 Go libre)
 
 ALGO=J48
 
-CORPUS_ZIP=./Ancor-Centre-CC-BY-NC-SA.zip
-#CORPUS_ZIP=./Donnees_maj.zip# Tableau6, Tableau7,
+#CORPUS_ZIP=./Ancor-Centre-CC-BY-NC-SA.zip
+CORPUS_ZIP=./Donnees_maj.zip# Tableau6, Tableau7,
 #CORPUS_ZIP=./Donnees_corpus.zip# Tableau5,
 
-CORPUS_NAME=Small
+CORPUS_NAME=T6
 
 SCORERS=muc bcub# ceafe blanc
 
 NUM_TEST=1
 
-ANCOR_SMALL_SELECT_AC=$(CORPUS_SRC)/corpus_ESLO/ac_fichiers/00[4]*
-ANCOR_SMALL_SELECT_AA=$(CORPUS_SRC)/corpus_ESLO/aa_fichiers/00[4]*
-# ANCOR_SMALL_SELECT_AC=$(CORPUS_SRC)/Données_corpus/Tableau6/corpus_ESLO_apprentissage/ac_fichiers/*
-# ANCOR_SMALL_SELECT_AA=$(CORPUS_SRC)/Données_corpus/Tableau6/corpus_ESLO_apprentissage/aa_fichiers/*
+# ANCOR_SMALL_SELECT_AC=$(CORPUS_SRC)/corpus_ESLO/ac_fichiers/00[4]*
+# ANCOR_SMALL_SELECT_AA=$(CORPUS_SRC)/corpus_ESLO/aa_fichiers/00[4]*
+ANCOR_SMALL_SELECT_AC=$(CORPUS_SRC)/Données_corpus/Tableau6/corpus_ESLO_apprentissage/ac_fichiers/*#Tableau6
+ANCOR_SMALL_SELECT_AA=$(CORPUS_SRC)/Données_corpus/Tableau6/corpus_ESLO_apprentissage/aa_fichiers/*#Tableau6
 # ANCOR_SMALL_SELECT_AC=$(CORPUS_SRC)/Données_corpus/Tableau5/corpus_apprentissage/ac_fichiers/*#Tableau5
 # ANCOR_SMALL_SELECT_AA=$(CORPUS_SRC)/Données_corpus/Tableau5/corpus_apprentissage/aa_fichiers/*#Tableau5
 

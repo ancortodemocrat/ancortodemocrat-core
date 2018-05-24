@@ -79,6 +79,12 @@ T6-prepare: T6-init T6-features T6-arff T6-model
 	@echo READY
 	@echo ===========================================================
 
+T6-clean-scorers: clean-cs
+	-mkdir -p $(CALLSCORER)/$(ALGO)/OTG_UBS
+	-mkdir $(CALLSCORER)/$(ALGO)/OTG_ESLO
+	-mkdir $(CALLSCORER)/$(ALGO)/ESLO_UBS
+	-mkdir $(CALLSCORER)/$(ALGO)/ESLO_OTG
+
 T6-scorer:
 	$(ANCOR2) scorer no_assoc -i $(FEATURE)/UBS_TEST -q $(SCORE_DISTRIB) \
 		-o $(CALLSCORER)/$(ALGO)/OTG_UBS -m $(MODEL)/$(ALGO)/OTG.model --scorer $(SCORERS)
