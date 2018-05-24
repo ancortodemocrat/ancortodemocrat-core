@@ -220,8 +220,8 @@ public class Scorer {
 			 * pour reconstruire les chaînes
 			 */
 
-			HashSet<Element> mentions = new HashSet<>();
-			HashMap<Element, Map.Entry<Element, Double>> corefs = new HashMap<>();
+			HashSet<Integer> mentions = new HashSet<>();
+			HashMap<Integer, Map.Entry<Integer, Double>> corefs = new HashMap<>();
 
 			//on parcourt les relations en fonction du fichier arff courant
 			for(int p = start; p < end; p++){
@@ -229,14 +229,14 @@ public class Scorer {
 
 				Annotation annotation = corefRelationSelected.get( relation );
 
-				Element element = relation.getElement( annotation );
-				Element antecedent = relation.getPreElement( annotation );
+				Integer element = relation.getElement( annotation ).getIdMention();
+				Integer antecedent = relation.getPreElement( annotation ).getIdMention();
 
 				mentions.add(element);
 				mentions.add(antecedent);
 
 				//P(COREF) = 1 car gold. On met 2 pour préciser qu'il s'agit de gold
-				corefs.put(element,new AbstractMap.SimpleEntry<Element, Double>(antecedent,2d));
+				corefs.put(element,new AbstractMap.SimpleEntry<Integer, Double>(antecedent,2d));
 			}
 
 			//de même pour les instances négatives
@@ -247,8 +247,8 @@ public class Scorer {
 				Relation relation = relationArray[ l ];
 				Annotation annotation = not_corefRelationSelected.get( relation );
 
-				Element element = relation.getElement( annotation );
-				Element antecedent = relation.getPreElement( annotation );
+				Integer element = relation.getElement( annotation ).getIdMention();
+				Integer antecedent = relation.getPreElement( annotation ).getIdMention();
 
 				mentions.add(element);
 				mentions.add(antecedent);
@@ -376,8 +376,8 @@ public class Scorer {
 			}
 		//Sélection de l'antécédent
 
-			HashMap<Element,Map.Entry<Element,Double>> pre_possibles = new HashMap<>();
-			HashSet<Element> singletons = new HashSet<>();
+			HashMap<Integer,Map.Entry<Integer,Double>> pre_possibles = new HashMap<>();
+			HashSet<Integer> singletons = new HashSet<>();
 			for(int i = 0; i < instancesSysteme.size(); i++){
 
 				int start = f * ( positiveRelationSelected.size() + negativeRelationSelected.size() ) / split;
@@ -396,8 +396,8 @@ public class Scorer {
 
 
 
-				Element element = relation.getElement( annotation );
-				Element antecedent = relation.getPreElement( annotation );
+				Integer element = relation.getElement( annotation ).getIdMention();
+				Integer antecedent = relation.getPreElement( annotation ).getIdMention();
 
 				singletons.add(element);
 				singletons.add(antecedent);
@@ -409,12 +409,12 @@ public class Scorer {
 				if(proba > 0d) {
 					if (!pre_possibles.containsKey(element)) {
 						pre_possibles.put(element,
-								new AbstractMap.SimpleEntry<Element, Double>(antecedent,proba));
+								new AbstractMap.SimpleEntry<Integer, Double>(antecedent,proba));
 					}
 					// Si proba sup ou égal (si égalité, on prend le plus proche, les instances sont dans l'ordre)
 					else if (pre_possibles.get(element).getValue() <= proba ){
 						pre_possibles.put(element,
-								new AbstractMap.SimpleEntry<Element, Double>(antecedent,proba));
+								new AbstractMap.SimpleEntry<Integer, Double>(antecedent,proba));
 					}
 
 				}
@@ -441,8 +441,8 @@ public class Scorer {
 	 * @return	Collection de Chaines
 	 */
 	private static List<Chain> constructChains(
-			HashMap<Element, Map.Entry<Element, Double>> paires_coref,
-			HashSet<Element> mentions,
+			HashMap<Integer, Map.Entry<Integer, Double>> paires_coref,
+			HashSet<Integer> mentions,
 			TypeChains typeChains) {
 
 		// Construction des chaines
@@ -450,9 +450,9 @@ public class Scorer {
 		int ref = 0;
 
 		// 1: Chaines
-		for (Map.Entry<Element,Map.Entry<Element,Double>> e : paires_coref.entrySet() ){
-			Element element = e.getKey();
-			Element antecedent = e.getValue().getKey();
+		for (Map.Entry<Integer,Map.Entry<Integer,Double>> e : paires_coref.entrySet() ){
+			Integer element = e.getKey();
+			Integer antecedent = e.getValue().getKey();
 
 			// Tri des singletons: element et antecedent ne sont pas des singletons
 			mentions.remove(element);
@@ -461,41 +461,41 @@ public class Scorer {
 			boolean nouvelle_chaine = true;
 			for (Chain chain : chaines){
 				// Si l'antécédent appartient à cette chaîne, on ajoute l'élément coref
-				if(chain.containsMention(antecedent.getIdMention())
-						&& !chain.containsMention(element.getIdMention())){
-					chain.addMention(new Mention(element.getIdMention()));
+				if(chain.containsMention(antecedent)
+						&& !chain.containsMention(element)){
+					chain.addMention(new Mention(element));
 					nouvelle_chaine = false;
 
-					if(typeChains == TypeChains.GOLD_CHAIN) element.setRefGoldChain(chain.getRef());
+					//if(typeChains == TypeChains.GOLD_CHAIN) element.setRefGoldChain(chain.getRef());
 				}
 
 				// Si l'élément coref appartient à cette chaîne, on ajoute son antécédent
 				// (Garantie d'un seul antécédent par mention.)
 				// permet d'éviter la création de deux chaines si élément déclarée avant antécédent
-				if(chain.containsMention(element.getIdMention())
-						&& !chain.containsMention(antecedent.getIdMention())){
-					chain.addMention(new Mention(antecedent.getIdMention()));
+				if(chain.containsMention(element)
+						&& !chain.containsMention(antecedent)){
+					chain.addMention(new Mention(antecedent));
 					nouvelle_chaine = false;
 
-					if(typeChains == TypeChains.GOLD_CHAIN) element.setRefGoldChain(chain.getRef());
+					//if(typeChains == TypeChains.GOLD_CHAIN) element.setRefGoldChain(chain.getRef());
 				}
 			}
 			if (nouvelle_chaine){
 				Chain ch  = new Chain(ref++);
-				ch.addMention(new Mention(element.getIdMention()));
-				ch.addMention(new Mention(antecedent.getIdMention()));
+				ch.addMention(new Mention(element));
+				ch.addMention(new Mention(antecedent));
 				chaines.add(0,ch);
-				if(typeChains == TypeChains.GOLD_CHAIN) element.setRefGoldChain(ch.getRef());
-				if(typeChains == TypeChains.GOLD_CHAIN) antecedent.setRefGoldChain(ch.getRef());
+				//if(typeChains == TypeChains.GOLD_CHAIN) element.setRefGoldChain(ch.getRef());
+				//if(typeChains == TypeChains.GOLD_CHAIN) antecedent.setRefGoldChain(ch.getRef());
 			}
 		}
 		// mentions ne contient plus que les singletons
 		// 2: Singletons
-		for(Element singl : mentions){
+		for(Integer singl : mentions){
 			Chain ch = new Chain(ref++);
-			ch.addMention(new Mention(singl.getIdMention()));
+			ch.addMention(new Mention(singl));
 			chaines.add(ch);
-			if(typeChains == TypeChains.GOLD_CHAIN) singl.setRefGoldChain(ch.getRef());
+			//if(typeChains == TypeChains.GOLD_CHAIN) singl.setRefGoldChain(ch.getRef());
 		}
 		return chaines;
 	}
