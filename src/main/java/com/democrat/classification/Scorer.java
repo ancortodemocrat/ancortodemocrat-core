@@ -124,24 +124,6 @@ public class Scorer {
 
 		createGoldSet( listPerGoldFile, positiveRelationSelected, negativeRelationSelected, split, fileArff);
 
-		// DEBUG
-		//création liste copie de gold
-		/**List<Chain>[] goldFileDEBUG = new List[ listPerGoldFile.length ];
-		for( int g = 0; g < listPerGoldFile.length; g++ ){
-			List<Chain> currentChainList = listPerGoldFile[ g ];
-			List<Chain> copyList = new ArrayList<Chain>();
-			for(Chain chain : currentChainList){
-				Chain newChain = new Chain( chain.getRef() );
-				for( Mention mention : chain.getMentionList() ){
-					newChain.addMention( new Mention( mention.getId() ) );
-				}
-				copyList.add( newChain );
-			}
-			goldFileDEBUG[ g ] = copyList;
-
-		}
-		**/
-
 		//
 		// ECRIRE LE FICHIER CoNLL GOLD
 		//
@@ -161,48 +143,6 @@ public class Scorer {
 		logger.info("Ecriture du fichier CoNNL System.");
 		writeCoNNL( fileArff, listPerGoldFile, outputPath, "_SYSTEM.txt" );
 
-		/**
-		 * DEBUG COMPARAISON DES DEUX LISTES
-		 */
-		/**
-		Map<Integer, Integer> countMentionGOLD = new HashMap<Integer, Integer>();
-		for( int g = 0; g < goldFileDEBUG.length; g++ ){
-			List<Chain> chainSystemList = goldFileDEBUG[ g ];
-			for( Chain chain : chainSystemList ){
-				for( Mention mention : chain.getMentionList() ){
-					if( ! countMentionGOLD.containsKey( mention.getId() ) ){
-						countMentionGOLD.put( mention.getId() , 1);
-					}else{
-						countMentionGOLD.put( mention.getId(), countMentionGOLD.get( mention.getId() ) + 1 );
-					}
-				}
-			}
-		}
-		Map<Integer, Integer> countMentionSYSTEM = new HashMap<Integer, Integer>();
-		for( int g = 0; g < listPerGoldFile.length; g++ ){
-			List<Chain> chainSystemList = listPerGoldFile[ g ];
-			for( Chain chain : chainSystemList ){
-				for( Mention mention : chain.getMentionList() ){
-					if( ! countMentionSYSTEM.containsKey( mention.getId() ) ){
-						countMentionSYSTEM.put( mention.getId() , 1);
-					}else{
-						countMentionSYSTEM.put( mention.getId(), countMentionSYSTEM.get( mention.getId() ) + 1 );
-					}
-				}
-			}
-		}
-		**/
-		//DEBUG ON CHECK SI YA UNE DIFF
-		/**
-		Set<Integer> keyGold = countMentionGOLD.keySet();
-		for( int idMention : keyGold ){
-			if( countMentionGOLD.get( idMention ) != countMentionSYSTEM.get( idMention ) ){
-				//logger.debug("ERROR DIFF: idMENTION " + idMention + " - " + countMentionGOLD.get( idMention ) + " __ " + countMentionSYSTEM.get( idMention ) );
-			}
-		}
-		**/
-
-		//call scorer
 		logger.info("Scorer:");
 		for(int f = 0; f < fileArff.size(); f++){
 			File file = new File( fileArff.get( f ) );
