@@ -61,12 +61,12 @@ T7-features:
 
 T7-arff:
 
-	 java -cp $(WEKA_JAR) weka.filters.unsupervised.attribute.Remove -R 9,10,27 \
-	 -i $(CORPUS_SRC)/Données_maj/Tableau7/medium_trainingSet.arff -o $(ARFF)/MEDIUM_$(TRAIN_ARFF).arff
-	$(ANCOR2) arff no_assoc -i $(FEATURE)/ESLO_TRAIN -q $(TRAINING_DISTRIB) -o $(ARFF)/ESLO_$(TRAIN_ARFF)
-	$(ANCOR2) arff no_assoc -i $(FEATURE)/OTG_TRAIN -q $(TRAINING_DISTRIB) -o $(ARFF)/OTG_$(TRAIN_ARFF)
-	$(ANCOR2) arff no_assoc -i $(FEATURE)/ESLO_TEST_$(NUM_TEST) -q $(TRAINING_DISTRIB) -o $(ARFF)/ESLO_$(NUM_TEST)_$(TEST_ARFF)
-	$(ANCOR2) arff no_assoc -i $(FEATURE)/OTG_TEST_$(NUM_TEST) -q $(TRAINING_DISTRIB) -o $(ARFF)/OTG_$(NUM_TEST)_$(TEST_ARFF)
+	java -cp $(WEKA_JAR) weka.filters.unsupervised.attribute.Remove -R 9,10,27 \
+	-i $(CORPUS_SRC)/Données_maj/Tableau7/medium_trainingSet.arff -o $(ARFF)/MEDIUM_$(TRAIN_ARFF).arff
+	$(ANCOR2) arff no_assoc -i $(FEATURE)/ESLO_TRAIN -q $(TRAINING_DISTRIB) -o $(ARFF)/ESLO_$(TRAIN_ARFF).arff
+	$(ANCOR2) arff no_assoc -i $(FEATURE)/OTG_TRAIN -q $(TRAINING_DISTRIB) -o $(ARFF)/OTG_$(TRAIN_ARFF).arff
+	$(ANCOR2) arff no_assoc -i $(FEATURE)/ESLO_TEST_$(NUM_TEST) -q $(TRAINING_DISTRIB) -o $(ARFF)/ESLO_$(NUM_TEST)_$(TEST_ARFF).arff
+	$(ANCOR2) arff no_assoc -i $(FEATURE)/OTG_TEST_$(NUM_TEST) -q $(TRAINING_DISTRIB) -o $(ARFF)/OTG_$(NUM_TEST)_$(TEST_ARFF).arff
 
 
 ESLO_TRAIN=$(shell find $(ARFF) -name ESLO_$(TRAIN_ARFF)*.arff | head -1)
@@ -93,6 +93,13 @@ T7-prepare: T7-init T7-features T7-arff T7-model
 	@echo ===========================================================
 	@echo READY
 	@echo ===========================================================
+
+T7-classify:
+	cp $(shell find $(ARFF) -name $(TEST_ARFF)*.arff | head -1) $(CALLSCORER)/gold.arff
+	cp $(shell find $(ARFF) -name $(TEST_ARFF)*.idff | head -1) $(CALLSCORER)/gold.idff
+	$(ANCOR2) classify --model $(MODEL)/$(ALGO).model --in-arff  $(CALLSCORER)/gold.arff --out-arff $(CALLSCORER)/system.arff --force
+
+	$(ANCOR2) classify
 
 T7-scorer: clean-cs
 	-mkdir -p $(CALLSCORER)/$(ALGO)/MEDIUM_OTG
