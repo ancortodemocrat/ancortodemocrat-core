@@ -96,15 +96,12 @@ public class Classification {
             //TODO
 
 
-            instances.insertAttributeAt(new Attribute("P(CLASS)"),
-                    instances.numAttributes()-1);
-
             logger.info("Loaded "+instances.numInstances()+" instances");
 
             Model model = Model.loadModel(cargs.model);
 
             logger.info("Classification");
-            model.classifyInstanceProba(instances);
+            instances = model.classifyInstanceProba(instances);
 
 
             // Vérifie que le fichier existe

@@ -2,19 +2,15 @@ package com.democrat.classification;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
-import java.io.ObjectOutputStream;
-import java.util.Arrays;
 import java.util.Random;
 
 import weka.classifiers.AbstractClassifier;
 import weka.classifiers.Evaluation;
+import weka.core.Attribute;
 import weka.core.Instances;
 import weka.core.SerializationHelper;
-import weka.filters.Filter;
 
 public class Model {
 
@@ -129,11 +125,14 @@ public class Model {
 	/**
 	 * le model retrouve la probabilité que la classe soit COREF
 	 *  pour chaque instance donnée
-	 * @param unlabeled: Liste des instances à classifier
+	 * @param unlabeled : Liste des instances à classifier
 	 */
-	public void classifyInstanceProba(Instances unlabeled){
+	public Instances classifyInstanceProba(Instances unlabeled){
 		// set class attribute
 		unlabeled.setClassIndex(unlabeled.numAttributes() - 1);
+
+		Instances inst_out = new Instances(unlabeled);
+		inst_out.insertAttributeAt(new Attribute("P(CLASS)"),inst_out.numAttributes()-1);
 
 		// label instances
 		for (int u = 0; u < unlabeled.numInstances(); u++) {
@@ -141,14 +140,15 @@ public class Model {
 			double[] _;
 			try {
 				clsLabel = classifier.classifyInstance(unlabeled.instance(u));
-				unlabeled.instance(u).setClassValue(clsLabel); // 0 OU 1
+				inst_out.instance(u).setClassValue(clsLabel); // 0 OU 1
 				clsLabel = classifier.distributionForInstance(unlabeled.instance(u))[(int)clsLabel];
-				unlabeled.instance(u).setValue(unlabeled.numAttributes()-2,clsLabel); // 0 < x < 1
+				inst_out.instance(u).setValue(unlabeled.numAttributes()-2,clsLabel); // 0 < x < 1
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
+		return inst_out;
 	}
 
 	/**
