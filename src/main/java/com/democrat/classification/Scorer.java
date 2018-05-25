@@ -1,25 +1,19 @@
 package com.democrat.classification;
 
 import java.io.*;
+import java.nio.file.FileAlreadyExistsException;
 import java.util.*;
 
+import org.apache.commons.cli.*;
 import org.apache.log4j.Logger;
 import com.democrat.ancortodemocrat.ConversionInSet;
-import com.democrat.ancortodemocrat.ConversionToArff;
 import com.democrat.ancortodemocrat.Corpus;
 import com.democrat.ancortodemocrat.FileManager;
-import com.democrat.ancortodemocrat.ParamToArff;
 import com.democrat.ancortodemocrat.element.Annotation;
-import com.democrat.ancortodemocrat.element.Element;
-import com.democrat.ancortodemocrat.element.Relation;
-import com.democrat.ancortodemocrat.element.Schema;
 import com.democrat.ancortodemocrat.element.Unit;
 
-import weka.core.Attribute;
+import weka.core.Instance;
 import weka.core.Instances;
-import weka.core.converters.ArffSaver;
-import weka.filters.Filter;
-import weka.filters.unsupervised.attribute.Remove;
 
 public class Scorer {
 
@@ -28,409 +22,147 @@ public class Scorer {
 
 
 	/**
-	 *  @param command String de la commande exéctuée pour cette fonction
-	 * @param corpusList liste des corpus où sont extrait les relations
-	 * @param modelPath chemin du fichier model à appliquer pour faire le test
-	 * @param positif nombre d'instance positive
-	 * @param negatif nombre d'instance négative
-	 * @param param Quel type de relation l'on doit prendre
-	 * @param outputPath Chemin de sortie des résultats
-	 * @param split Si on doit splter le/les corpus indiqué(s), sinon 0 et aucun split est appliqué
-	 * @param listRemoveAttribute Liste des attributs à ignorer pour l'apprentissage
-	 * @param metriques Chaine contenant toutes les métriques à calculer (séparées par des +)
+	 *  @param args Liste des arguments passé dans la ligne de commande
 	 */
 	public static void scorerTask(
-			String command,
-			List<Corpus> corpusList,
-			String modelPath,
-			int positif,
-			int negatif,
-			ParamToArff param,
-			String outputPath,
-			int split,
-			List<String> listRemoveAttribute,
-			String metriques){
+			String[] args
+			) throws InvalidArffAttributes, IOException {
 
-		//chargement du modèle pour tester
-		//si c'est un bon ou pas
-		Model model = Model.loadModel( modelPath );
-
-		//chargement des corpus
-		for(Corpus corpus : corpusList ){
-			logger.info("Chargement du corpus "+corpus.getName() );
-
-			corpus.loadAnnotation();
-
-			//on ajoute l'id mention pour ensuite créer les fichiers GOLD et SYSTEM
-			int count = 0;
-			for(Annotation annotation : corpus.getAnnotation() ){
-				List<Unit> unitList = annotation.getUnit();
-				for(Unit unit : unitList){
-					unit.setIdMention( count++ );
-				}
-				List<Schema> schemaList = annotation.getSchema();
-				for(Schema schema : schemaList){
-					schema.setIdMention( count++ );
-				}
-			}
-
-			corpus.loadText();
-		}
-
-		//on s'assure d'abord que le/les corpus on le champ REF ajouté
-		//sinon on l'ajoute, il serviera pour extraire
-		//les mentions des relations, et créer les chaînes
-		//pour le scorer
-		setRefIfNeed( corpusList );
-		//REF OK
+		ScorerArgs sargs = new ScorerArgs(args);
 
 
-		logger.info("Création des fichiers arff..");
-		//première étape séléctionner les pos/neg
-		ConversionToArff conversion = new ConversionToArff( corpusList,
-				positif, negatif, param, outputPath, split );
+		String goldArffName = sargs.in_gold;
+		String systemArffName = sargs.in_system;
+		String arffIdName = sargs.in_gold.replace(".arff",".idff");
+		String conllGold = sargs.output + "_GOLD.conll";
+		String conllSystem = sargs.output + "_SYSTEM.conll";
+		String csvMentions = sargs.output + "_conll_to_ancor.csv"; // Contient lien id conll / id mention
+		String csvGold = sargs.csv? sargs.output + "_GOLD.csv" : null;
+		String csvSystem = sargs.csv? sargs.output + "_SYSTEM.csv" : null;
 
-		//first step: séléction de toutes les relations du/des corpus avec
-		//génération des négatives, en triant selon la ParamToArff.
-		logger.info("Génération des instances négatives et positives.");
-		conversion.sortInstance();
+		if(sargs.csv)
+			checkWriteDirs(sargs.force, conllGold, conllSystem, csvMentions, csvGold, csvSystem);
+		else
+			checkWriteDirs(sargs.force, conllGold, conllSystem, csvMentions);
 
-
-		logger.info("Séléction des instances négatives et positives.");
-		//second step: séléction de p positive, et n negative comme voulue
-		conversion.selectInstance();
-
-		//on écrit le fichier arff
-		logger.info("Ecriture du fichier arff.");
-		conversion.writeInstance();
-
-		//on récupère les instances voulues
-		//pour plus tard on sait que les instances positives sont
-		//écrite en premier temps, dans l'ordre de la liste
-		//et ensuite les négatives relations
-		Map<Relation, Annotation> positiveRelationSelected = conversion.getPositiveRelationSelected();
-		Map<Relation, Annotation> negativeRelationSelected = conversion.getNegativeRelationSelected();
-		//liste des fichiers arff générés
-		List<String> fileArff = conversion.getFileOuput();
-
-		if( split == 0 ){
-			split = 1;
-		}
-
-		List<Chain>[] listPerGoldFile = new List[ fileArff.size() ];
+		ArrayList<ArrayList<String>> goldChains;
+		ArrayList<ArrayList<String>> systemChains;
 
 
-		logger.info("Création des listes de chaînes..");
 
-		createGoldSet( listPerGoldFile, positiveRelationSelected, negativeRelationSelected, split, fileArff);
+		goldChains = createSet( goldArffName, arffIdName,TypeChains.GOLD_CHAIN);
+		systemChains = createSet( systemArffName, arffIdName,TypeChains.SYSTEM_CHAIN);
 
-		//
-		// ECRIRE LE FICHIER CoNLL GOLD
-		//
-		logger.info("Ecriture du fichier CoNNL Gold.");
-		writeCoNNL( fileArff, listPerGoldFile, outputPath, "_GOLD.txt" );
+		HashMap<String,Integer> mention_str_to_int = new HashMap<>();
 
-		//même liste de chaîne que pour GOLD mais elle sera modifée et contiendra donc les chaînes de sortie
-		//du system
-		createSystemSet( model, listPerGoldFile,
-				positiveRelationSelected, negativeRelationSelected,
-				split, fileArff, listRemoveAttribute);
-
-
-		//
-		// ECRIRE LE FICHIER CoNLL system
-		//
-		logger.info("Ecriture du fichier CoNNL System.");
-		writeCoNNL( fileArff, listPerGoldFile, outputPath, "_SYSTEM.txt" );
-
-		logger.info("Scorer:");
-		for(int f = 0; f < fileArff.size(); f++){
-			File file = new File( fileArff.get( f ) );
-			PrintWriter writer = null;
-			try {
-				String results = command + System.lineSeparator();
-				results += "POS: " + positif;
-				results += System.lineSeparator() + "NEG: " + negatif;
-				results += System.lineSeparator() + "MODEL: " + model.getPath();
-				results += System.lineSeparator() + "PARAM: " + param;
-				results += System.lineSeparator() + "CORPUS:" + System.lineSeparator();
-				for( Corpus corpus : corpusList ){
-					results += "- " + corpus.getName() + System.lineSeparator();
-				}
-				results += "ATTRIBUTES REMOVED:" + System.lineSeparator();
-				for(String attr : listRemoveAttribute ){
-					results += "- " + attr + System.lineSeparator();
-				}
-				/*
-				results += System.lineSeparator() + "Muc:" + System.lineSeparator();
-				results += eval("muc", outputPath + file.getName().replace(".arff", "") + "_GOLD.txt" ,outputPath + file.getName().replace(".arff", "") + "_SYSTEM.txt" );
-				results += System.lineSeparator() + "B3:" + System.lineSeparator();
-				results +=  eval("bcub", outputPath + file.getName().replace(".arff", "") + "_GOLD.txt" ,outputPath + file.getName().replace(".arff", "") + "_SYSTEM.txt" );
-				results += System.lineSeparator() + "ceafe:" + System.lineSeparator();
-				results += eval("ceafe", outputPath + file.getName().replace(".arff", "") + "_GOLD.txt" ,outputPath + file.getName().replace(".arff", "") + "_SYSTEM.txt" );
-				results += System.lineSeparator() + "blanc:" + System.lineSeparator();
-				results += eval("blanc", outputPath + file.getName().replace(".arff", "") + "_GOLD.txt" ,outputPath + file.getName().replace(".arff", "") + "_SYSTEM.txt" );
-				*/
-
-				results += eval(metriques, outputPath + file.getName().replace(".arff", "") + "_GOLD.txt" ,outputPath + file.getName().replace(".arff", "") + "_SYSTEM.txt" );
-				logger.info( results );
-				//on écrit les résultats dans un fichier
-				writer = new PrintWriter( outputPath + file.getName().replace(".arff", "") + "_RESULTS.txt", "UTF-8" );
-				writer.println( results );
-				writer.close();
-				logger.info( ( f + 1 ) + " / " + fileArff.size() );
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+		logger.info("Ecriture dans "+csvMentions);
+		PrintWriter conll_to_ancor_id = new PrintWriter(new FileOutputStream(csvMentions));
+		conll_to_ancor_id.println("CONLL_ID\tAncor_ID");
+		int u = 0;
+		for(ArrayList<String> h : goldChains){
+			for(String s : h){
+				conll_to_ancor_id.println(u+"\t"+s);
+				mention_str_to_int.put(s,u++);
 			}
 		}
+		conll_to_ancor_id.close();
 
+		writeCoNNL(conllGold, csvGold, goldChains,
+				mention_str_to_int, TypeChains.GOLD_CHAIN,
+				"unique_doc");
+		writeCoNNL(conllSystem, csvSystem, systemChains,
+				mention_str_to_int, TypeChains.SYSTEM_CHAIN,
+				"unique_doc");
+	}
+
+	private static void checkWriteDirs(boolean force, String... outs) throws FileAlreadyExistsException {
+		String DirErrors = "\n";
+		String FileErrors = "\n";
+		File err;
+		for(String out : outs) {
+			if (out != null && (err = new File(out)).exists()) {
+				if (err.isDirectory()) {
+					DirErrors += out + " est un répertoire\n";
+				} else if (!force) {
+					FileErrors += out + " existe déjà: utilisez -f ou --force pour l'écraser\n";
+				}
+			}
+		}
+		if(DirErrors.length() > 1)
+			throw new FileAlreadyExistsException(DirErrors);
+		if(FileErrors.length() > 1)
+			throw  new FileAlreadyExistsException(FileErrors);
 	}
 
 	/**
-	 * Rempli pour chaque fichier (chain_per_fic)
-	 * une liste de chaîne qui sont créees à partir des listes
-	 * des relations données
-	 * @param chain_per_fic Tableau des listes des chaînes qui sont à créer
-	 * @param corefRelationSelected Liste des relations positives pour tous les fichiers
-	 * @param not_corefRelationSelected Liste des relations négatives pour tous les fichiers
-	 * @param split En combien de partie les fichiers ont été découpé
-	 * @param arffLines Les des fichiers
+	 *
 	 * @return
 	 */
-	public static void createGoldSet( List<Chain>[] chain_per_fic,
-			Map<Relation, Annotation> corefRelationSelected,
-			Map<Relation, Annotation> not_corefRelationSelected,
-			int split,
-			List<String> arffLines){
+	public static ArrayList<ArrayList<String>> createSet
+			(String arff,String arffId, TypeChains t)
+			throws IOException, InvalidArffAttributes {
 
-		int lastChainId = -1;
+		Instances instances = loadInstance(arff);
 
-		for(int f = 0; f < arffLines.size(); f++){
-			int start = f  * corefRelationSelected.size() / split;
-			int end = start + corefRelationSelected.size() / split;
-			Relation[] relationArray = (Relation[]) corefRelationSelected.keySet().toArray( new Relation[ corefRelationSelected.size() ] );
+		TypeChains type;
+		if (instances.attribute(instances.numAttributes()-2).name().equals("P(CLASS)"))
+			type = TypeChains.SYSTEM_CHAIN;
+		else
+			type = TypeChains.GOLD_CHAIN;
 
-			//liste des set à partir des instances choisies pour le fichier arff
-			/**
-			 * Integer: id de la chaine/set
-			 * List<IntegerWithBool>: liste des id des mentions de la chaîne/set, le bool permet
-			 * de connaitre si une mention été annotation coréférente à une autre ou non
-			 * ce qui permet ensuite de faire un test logique avec les réponses du système (cf. Mention DOC)
-			 * pour reconstruire les chaînes
-			 */
+		if (!type.equals(t))
+			throw new InvalidArffAttributes(
+					arff+" is "+type.toString()+ " while " + t.toString() + "excepted");
 
-			HashSet<Integer> mentions = new HashSet<>();
-			HashMap<Integer, Map.Entry<Integer, Double>> corefs = new HashMap<>();
+		BufferedReader idff_reader = new BufferedReader(new FileReader(arffId));
 
-			//on parcourt les relations en fonction du fichier arff courant
-			for(int p = start; p < end; p++){
-				Relation relation = relationArray[ p ];
+		HashSet<String> mentions = new HashSet<>();
+		SortedMap<String, Map.Entry<String, Double>> corefs = new TreeMap<>();
 
-				Annotation annotation = corefRelationSelected.get( relation );
+		// Recensement des mentions
+		for(int i = 0; i < instances.numInstances(); i++){
+			Instance instance = instances.instance(i);
+			String[] line_id = idff_reader.readLine().split("\t");
+			String rel_id = line_id[0];
+			String antecedent = line_id[1];
+			String element = line_id[2];
 
-				Integer element = relation.getElement( annotation ).getIdMention();
-				Integer antecedent = relation.getPreElement( annotation ).getIdMention();
-
-				mentions.add(element);
-				mentions.add(antecedent);
-
-				//P(COREF) = 1 car gold. On met 2 pour préciser qu'il s'agit de gold
-				corefs.put(element,new AbstractMap.SimpleEntry<Integer, Double>(antecedent,2d));
-			}
-
-			//de même pour les instances négatives
-			relationArray = (Relation[]) not_corefRelationSelected.keySet().toArray( new Relation[ not_corefRelationSelected.size() ] );
-			start = f * not_corefRelationSelected.size() / split;
-			end = start + not_corefRelationSelected.size() / split;
-			for( int l = start; l < end; l++){
-				Relation relation = relationArray[ l ];
-				Annotation annotation = not_corefRelationSelected.get( relation );
-
-				Integer element = relation.getElement( annotation ).getIdMention();
-				Integer antecedent = relation.getPreElement( annotation ).getIdMention();
-
-				mentions.add(element);
-				mentions.add(antecedent);
-			}
-
-			List<Chain> l = constructChains(corefs,mentions,TypeChains.GOLD_CHAIN);
-
-			if(chain_per_fic[f] == null) {
-				chain_per_fic[f] = l;
-			} else {
-				chain_per_fic[f].clear();
-				chain_per_fic[f].addAll(l);
-			}
-
-			logger.info( ( f + 1 ) + " / " + arffLines.size( ) );
+			mentions.add(element);
+			mentions.add(antecedent);
 		}
-	}
 
-	
-	/**
-	 * 
-	 * @param perFile Tableau des listes des chaînes qui sont à modifier en fonction des résultats de l'apprentissage avec le model
-	 * @param positiveRelationSelected Liste des relations positives pour tous les fichiers
-	 * @param negativeRelationSelected Liste des relations négatives pour tous les fichiers
-	 * @param split En combien de partie les fichiers ont été découpé
-	 * @param fileArff Les des fichiers
-	 * @param model Model qui servira d'apprentissage pour classer les relations
-	 * @param removeAttribute Liste des attributes qui ne sont pas à prendre en compte pour l'apprentissage
-	 * @return
-	 */
-	public static void createSystemSet( Model model,
-			List<Chain>[] perFile,
-			Map<Relation, Annotation> positiveRelationSelected,
-			Map<Relation, Annotation> negativeRelationSelected,
-			int split,
-			List<String> fileArff,
-			List<String> removeAttribute){
+		//Best-First
+		idff_reader = new BufferedReader(new FileReader(arffId));
+		for(int i = 0; i < instances.numInstances(); i++){
+			Instance instance = instances.instance(i);
+			if(instance.classValue()==0.d) { // Si COREF
+				String[] line_id = idff_reader.readLine().split("\t");
+				String antecedent = line_id[1];
+				String element = line_id[2];
+				if(type==TypeChains.GOLD_CHAIN) { // Cas Gold
+					corefs.put(element, new AbstractMap.SimpleEntry<String, Double>(antecedent, 1d));
+				}else { // Cas System
+					Double proba = instance.value(instance.numAttributes()-2);
 
+					assert (proba > 0.5d); // P(COREF) > 0.5 si COREF
 
-
-		Remove remove;
-		//test sur le modèle de chaque fichier sortie
-		//et on rempli le fichier systems
-		for(int f = 0; f < fileArff.size(); f++){
-			logger.info("Scoring en cours sur le fichier " + fileArff.get( f ) );
-
-
-			Instances instancesGold = loadInstance( fileArff.get( f ) );
-			Instances instancesSysteme = loadInstance( fileArff.get( f ) ); //model.classifyInstance( instances );
-
-			if( removeAttribute.size() > 0 ){
-
-
-				BufferedReader reader = null;
-				try {
-					reader = new BufferedReader( new FileReader( fileArff.get( f ) ) );
-				} catch (FileNotFoundException e2) {
-					// TODO Auto-generated catch block
-					e2.printStackTrace();
-				}
-				String line = "";
-
-				int[] indices = new int[ 30 - removeAttribute.size() ];
-				int i = 0;
-				int index = 0;
-				// on crée la liste des indices à utiliser en enlevant ceux de l'utilisateur
-				try {
-					while( ( line = reader.readLine() ) != null ){
-						if(line.toLowerCase().contains( "@data" ) ){
-							break;
-						}
-						String attributeName = line.split( " " )[ 1 ];
-						if( line.contains( "@ATTRIBUTE" ) && ! line.contains( "class" ) ){
-							if( removeAttribute.contains( attributeName ) ){
-								indices[ index++ ]  = i;
-							}
-							i++;
-						}
-					}
-					System.out.println(indices.toString());
-				} catch (IOException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}finally{
-					if( reader != null ){
-						try {
-							reader.close();
-						} catch (IOException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
-					}
-				}
-				remove = new Remove();
-
-				remove.setAttributeIndicesArray( indices );
-				remove.setInvertSelection( false );
-				try {
-					remove.setInputFormat( instancesGold );
-					instancesGold = Filter.useFilter( instancesGold, remove );
-					
-
-					remove.setInputFormat( instancesSysteme );
-					instancesSysteme = Filter.useFilter( instancesSysteme, remove );
-				} catch (Exception e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
-
-			model.classifyInstance( instancesSysteme );
-			Instances instancesProba = new Instances(instancesSysteme);
-			instancesProba.insertAttributeAt(new Attribute("P(CLASS)"),
-					instancesProba.numAttributes()-1);
-
-			model.classifyInstanceProba(instancesProba);
-
-			ArffSaver saver = new ArffSaver();
-			saver.setInstances(instancesProba);
-			try {
-				saver.setFile(new File(fileArff.get(f).replace(".arff","_probas.arff")));
-				saver.writeBatch();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		//Sélection de l'antécédent
-
-			HashMap<Integer,Map.Entry<Integer,Double>> pre_possibles = new HashMap<>();
-			HashSet<Integer> singletons = new HashSet<>();
-			for(int i = 0; i < instancesSysteme.size(); i++){
-
-				int start = f * ( positiveRelationSelected.size() + negativeRelationSelected.size() ) / split;
-				int relationId = start + i;
-				Relation relation;
-				Annotation annotation;
-				if(relationId >= positiveRelationSelected.size() ){
-					Relation[] relationArray = (Relation[]) negativeRelationSelected.keySet().toArray( new Relation[ negativeRelationSelected.size() ] );
-					relation = relationArray[ relationId - positiveRelationSelected.size() ];
-					annotation = negativeRelationSelected.get( relation );
-				}else{
-					Relation[] relationArray = (Relation[]) positiveRelationSelected.keySet().toArray( new Relation[ positiveRelationSelected.size() ] );
-					relation = relationArray[ relationId ];
-					annotation = positiveRelationSelected.get( relation );
-				}
-
-
-
-				Integer element = relation.getElement( annotation ).getIdMention();
-				Integer antecedent = relation.getPreElement( annotation ).getIdMention();
-
-				singletons.add(element);
-				singletons.add(antecedent);
-
-				Double proba = instancesProba.get(i).value(instancesProba.numAttributes()-2);
-
-				// Conversion proba = P(CLASS) -> proba = P(COREF)
-				proba = instancesProba.get(i).classValue()==0d? proba : 1 - proba;
-				if(proba > 0d) {
-					if (!pre_possibles.containsKey(element)) {
-						pre_possibles.put(element,
-								new AbstractMap.SimpleEntry<Integer, Double>(antecedent,proba));
-					}
 					// Si proba sup ou égal (si égalité, on prend le plus proche, les instances sont dans l'ordre)
-					else if (pre_possibles.get(element).getValue() <= proba ){
-						pre_possibles.put(element,
-								new AbstractMap.SimpleEntry<Integer, Double>(antecedent,proba));
+					if (!corefs.containsKey(element)
+						|| corefs.get(element).getValue() <= proba ){
+
+						corefs.put(element,
+								new AbstractMap.SimpleEntry<String, Double>(antecedent,proba));
 					}
-
 				}
-
-			}
-
-			List l = constructChains(pre_possibles, singletons,TypeChains.SYSTEM_CHAIN);
-			// Construction des chaînes
-			if(perFile[f] == null) {
-				perFile[f] = l;
-			} else {
-				perFile[f].clear();
-				perFile[f].addAll(l);
 			}
 		}
+
+		// Construction des chaines
+		return constructChains(corefs,mentions,type);
+
+
 	}
+
 
 	private enum TypeChains{ GOLD_CHAIN, SYSTEM_CHAIN }
 
@@ -440,104 +172,153 @@ public class Scorer {
 	 * @param mentions Ensemble de toutes les mentions du corpus impliquées dans la classif
 	 * @return	Collection de Chaines
 	 */
-	private static List<Chain> constructChains(
-			HashMap<Integer, Map.Entry<Integer, Double>> paires_coref,
-			HashSet<Integer> mentions,
+	private static ArrayList<ArrayList<String>> constructChains(
+			SortedMap<String, Map.Entry<String, Double>> paires_coref,
+			HashSet<String> mentions,
 			TypeChains typeChains) {
+		logger.info("Construction chaine "+typeChains);
+		logger.trace("|M| = "+mentions.size()+" mentions");
 
+		logger.trace("|Co| = "+paires_coref.size()+" corefs");
 		// Construction des chaines
-		ArrayList<Chain> chaines = new ArrayList<>();
+		ArrayList<ArrayList<String>> chaines = new ArrayList<>();
 		int ref = 0;
+		if(logger.isTraceEnabled()){
+			Set<String> intersect = new HashSet(mentions);
+			intersect.retainAll(paires_coref.keySet());
+			logger.trace("|M \u2229 Co| = "+ intersect.size());
+			if (intersect.size() == paires_coref.size())
+				logger.trace("|M \u2229 Co| = |Co| <=> Co \u2286 M");
+		}
 
+		boolean antecedent_perdu = false;
+		boolean mention_perdue = false;
+		logger.trace("Construction des chaines");
 		// 1: Chaines
-		for (Map.Entry<Integer,Map.Entry<Integer,Double>> e : paires_coref.entrySet() ){
-			Integer element = e.getKey();
-			Integer antecedent = e.getValue().getKey();
+		for (Map.Entry<String,Map.Entry<String,Double>> e : paires_coref.entrySet() ){
+			String element = e.getKey();
+			String antecedent = e.getValue().getKey();
 
 			// Tri des singletons: element et antecedent ne sont pas des singletons
-			mentions.remove(element);
-			mentions.remove(antecedent);
+			mention_perdue = mentions.remove(element);
+
+			antecedent_perdu = mentions.remove(antecedent);
 
 			boolean nouvelle_chaine = true;
-			for (Chain chain : chaines){
+			for (ArrayList chain : chaines){
 				// Si l'antécédent appartient à cette chaîne, on ajoute l'élément coref
-				if(chain.containsMention(antecedent)
-						&& !chain.containsMention(element)){
-					chain.addMention(new Mention(element));
-					nouvelle_chaine = false;
-
-					//if(typeChains == TypeChains.GOLD_CHAIN) element.setRefGoldChain(chain.getRef());
-				}
-
-				// Si l'élément coref appartient à cette chaîne, on ajoute son antécédent
-				// (Garantie d'un seul antécédent par mention.)
-				// permet d'éviter la création de deux chaines si élément déclarée avant antécédent
-				if(chain.containsMention(element)
-						&& !chain.containsMention(antecedent)){
-					chain.addMention(new Mention(antecedent));
-					nouvelle_chaine = false;
-
-					//if(typeChains == TypeChains.GOLD_CHAIN) element.setRefGoldChain(chain.getRef());
+				if(chain.contains(antecedent)){
+					mention_perdue=false;
+					antecedent_perdu=false;
+					if(!chain.contains(element)){
+						chain.add(element);
+						nouvelle_chaine = false;
+					}
+				}else if(chain.contains(element)){
+					mention_perdue=false;
+					antecedent_perdu=false;
+					if(!chain.contains(antecedent)){
+						chain.add(antecedent);
+						nouvelle_chaine = false;
+					}
 				}
 			}
 			if (nouvelle_chaine){
-				Chain ch  = new Chain(ref++);
-				ch.addMention(new Mention(element));
-				ch.addMention(new Mention(antecedent));
-				chaines.add(0,ch);
-				//if(typeChains == TypeChains.GOLD_CHAIN) element.setRefGoldChain(ch.getRef());
-				//if(typeChains == TypeChains.GOLD_CHAIN) antecedent.setRefGoldChain(ch.getRef());
+				ArrayList<String> ch  = new ArrayList<>();
+				ch.add(element);
+				ch.add(antecedent);
+				chaines.add(ch);
+				mention_perdue=false;
+				antecedent_perdu=false;
 			}
+			assert(mention_perdue==true && antecedent_perdu==true);
+		}
+
+		if(logger.isTraceEnabled()) {
+			logger.trace("|Ch| = "+chaines.size()+" chaines");
+			logger.trace("|S| = "+mentions.size()+" singletons");
+			int nbmention = 0;
+			for (List<String> ch : chaines) {
+				nbmention += ch.size();
+			}
+			logger.trace("|Mch| = "+nbmention+" mentions dans chaines");
+			logger.trace("|Mch \u222A S| = "+(nbmention + mentions.size()) +" mentions ");
 		}
 		// mentions ne contient plus que les singletons
+		logger.trace("Ajout des singletons en tant que chaines à 1 elément");
 		// 2: Singletons
-		for(Integer singl : mentions){
-			Chain ch = new Chain(ref++);
-			ch.addMention(new Mention(singl));
+		for(String singl : mentions){
+			ArrayList<String> ch = new ArrayList<>();
+			ch.add(singl);
 			chaines.add(ch);
 			//if(typeChains == TypeChains.GOLD_CHAIN) singl.setRefGoldChain(ch.getRef());
 		}
+		if(logger.isDebugEnabled()) {
+			logger.trace("|Cl| = "+chaines.size()+" clusters ( Cl = Ch \u222A S )");
+			int nbmention = 0;
+			for (List<String> ch : chaines) {
+				nbmention += ch.size();
+			}
+			logger.trace("|M| = "+nbmention+" mentions");
+		}
+
 		return chaines;
 	}
 
-	public static void writeCoNNL( List<String> fileArff, 
-			List<Chain>[] chainListPerFile,
-			String outputPath,
-			String fileName ){
+	public static void writeCoNNL(String conll, String csv,
+								  ArrayList<ArrayList<String>> chaines,
+								  HashMap<String, Integer> mention_str_to_int,
+								  TypeChains type, String document_name){
+		logger.info("Ecriture dans "+conll+" et "+csv+":");
+		PrintWriter conll_writer = null;
+		PrintWriter csv_writer = null;
+		try {
 
-		for(int f = 0; f < fileArff.size(); f++){
-			File file = new File( fileArff.get( f ) );
-			PrintWriter writer = null;
-			try {
-
-				//création des fichiers
-				writer = new PrintWriter(outputPath + file.getName().replace(".arff", "") + fileName, "UTF-8");
-				//writerSystem = new PrintWriter(outputPath + file.getName().replace(".arff", "") + "_SYSTEM.txt", "UTF8");
-
-				writer.println("#begin document " + file.getName().replace(".arff", "") + ".txt");
-
-				List<Chain> list = chainListPerFile[ f ];
-				for(Chain chain : list ){
-					//on écrit pour chaque chaine les id des mentions puis l'id de la chaine
-					for(int i = 0; i < chain.size(); i++){
-						writer.println( chain.getMentionList().get( i ).getId() + "\t" + "(" + chain.getRef() + ")");
-					}
-				}
-
-				writer.println("#end document");
-
-			} catch (FileNotFoundException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (UnsupportedEncodingException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}finally{
-				if( writer != null ){
-					writer.close();
-				}
+			//création des fichiers
+			conll_writer = new PrintWriter(conll, "UTF-8");
+			if (csv != null) {
+				csv_writer = new PrintWriter(csv, "UTF-8");
+				csv_writer.println("Source\tTarget");
 			}
 
+
+			conll_writer.println("#begin document " + document_name);
+
+			int id_chain = 0;
+			int ref = -1;
+			int nbmention = 0;
+			int nbchains= 0;
+			for(ArrayList<String> chaine : chaines ){
+				//on écrit pour chaque chaine les id des mentions puis l'id de la chaine
+				nbchains++;
+				for(String mention : chaine){
+					nbmention++;
+					conll_writer.println( mention_str_to_int.get(mention) + "\t" + "(" + id_chain + ")");
+					if (csv_writer != null){
+						if (ref==-1)
+							ref=mention_str_to_int.get(mention);
+						else
+							csv_writer.println(mention_str_to_int.get(mention)+"\t"+ref);
+					}
+				}
+				ref = -1;
+				id_chain++;
+			}
+			conll_writer.println("#end document");
+			logger.debug(nbmention+" mentions");
+			logger.debug(nbchains+" chaines");
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			if (conll_writer != null) {
+				conll_writer.close();
+			}if (csv_writer != null) {
+				csv_writer.close();
+			}
 		}
 	}
 
@@ -680,4 +461,88 @@ public class Scorer {
 		return instances;
 	}
 
+	public static class InvalidArffAttributes extends Exception {
+		public InvalidArffAttributes(String s) {
+			super(s);
+		}
+	}
+
+	private static class ScorerArgs {
+		private final String in_gold, in_system;
+		private final String output;
+		private final String[] scorers;
+		private final boolean force;
+		private final boolean csv;
+
+		public ScorerArgs(String[] args) {
+			Options opt = new Options();
+
+			Option gold = new Option(
+					"k",
+					"gold-arff",
+					true,
+					"Input gold arff filename");
+			gold.setRequired(true);
+			opt.addOption(gold);
+
+			Option system= new Option(
+					"r",
+					"system-arff",
+					true,
+					"Input system arff filename");
+			system.setRequired(true);
+			opt.addOption(system);
+
+			Option out = new Option(
+					"o",
+					"output-chains",
+					true,
+					"Represents chains output : -o /path/to/output/couple_name \n" +
+							"Will write gold to /path/to/output/couple_name_GOLD.txt \n" +
+							"System to /path/to/output/couple_name_SYSTEM.txt\n" +
+							"Conll mention ids to Ancor id to /path/to/output/couple_name_conll_to_andor.csv\n" +
+							"couple_name may be gold arff name");
+			out.setRequired(true);
+			opt.addOption(out);
+
+			Option sco = new Option(
+					"s",
+					"scorers",
+					true,
+					"Scorers to use (separated with spaces): muc, bcub, ceafe, ceafm, blanc ");
+			sco.setArgs(5);
+			sco.setRequired(false);
+			opt.addOption(sco);
+
+			opt.addOption(
+					"f",
+					"force",
+					false,
+					"Force overwrite existing GOLD and SYSTEM chains file"
+			);
+			opt.addOption(
+					"c",
+					"csv",
+					false,
+					"Additionnal csv output of gold and system chains\n" +
+							"path/to/output/couple_name_GOLD.csv\n" +
+							"path/to/output/couple_name_SYSTEM.csv\n"
+			);
+			CommandLineParser commandline = new GnuParser();
+			CommandLine cmd = null;
+			try {
+				cmd = commandline.parse(opt, args);
+			} catch (ParseException e) {
+				e.printStackTrace();
+				System.exit(0);
+			}
+			in_gold = cmd.getOptionValue("k");
+			in_system = cmd.getOptionValue("r");
+			output = cmd.getOptionValue("o");
+			scorers = cmd.getOptionValues("s");
+			force = cmd.hasOption("f");
+			csv = cmd.hasOption("c");
+
+		}
+	}
 }
