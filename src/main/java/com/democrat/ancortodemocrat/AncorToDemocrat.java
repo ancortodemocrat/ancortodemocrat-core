@@ -52,6 +52,15 @@ public class AncorToDemocrat {
 			}else if (args[0].equalsIgnoreCase("classify")) {
 				logger.info("Running classification");
 				new Classification(args);
+			}else if (args[0].equalsIgnoreCase("chaining")) {
+				logger.info("Running chaining");
+				try {
+					Scorer.scorerTask(args);
+				} catch (Scorer.InvalidArffAttributes invalidArffAttributes) {
+					invalidArffAttributes.printStackTrace();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
 			}else if(args[0].equalsIgnoreCase("feature")){
 				/**
 				 * feature
@@ -99,8 +108,7 @@ public class AncorToDemocrat {
 				}else{
 					logger.info("Argument manquant pour la commande feature.");
 				}
-			}else if(args[ 0 ].equalsIgnoreCase("arff") ||
-					args[ 0 ].equalsIgnoreCase("scorer")){
+			}else if(args[ 0 ].equalsIgnoreCase("arff")){
 				//arff command
 				/**     
 				 * - paramètre de sortie
@@ -228,7 +236,7 @@ public class AncorToDemocrat {
 								logger.error("Aucun paramètre indiqué après -s.");								
 							}
 						}
-						if(args[ 0 ].equalsIgnoreCase("scorer")){
+						/*if(args[ 0 ].equalsIgnoreCase("scorer")){
 							if(args[ a ].equalsIgnoreCase("-m")){
 								if(a + 1 < args.length){
 									modelPath = args[ a + 1 ];
@@ -298,7 +306,7 @@ public class AncorToDemocrat {
 									}
 								}
 							}
-						}
+						}*/
 					}
 
 					List<Corpus> corpusList = new ArrayList<Corpus>();
@@ -436,13 +444,13 @@ public class AncorToDemocrat {
 
 					}else{
 						//SCORER
-						String command = "";
-						for(int c = 0; c < args.length; c++){
-							command += args[ c ] + " ";
+						try {
+							Scorer.scorerTask(args);
+						} catch (Scorer.InvalidArffAttributes invalidArffAttributes) {
+							invalidArffAttributes.printStackTrace();
+						} catch (IOException e) {
+							e.printStackTrace();
 						}
-						Scorer.scorerTask(command, corpusList,
-								modelPath, pos, neg, parameter,
-								outputPath, split, removeAttribute, metriques);
 					}
 				}else{
 					logger.info("Arguement manquant pour " + args[ 0 ]);
