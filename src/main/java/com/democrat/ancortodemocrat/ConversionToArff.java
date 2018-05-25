@@ -115,7 +115,6 @@ public class ConversionToArff implements Runnable{
 		this.param = param;
 		this.outputPath = outputPath;
 		this.split = split;
-
 	}
 
 	public ConversionToArff(Corpus corpus, int positif, int negatif, ParamToArff param, String outputPath, int split){
@@ -151,123 +150,123 @@ public class ConversionToArff implements Runnable{
 			}else{
 				line += preElement.getCharacterisation().getType().getValue();
 			}
-			line += " ";
+			line += ",";
 			//m2_type
 			if( element.getCharacterisation().getType().getValue().equals("default") ){
 				line += "N";
 			}else{
 				line += element.getCharacterisation().getType().getValue();
 			}
-			line += " ";
+			line += ",";
 
 			//m1_def
 			line += preElement.getFeature( "DEF" );
-			line += " ";
+			line += ",";
 			//m2_def
 			line += element.getFeature( "DEF" );
 
-			line += " ";
+			line += ",";
 
 			//m1_genre
 			line += preElement.getFeature( "GENRE" );
-			line += " ";
+			line += ",";
 			//m2_genre
 			line += element.getFeature( "GENRE" );
-			line += " ";
+			line += ",";
 
 			//m1_nombre
 			line += preElement.getFeature( "NB" );
-			line += " ";
+			line += ",";
 			//m2_nombre
 			line += element.getFeature( "NB" );
-			line += " ";
+			line += ",";
 
 //			//m1_new
 //			line += preElement.getFeature( "NEW" );
-//			line += " ";
+//			line += ",";
 //			//m2_new
 //			line += element.getFeature( "NEW" );
-//			line += " ";
+//			line += ",";
 
 
 			//m1_en
 			line += preElement.getFeature( "EN" );
-			line += " ";
+			line += ",";
 			//m2_en
 			line += element.getFeature( "EN" );
-			line += " ";
+			line += ",";
 
 			//id_form
 			line += relation.getFeature( "ID_FORM" );
-			line += " ";
+			line += ",";
 
 			//id_subform
 			line += relation.getFeature( "ID_SUBFORM" );
-			line += " ";
+			line += ",";
 
 			//incl_rate
 			line += relation.getFeature( "INCL_RATE" );
-			line += " ";
+			line += ",";
 
 			//com_rate
 			line += relation.getFeature( "COM_RATE" );
-			line += " ";
+			line += ",";
 
 			//ID_DEF
 			line += relation.getFeature( "ID_DEF" );
-			line += " ";
+			line += ",";
 
 			//ID_TYPE
 			line += relation.getFeature( "ID_TYPE" );
-			line += " ";
+			line += ",";
 
 			//id_en
 			line += relation.getFeature( "ID_EN" );
-			line += " ";
+			line += ",";
 
 			//ID_GENRE
 			line += relation.getFeature( "GENRE" );
-			line += " ";
+			line += ",";
 
 			//ID_NOMBRE
 			line += relation.getFeature( "NOMBRE" );
-			line += " ";
+			line += ",";
 
 			//ID_SPK
 			line += relation.getFeature( "ID_SPK" );
-			line += " ";
+			line += ",";
 
 			//distance_mention
 			line += relation.getFeature( "DISTANCE_MENTION" );
-			line += " ";
+			line += ",";
 
 			//distance_turn
 			line += relation.getFeature( "DISTANCE_TURN" );
-			line += " ";
+			line += ",";
 
 			//distance word
 			line += relation.getFeature( "DISTANCE_WORD" );
-			line += " ";
+			line += ",";
 
 			//Distance_char 
 			line += relation.getFeature( "DISTANCE_CHAR" );
-			line += " ";
+			line += ",";
 
 //			//id_new
 //			line += relation.getFeature( "ID_NEW" );
-//			line += " ";
+//			line += ",";
 
 			//embedded
 			line += relation.getFeature( "EMBEDDED" );
-			line += " ";
+			line += ",";
 
 			//id_previous
 			line += relation.getFeature( "ID_PREVIOUS" );
-			line += " ";
+			line += ",";
 
 			//id_next
 			line += relation.getFeature( "ID_NEXT" );
-			line += " ";
+			line += ",";
 
 		}
 		return line;
@@ -509,11 +508,11 @@ public class ConversionToArff implements Runnable{
 						Relation[] relationArray =  (Relation[]) positiveRelationSelected.keySet().toArray( new Relation[ positiveRelationSelected.size() ] );
 						
 						for( int l = start; l < end; l++){
-							int idElement = relationArray[ l ].getElement( this.positiveRelationSelected.get( relationArray[ l ] ) ).getIdMention();
-							int idPreElement = relationArray[ l ].getPreElement( this.positiveRelationSelected.get( relationArray[ l ] ) ).getIdMention();
+							String idElement = relationArray[ l ].getElement( this.positiveRelationSelected.get( relationArray[ l ] ) ).getId();
+							String idPreElement = relationArray[ l ].getPreElement( this.positiveRelationSelected.get( relationArray[ l ] ) ).getId();
 							String line = this.makeRelation(this.positiveRelationSelected.get( relationArray[ l ] ), relationArray[ l ] );
 							writer.println( line + "COREF");
-							writer_links.println(relationArray[l].getId());
+							writer_links.println(relationArray[l].getId()+'\t'+idPreElement+'\t'+idElement);
 							if(relationArray[l].getId() == null)
 								new Exception("null id").printStackTrace();
 						}
@@ -523,11 +522,11 @@ public class ConversionToArff implements Runnable{
 						start = (f - 1) * this.negativeRelationSelected.size() / split;
 						end = start + this.negativeRelationSelected.size() / split;
 						for( int l = start; l < end; l++){
-							int idElement = relationArray[ l ].getElement( this.negativeRelationSelected.get( relationArray[ l ] ) ).getIdMention();
-							int idPreElement = relationArray[ l ].getPreElement( this.negativeRelationSelected.get( relationArray[ l ] ) ).getIdMention();
+							String idElement = relationArray[ l ].getElement( this.negativeRelationSelected.get( relationArray[ l ] ) ).getId();
+							String idPreElement = relationArray[ l ].getPreElement( this.negativeRelationSelected.get( relationArray[ l ] ) ).getId();
 							String line = this.makeRelation(this.negativeRelationSelected.get( relationArray[ l ] ), relationArray[ l ] );
 							writer.println( line + "NOT_COREF" );
-							writer_links.println(relationArray[l].getId());
+							writer_links.println(relationArray[l].getId()+'\t'+idPreElement+'\t'+idElement);
 							if(relationArray[l].getId() == null)
 								new Exception("null id").printStackTrace();
 						}
@@ -561,18 +560,26 @@ public class ConversionToArff implements Runnable{
 
 					Set<Relation> set = positiveRelationSelected.keySet();
 					for( Relation r : set ){
+
+						String idElement = r.getElement( this.negativeRelationSelected.get( r ) ).getId();
+						String idPreElement = r.getPreElement( this.negativeRelationSelected.get( r ) ).getId();
+
 						String line = this.makeRelation(this.positiveRelationSelected.get( r ), r );
 						writer.println( line + "COREF" );
-						writer_links.println(r.getId());
+						writer_links.println(r.getId()+'\t'+idPreElement+'\t'+idElement);
 						if(r.getId() == null)
 							new Exception("null id").printStackTrace();
 					}
 
 					set = negativeRelationSelected.keySet();
 					for( Relation r : set ){
+
+						String idElement = r.getElement( this.negativeRelationSelected.get( r ) ).getId();
+						String idPreElement = r.getPreElement( this.negativeRelationSelected.get( r ) ).getId();
+
 						String line = this.makeRelation(this.negativeRelationSelected.get( r ), r );
 						writer.println( line + "NOT_COREF" );
-						writer_links.println(r.getId());
+						writer_links.println(r.getId()+'\t'+idPreElement+'\t'+idElement);
 						if(r.getId() == null)
 							new Exception("null id").printStackTrace();
 					}
@@ -616,11 +623,11 @@ public class ConversionToArff implements Runnable{
 
 				Relation[] relationArray = (Relation[]) this.positiveRelationSelected.keySet().toArray( new Relation[ this.positiveRelationSelected.size() ] );
 				for(int p = 0; p < this.positiveRelationSelected.size(); p++){
-					int idElement = relationArray[ p ].getElement( this.positiveRelationSelected.get( relationArray[ p ] ) ).getIdMention();
-					int idPreElement = relationArray[ p ].getPreElement( this.positiveRelationSelected.get( relationArray[ p ] ) ).getIdMention();
+					String idElement = relationArray[ p ].getElement( this.positiveRelationSelected.get( relationArray[ p ] ) ).getId();
+					String idPreElement = relationArray[ p ].getPreElement( this.positiveRelationSelected.get( relationArray[ p ] ) ).getId();
 					String line = this.makeRelation(this.positiveRelationSelected.get( relationArray[ p ] ), relationArray[ p ] );
 					writer.println( line + "COREF" );	
-					writer_links.println(relationArray[p].getId());
+					writer_links.println(relationArray[p].getId()+'\t'+idPreElement+'\t'+idElement);
 					if(relationArray[p].getId() == null)
 						new Exception("null id").printStackTrace();
 
@@ -640,12 +647,12 @@ public class ConversionToArff implements Runnable{
 				}
 				relationArray = (Relation[]) this.negativeRelationSelected.keySet().toArray( new Relation[ this.negativeRelationSelected.size() ] );
 				for(int l = 0; l < this.negativeRelationSelected.size(); l++){
-					int idElement = relationArray[ l ].getElement( this.negativeRelationSelected.get( relationArray[ l ] ) ).getIdMention();
-					int idPreElement = relationArray[ l ].getPreElement( this.negativeRelationSelected.get( relationArray[ l ] ) ).getIdMention();
+					String idElement = relationArray[ l ].getElement( this.negativeRelationSelected.get( relationArray[ l ] ) ).getId();
+					String idPreElement = relationArray[ l ].getPreElement( this.negativeRelationSelected.get( relationArray[ l ] ) ).getId();
 					String line = this.makeRelation(this.negativeRelationSelected.get( relationArray[ l ] ), relationArray[ l ] );
 					writer.println( line + "NOT_COREF" );
 					String rid = relationArray[l].getId();
-					writer_links.println(relationArray[l].getId());
+					writer_links.println(relationArray[l].getId()+'\t'+idPreElement+'\t'+idElement);
 					if(relationArray[l].getId() == null)
 						new Exception("null id").printStackTrace();
 				}
