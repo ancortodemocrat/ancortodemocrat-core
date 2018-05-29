@@ -13,6 +13,7 @@ import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
 import org.omg.PortableInterceptor.NON_EXISTENT;
 import weka.classifiers.AbstractClassifier;
+import weka.classifiers.Classifier;
 import weka.classifiers.functions.SMO;
 
 import java.io.File;
@@ -39,7 +40,7 @@ public class T6 implements Experience{
     private static final String MODELS_DIR = WORKING_DIR+"/models";
 
     private final String[] corpus_train = {"corpus_ESLO_apprentissage", "corpus_OTG_apprentissage"};
-    private final String[] corpus_test = {"corpus_ESLO_test_", "corpus_OTG_test_", "corpus_UBS_test_"};
+    private final String[] corpus_test = {"corpus_ESLO_test", "corpus_OTG_test", "corpus_UBS_test"};
 
     private final ExpesArgs eargs;
 
@@ -76,21 +77,28 @@ public class T6 implements Experience{
     }
 
     private void models(ExecutorService executor) {
-        HashMap<String, Class<? extends AbstractClassifier > > algos = new HashMap<>();
+        HashMap<String, Class<? extends Classifier> > algos = new HashMap<>();
 
         algos.put("SMO",weka.classifiers.functions.SMO.class);
-        algos.put("J48",weka.classifiers.functions.SMO.class);
+        algos.put("J48",weka.classifiers.trees.J48.class);
 
         for(String s : eargs.algos) {
-            Class<? extends AbstractClassifier> algo = algos.get(s);
-            if (algos.containsKey(algo)) {
+            if (algos.containsKey(s)) {
+                Class<? extends Classifier> algo = algos.get(s);
                 for (String train : corpus_train)
-                    executor.execute(new JobModelGen(algo,ARFF_DIR+"/"+train+".arff", ARFF_DIR+"/",MODELS_DIR+"/"+train+".model"));
+                    for(int i = 0; i < eargs.num_learn_run; i++) {
+                        executor.execute(new JobModelGen(algo,
+                                ARFF_DIR + "/" + train + "_"+i+".arff",
+                                ARFF_DIR + "/" +
+                                        train.replace("apprentissage", "test_1_") +
+                                        i+".arff",
+                                MODELS_DIR + "/" + train + "_"+ i +".model"));
+                    }
 
             }
             else
                 throw new IllegalArgumentException(
-                        algo + " n'est pas reconnu par le système (" + algos.toString() + ")");
+                        s + " n'est pas reconnu par le système (" + algos.toString() + ")");
         }
     }
 
@@ -104,7 +112,7 @@ public class T6 implements Experience{
         for(int n_run = 0; n_run < eargs.num_test_run; n_run++)
             for(String corp : corpus_test)
                 for(int i = 1; i < 4; i++ ) // 3 tests
-                    executor.execute(new JobArff(FEATURES_DIR+"/"+corp+i,
+                    executor.execute(new JobArff(FEATURES_DIR+"/"+corp+"_"+i,
                             ARFF_DIR+"/"+corp+"_"+i+"_"+n_run,
                             eargs.train_pos, eargs.train_neg));
 
@@ -187,25 +195,26 @@ public class T6 implements Experience{
             this.out = out;
             this.pos = pos;
             this.neg = neg;
+            logger.debug(out);
         }
 
         @Override
         public void run() {
             new ConversionToArff(new Corpus(corpus),
                     pos, neg, ParamToArff.NO_ASSOC,
-                    out, 1, ConversionToArff.SUFFIX.NONE)
+                    out, 0, ConversionToArff.SUFFIX.NONE)
                     .run();
         }
     }
 
     private class JobModelGen implements Runnable {
 
-        private final Class<? extends AbstractClassifier> classif;
+        private final Class<? extends Classifier> classif;
         private final String train;
         private final String test;
         private final String out;
 
-        JobModelGen(Class< ? extends AbstractClassifier> classif, String train, String test, String out){
+        JobModelGen(Class<? extends Classifier> classif, String train, String test, String out){
             this.classif = classif;
             this.train = train;
             this.test = test;
@@ -214,6 +223,7 @@ public class T6 implements Experience{
         @Override
         public void run() {
             new ModelGeneration(classif,train,test,out);
+
         }
     }
 }

@@ -28,7 +28,7 @@ public class ModelGeneration {
         commandArgs[0] = "";
         try {
             if (commandArgs.length == 1) {
-                throw new Exception("No class name given");
+                throw new IllegalArgumentException("No class name given");
             }
             String className = commandArgs[1];
             commandArgs[1] = "";
@@ -45,21 +45,18 @@ public class ModelGeneration {
             this.execute(theClass, argv.toArray(new String[argv.size()]));
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
-        } catch (Exception e) {
-            e.printStackTrace();
         }
 
 
     }
 
     /**
-     *
-     * @param classif   Classifieur à utiliser
+     *  @param classif   Classifieur à utiliser
      * @param train     Chemin vers arff de train
      * @param test      Chemin vers arff de test
      * @param out       Chemin vers model généré
      */
-    public ModelGeneration(Class<? extends AbstractClassifier> classif,
+    public ModelGeneration(Class<? extends Classifier> classif,
                            String train, String test, String out){
 
         String[] args = new String[]{"-t", train, "-T", test, "-d", out};
