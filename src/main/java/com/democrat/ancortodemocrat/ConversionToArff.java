@@ -16,7 +16,13 @@ import com.democrat.ancortodemocrat.element.Unit;
 import com.democrat.ancortodemocrat.feature.CalculateFeature;
 
 public class ConversionToArff implements Runnable{
-	
+
+	private final SUFFIX sfx;
+
+	public enum SUFFIX{
+		NONE,
+		DATE_TIME
+	}
 	
 	public final static String ARFF_ATTRIBUTE = "@RELATION coreference\n"+
 			"@ATTRIBUTE m1_type {N, PR, NULL}\n"+
@@ -98,32 +104,38 @@ public class ConversionToArff implements Runnable{
 	private List<String> fileOuput = new ArrayList<String>();
 	private int split;
 
-	public ConversionToArff(Corpus corpus){
+	public ConversionToArff(Corpus corpus,SUFFIX sfx){
+
 		this.corpusList.add( corpus );
+		this.sfx = sfx;
 	}
 
 	/**
-	 * 
-	 * @param positif nombre d'instance de relation positive voulue
+	 *  @param positif nombre d'instance de relation positive voulue
 	 * @param negatif nombre d'instance de négative voulue
 	 * @param param Paramètre indiquant si on garde ou non les associatives
 	 * @param outputPath chemin de sortie du fichier arff
+	 * @param sfx
 	 */
-	private ConversionToArff(int positif, int negatif, ParamToArff param, String outputPath, int split){
+	private ConversionToArff(int positif, int negatif, ParamToArff param,
+							 String outputPath, int split, SUFFIX sfx){
 		this.positif = positif;
 		this.negatif = negatif;
 		this.param = param;
 		this.outputPath = outputPath;
 		this.split = split;
+		this.sfx = sfx;
 	}
 
-	public ConversionToArff(Corpus corpus, int positif, int negatif, ParamToArff param, String outputPath, int split){
-		this(positif, negatif, param, outputPath, split );
+	public ConversionToArff(Corpus corpus, int positif, int negatif, ParamToArff param,
+							String outputPath, int split, SUFFIX sfx){
+		this(positif, negatif, param, outputPath, split ,sfx);
 		this.corpusList.add( corpus );
 	}
 
-	public ConversionToArff(List<Corpus> corpusList, int positif, int negatif, ParamToArff param,  String outputPath, int split){
-		this(positif, negatif, param, outputPath, split );
+	public ConversionToArff(List<Corpus> corpusList, int positif, int negatif,
+							ParamToArff param,  String outputPath, int split, SUFFIX sfx){
+		this(positif, negatif, param, outputPath, split ,sfx);
 		this.corpusList = corpusList;
 	}
 
@@ -422,15 +434,17 @@ public class ConversionToArff implements Runnable{
 		PrintWriter writer = null;
 		PrintWriter writer_links = null;
 
-		String fileName;
-		DateFormat shortDateFormat = DateFormat.getDateTimeInstance(
-				DateFormat.SHORT,
-				DateFormat.SHORT);
-		fileName = shortDateFormat.format( new Date() );
-		logger.info( fileName );
-		fileName = fileName.replace(" ", "_");
-		fileName = fileName.replace("/", "_");
-		fileName = fileName.replace(":", "H");
+		String fileName = "";
+		if (sfx == SUFFIX.DATE_TIME) {
+			DateFormat shortDateFormat = DateFormat.getDateTimeInstance(
+					DateFormat.SHORT,
+					DateFormat.SHORT);
+			fileName = shortDateFormat.format(new Date());
+			logger.info(fileName);
+			fileName = fileName.replace(" ", "_");
+			fileName = fileName.replace("/", "_");
+			fileName = fileName.replace(":", "H");
+		}
 
 		// Si le paramètre NOTCOREF est activé, on ne ressort que les relations not_coref
 		

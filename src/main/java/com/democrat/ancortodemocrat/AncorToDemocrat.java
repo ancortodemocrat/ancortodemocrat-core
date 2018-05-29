@@ -14,6 +14,8 @@ import java.util.List;
 
 import com.democrat.classification.Classification;
 import com.democrat.classification.ModelGeneration;
+import com.democrat.expes.Expes;
+import org.apache.commons.cli.MissingArgumentException;
 import org.apache.log4j.Logger;
 import org.apache.log4j.xml.DOMConfigurator;
 
@@ -58,6 +60,14 @@ public class AncorToDemocrat {
 					Scorer.scorerTask(args);
 				} catch (Scorer.InvalidArffAttributes invalidArffAttributes) {
 					invalidArffAttributes.printStackTrace();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}else if(args[0].equalsIgnoreCase("expes")){
+				try {
+					new Expes(args);
+				} catch (MissingArgumentException e) {
+					e.printStackTrace();
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
@@ -390,12 +400,14 @@ public class AncorToDemocrat {
 
 					if(args[ 0 ].equalsIgnoreCase("arff")){
 					    if(args[1].equalsIgnoreCase("all")) {
-                            ConversionToArff conversionToArff = new ConversionToArff(corpusList, pos, neg, parameter, outputPath, split);
+                            ConversionToArff conversionToArff = new ConversionToArff(corpusList, pos, neg, parameter, outputPath,
+									split, ConversionToArff.SUFFIX.DATE_TIME);
                             Thread th = new Thread(conversionToArff);
                             th.start();
                         }
 						else if( args[ 1 ].equalsIgnoreCase( "no_assoc" ) ) {
-							ConversionToArff conversionToArff = new ConversionToArff(corpusList, pos, neg, parameter, outputPath, split);
+							ConversionToArff conversionToArff = new ConversionToArff(corpusList, pos, neg, parameter, outputPath,
+									split, ConversionToArff.SUFFIX.DATE_TIME);
 							Thread th = new Thread( conversionToArff );
 							th.start();
 						}
@@ -437,7 +449,8 @@ public class AncorToDemocrat {
 						}
 
 						else if( args[ 1 ].equalsIgnoreCase( "notcoref" ) ) {
-							ConversionToArff conversionToArff = new ConversionToArff(corpusList, pos, neg, parameter, outputPath, split);
+							ConversionToArff conversionToArff = new ConversionToArff(corpusList, pos, neg, parameter,
+									outputPath, split, ConversionToArff.SUFFIX.DATE_TIME);
 							Thread th = new Thread( conversionToArff );
 							th.start();
 						}
@@ -518,7 +531,7 @@ public class AncorToDemocrat {
 
 		//conversion each corpus
 		for(Corpus corpus : corpusList){
-			ConversionToArff conversionToArff = new ConversionToArff(corpus);
+			ConversionToArff conversionToArff = new ConversionToArff(corpus, ConversionToArff.SUFFIX.DATE_TIME);
 			Thread th = new Thread(conversionToArff);
 			th.start();
 		}
@@ -671,8 +684,10 @@ public class AncorToDemocrat {
 
 
 		CalculateFeature calculate = new CalculateFeature(corpus, outputPath);
-		Thread th = new Thread(calculate);
-		th.start();
+		calculate.run();
+		/*Thread th = new Thread(calculate);
+		th.start();*/
+
 	}
 
 	/**

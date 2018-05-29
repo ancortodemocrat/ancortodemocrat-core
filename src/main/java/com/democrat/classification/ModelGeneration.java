@@ -53,6 +53,21 @@ public class ModelGeneration {
     }
 
     /**
+     *
+     * @param classif   Classifieur à utiliser
+     * @param train     Chemin vers arff de train
+     * @param test      Chemin vers arff de test
+     * @param out       Chemin vers model généré
+     */
+    public ModelGeneration(Class<? extends AbstractClassifier> classif,
+                           String train, String test, String out){
+
+        String[] args = new String[]{"-t", train, "-T", test, "-d", out};
+
+        this.execute(classif,args);
+    }
+
+    /**
      * @param theClass
      * @return Retourne la méthode <b>main</b> si elle est bien accessible
      */

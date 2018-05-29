@@ -29,13 +29,13 @@ public class CalculateFeature implements Runnable {
 
 
 	private void work(){
-		logger.info("Start calculate feature: [" + corpus.getName() +"]");
+		logger.debug("Start calculate feature: [" + corpus.getName() +"]");
 
 
 		//TODO: May be parallelized
 		for( int a = 0; a < this.corpus.getAnnotation().size(); a++ ){
 
-			logger.info("[" + corpus.getName() +"] Calculate new features for : "+(a + 1)+"/"+this.corpus.getAnnotation().size() + " : " + this.corpus.getAnnotation().get( a ).getFileName() );
+			logger.trace("[" + corpus.getName() +"] Calculate new features for : "+(a + 1)+"/"+this.corpus.getAnnotation().size() + " : " + this.corpus.getAnnotation().get( a ).getFileName() );
 			Annotation annotation = this.corpus.getAnnotation().get( a );
 			this.calculateNewFeature( annotation );
 			calculateFeatureOnRelation( annotation );
