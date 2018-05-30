@@ -22,7 +22,7 @@ import org.apache.log4j.xml.DOMConfigurator;
 import com.democrat.ancortodemocrat.element.Annotation;
 import com.democrat.ancortodemocrat.feature.CalculateFeature;
 import com.democrat.ancortodemocrat.treetagger.TreeTagger;
-import com.democrat.classification.Scorer;
+import com.democrat.classification.Chaining;
 
 
 public class AncorToDemocrat {
@@ -57,8 +57,8 @@ public class AncorToDemocrat {
 			}else if (args[0].equalsIgnoreCase("chaining")) {
 				logger.info("Running chaining");
 				try {
-					Scorer.scorerTask(args);
-				} catch (Scorer.InvalidArffAttributes invalidArffAttributes) {
+					Chaining.scorerTask(args);
+				} catch (Chaining.InvalidArffAttributes invalidArffAttributes) {
 					invalidArffAttributes.printStackTrace();
 				} catch (IOException e) {
 					e.printStackTrace();
@@ -458,8 +458,8 @@ public class AncorToDemocrat {
 					}else{
 						//SCORER
 						try {
-							Scorer.scorerTask(args);
-						} catch (Scorer.InvalidArffAttributes invalidArffAttributes) {
+							Chaining.scorerTask(args);
+						} catch (Chaining.InvalidArffAttributes invalidArffAttributes) {
 							invalidArffAttributes.printStackTrace();
 						} catch (IOException e) {
 							e.printStackTrace();

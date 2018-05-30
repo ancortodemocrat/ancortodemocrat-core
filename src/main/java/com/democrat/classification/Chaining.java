@@ -15,25 +15,33 @@ import com.democrat.ancortodemocrat.element.Unit;
 import weka.core.Instance;
 import weka.core.Instances;
 
-public class Scorer {
+public class Chaining {
 
 	public static FileManager fileManager;
-	private static Logger logger = Logger.getLogger(Scorer.class);
+	private static Logger logger = Logger.getLogger(Chaining.class);
 
 
 	/**
-	 *  @param args Liste des arguments passé dans la ligne de commande
+	 * @param args Liste des arguments passé dans la ligne de commande
 	 */
+	public static void scorerTask(String[] args) throws InvalidArffAttributes, IOException {
+		scorerTask(new ScorerArgs(args));
+	}
+
 	public static void scorerTask(
-			String[] args
-			) throws InvalidArffAttributes, IOException {
+			String in_gold, String in_system, String output,
+			String[] scorers, boolean force, boolean csv) throws IOException, InvalidArffAttributes {
 
-		ScorerArgs sargs = new ScorerArgs(args);
+		scorerTask(new ScorerArgs(in_gold, in_system, output, scorers, force, csv));
+	}
 
+	public static void scorerTask(ScorerArgs sargs) throws IOException, InvalidArffAttributes {
 
 		String goldArffName = sargs.in_gold;
 		String systemArffName = sargs.in_system;
-		String arffIdName = sargs.in_gold.replace(".arff",".idff");
+		String arffIdName = sargs.in_gold
+				.replace(".arff",".idff")
+				.replace("_GOLD","");
 		String conllGold = sargs.output + "_GOLD.conll";
 		String conllSystem = sargs.output + "_SYSTEM.conll";
 		String csvMentions = sargs.output + "_conll_to_ancor.csv"; // Contient lien id conll / id mention
@@ -468,11 +476,23 @@ public class Scorer {
 	}
 
 	private static class ScorerArgs {
-		private final String in_gold, in_system;
+
+		private final String in_gold;
+		private final String in_system;
 		private final String output;
 		private final String[] scorers;
 		private final boolean force;
 		private final boolean csv;
+
+		public ScorerArgs(String in_gold, String in_system, String output, String[] scorers, boolean force, boolean csv){
+
+			this.in_gold = in_gold;
+			this.in_system = in_system;
+			this.output = output;
+			this.scorers = scorers;
+			this.force = force;
+			this.csv = csv;
+		}
 
 		public ScorerArgs(String[] args) {
 			Options opt = new Options();

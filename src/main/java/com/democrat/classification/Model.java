@@ -142,7 +142,7 @@ public class Model {
 				clsLabel = classifier.classifyInstance(unlabeled.instance(u));
 				inst_out.instance(u).setClassValue(clsLabel); // 0 OU 1
 				clsLabel = classifier.distributionForInstance(unlabeled.instance(u))[(int)clsLabel];
-				inst_out.instance(u).setValue(unlabeled.numAttributes()-2,clsLabel); // 0 < x < 1
+				inst_out.instance(u).setValue(inst_out.numAttributes()-2,clsLabel); // 0 < x < 1
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -158,7 +158,7 @@ public class Model {
 	 * @param fileName
 	 */
 	public void export(String fileName){		
-		Scorer.fileManager.mkdir("generated/models");
+		Chaining.fileManager.mkdir("generated/models");
 		try {
 			SerializationHelper.write("generated/models/" + fileName + ".model", this.classifier);
 		} catch (Exception e) {

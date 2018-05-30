@@ -28,6 +28,10 @@ public class ExpesArgs {
     public final boolean skip_features;
     public final boolean skip_arff;
     public final boolean skip_models;
+    public final boolean skip_chains;
+    public final boolean skip_classif;
+    public final boolean skip_scorers;
+    public final String[] scorers;
 
 
     public ExpesArgs(String args[], String expe_name) throws NotDirectoryException {
@@ -48,7 +52,7 @@ public class ExpesArgs {
                 "o",
                 "out",
                 true,
-                " Fichier csv de sortie. (default: "+expe_name+".csv)");
+                " Fichier odt de sortie. (default: "+expe_name+".ods)");
         outf.setArgs(1);
         outf.setRequired(false);
         opt.addOption(outf);
@@ -129,9 +133,30 @@ public class ExpesArgs {
                 .desc("Passer la génération des models (utilisation de ceux déjà présents)").build());
 
         opt.addOption(Option.builder()
+                .argName("skip-chains-gen")
+                .longOpt("skip-chains-gen")
+                .desc("Passer la génération des chaines (utilisation de celles déjà présentes)").build());
+
+        opt.addOption(Option.builder()
+                .argName("skip-classif")
+                .longOpt("skip-classif")
+                .desc("Passer la classification").build());
+
+        opt.addOption(Option.builder()
+                .argName("skip-scorers")
+                .longOpt("skip-scorers")
+                .desc("Passer le calcul des scores").build());
+
+        opt.addOption(Option.builder()
                 .argName("algos")
                 .longOpt("algos")
-                .desc("Algorithmes à utiliser pour la création des models séparés par des espaces (par défaut: J48 SMO)")
+                .desc("Algorithmes à utiliser pour la création des models (par défaut: J48 SMO)")
+                .numberOfArgs(5).build());
+
+        opt.addOption(Option.builder()
+                .argName("scorers")
+                .longOpt("scorers")
+                .desc("Scorers à utiliser parmis: all, muc, bcub, ceafm, ceafe, blanc(par défaut: muc, bcub)")
                 .numberOfArgs(5).build());
 
         CommandLineParser commandline = new GnuParser();
@@ -148,10 +173,16 @@ public class ExpesArgs {
         algos1 = cmd.getOptionValues(",");
         algos = (algos1==null || algos1.length==0) ? new String[]{"J48", "SMO"} : algos1;
 
+        String[] scorers1 = cmd.getOptionValues("scorers");
+        scorers = (scorers1==null || algos1.length==0) ? new String[]{"muc","bcub"} : scorers1;
+
         force = cmd.hasOption("F");
         skip_features = cmd.hasOption("skip-features-gen");
         skip_arff = cmd.hasOption("skip-arff-gen");
         skip_models = cmd.hasOption("skip-models-gen");
+        skip_chains = cmd.hasOption("skip-chains-gen");
+        skip_classif = cmd.hasOption("skip-classif");
+        skip_scorers = cmd.hasOption("skip-scorers");
 
 
 

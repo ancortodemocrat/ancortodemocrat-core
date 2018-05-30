@@ -5,6 +5,7 @@ import weka.classifiers.AbstractClassifier;
 import weka.classifiers.Classifier;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.PrintStream;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
@@ -132,7 +133,10 @@ public class ModelGeneration {
                 ss += s+" ";
             System.out.println(ss);
             //mainMethod.invoke(this, argsInvoke);
+            PrintStream out = System.out;
+            System.setOut(new PrintStream(new FileOutputStream("/tmp/log-genmodel-"+theClass.getName()+"-",true)));
             AbstractClassifier.runClassifier(theClass.newInstance(),args);
+            System.setOut(out);
             System.out.println("end");
 
         } catch (Exception ex) {

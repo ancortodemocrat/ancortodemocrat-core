@@ -2,20 +2,12 @@ package com.democrat.classification;
 
 import org.apache.commons.cli.*;
 import org.apache.log4j.Logger;
-import weka.core.Attribute;
 import weka.core.Instances;
 import weka.core.converters.ArffLoader;
 import weka.core.converters.ArffSaver;
-import weka.filters.Filter;
-import weka.filters.unsupervised.attribute.Remove;
 
 import java.io.*;
 import java.nio.file.FileAlreadyExistsException;
-import java.nio.file.Paths;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Vector;
 
 public class Classification {
     private static Logger logger = Logger.getLogger(Classification.class);
@@ -26,10 +18,21 @@ public class Classification {
      */
     public Classification(String[] args) {
         try {
-            ClassifArgs cargs = new ClassifArgs(args);
-            if (args.length < 3) {
+            if (args.length < 3)
                 throw new NoSuchFieldException("ancor2 <model_file> <arff_file>");
-            }
+            ClassifArgs cargs = new ClassifArgs(args);
+            work(cargs);
+        } catch (NoSuchFieldException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public Classification(String in_arff, String out_arff, String model, boolean force){
+        work(new ClassifArgs(in_arff,out_arff,model,force));
+    }
+
+    public void work(ClassifArgs cargs) {
+        try{
 
             ArffLoader loader = new ArffLoader();
 
@@ -117,11 +120,10 @@ public class Classification {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-        } catch (NoSuchFieldException e) {
-            System.err.println(e.getMessage());
         } catch (IOException e) {
             e.printStackTrace();
         }
+
     }
 
     private static class ClassifArgs {
@@ -129,6 +131,13 @@ public class Classification {
         private final String out_arff;
         private final String model;
         private final boolean force;
+
+        public ClassifArgs(String in_arff, String out_arff, String model, boolean force){
+            this.in_arff = in_arff;
+            this.out_arff = out_arff;
+            this.model = model;
+            this.force = force;
+        }
 
         public ClassifArgs(String[] args) {
             Options opt = new Options();
