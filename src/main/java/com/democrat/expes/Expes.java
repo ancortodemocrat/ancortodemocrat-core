@@ -18,7 +18,7 @@ public class Expes {
 
         switch (expe_name.split("/")[0].toLowerCase()){
             case RJC18.EXPE_PREFIX:
-                expe = new RJC18(args, expe_name);
+                expe = (Experience) new RJC18(args, expe_name);
                 break;
         }
 

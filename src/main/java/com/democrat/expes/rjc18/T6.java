@@ -142,7 +142,7 @@ public class T6 implements Experience{
 
                 executor.execute(new JobScorer(fichier.getName()));
             }
-            else if (fichier.getName().contains("_SYSTEM.conll"))
+            else if (!fichier.getName().contains("_SYSTEM.conll"))
                 logger.info("Scores: "+fichier.getName()+" didnt't match to the pattern");
 
             // TODO: Writing
@@ -470,24 +470,27 @@ public class T6 implements Experience{
         @Override
         public void run() {
             try {
-                Process p = Runtime.getRuntime().exec("perl reference-coreference-scorers/scorer.pl "+
-                        eargs.scorers+" "+gold+" "+system);
+                String cmd = "perl reference-coreference-scorers/scorer.pl "+
+                        String.join("+",eargs.scorers)+" "+gold+" "+system;
+                Process p = Runtime.getRuntime().exec(cmd);
 
                 BufferedReader output =  new BufferedReader(new InputStreamReader(p.getInputStream()));
 
 
-                String line = null;
+                //String line = null;
                 Pattern p_metric = Pattern.compile("^METRIC\\s([a-zA-Z]+):");
-                Pattern p_scores = Pattern.compile("^Recall:\\s\\([\\d]+\\s/\\s[\\d]+\\)\\s([\\d]+.?[\\d]*)%\\s" +
-                                "Precision:\\s\\([\\d]+\\s/\\s[\\d]+\\)\\s([\\d]+.?[\\d]*)%\\s" +
-                                "F1:\\s([\\d]+.?[\\d]*)%");
+                Pattern p_scores = Pattern.compile("^Coreference:\\s" +
+                        "Recall:\\s\\([\\d.]+\\s\\/\\s[\\d.]+\\)\\s([\\d.]+)%\\s" +
+                        "Precision:\\s\\([\\d.]+\\s\\/\\s[\\d.]+\\)\\s([\\d.]+)%\\s" +
+                        "F1:\\s([\\d.]+)%");
 
                 String scoreur= null;
                 scores = new HashMap();
-                synchronized (logger){
-                    while((line = output.readLine()) != null){
-                        logger.debug(line);
+                    for (Iterator<String> it = output.lines().iterator(); it.hasNext(); ) {
+                        String line = it.next();
+                        //System.out.println("_____a line is \n"+line+"\n_____");
                         Matcher m = p_metric.matcher(line);
+                        //System.out.println("p_metric: "+m.matches());
                         if(m.matches()) {
                             scoreur = m.group(1);
                             if(!scores.containsKey(scoreur)){
@@ -495,6 +498,7 @@ public class T6 implements Experience{
                             }
                         }
                         m = p_scores.matcher(line);
+                        //System.out.println("p_scores: "+m.matches());
                         if(m.matches()){
                             scores.get(scoreur).put("Recall",Double.parseDouble(m.group(1)));
                             scores.get(scoreur).put("Precision",Double.parseDouble(m.group(2)));
@@ -502,9 +506,8 @@ public class T6 implements Experience{
                         }
 
                     }
-                }
                 synchronized (logger) {
-                    logger.debug(gold);
+                    logger.debug(cmd);
                     logger.debug(scores.toString());
                 }
 
