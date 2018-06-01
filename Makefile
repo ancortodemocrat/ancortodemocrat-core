@@ -7,7 +7,7 @@ ALGO=J48
 CORPUS_ZIP=./Donnees_maj.zip# Tableau6, Tableau7,
 #CORPUS_ZIP=./Donnees_corpus.zip# Tableau5,
 
-CORPUS_NAME=T7
+CORPUS_NAME=T6
 
 SCORERS=muc bcub# ceafe blanc
 
@@ -15,8 +15,8 @@ NUM_TEST=1
 
 # ANCOR_SMALL_SELECT_AC=$(CORPUS_SRC)/corpus_ESLO/ac_fichiers/00[4]*
 # ANCOR_SMALL_SELECT_AA=$(CORPUS_SRC)/corpus_ESLO/aa_fichiers/00[4]*
-# ANCOR_SMALL_SELECT_AC=$(CORPUS_SRC)/Données_corpus/Tableau6/corpus_ESLO_apprentissage/ac_fichiers/*#Tableau6
-# ANCOR_SMALL_SELECT_AA=$(CORPUS_SRC)/Données_corpus/Tableau6/corpus_ESLO_apprentissage/aa_fichiers/*#Tableau6
+ANCOR_SMALL_SELECT_AC=$(CORPUS_SRC)/Données_corpus/Tableau6/corpus_ESLO_apprentissage/ac_fichiers/*#Tableau6
+ANCOR_SMALL_SELECT_AA=$(CORPUS_SRC)/Données_corpus/Tableau6/corpus_ESLO_apprentissage/aa_fichiers/*#Tableau6
 # ANCOR_SMALL_SELECT_AC=$(CORPUS_SRC)/Données_corpus/Tableau5/corpus_apprentissage/ac_fichiers/*#Tableau5
 # ANCOR_SMALL_SELECT_AA=$(CORPUS_SRC)/Données_corpus/Tableau5/corpus_apprentissage/aa_fichiers/*#Tableau5
 
@@ -31,7 +31,7 @@ SMO=functions.SMO
 NAIVES_BAYES=bayes.NaiveBayes
 ALGO_CLASS=$(WEKA_CLASSIFIER).$($(ALGO))
 TRAINING_DISTRIB=1500 1075
-TEST_PARAMS=-q 1000 2700
+TEST_PARAMS=-q 2757 3861
 SCORE_DISTRIB=2757 3861
 
 JAR_F=./target/ancor2-0.0.1-SNAPSHOT-jar-with-dependencies.jar
@@ -112,7 +112,7 @@ gen-model:
 	testArff=$(shell find $(ARFF) -name $(TEST_ARFF)*.arff | head -1)
 	$(ANCOR2) model $(ALGO_CLASS) \
 		-t $(shell find $(ARFF) -name $(TRAIN_ARFF)*.arff | head -1) \
-		-T $(shell find $(ARFF) -name $(TEST_ARFF)*.arff | head -1) -o -d $(MODEL)/$(ALGO).model
+		-T $(shell find $(ARFF) -name $(TEST_ARFF)*.arff | head -1) -d $(MODEL)/$(ALGO).model
 
 expe-feature:
 	$(ANCOR2)  feature p $(CORPUS) -o $(FEATURE)
