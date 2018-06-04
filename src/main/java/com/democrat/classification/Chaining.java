@@ -17,44 +17,59 @@ import weka.core.Instances;
 
 public class Chaining {
 
-	public static FileManager fileManager;
-	private static Logger logger = Logger.getLogger(Chaining.class);
+	public FileManager fileManager;
+	private Logger logger = Logger.getLogger(Chaining.class);
+	private String goldArffName;
+	private String systemArffName;
+	private String arffIdName;
+	private String conllGold;
+	private String conllSystem;
+	private String csvMentions;
+	private String csvListOfEdgesGold;
+	private String csvListOfEdgesSystem;
+	private String csvListOfMentionsGold;
+	private String csvListOfMentionsSystem;
 
 
 	/**
 	 * @param args Liste des arguments passé dans la ligne de commande
 	 */
-	public static void scorerTask(String[] args) throws InvalidArffAttributes, IOException {
+	public Chaining(String[] args) throws InvalidArffAttributes, IOException {
 		scorerTask(new ScorerArgs(args));
 	}
 
-	public static void scorerTask(
-			String in_gold, String in_system, String output,
-			String[] scorers, boolean force, boolean csv) throws IOException, InvalidArffAttributes {
+	public Chaining(
+			String[] scorers, List<String> aux_output, String in_gold, String in_system, String output,
+			boolean force) throws IOException, InvalidArffAttributes {
 
-		scorerTask(new ScorerArgs(in_gold, in_system, output, scorers, force, csv));
+		scorerTask(new ScorerArgs(scorers,aux_output,in_gold,in_system,output,force));
 	}
 
-	public static void scorerTask(ScorerArgs sargs) throws IOException, InvalidArffAttributes {
+	private void scorerTask(ScorerArgs sargs) throws IOException, InvalidArffAttributes {
 
-		String goldArffName = sargs.in_gold;
-		String systemArffName = sargs.in_system;
-		String arffIdName = sargs.in_gold
+		goldArffName = sargs.in_gold;
+		systemArffName = sargs.in_system;
+		arffIdName = sargs.in_gold
 				.replace(".arff",".idff")
 				.replace("_GOLD","");
-		String conllGold = sargs.output + "_GOLD.conll";
-		String conllSystem = sargs.output + "_SYSTEM.conll";
-		String csvMentions = sargs.output + "_conll_to_ancor.csv"; // Contient lien id conll / id mention
-		String csvGold = sargs.csv? sargs.output + "_GOLD.csv" : null;
-		String csvSystem = sargs.csv? sargs.output + "_SYSTEM.csv" : null;
+		conllGold = sargs.output + "_GOLD.conll";
+		conllSystem = sargs.output + "_SYSTEM.conll";
+		csvMentions = sargs.output + "_conll_to_ancor.csv"; // Contient lien id conll / id mention
 
-		if(sargs.csv)
-			checkWriteDirs(sargs.force, conllGold, conllSystem, csvMentions, csvGold, csvSystem);
-		else
-			checkWriteDirs(sargs.force, conllGold, conllSystem, csvMentions);
+		csvListOfEdgesGold = sargs.hasListOfEdges()? sargs.output + "_LOE_GOLD.csv" : null;
+		csvListOfEdgesSystem = sargs.hasListOfEdges()? sargs.output + "_LOE_SYSTEM.csv" : null;
 
-		ArrayList<ArrayList<String>> goldChains;
-		ArrayList<ArrayList<String>> systemChains;
+		csvListOfMentionsGold = sargs.hasListOfEdges()? sargs.output + "_LOM_GOLD.csv" : null;
+		csvListOfMentionsSystem = sargs.hasListOfEdges()? sargs.output + "_LOM_SYSTEM.csv" : null;
+
+		checkWriteDirs(
+				sargs.force, conllGold, conllSystem, csvMentions,
+				csvListOfEdgesGold, csvListOfEdgesSystem,
+				csvListOfMentionsGold, csvListOfMentionsSystem
+		);
+
+		ArrayList<HashMap<String, Integer>> goldChains;
+		ArrayList<HashMap<String, Integer>> systemChains;
 
 
 
@@ -67,23 +82,26 @@ public class Chaining {
 		PrintWriter conll_to_ancor_id = new PrintWriter(new FileOutputStream(csvMentions));
 		conll_to_ancor_id.println("CONLL_ID\tAncor_ID");
 		int u = 0;
-		for(ArrayList<String> h : goldChains){
-			for(String s : h){
+		for(HashMap<String, Integer> h : goldChains){
+			for(String s : h.keySet()){
 				conll_to_ancor_id.println(u+"\t"+s);
 				mention_str_to_int.put(s,u++);
 			}
 		}
 		conll_to_ancor_id.close();
 
-		writeCoNNL(conllGold, csvGold, goldChains,
-				mention_str_to_int, TypeChains.GOLD_CHAIN,
-				"unique_doc");
-		writeCoNNL(conllSystem, csvSystem, systemChains,
-				mention_str_to_int, TypeChains.SYSTEM_CHAIN,
-				"unique_doc");
+		writeCoNNL(conllGold, csvListOfEdgesGold, csvListOfMentionsGold,
+				"unique_doc",
+				mention_str_to_int,
+				goldChains,
+				TypeChains.GOLD_CHAIN);
+
+		writeCoNNL(conllSystem, csvListOfEdgesSystem, csvListOfMentionsSystem,
+				"unique_doc", mention_str_to_int, systemChains,
+				TypeChains.SYSTEM_CHAIN);
 	}
 
-	private static void checkWriteDirs(boolean force, String... outs) throws FileAlreadyExistsException {
+	private void checkWriteDirs(boolean force, String... outs) throws FileAlreadyExistsException {
 		String DirErrors = "\n";
 		String FileErrors = "\n";
 		File err;
@@ -106,12 +124,11 @@ public class Chaining {
 	 *
 	 * @return
 	 */
-	public static ArrayList<ArrayList<String>> createSet
+	public ArrayList<HashMap<String, Integer>> createSet
 			(String arff,String arffId, TypeChains t)
 			throws IOException, InvalidArffAttributes {
 
 		Instances instances = loadInstance(arff);
-
 		TypeChains type;
 		if (instances.attribute(instances.numAttributes()-2).name().equals("P(CLASS)"))
 			type = TypeChains.SYSTEM_CHAIN;
@@ -124,19 +141,18 @@ public class Chaining {
 
 		BufferedReader idff_reader = new BufferedReader(new FileReader(arffId));
 
-		HashSet<String> mentions = new HashSet<>();
-		SortedMap<String, Map.Entry<String, Double>> corefs = new TreeMap<>();
+		HashSet<String> mentions = new HashSet<>(); // L'ordre importe peu, garantie mentions uniques
+		SortedMap<String, HashMap<String, Double>> corefs = new TreeMap<>();
 
 		// Recensement des mentions
 		for(int i = 0; i < instances.numInstances(); i++){
 			Instance instance = instances.instance(i);
 			String[] line_id = idff_reader.readLine().split("\t");
-			String rel_id = line_id[0];
 			String antecedent = line_id[1];
 			String element = line_id[2];
 
-			mentions.add(element);
 			mentions.add(antecedent);
+			mentions.add(element);
 		}
 
 		//Best-First
@@ -147,28 +163,26 @@ public class Chaining {
 				String[] line_id = idff_reader.readLine().split("\t");
 				String antecedent = line_id[1];
 				String element = line_id[2];
-				if(type==TypeChains.GOLD_CHAIN) { // Cas Gold
-					corefs.put(element, new AbstractMap.SimpleEntry<String, Double>(antecedent, 1d));
-				}else { // Cas System
-					Double proba = instance.value(instance.numAttributes()-2);
 
-					assert (proba > 0.5d); // P(COREF) > 0.5 si COREF
+				// Gold n'a pas le champ P(CLASS)
+				// CLASS=COREF, P(CLASS)=P(COREF)
+				Double proba = type==TypeChains.GOLD_CHAIN? 2.d : instance.value(instance.numAttributes()-2);
 
-					// Si proba sup ou égal (si égalité, on prend le plus proche, les instances sont dans l'ordre)
-					if (!corefs.containsKey(element)
-						|| corefs.get(element).getValue() <= proba ){
 
-						corefs.put(element,
-								new AbstractMap.SimpleEntry<String, Double>(antecedent,proba));
-					}
-				}
+				assert (proba > 0.5d); // P(COREF) > 0.5 si COREF
+
+				if(!corefs.containsKey(element))
+					corefs.put(element,new HashMap<>());
+				corefs.get(element).put(antecedent,proba);
+
+				// l'antécédent best-first est getAntecedent( corefs.get(element) ),
+				// trié sur le score de chaque antécédent possible dans la map (score de classif)
+
 			}
 		}
 
 		// Construction des chaines
 		return constructChains(corefs,mentions,type);
-
-
 	}
 
 
@@ -178,117 +192,162 @@ public class Chaining {
 	 * Construit une collection de chaînes a partir d'un ensemble de coréférences et de singletons
 	 * @param paires_coref Paires coréférentes : < Mention, < Antécédent, ScoreClassif > >
 	 * @param mentions Ensemble de toutes les mentions du corpus impliquées dans la classif
-	 * @return	Collection de Chaines
+	 * @return	Collection de Chaines (une chaîne est un dictionnaire dont les clés sont les mentions de la chaîne,
+	 * et les valeurs sont le nombre d'antécédents possibles avant best-first de cette mention)
 	 */
-	private static ArrayList<ArrayList<String>> constructChains(
-			SortedMap<String, Map.Entry<String, Double>> paires_coref,
+	private ArrayList<HashMap<String,Integer>>
+	constructChains(
+			SortedMap<String, HashMap<String, Double> > paires_coref,
 			HashSet<String> mentions,
-			TypeChains typeChains) {
+			TypeChains typeChains
+	) {
 		logger.info("Construction chaine "+typeChains);
 		logger.trace("|M| = "+mentions.size()+" mentions");
 
 		logger.trace("|Co| = "+paires_coref.size()+" corefs");
 		// Construction des chaines
-		ArrayList<ArrayList<String>> chaines = new ArrayList<>();
+		ArrayList<HashMap<String,Integer>> chaines = new ArrayList<>();
 		int ref = 0;
 		if(logger.isTraceEnabled()){
-			Set<String> intersect = new HashSet(mentions);
+			Set<String> intersect = new HashSet<>(mentions);
 			intersect.retainAll(paires_coref.keySet());
 			logger.trace("|M \u2229 Co| = "+ intersect.size());
 			if (intersect.size() == paires_coref.size())
 				logger.trace("|M \u2229 Co| = |Co| <=> Co \u2286 M");
 		}
 
-		boolean antecedent_perdu = false;
-		boolean mention_perdue = false;
 		logger.trace("Construction des chaines");
 		// 1: Chaines
-		for (Map.Entry<String,Map.Entry<String,Double>> e : paires_coref.entrySet() ){
-			String element = e.getKey();
-			String antecedent = e.getValue().getKey();
+		for (String element: paires_coref.keySet()){
+			HashMap<String,Double> map_antecedents = paires_coref.get(element);
+			String antecedent = getAntecedent(map_antecedents);
+			int nb_antecedents = map_antecedents.size();
 
 			// Tri des singletons: element et antecedent ne sont pas des singletons
-			mention_perdue = mentions.remove(element);
-
-			antecedent_perdu = mentions.remove(antecedent);
-
+			mentions.remove(element);
+			mentions.remove(antecedent);
 			boolean nouvelle_chaine = true;
-			for (ArrayList chain : chaines){
+
+			// On va enregistrer où la dernière mention a été enregistrée.
+			// Si on place element dans une chaine puis antecedent dans une autre,
+			// cette variable nous permettra de rassembler ces deux chaînes.
+			HashMap<String,Integer> last_mention_chain = null;
+			HashSet<HashMap> remove_chains = new HashSet<>();
+			//Parcours des chaines
+			for (HashMap<String,Integer> chain : chaines){
 				// Si l'antécédent appartient à cette chaîne, on ajoute l'élément coref
-				if(chain.contains(antecedent)){
-					mention_perdue=false;
-					antecedent_perdu=false;
-					if(!chain.contains(element)){
-						chain.add(element);
-						nouvelle_chaine = false;
+				if(chain.containsKey(antecedent)){
+					nouvelle_chaine = false;
+					if(!chain.containsKey(element) || chain.get(element) == 0){ // ne contient pas element ou element sans antécédents
+						chain.put(element,nb_antecedents);
+						if(last_mention_chain == null)
+							last_mention_chain = chain;
+						else {
+							// Union des deux ensembles
+							chain.putAll(last_mention_chain);
+							// On supprimera last_mention_chain plus tard pour éviter ConcurrentException
+							remove_chains.add(last_mention_chain);
+						}
 					}
-				}else if(chain.contains(element)){
-					mention_perdue=false;
-					antecedent_perdu=false;
-					if(!chain.contains(antecedent)){
-						chain.add(antecedent);
-						nouvelle_chaine = false;
+				}else if(chain.containsKey(element)){
+					nouvelle_chaine = false;
+					if(!chain.containsKey(antecedent)){
+						chain.put(antecedent,0);
+						if(chain.get(element) != nb_antecedents){
+							chain.put(element, nb_antecedents);
+							if(last_mention_chain == null)
+								last_mention_chain = chain;
+							else{
+								// Union des deux ensembles
+								chain.putAll(last_mention_chain);
+								// On supprimera last_mention_chain plus tard pour éviter ConcurrentException
+								remove_chains.add(last_mention_chain);
+							}
+						}
 					}
 				}
 			}
+			// Sinon nouvelle chaîne
 			if (nouvelle_chaine){
-				ArrayList<String> ch  = new ArrayList<>();
-				ch.add(element);
-				ch.add(antecedent);
+				HashMap<String,Integer> ch  = new HashMap<>();
+				ch.put(element,nb_antecedents);
+				ch.put(antecedent,0);
 				chaines.add(ch);
-				mention_perdue=false;
-				antecedent_perdu=false;
 			}
-			assert(mention_perdue==true && antecedent_perdu==true);
+
+			// On supprime les chaines de trop (issues de la fusion de deux chaines)
+			chaines.removeAll(remove_chains);
 		}
 
 		if(logger.isTraceEnabled()) {
 			logger.trace("|Ch| = "+chaines.size()+" chaines");
 			logger.trace("|S| = "+mentions.size()+" singletons");
 			int nbmention = 0;
-			for (List<String> ch : chaines) {
+			double nb_ant_moy = 0;
+			for (HashMap<String,Integer> ch : chaines) {
 				nbmention += ch.size();
+				for(Integer i : ch.values()) nb_ant_moy += ((double) i) / (ch.size() * chaines.size());
 			}
 			logger.trace("|Mch| = "+nbmention+" mentions dans chaines");
+			logger.trace("avg(nb_antecedents) = "+nb_ant_moy);
 			logger.trace("|Mch \u222A S| = "+(nbmention + mentions.size()) +" mentions ");
 		}
 		// mentions ne contient plus que les singletons
 		logger.trace("Ajout des singletons en tant que chaines à 1 elément");
 		// 2: Singletons
 		for(String singl : mentions){
-			ArrayList<String> ch = new ArrayList<>();
-			ch.add(singl);
+			HashMap<String,Integer> ch = new HashMap<>();
+			ch.put(singl,0);
 			chaines.add(ch);
 			//if(typeChains == TypeChains.GOLD_CHAIN) singl.setRefGoldChain(ch.getRef());
 		}
-		if(logger.isDebugEnabled()) {
+		if(logger.isTraceEnabled()) {
 			logger.trace("|Cl| = "+chaines.size()+" clusters ( Cl = Ch \u222A S )");
 			int nbmention = 0;
-			for (List<String> ch : chaines) {
+			double nb_ant_moy = 0;
+			for (HashMap<String,Integer> ch : chaines) {
 				nbmention += ch.size();
+				logger.trace("###########################");
+				logger.trace(ch.toString());
+				for(Integer i : ch.values()) nb_ant_moy += ((double) i) / (ch.size() * chaines.size());
 			}
 			logger.trace("|M| = "+nbmention+" mentions");
+			logger.trace("avg(nb_antecedents+singl) = "+nb_ant_moy);
 		}
 
 		return chaines;
 	}
 
-	public static void writeCoNNL(String conll, String csv,
-								  ArrayList<ArrayList<String>> chaines,
-								  HashMap<String, Integer> mention_str_to_int,
-								  TypeChains type, String document_name){
-		logger.info("Ecriture dans "+conll+" et "+csv+":");
+	@SuppressWarnings("ComparatorCombinators")
+	private String getAntecedent(HashMap<String, Double> map_antecedents) {
+		return Collections.max(
+				map_antecedents.entrySet(),
+				(t, t1) -> Double.compare(t.getValue(),t1.getValue())
+		).getKey();
+	}
+
+	private void writeCoNNL(
+			String conll, String csvloe, String csvlom, String document_name,
+			HashMap<String, Integer> mention_str_to_int,
+			ArrayList<HashMap<String, Integer>> chaines,
+			TypeChains type){
+
+		logger.info("Ecriture dans "+conll+" , "+csvloe+" , "+csvlom+":");
 		PrintWriter conll_writer = null;
-		PrintWriter csv_writer = null;
+		PrintWriter loe_writer = null;
+		PrintWriter lom_writer = null;
 		try {
 
 			//création des fichiers
 			conll_writer = new PrintWriter(conll, "UTF-8");
-			if (csv != null) {
-				csv_writer = new PrintWriter(csv, "UTF-8");
-				csv_writer.println("Source\tTarget");
+			if (csvloe != null) {
+				loe_writer = new PrintWriter(csvloe, "UTF-8");
+				loe_writer.println("Source\tTarget");
 			}
-
+			if (csvlom != null) {
+				lom_writer = new PrintWriter(csvlom, "UTF-8");
+				lom_writer.println("ANCOR_ID\tCONLL_ID\tCHAIN_ID\tNUM_ANTECEDENTS_BEFORE_FEST_FIRST");
+			}
 
 			conll_writer.println("#begin document " + document_name);
 
@@ -296,17 +355,24 @@ public class Chaining {
 			int ref = -1;
 			int nbmention = 0;
 			int nbchains= 0;
-			for(ArrayList<String> chaine : chaines ){
+			for(HashMap<String, Integer> chaine : chaines ){
 				//on écrit pour chaque chaine les id des mentions puis l'id de la chaine
 				nbchains++;
-				for(String mention : chaine){
+				for(String mention : chaine.keySet()){
 					nbmention++;
 					conll_writer.println( mention_str_to_int.get(mention) + "\t" + "(" + id_chain + ")");
-					if (csv_writer != null){
+					if (loe_writer != null){
 						if (ref==-1)
 							ref=mention_str_to_int.get(mention);
 						else
-							csv_writer.println(mention_str_to_int.get(mention)+"\t"+ref);
+							loe_writer.println(mention_str_to_int.get(mention)+"\t"+ref);
+					}
+					if(lom_writer != null){
+						lom_writer.println(String.join(
+								"\t", mention, // ANCOR_ID
+								mention_str_to_int.get(mention).toString() , // CONLL_ID
+								Integer.toString(id_chain), // CHAIN_ID
+								chaine.get(mention).toString())); // NUM_ANTECEDENTS
 					}
 				}
 				ref = -1;
@@ -324,13 +390,15 @@ public class Chaining {
 		}finally {
 			if (conll_writer != null) {
 				conll_writer.close();
-			}if (csv_writer != null) {
-				csv_writer.close();
+			}if (loe_writer != null) {
+				loe_writer.close();
+			}if (lom_writer != null) {
+				lom_writer.close();
 			}
 		}
 	}
 
-	public static void removeChainFromList( List<Chain> chainList, int ref ){
+	public void removeChainFromList( List<Chain> chainList, int ref ){
 		for( int c = 0; c < chainList.size(); c++ ){
 			if( chainList.get( c ).getRef() == ref ){
 				chainList.remove( c );
@@ -339,7 +407,7 @@ public class Chaining {
 		}
 	}
 
-	public static boolean containsChain( List<Chain> chainList, int ref ){
+	public boolean containsChain( List<Chain> chainList, int ref ){
 		for( Chain chain : chainList ){
 			if( chain.getRef() == ref ){
 				return true;
@@ -348,7 +416,7 @@ public class Chaining {
 		return false;
 	}
 
-	public static Chain getChainFromList( List<Chain> chainList, int ref ){
+	public Chain getChainFromList( List<Chain> chainList, int ref ){
 		for( Chain chain : chainList ){
 			if( chain.getRef() == ref ){
 				return chain;
@@ -358,7 +426,7 @@ public class Chaining {
 	}
 
 
-	public static void setRefIfNeed( List<Corpus> corpusList ){
+	public void setRefIfNeed( List<Corpus> corpusList ){
 		//on parcours chaque unit de chaque corpus pour voir si un unit contient ref ou non,
 		//si un unit ne contient pas de ref, ref à ajouter.
 		for(int c = 0; c < corpusList.size(); c++){
@@ -410,7 +478,7 @@ public class Chaining {
 	}
 
 
-	public static String eval( String metric, String trueFile, String systemFile ){
+	public String eval( String metric, String trueFile, String systemFile ){
 		Process p;
 		String result = "";
 		String command = "perl scorer.pl " + metric + " " + trueFile + " " + systemFile;
@@ -442,7 +510,7 @@ public class Chaining {
 	}
 
 
-	public static Instances loadInstance(String arffFile){
+	public Instances loadInstance(String arffFile){
 		BufferedReader reader = null;
 		Instances instances = null;
 		try {
@@ -469,33 +537,47 @@ public class Chaining {
 		return instances;
 	}
 
-	public static class InvalidArffAttributes extends Exception {
+	public class InvalidArffAttributes extends Exception {
 		public InvalidArffAttributes(String s) {
 			super(s);
 		}
 	}
 
-	private static class ScorerArgs {
+	private class ScorerArgs {
 
 		private final String in_gold;
 		private final String in_system;
 		private final String output;
 		private final String[] scorers;
 		private final boolean force;
-		private final boolean csv;
+		private final List<String> aux_output;
+		private final Options opt;
 
-		public ScorerArgs(String in_gold, String in_system, String output, String[] scorers, boolean force, boolean csv){
+		/**
+		 *
+		 * @param scorers
+		 * @param aux_output
+		 * @param in_gold
+		 * @param in_system
+		 * @param output
+		 * @param force
+		 */
+		public ScorerArgs(
+				String[] scorers, List<String> aux_output,
+				String in_gold, String in_system, String output,
+				boolean force){
 
 			this.in_gold = in_gold;
 			this.in_system = in_system;
 			this.output = output;
 			this.scorers = scorers;
 			this.force = force;
-			this.csv = csv;
+			this.aux_output = aux_output;
+			opt = null;
 		}
 
 		public ScorerArgs(String[] args) {
-			Options opt = new Options();
+			opt = new Options();
 
 			Option gold = new Option(
 					"k",
@@ -540,20 +622,25 @@ public class Chaining {
 					false,
 					"Force overwrite existing GOLD and SYSTEM chains file"
 			);
-			opt.addOption(
-					"c",
-					"csv",
-					false,
-					"Additionnal csv output of gold and system chains\n" +
-							"path/to/output/couple_name_GOLD.csv\n" +
-							"path/to/output/couple_name_SYSTEM.csv\n"
-			);
+			opt.addOption(Option.builder()
+					.argName("aux-output")
+					.longOpt("aux-output")
+					.numberOfArgs(2)
+					.desc("Auxilliary outputs of gold and system chains. May be one or many of following:\n" +
+							"loe: list of edges\n" +
+							"lom: list of mentions (Mention num, Cluster num, number of pre-best-first antecedents")
+					.build());
+
+			opt.addOption(Option.builder()
+					.argName("help").longOpt("help").desc("Print this help").hasArg(false).build());
+
+
 			CommandLineParser commandline = new GnuParser();
 			CommandLine cmd = null;
 			try {
 				cmd = commandline.parse(opt, args);
 			} catch (ParseException e) {
-				e.printStackTrace();
+				documentation();
 				System.exit(0);
 			}
 			in_gold = cmd.getOptionValue("k");
@@ -561,8 +648,21 @@ public class Chaining {
 			output = cmd.getOptionValue("o");
 			scorers = cmd.getOptionValues("s");
 			force = cmd.hasOption("f");
-			csv = cmd.hasOption("c");
+			aux_output = Arrays.asList(cmd.hasOption("aux-output") ? cmd.getOptionValues("aux-output") : new String[]{});
+			if(cmd.hasOption("help"))
+				documentation();
+		}
 
+		public boolean hasListOfEdges() {
+			return aux_output.contains("loe");
+		}
+
+		private void documentation(){
+			String header = "Generate chains from input classified instances";
+			String footer = "Please submit issues to https://gitlab.com/augustinvoima/ancor2/issues";
+			HelpFormatter formatter = new HelpFormatter();
+			formatter.printHelp("java -jar ancor2.jar", header, opt, footer, true);
+			System.exit(1);
 		}
 	}
 }
