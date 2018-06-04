@@ -154,7 +154,7 @@ public class T6 implements Experience{
 
     private void chains(ExecutorService executor) throws InterruptedException {
         File rep = new File(CLASSIF_DIR);
-        Pattern p = Pattern.compile("^([a-zA-Z]+)_([a-zA-Z]+)_([a-zA-Z]+)_([0-9]+)_([0-9]+)_([0-9]+)_SYSTEM\\.arff");
+        Pattern p = Pattern.compile("^([a-zA-Z0-9]+)_([a-zA-Z]+)_([a-zA-Z]+)_([0-9]+)_([0-9]+)_([0-9]+)_SYSTEM\\.arff");
         for(File fichier : rep.listFiles()){
             Matcher m = p.matcher(fichier.getName());
             if(m.matches()){
