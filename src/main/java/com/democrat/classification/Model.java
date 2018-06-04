@@ -151,22 +151,6 @@ public class Model {
 		return inst_out;
 	}
 
-	/**
-	 * Sauvegarde le modèle avec le nom spécifié
-	 * pas besoin d'ajouter le nom dans l'extension
-	 * celle-ci est ajoutée
-	 * @param fileName
-	 */
-	public void export(String fileName){		
-		Chaining.fileManager.mkdir("generated/models");
-		try {
-			SerializationHelper.write("generated/models/" + fileName + ".model", this.classifier);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
-
 	public Evaluation crossValidate(Instances instances, int nbFolds){
 		Evaluation eval = null;
 		try {

@@ -1,34 +1,17 @@
 package com.democrat.classification;
 
+import org.apache.commons.cli.*;
+import org.apache.log4j.Logger;
+import weka.core.Instance;
+import weka.core.Instances;
+
 import java.io.*;
 import java.nio.file.FileAlreadyExistsException;
 import java.util.*;
 
-import org.apache.commons.cli.*;
-import org.apache.log4j.Logger;
-import com.democrat.ancortodemocrat.ConversionInSet;
-import com.democrat.ancortodemocrat.Corpus;
-import com.democrat.ancortodemocrat.FileManager;
-import com.democrat.ancortodemocrat.element.Annotation;
-import com.democrat.ancortodemocrat.element.Unit;
-
-import weka.core.Instance;
-import weka.core.Instances;
-
 public class Chaining {
 
-	public FileManager fileManager;
 	private Logger logger = Logger.getLogger(Chaining.class);
-	private String goldArffName;
-	private String systemArffName;
-	private String arffIdName;
-	private String conllGold;
-	private String conllSystem;
-	private String csvMentions;
-	private String csvListOfEdgesGold;
-	private String csvListOfEdgesSystem;
-	private String csvListOfMentionsGold;
-	private String csvListOfMentionsSystem;
 
 
 	/**
@@ -38,29 +21,28 @@ public class Chaining {
 		scorerTask(new ScorerArgs(args));
 	}
 
-	public Chaining(
-			String[] scorers, List<String> aux_output, String in_gold, String in_system, String output,
+	public Chaining(List<String> aux_output, String in_gold, String in_system, String output,
 			boolean force) throws IOException, InvalidArffAttributes {
 
-		scorerTask(new ScorerArgs(scorers,aux_output,in_gold,in_system,output,force));
+		scorerTask(new ScorerArgs(aux_output,in_gold,in_system,output,force));
 	}
 
 	private void scorerTask(ScorerArgs sargs) throws IOException, InvalidArffAttributes {
 
-		goldArffName = sargs.in_gold;
-		systemArffName = sargs.in_system;
-		arffIdName = sargs.in_gold
-				.replace(".arff",".idff")
-				.replace("_GOLD","");
-		conllGold = sargs.output + "_GOLD.conll";
-		conllSystem = sargs.output + "_SYSTEM.conll";
-		csvMentions = sargs.output + "_conll_to_ancor.csv"; // Contient lien id conll / id mention
+		String goldArffName = sargs.in_gold;
+		String systemArffName = sargs.in_system;
+		String arffIdName = sargs.in_gold
+				.replace(".arff", ".idff")
+				.replace("_GOLD", "");
+		String conllGold = sargs.output + "_GOLD.conll";
+		String conllSystem = sargs.output + "_SYSTEM.conll";
+		String csvMentions = sargs.output + "_conll_to_ancor.csv";
 
-		csvListOfEdgesGold = sargs.hasListOfEdges()? sargs.output + "_LOE_GOLD.csv" : null;
-		csvListOfEdgesSystem = sargs.hasListOfEdges()? sargs.output + "_LOE_SYSTEM.csv" : null;
+		String csvListOfEdgesGold = sargs.hasListOfEdges() ? sargs.output + "_LOE_GOLD.csv" : null;
+		String csvListOfEdgesSystem = sargs.hasListOfEdges() ? sargs.output + "_LOE_SYSTEM.csv" : null;
 
-		csvListOfMentionsGold = sargs.hasListOfEdges()? sargs.output + "_LOM_GOLD.csv" : null;
-		csvListOfMentionsSystem = sargs.hasListOfEdges()? sargs.output + "_LOM_SYSTEM.csv" : null;
+		String csvListOfMentionsGold = sargs.hasListOfEdges() ? sargs.output + "_LOM_GOLD.csv" : null;
+		String csvListOfMentionsSystem = sargs.hasListOfEdges() ? sargs.output + "_LOM_SYSTEM.csv" : null;
 
 		checkWriteDirs(
 				sargs.force, conllGold, conllSystem, csvMentions,
@@ -73,12 +55,12 @@ public class Chaining {
 
 
 
-		goldChains = createSet( goldArffName, arffIdName,TypeChains.GOLD_CHAIN);
-		systemChains = createSet( systemArffName, arffIdName,TypeChains.SYSTEM_CHAIN);
+		goldChains = createSet(goldArffName, arffIdName,TypeChains.GOLD_CHAIN);
+		systemChains = createSet(systemArffName, arffIdName,TypeChains.SYSTEM_CHAIN);
 
 		HashMap<String,Integer> mention_str_to_int = new HashMap<>();
 
-		logger.info("Ecriture dans "+csvMentions);
+		logger.info("Ecriture dans "+ csvMentions);
 		PrintWriter conll_to_ancor_id = new PrintWriter(new FileOutputStream(csvMentions));
 		conll_to_ancor_id.println("CONLL_ID\tAncor_ID");
 		int u = 0;
@@ -93,39 +75,47 @@ public class Chaining {
 		writeCoNNL(conllGold, csvListOfEdgesGold, csvListOfMentionsGold,
 				"unique_doc",
 				mention_str_to_int,
-				goldChains,
-				TypeChains.GOLD_CHAIN);
+				goldChains);
 
 		writeCoNNL(conllSystem, csvListOfEdgesSystem, csvListOfMentionsSystem,
-				"unique_doc", mention_str_to_int, systemChains,
-				TypeChains.SYSTEM_CHAIN);
+				"unique_doc", mention_str_to_int, systemChains);
 	}
 
 	private void checkWriteDirs(boolean force, String... outs) throws FileAlreadyExistsException {
-		String DirErrors = "\n";
-		String FileErrors = "\n";
+		String DirErrors;
+		StringBuilder FileErrors = new StringBuilder("\n");
 		File err;
+		StringBuilder DirErrorsBuilder = new StringBuilder("\n");
 		for(String out : outs) {
 			if (out != null && (err = new File(out)).exists()) {
 				if (err.isDirectory()) {
-					DirErrors += out + " est un répertoire\n";
+					DirErrorsBuilder.append(out).append(" est un répertoire\n");
 				} else if (!force) {
-					FileErrors += out + " existe déjà: utilisez -f ou --force pour l'écraser\n";
+					FileErrors.append(out).append(" existe déjà: utilisez -f ou --force pour l'écraser\n");
 				}
 			}
 		}
+		DirErrors = DirErrorsBuilder.toString();
 		if(DirErrors.length() > 1)
 			throw new FileAlreadyExistsException(DirErrors);
 		if(FileErrors.length() > 1)
-			throw  new FileAlreadyExistsException(FileErrors);
+			throw  new FileAlreadyExistsException(FileErrors.toString());
 	}
 
 	/**
+	 * Création d'un ensemble de chaines
+	 * Chaque chaine est constituée d'un ensemble de mention auxquelles on associe le nombre d'antécédents possibles
+	 * avant le traitement best-first
 	 *
-	 * @return
+	 * @param arff Fichier arff à traiter
+	 * @param arffId Fichier idff contenant les id des relations et mentions du fichier arff
+	 * @param t Type de traitement (S'agit-il d'un GOLD ou SYSTEM?)
+	 * @return Liste de clusters associant mentions d'une même chaîne à leur nombre d'antécédents possibles
+	 * @throws IOException Exception levée lors de la lecture des fichiers
+	 * @throws InvalidArffAttributes Le fichier arff ne correspond pas au type demandé (GOLD/SYSTEM)
 	 */
-	public ArrayList<HashMap<String, Integer>> createSet
-			(String arff,String arffId, TypeChains t)
+	private ArrayList<HashMap<String, Integer>> createSet
+	(String arff, String arffId, TypeChains t)
 			throws IOException, InvalidArffAttributes {
 
 		Instances instances = loadInstance(arff);
@@ -146,7 +136,6 @@ public class Chaining {
 
 		// Recensement des mentions
 		for(int i = 0; i < instances.numInstances(); i++){
-			Instance instance = instances.instance(i);
 			String[] line_id = idff_reader.readLine().split("\t");
 			String antecedent = line_id[1];
 			String element = line_id[2];
@@ -207,7 +196,6 @@ public class Chaining {
 		logger.trace("|Co| = "+paires_coref.size()+" corefs");
 		// Construction des chaines
 		ArrayList<HashMap<String,Integer>> chaines = new ArrayList<>();
-		int ref = 0;
 		if(logger.isTraceEnabled()){
 			Set<String> intersect = new HashSet<>(mentions);
 			intersect.retainAll(paires_coref.keySet());
@@ -329,8 +317,7 @@ public class Chaining {
 	private void writeCoNNL(
 			String conll, String csvloe, String csvlom, String document_name,
 			HashMap<String, Integer> mention_str_to_int,
-			ArrayList<HashMap<String, Integer>> chaines,
-			TypeChains type){
+			ArrayList<HashMap<String, Integer>> chaines){
 
 		logger.info("Ecriture dans "+conll+" , "+csvloe+" , "+csvlom+":");
 		PrintWriter conll_writer = null;
@@ -381,13 +368,9 @@ public class Chaining {
 			conll_writer.println("#end document");
 			logger.debug(nbmention+" mentions");
 			logger.debug(nbchains+" chaines");
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
+		} catch (FileNotFoundException | UnsupportedEncodingException e) {
 			e.printStackTrace();
-		} catch (UnsupportedEncodingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}finally {
+		} finally {
 			if (conll_writer != null) {
 				conll_writer.close();
 			}if (loe_writer != null) {
@@ -398,119 +381,8 @@ public class Chaining {
 		}
 	}
 
-	public void removeChainFromList( List<Chain> chainList, int ref ){
-		for( int c = 0; c < chainList.size(); c++ ){
-			if( chainList.get( c ).getRef() == ref ){
-				chainList.remove( c );
-				break;
-			}
-		}
-	}
 
-	public boolean containsChain( List<Chain> chainList, int ref ){
-		for( Chain chain : chainList ){
-			if( chain.getRef() == ref ){
-				return true;
-			}
-		}	
-		return false;
-	}
-
-	public Chain getChainFromList( List<Chain> chainList, int ref ){
-		for( Chain chain : chainList ){
-			if( chain.getRef() == ref ){
-				return chain;
-			}
-		}	
-		return null;
-	}
-
-
-	public void setRefIfNeed( List<Corpus> corpusList ){
-		//on parcours chaque unit de chaque corpus pour voir si un unit contient ref ou non,
-		//si un unit ne contient pas de ref, ref à ajouter.
-		for(int c = 0; c < corpusList.size(); c++){
-			List<Annotation> annotationList = corpusList.get( c ).getAnnotation();
-			boolean containsREF = false;
-			for(int a = 0; a < annotationList.size(); a++){
-				List<Unit> unitList = annotationList.get( a ).getUnit();
-				annotationList.get( a ).removeTxtImporter();
-				for(int u = 0; u < unitList.size(); u++){
-					if( ! unitList.get( u ).getFeature("REF").equalsIgnoreCase("NULL") ){
-						//REF présent
-						containsREF = true;
-						break;
-					}
-				}
-			}
-			if( ! containsREF ){
-				//on demande à l'utilisateur de quel type est le corpus
-				//si il est en première mention ou en chaîne
-				boolean answered = false;
-				String paramUser = "";
-				while( ! answered ){
-					Scanner sc = new Scanner( System.in );
-					logger.info("Le corpus " + corpusList.get( c ).getName() + " a été trouvé sans champ REF.");
-					logger.info("Ce champ est nécessaire,");
-					logger.info("le corpus est en première mention (p) ?");
-					logger.info("Ou il est en chaîne (c) ?");
-
-					String line = sc.nextLine();
-					if(line.toLowerCase().contains("c") || line.toLowerCase().contains("p") ){
-						answered = true;
-						logger.info("Ajout du champ REF sur " + corpusList.get( c ).getName() + ".");
-						paramUser = line.toLowerCase();
-					}
-				}
-				if( paramUser.contains( "c" ) ){
-					for(int a = 0; a < annotationList.size(); a++){
-						logger.info("Ajout du champ REF.");
-						ConversionInSet.toSetFromChain( annotationList.get( a ) );
-					}
-				}else{
-					for(int a = 0; a < annotationList.size(); a++){
-						logger.info("Ajout du champ REF.");
-						ConversionInSet.toSetFromFirstMention( annotationList.get( a ) );
-					}					
-				}
-			}
-		}
-	}
-
-
-	public String eval( String metric, String trueFile, String systemFile ){
-		Process p;
-		String result = "";
-		String command = "perl scorer.pl " + metric + " " + trueFile + " " + systemFile;
-		System.out.println(command);
-		try {
-			p = Runtime.getRuntime(  ).exec(command);
-			BufferedReader br = new BufferedReader( new InputStreamReader( p.getInputStream() ) );
-			//p.waitFor();
-			String line = null;
-			while ( ( line = br.readLine(  ) ) != null ){ // attente d'écritures
-				result += line+"<newline>";
-			}
-		} catch (IOException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-
-		int indexOfCoreference = result.indexOf( "Coreference:" );
-		String output = "";
-		while( -1 < (indexOfCoreference=result.indexOf( "Coreference:" ))) {
-			try {
-				output += result.substring(indexOfCoreference, result.length()).replace("--", "");
-			} catch (StringIndexOutOfBoundsException e) {
-				logger.debug(metric + " error: " + result);
-			}
-		}
-		output.replaceAll("<newline>","\n");
-		return output;
-	}
-
-
-	public Instances loadInstance(String arffFile){
+	private Instances loadInstance(String arffFile){
 		BufferedReader reader = null;
 		Instances instances = null;
 		try {
@@ -518,18 +390,13 @@ public class Chaining {
 			instances = new Instances( reader );
 
 			instances.setClassIndex( instances.numAttributes() - 1 );
-		} catch (FileNotFoundException e2) {
-			// TODO Auto-generated catch block
-			e2.printStackTrace();
 		} catch (Throwable e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}finally{
 			if(reader != null){
 				try {
 					reader.close();
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}
@@ -538,7 +405,7 @@ public class Chaining {
 	}
 
 	public class InvalidArffAttributes extends Exception {
-		public InvalidArffAttributes(String s) {
+		InvalidArffAttributes(String s) {
 			super(s);
 		}
 	}
@@ -548,29 +415,26 @@ public class Chaining {
 		private final String in_gold;
 		private final String in_system;
 		private final String output;
-		private final String[] scorers;
 		private final boolean force;
 		private final List<String> aux_output;
 		private final Options opt;
 
 		/**
-		 *
-		 * @param scorers
-		 * @param aux_output
-		 * @param in_gold
-		 * @param in_system
-		 * @param output
-		 * @param force
+		 * Gestion des paramètres pour la classe Chaining		 *
+		 * @param aux_output Formats de sortie auxiliaires
+		 * @param in_gold Fichier arff Gold (idff doit être présent à côté)
+		 * @param in_system Fichier arff System (idff doit être présent à côté)
+		 * @param output Nom générique des fichiers de sortie
+		 * @param force Ecraser les fichiers de sortie déjà présents
 		 */
 		public ScorerArgs(
-				String[] scorers, List<String> aux_output,
+				List<String> aux_output,
 				String in_gold, String in_system, String output,
 				boolean force){
 
 			this.in_gold = in_gold;
 			this.in_system = in_system;
 			this.output = output;
-			this.scorers = scorers;
 			this.force = force;
 			this.aux_output = aux_output;
 			opt = null;
@@ -606,16 +470,6 @@ public class Chaining {
 							"couple_name may be gold arff name");
 			out.setRequired(true);
 			opt.addOption(out);
-
-			Option sco = new Option(
-					"s",
-					"scorers",
-					true,
-					"Scorers to use (separated with spaces): muc, bcub, ceafe, ceafm, blanc ");
-			sco.setArgs(5);
-			sco.setRequired(false);
-			opt.addOption(sco);
-
 			opt.addOption(
 					"f",
 					"force",
@@ -635,7 +489,7 @@ public class Chaining {
 					.argName("help").longOpt("help").desc("Print this help").hasArg(false).build());
 
 
-			CommandLineParser commandline = new GnuParser();
+			CommandLineParser commandline = new DefaultParser();
 			CommandLine cmd = null;
 			try {
 				cmd = commandline.parse(opt, args);
@@ -646,14 +500,13 @@ public class Chaining {
 			in_gold = cmd.getOptionValue("k");
 			in_system = cmd.getOptionValue("r");
 			output = cmd.getOptionValue("o");
-			scorers = cmd.getOptionValues("s");
 			force = cmd.hasOption("f");
 			aux_output = Arrays.asList(cmd.hasOption("aux-output") ? cmd.getOptionValues("aux-output") : new String[]{});
 			if(cmd.hasOption("help"))
 				documentation();
 		}
 
-		public boolean hasListOfEdges() {
+		boolean hasListOfEdges() {
 			return aux_output.contains("loe");
 		}
 
