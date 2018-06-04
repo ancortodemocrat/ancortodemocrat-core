@@ -57,7 +57,7 @@ public class AncorToDemocrat {
 			}else if (args[0].equalsIgnoreCase("chaining")) {
 				logger.info("Running chaining");
 				try {
-					Chaining.scorerTask(args);
+					new Chaining(args);
 				} catch (Chaining.InvalidArffAttributes invalidArffAttributes) {
 					invalidArffAttributes.printStackTrace();
 				} catch (IOException e) {
@@ -458,7 +458,7 @@ public class AncorToDemocrat {
 					}else{
 						//SCORER
 						try {
-							Chaining.scorerTask(args);
+							new Chaining(args);
 						} catch (Chaining.InvalidArffAttributes invalidArffAttributes) {
 							invalidArffAttributes.printStackTrace();
 						} catch (IOException e) {

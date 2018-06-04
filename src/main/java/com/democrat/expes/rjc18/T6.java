@@ -448,7 +448,9 @@ public class T6 implements Experience{
         @Override
         public void run() {
             try {
-                Chaining.scorerTask(in_gold,in_system,output,null,true,true);
+                new Chaining(
+                        null, Arrays.asList(new String[]{"loe", "lom"}),
+                        in_gold, in_system, output, true);
             } catch (IOException e) {
                 e.printStackTrace();
             } catch (Chaining.InvalidArffAttributes invalidArffAttributes) {
