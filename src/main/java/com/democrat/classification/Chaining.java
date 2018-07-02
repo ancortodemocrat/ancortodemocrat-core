@@ -1,5 +1,6 @@
 package com.democrat.classification;
 
+import com.democrat.ancortodemocrat.AncorToDemocrat;
 import org.apache.commons.cli.*;
 import org.apache.log4j.Logger;
 import weka.core.Instance;
@@ -60,7 +61,7 @@ public class Chaining {
 
 		HashMap<String,Integer> mention_str_to_int = new HashMap<>();
 
-		logger.info("Ecriture dans "+ csvMentions);
+		logger.trace("Ecriture dans "+ csvMentions);
 		PrintWriter conll_to_ancor_id = new PrintWriter(new FileOutputStream(csvMentions));
 		conll_to_ancor_id.println("CONLL_ID\tAncor_ID");
 		int u = 0;
@@ -158,7 +159,12 @@ public class Chaining {
 				Double proba = type==TypeChains.GOLD_CHAIN? 2.d : instance.value(instance.numAttributes()-2);
 
 
-				assert (proba > 0.5d); // P(COREF) > 0.5 si COREF
+				try{
+					assert (proba >= 0.5d); // P(COREF) > 0.5 si COREF
+				}catch (java.lang.AssertionError e){
+					System.err.println(arff+" : "+i+" : "+proba);
+					e.printStackTrace();
+				}
 
 				if(!corefs.containsKey(element))
 					corefs.put(element,new HashMap<>());
@@ -190,7 +196,7 @@ public class Chaining {
 			HashSet<String> mentions,
 			TypeChains typeChains
 	) {
-		logger.info("Construction chaine "+typeChains);
+		logger.trace("Construction chaine "+typeChains);
 		logger.trace("|M| = "+mentions.size()+" mentions");
 
 		logger.trace("|Co| = "+paires_coref.size()+" corefs");
@@ -231,6 +237,9 @@ public class Chaining {
 						if(last_mention_chain == null)
 							last_mention_chain = chain;
 						else {
+							// Si last_mention_chain ne vaut pas null, c'est que element est ajouté dans deux chaînes différentes.
+							// Il est donc nécessaire de fusionner ces chaînes et de supprimer l'une d'elle.
+
 							// Union des deux ensembles
 							chain.putAll(last_mention_chain);
 							// On supprimera last_mention_chain plus tard pour éviter ConcurrentException
@@ -319,7 +328,7 @@ public class Chaining {
 			HashMap<String, Integer> mention_str_to_int,
 			ArrayList<HashMap<String, Integer>> chaines){
 
-		logger.info("Ecriture dans "+conll+" , "+csvloe+" , "+csvlom+":");
+		logger.trace("Ecriture dans "+conll+" , "+csvloe+" , "+csvlom+":");
 		PrintWriter conll_writer = null;
 		PrintWriter loe_writer = null;
 		PrintWriter lom_writer = null;
@@ -366,8 +375,8 @@ public class Chaining {
 				id_chain++;
 			}
 			conll_writer.println("#end document");
-			logger.debug(nbmention+" mentions");
-			logger.debug(nbchains+" chaines");
+			logger.trace(nbmention+" mentions");
+			logger.trace(nbchains+" chaines");
 		} catch (FileNotFoundException | UnsupportedEncodingException e) {
 			e.printStackTrace();
 		} finally {
@@ -494,7 +503,7 @@ public class Chaining {
 			try {
 				cmd = commandline.parse(opt, args);
 			} catch (ParseException e) {
-				documentation();
+				AncorToDemocrat.documentation(opt);
 				System.exit(0);
 			}
 			in_gold = cmd.getOptionValue("k");
@@ -503,19 +512,11 @@ public class Chaining {
 			force = cmd.hasOption("f");
 			aux_output = Arrays.asList(cmd.hasOption("aux-output") ? cmd.getOptionValues("aux-output") : new String[]{});
 			if(cmd.hasOption("help"))
-				documentation();
+				AncorToDemocrat.documentation(opt);
 		}
 
 		boolean hasListOfEdges() {
 			return aux_output.contains("loe");
-		}
-
-		private void documentation(){
-			String header = "Generate chains from input classified instances";
-			String footer = "Please submit issues to https://gitlab.com/augustinvoima/ancor2/issues";
-			HelpFormatter formatter = new HelpFormatter();
-			formatter.printHelp("java -jar ancor2.jar", header, opt, footer, true);
-			System.exit(1);
 		}
 	}
 }
