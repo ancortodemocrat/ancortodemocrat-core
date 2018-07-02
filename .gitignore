@@ -106,3 +106,15 @@ T5-J48.txt.old
 __MACOSX
 corpus_apprentissage
 Donnees_maj_tableau_6.zip
+
+#doc
+*.idx 
+*.log
+*.svg
+*.xml
+*.uml
+*.aux
+*.out
+*.tex.backup
+*.toc
+doc.pdf
