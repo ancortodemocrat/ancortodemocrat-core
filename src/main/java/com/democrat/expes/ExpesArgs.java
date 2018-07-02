@@ -1,5 +1,6 @@
 package com.democrat.expes;
 
+import com.democrat.ancortodemocrat.AncorToDemocrat;
 import org.apache.commons.cli.*;
 
 import java.io.File;
@@ -12,7 +13,6 @@ public class ExpesArgs {
     private static final String file_num_regexpr = "([^\\(\\)]*)\\(([0-9]+)\\)";
 
     public final String corpus_in;
-    public final String out_csv;
 
     public final String[] algos;
 
@@ -32,11 +32,12 @@ public class ExpesArgs {
     public final boolean skip_classif;
     public final boolean skip_scorers;
     public final String[] scorers;
+    public final String out_ods;
+    public final boolean skip_output;
 
 
     public ExpesArgs(String args[], String expe_name) throws NotDirectoryException {
         String[] algos1;
-        String out_csvtmp;
         Options opt = new Options();
 
         Option inc = new Option(
@@ -92,7 +93,7 @@ public class ExpesArgs {
                 "P",
                 "parallel",
                 true,
-                "Paraléliser les opérations en n threads (Défaut 3, non parallélisé)"
+                "Paraléliser les opérations en n threads (Défaut 3)"
         );
         ll.setArgs(1);
         ll.setType(Integer.TYPE);
@@ -148,6 +149,11 @@ public class ExpesArgs {
                 .desc("Passer le calcul des scores").build());
 
         opt.addOption(Option.builder()
+                .argName("skip-output")
+                .longOpt("skip-output")
+                .desc("Passer la génération du fichier de sortie").build());
+
+        opt.addOption(Option.builder()
                 .argName("algos")
                 .longOpt("algos")
                 .desc("Algorithmes à utiliser pour la création des models (par défaut: J48 SMO)")
@@ -159,6 +165,12 @@ public class ExpesArgs {
                 .desc("Scorers à utiliser parmis: all, muc, bcub, ceafm, ceafe, blanc(par défaut: muc, bcub)")
                 .numberOfArgs(5).build());
 
+        opt.addOption(Option.builder()
+                .argName("help")
+                .longOpt("help")
+                .desc("Print this help")
+                .hasArg(false).build());
+
         CommandLineParser commandline = new GnuParser();
         CommandLine cmd = null;
         try {
@@ -168,7 +180,7 @@ public class ExpesArgs {
             System.exit(0);
         }
         corpus_in = cmd.getOptionValue("i");
-        out_csvtmp = cmd.getOptionValue("o",expe_name+".csv");
+        String out_odstmp = cmd.getOptionValue("o", expe_name + ".ods");
 
         algos1 = cmd.getOptionValues(",");
         algos = (algos1==null || algos1.length==0) ? new String[]{"J48", "SMO"} : algos1;
@@ -176,6 +188,9 @@ public class ExpesArgs {
         String[] scorers1 = cmd.getOptionValues("scorers");
         scorers = (scorers1==null || algos1.length==0) ? new String[]{"muc","bcub"} : scorers1;
 
+        if(cmd.hasOption("help")){
+            AncorToDemocrat.documentation(opt);
+        }
         force = cmd.hasOption("F");
         skip_features = cmd.hasOption("skip-features-gen");
         skip_arff = cmd.hasOption("skip-arff-gen");
@@ -183,6 +198,7 @@ public class ExpesArgs {
         skip_chains = cmd.hasOption("skip-chains-gen");
         skip_classif = cmd.hasOption("skip-classif");
         skip_scorers = cmd.hasOption("skip-scorers");
+        skip_output = cmd.hasOption("skip-output");
 
 
 
@@ -194,19 +210,19 @@ public class ExpesArgs {
         test_pos = Integer.parseInt(cmd.getOptionValue("test-pos","2757"));
         test_neg = Integer.parseInt(cmd.getOptionValue("test-neg","3861"));
 
-        if(!force && new File(out_csvtmp).exists()){
-            Matcher m= Pattern.compile(file_num_regexpr).matcher(out_csvtmp);
-            if(m.find()) // Première copie
-                out_csvtmp = out_csvtmp.replace(".csv","(1).csv");
+        if(!force && new File(out_odstmp).exists()){
+            Matcher m= Pattern.compile(file_num_regexpr).matcher(out_odstmp);
+            if(!m.find()) // Première copie
+                out_odstmp = out_odstmp.replace(".csv","(1).csv");
             else{// nième copie
                 String name = m.group(1);
                 int n = Integer.parseInt(m.group(2)) + 1;
-                out_csvtmp = name+"("+n+").csv";
+                out_odstmp = name+"("+n+").csv";
             }
         }
 
         // Vérification de l'architecture du corpus d'entrée
-        out_csv = out_csvtmp;
+        out_ods = out_odstmp;
         File corpfile;
         for (String filename: new String[]{corpus_in})
             if (!(corpfile = new File(corpus_in)).exists() || !corpfile.isDirectory())
@@ -215,4 +231,5 @@ public class ExpesArgs {
                         inc.getDescription());
 
     }
+
 }
