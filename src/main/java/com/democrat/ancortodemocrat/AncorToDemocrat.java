@@ -15,7 +15,10 @@ import java.util.List;
 import com.democrat.classification.Classification;
 import com.democrat.classification.ModelGeneration;
 import com.democrat.expes.Expes;
+import org.apache.commons.cli.CommandLine;
+import org.apache.commons.cli.HelpFormatter;
 import org.apache.commons.cli.MissingArgumentException;
+import org.apache.commons.cli.Options;
 import org.apache.log4j.Logger;
 import org.apache.log4j.xml.DOMConfigurator;
 
@@ -725,5 +728,11 @@ public class AncorToDemocrat {
 		return min + (int)(Math.random() * ((max - min) + 1));
 	}
 
-
+	public static void documentation(Options opt){
+		String header = "Generate chains from input classified instances";
+		String footer = "Please submit issues to https://gitlab.com/augustinvoima/ancor2/issues";
+		HelpFormatter formatter = new HelpFormatter();
+		formatter.printHelp("java -jar ancor2.jar", header, opt , footer, true);
+		System.exit(1);
+	}
 }
