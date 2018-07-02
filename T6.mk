@@ -75,8 +75,11 @@ T6-model:
 	$(ANCOR2) model $(WEKA_CLASSIFIER).$($(ALGO)) -t $(OTG_TRAIN) -T $(ESLO_TEST) -d $(MODEL)/$(ALGO)/OTG.model
 
 #T6-prepare: T6-init T6-features T6-arff T6-model
-T6-prepare: T6-init
+T6-expe:
 	$(ANCOR2) expes RJC18/T6 -i $(CORPUS_SRC)/Données_maj/Tableau6
+
+T6-prepare: T6-init T6-expe
+
 	@echo ===========================================================
 	@echo READY
 	@echo ===========================================================
