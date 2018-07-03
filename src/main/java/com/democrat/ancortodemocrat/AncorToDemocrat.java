@@ -31,7 +31,7 @@ import com.democrat.classification.Chaining;
 public class AncorToDemocrat {
 
 	private static Logger logger = Logger.getLogger(AncorToDemocrat.class);
-	public static FileManager fileManager;
+	public static FileManager fileManager = null;
 	public static TreeTagger treeTagger;
 	public final static String[] help = new String[]{};
 
@@ -734,5 +734,11 @@ public class AncorToDemocrat {
 		HelpFormatter formatter = new HelpFormatter();
 		formatter.printHelp("java -jar ancor2.jar", header, opt , footer, true);
 		System.exit(1);
+	}
+
+	public static FileManager getFileManager() {
+		if(null == fileManager)
+			fileManager = new FileManager();
+		return fileManager;
 	}
 }

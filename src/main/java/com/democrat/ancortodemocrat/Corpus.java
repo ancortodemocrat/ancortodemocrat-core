@@ -119,7 +119,7 @@ public class Corpus {
 	 * les annotations se résument aux fichiers .aa
 	 */
 	public void loadAnnotation(){
-		List<String> annotationFile = AncorToDemocrat.fileManager.loadAaFile( this );
+		List<String> annotationFile = AncorToDemocrat.getFileManager().loadAaFile( this );
 		for(String str : annotationFile){
 			File file = new File(this.getPath() + "/aa_fichiers/" + str);
 
