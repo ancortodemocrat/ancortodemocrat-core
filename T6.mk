@@ -1,5 +1,3 @@
-
-
 ###############################################################################
 #					TABLE 6
 ###############################################################################
@@ -76,13 +74,22 @@ T6-model:
 
 #T6-prepare: T6-init T6-features T6-arff T6-model
 T6-expe:
-	$(ANCOR2) expes RJC18/T6 -i $(CORPUS_SRC)/Données_maj/Tableau6
+	$(ANCOR2) expes RJC18/T6 -i $(CORPUS_SRC)/Données_maj/Tableau6 -P 4
+
+T6-expe-light:
+	$(ANCOR2) expes RJC18/T6 -i $(CORPUS_SRC)/Données_maj/Tableau6 --num-learn-run 1 --num-test-run 1 --skip-scorers --skip-output -P 4
 
 T6-prepare: T6-init T6-expe
-
 	@echo ===========================================================
 	@echo READY
 	@echo ===========================================================
+
+
+T6-prepare-light: T6-init T6-expe-light
+	@echo ===========================================================
+	@echo READY
+	@echo ===========================================================
+
 
 T6-clean-scorers: clean-cs
 	-mkdir -p $(CALLSCORER)/$(ALGO)/OTG_UBS

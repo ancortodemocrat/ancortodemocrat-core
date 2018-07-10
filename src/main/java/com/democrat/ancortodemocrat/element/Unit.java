@@ -84,7 +84,13 @@ public class Unit extends Element {
 
 
 	public int getStart(  Annotation annotation  ){
-		return this.getPositioning().getStart().getSinglePosition().getIndex();
+		try{
+			return this.getPositioning().getStart().getSinglePosition().getIndex();
+		} catch (NullPointerException e){
+			System.err.println(String.join("\n",this.toString(),this.getPositioning().toString()));
+			e.printStackTrace();
+			return 0;
+		}
 	}
 
 	public int getEnd( Annotation annotation ){

@@ -175,6 +175,8 @@ public class ExpesArgs {
         CommandLine cmd = null;
         try {
             cmd = commandline.parse(opt, args);
+        } catch(MissingArgumentException e){
+            AncorToDemocrat.documentation(opt);
         } catch (ParseException e) {
             e.printStackTrace();
             System.exit(0);

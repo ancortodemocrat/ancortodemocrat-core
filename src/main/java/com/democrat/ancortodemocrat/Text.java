@@ -130,6 +130,44 @@ public class Text {
 			}
 		}
 	}
+
+	/**
+	 * Get the content contained before unit
+	 * @param annotation
+	 * @param unit
+	 * @param context_len Number of characters to get from the context
+	 * @return
+	 */
+	public String getPreUnit(Annotation annotation, Unit unit, Integer context_len){
+		if( unit instanceof Schema){
+			return getPreUnit( annotation, ((Schema) unit).getUnitWhereFeatureNotNull( annotation ) , context_len);
+		}else{
+			String pre_content = this.getContent().substring(0,unit.getStart(annotation))
+					.replaceAll("<[^>]+>"," ");
+			int i = Math.max(pre_content.length() - context_len, 0);
+			String prespace = "";
+			if (i==0)
+				prespace = new String(new char[-(pre_content.length() - context_len - i)]).replace('\0', ' ');
+			return prespace + pre_content.substring(i);
+		}
+	}
+
+	/**
+	 * Get the content contained after unit
+	 * @param annotation
+	 * @param unit
+	 * @param context_len Number of characters to get from the context
+	 * @return
+	 */
+	public String getSufUnit(Annotation annotation, Unit unit, Integer context_len){
+		if( unit instanceof Schema){
+			return getSufUnit( annotation, ((Schema) unit).getUnitWhereFeatureNotNull( annotation ) , context_len);
+		}else{
+			String suf_content = this.getContent().substring(unit.getEnd(annotation))
+					.replaceAll("<[^>]+>"," ");
+			return suf_content.substring(0 , context_len);
+		}
+	}
 	
 	public Turn getPreviousTurn( Turn turn ){
 		List<Turn> turnList = trans.getEpisode().getSection().getTurn();
