@@ -146,6 +146,7 @@ remove-extracted-Ancor:
 extract-Ancor: remove-extracted-Ancor
 	-mkdir log
 	-ln -s $(CORPUS_SRC)
+	-mkdir -p $(CORPUS_SRC)
 	-unzip $(CORPUS_ZIP) -d $(CORPUS_SRC) 2>log/err.txt 1>log/MODEL.txt
 
 gen-Ancor-Small: extract-Ancor
