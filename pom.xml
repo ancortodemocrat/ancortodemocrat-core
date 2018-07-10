@@ -150,11 +150,6 @@
 			<artifactId>commons-io</artifactId>
 			<version>2.6</version>
 		</dependency>
-        <dependency>
-            <groupId>com.democrat.ancortodemocrat</groupId>
-            <artifactId>ancor2</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-        </dependency>
 
 		<dependency>
 			<groupId>org.apache.odftoolkit</groupId>
