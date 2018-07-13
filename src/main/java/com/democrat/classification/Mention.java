@@ -1,5 +1,8 @@
 package com.democrat.classification;
 
+/**
+ * @author Alexis Puret
+ */
 public class Mention {
 
 	

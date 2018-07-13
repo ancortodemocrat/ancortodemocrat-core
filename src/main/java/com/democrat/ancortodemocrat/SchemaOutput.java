@@ -11,6 +11,11 @@ import javax.xml.transform.stream.StreamResult;
 
 import com.democrat.ancortodemocrat.element.Annotation;
 
+/**
+ * Export xml file
+ * @author Alexis Puret
+ * @deprecated
+ */
 public class SchemaOutput extends SchemaOutputResolver{
 	
 	/**

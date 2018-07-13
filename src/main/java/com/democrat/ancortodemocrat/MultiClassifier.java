@@ -15,6 +15,10 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 
+/**
+ * MultiClassifier task
+ * @author Maëlle brassier
+ */
 public class MultiClassifier implements Runnable {
 
 	private String outputPath;

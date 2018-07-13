@@ -15,6 +15,10 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 
+/**
+ * @author Maëlle Brassier
+ * @deprecated Not Used in project
+ */
 public class ConversionCoref implements Runnable {
 
 	private String outputPath;

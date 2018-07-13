@@ -6,9 +6,17 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 
+/**
+ * Write to an xml file
+ * @author Alexis Puret
+ */
 public class XmlWriter {
 
-
+	/**
+	 * Write object to xml file
+	 * @param obj object to write to xml
+	 * @param xmlFileName output xml file name
+	 */
 	public static void writeXml(Object obj, String xmlFileName){
 		try {
 

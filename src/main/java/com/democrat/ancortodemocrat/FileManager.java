@@ -19,6 +19,10 @@ import java.util.List;
 import org.apache.log4j.Logger;
 
 
+/**
+ * File Manager
+ * @author Alexis Puret
+ */
 public class FileManager {
 
 	private static Logger logger = Logger.getLogger(FileManager.class);
@@ -27,6 +31,9 @@ public class FileManager {
 		init();
 	}
 
+	/**
+	 * Initialisation
+	 */
 	private void init(){
 		//path.txt
 		File filePath = new File("path.txt");
@@ -59,10 +66,10 @@ public class FileManager {
 	}
 
 	/**
-	 * return a list of file name from a folder path
+	 * returns a list of file name from a folder path
 	 * @param folder of the folder
 	 * @param ext only the extension without the dot
-	 * @return
+	 * @return list of file name from a folder path
 	 */
 	public ArrayList<String> getFileFromFolder(File folder, String ext){
 
@@ -79,7 +86,12 @@ public class FileManager {
 		}
 		return list;
 	}
-	
+
+	/**
+	 * returns a list of folder names from a folder path
+	 * @param folder of the folder
+	 * @return list of folder names from a folder path
+	 */
 	public ArrayList<String> getFolderFromFolder(File folder ){
 		if( ! folder.isDirectory() ){
 			throw new IllegalArgumentException("Bad path, folder path expected");
@@ -96,8 +108,8 @@ public class FileManager {
 	}
 
 	/**
-	 * Return list of path in the file
-	 * @return
+	 * Loading path.txt file
+	 * @return list of path in the file
 	 */
 	public List<String> loadPathFile(){
 		InputStream pathIn = null;

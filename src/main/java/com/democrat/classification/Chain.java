@@ -3,6 +3,11 @@ package com.democrat.classification;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Chain class
+ * @author Alexis Puret
+ * @deprecated never used
+ */
 public class Chain {
 	
 	private int ref;

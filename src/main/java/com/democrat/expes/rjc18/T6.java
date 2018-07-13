@@ -32,6 +32,10 @@ import java.util.regex.Pattern;
 
 import static com.democrat.ancortodemocrat.AncorToDemocrat.generateFeature;
 
+/**
+ * Experiment for train and test corpuses interactivity influence in chains scores
+ * @author Augustin Voisin-Marras
+ */
 public class T6 implements Experience{
     private static Logger logger = Logger.getLogger(AncorToDemocrat.class);
 
@@ -105,6 +109,13 @@ public class T6 implements Experience{
 
     }
 
+    /**
+     * Scoring job execution
+     * @param executor The executor used for pooling threads
+     * @param jobs List of JobScorer to save jobs in
+     * @return A hierarchical map of jobs
+     * @throws Exception
+     */
     private HashMap<String, HashMap<String, HashMap<String, ArrayList<ArrayList<ArrayList<JobScorer>>>>>>
     scores(ExecutorService executor, ArrayList<JobScorer> jobs) throws Exception
     {
@@ -163,6 +174,12 @@ public class T6 implements Experience{
         return jobParAlgo;
     }
 
+    /**
+     * Export data to ODS file
+     * @param jobs jobs to export
+     * @param jpa hierarchical jobs to export
+     * @throws Exception
+     */
     private void writeODS(ArrayList<JobScorer> jobs,
                           HashMap<String, HashMap<String, HashMap<String, ArrayList<ArrayList<ArrayList<JobScorer>>>>>>
                                   jpa) throws Exception
@@ -181,6 +198,12 @@ public class T6 implements Experience{
         sheet.save(eargs.out_ods);
     }
 
+    /**
+     * Write a tabular
+     * @param table table to write in
+     * @param jobs jobs to write
+     * @param sheet sheet to write in
+     */
     private void ecrireDonneesMiseEnForme(Table table,
                                           HashMap<String, HashMap<String, HashMap<String, ArrayList<ArrayList<ArrayList<JobScorer>>>>>>
                                                   jobs,
@@ -272,6 +295,13 @@ public class T6 implements Experience{
         }
     }
 
+    /**
+     * Write Raw data
+     * @param table table to write in
+     * @param jobs jobs to write
+     * @param sheet sheet to write in
+     * @throws Exception
+     */
     private void ecrireDonneesBrutes(Table table, ArrayList<JobScorer> jobs, OdfSchemaDocument sheet) throws Exception {
 
         OdfOfficeAutomaticStyles styles = sheet.getContentDom().getOrCreateAutomaticStyles();
@@ -404,6 +434,11 @@ public class T6 implements Experience{
 
     }
 
+    /**
+     * Run Chaining jobs
+     * @param executor The executor used for pooling threads
+     * @throws InterruptedException
+     */
     private void chains(ExecutorService executor) throws InterruptedException {
         File rep = new File(CLASSIF_DIR);
         Pattern p = Pattern.compile("^([a-zA-Z0-9]+)_([a-zA-Z]+)_([a-zA-Z]+)_([0-9]+)_([0-9]+)_([0-9]+)_SYSTEM\\.arff");
@@ -426,6 +461,12 @@ public class T6 implements Experience{
         executor.awaitTermination(3600, TimeUnit.SECONDS);
     }
 
+    /**
+     * Run Classif jobs
+     * @param executor The executor used for pooling threads
+     * @throws InterruptedException
+     * @throws IOException
+     */
     private void classif(ExecutorService executor) throws InterruptedException, IOException {
         int nbop = 0;
 
@@ -455,6 +496,11 @@ public class T6 implements Experience{
         logger.info(nbop+" fichiers de classification générés");
     }
 
+    /**
+     * Run Modell generation  jobs
+     * @param executor The executor used for pooling threads
+     * @throws InterruptedException
+     */
     private void models(ExecutorService executor) throws InterruptedException {
         HashMap<String, Class<? extends Classifier> > algos = new HashMap<>();
 
@@ -487,6 +533,11 @@ public class T6 implements Experience{
         executor.awaitTermination(3600,TimeUnit.SECONDS);
     }
 
+    /**
+     * Run arff generation jobs
+     * @param executor The executor used for pooling threads
+     * @throws InterruptedException
+     */
     private void arff(ExecutorService executor) throws InterruptedException {
         for(int n_run = 0; n_run < eargs.num_learn_run; n_run++)
             for(String corp : corpus_train)
@@ -505,6 +556,11 @@ public class T6 implements Experience{
         executor.awaitTermination(3600, TimeUnit.SECONDS);
     }
 
+    /**
+     * Run features computing jobs
+     * @param executor The executor used for pooling threads
+     * @throws InterruptedException
+     */
     private void features(ExecutorService executor) throws InterruptedException {
         // Lancement des threads (Tous les runs utilisent les mêmes features)
         for(String corp : corpus_train)
@@ -519,6 +575,10 @@ public class T6 implements Experience{
         executor.awaitTermination(3600, TimeUnit.SECONDS);
     }
 
+    /**
+     * Preparing repertories for the experience
+     * @throws IOException
+     */
     private void prepareRep() throws IOException {
         if(!eargs.skip_models){
             FileUtils.deleteDirectory(new File(MODELS_DIR));
@@ -552,6 +612,7 @@ public class T6 implements Experience{
     /**
      * JobFeature est la classe qui calcule tous les features par corpus
      * Elle implémente Runnable de sorte à travailler sur les différents corpus en même temps
+     * @author Augustin Voisin-Marras
      */
     private class JobFeature implements Runnable{
 
@@ -574,6 +635,10 @@ public class T6 implements Experience{
         }
     }
 
+    /**
+     * JobArff is a job generating one arff file from a corpus
+     * @author Augustin Voisin-Marras
+     */
     private class JobArff implements Runnable {
 
 
@@ -600,6 +665,10 @@ public class T6 implements Experience{
         }
     }
 
+    /**
+     * Model generation job
+     * @author Augustin Voisin-Marras
+     */
     private class JobModelGen implements Runnable {
 
         private final Class<? extends Classifier> classif;
@@ -620,6 +689,10 @@ public class T6 implements Experience{
         }
     }
 
+    /**
+     * Classification jobs
+     * @author Augustin Voisin-Marras
+     */
     private class JobClassif implements Runnable {
 
         private final String in_arff;
@@ -669,6 +742,10 @@ public class T6 implements Experience{
         }
     }
 
+    /**
+     * Chaining jobs
+     * @author Augustin Voisin-Marras
+     */
     private class JobChaining implements Runnable{
 
         private String output;
@@ -695,6 +772,10 @@ public class T6 implements Experience{
         }
     }
 
+    /**
+     * Scoring jobs
+     * @author Augustin Voisin-Marras
+     */
     private class JobScorer implements Runnable{
         private final String system;
         private final String gold;

@@ -21,6 +21,10 @@ import com.democrat.ancortodemocrat.element.Type;
 import com.democrat.ancortodemocrat.element.Unit;
 import com.democrat.ancortodemocrat.feature.CalculateFeature;
 
+/**
+ * @author Maëlle Brassier
+ * @deprecated Not used in project
+ */
 public class ConversionToArffAnaphore implements Runnable{
 
 

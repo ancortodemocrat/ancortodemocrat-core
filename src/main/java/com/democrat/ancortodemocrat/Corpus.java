@@ -16,6 +16,11 @@ import org.apache.log4j.Logger;
 
 import com.democrat.ancortodemocrat.element.Annotation;
 
+/**
+ * Corpus class
+ * @author Alexis Puret
+ * @author Augustin Voisin-Marras
+ */
 public class Corpus {
 	
 	private static Logger logger = Logger.getLogger(Corpus.class);

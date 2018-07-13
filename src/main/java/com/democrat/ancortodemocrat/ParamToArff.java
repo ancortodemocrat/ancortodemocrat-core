@@ -4,6 +4,8 @@ package com.democrat.ancortodemocrat;
  * paramètres possible pour la commande arff
  * pour choisir quel type de relation prendre
  *
+ * @author Alexis Puret
+ * @author Maëlle Brassier
  */
 public enum ParamToArff {
 	

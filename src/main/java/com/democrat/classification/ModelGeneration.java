@@ -14,6 +14,9 @@ import java.util.Vector;
 /**
  * Created by bug on 29/09/17.
  *  Some code here coming from source of Weka
+ *
+ *  @author Alexis Puret
+ *  @author Augustin Voisin-Marras
  */
 public class ModelGeneration {
 

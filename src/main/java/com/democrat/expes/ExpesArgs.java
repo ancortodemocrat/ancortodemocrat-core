@@ -8,6 +8,10 @@ import java.nio.file.NotDirectoryException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * Arguments for experience
+ * @author Augustin Voisin-Marras
+ */
 public class ExpesArgs {
 
     private static final String file_num_regexpr = "([^\\(\\)]*)\\(([0-9]+)\\)";

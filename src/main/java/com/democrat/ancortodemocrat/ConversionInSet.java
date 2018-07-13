@@ -15,7 +15,7 @@ import com.democrat.ancortodemocrat.element.Unit;
 /**
  * Add element REF to each relation/mention from first mention
  * or chain type
- * @param annotation Annotation 
+ * @author Alexis Puret
  */
 public class ConversionInSet {
 

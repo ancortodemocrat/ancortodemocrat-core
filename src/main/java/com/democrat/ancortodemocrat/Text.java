@@ -14,6 +14,11 @@ import com.democrat.ancortodemocrat.element.Annotation;
 import com.democrat.ancortodemocrat.element.Schema;
 import com.democrat.ancortodemocrat.element.Unit;
 
+/**
+ * Manager linking text corpus with annotations
+ * @author Alexis Puret
+ * @author Augustin Voisin-Marras
+ */
 public class Text {
 
 	private static Logger logger = Logger.getLogger(Text.class);
@@ -114,14 +119,14 @@ public class Text {
 	 * check from the start and end positionning of the unit
 	 * @param annotation useful to read the unit position
 	 * @param unit the unit you want the text
-	 * @return
+	 * @return Text of the unit
 	 */
 	public String getContentFromUnit( Annotation annotation, Unit unit ){
 		if( unit instanceof Schema){
 			return getContentFromUnit( annotation, ((Schema) unit).getUnitWhereFeatureNotNull( annotation ) );
 		}else{
 			try{
-				return this.getContent().substring( unit.getStart( annotation ) , unit.getEnd( annotation ) );
+				return this.getContent().substring( unit.getStart() , unit.getEnd() );
 			}catch(StringIndexOutOfBoundsException e){
 				logger.debug(this.fileName);
 				logger.debug(this.getContent());
@@ -133,16 +138,17 @@ public class Text {
 
 	/**
 	 * Get the content contained before unit
-	 * @param annotation
-	 * @param unit
+	 * @param annotation annotation corresponding to the unit
+	 * @param unit Unit to get text from
 	 * @param context_len Number of characters to get from the context
-	 * @return
+	 * @return Text before this unit
 	 */
+	@SuppressWarnings("unused")
 	public String getPreUnit(Annotation annotation, Unit unit, Integer context_len){
 		if( unit instanceof Schema){
 			return getPreUnit( annotation, ((Schema) unit).getUnitWhereFeatureNotNull( annotation ) , context_len);
 		}else{
-			String pre_content = this.getContent().substring(0,unit.getStart(annotation))
+			String pre_content = this.getContent().substring(0,unit.getStart())
 					.replaceAll("<[^>]+>"," ");
 			int i = Math.max(pre_content.length() - context_len, 0);
 			String prespace = "";
@@ -154,11 +160,12 @@ public class Text {
 
 	/**
 	 * Get the content contained after unit
-	 * @param annotation
-	 * @param unit
+	 * @param annotation annotation corresponding to the unit
+	 * @param unit Unit to get text from
 	 * @param context_len Number of characters to get from the context
-	 * @return
+	 * @return Text after this unit
 	 */
+	@SuppressWarnings("unused")
 	public String getSufUnit(Annotation annotation, Unit unit, Integer context_len){
 		if( unit instanceof Schema){
 			return getSufUnit( annotation, ((Schema) unit).getUnitWhereFeatureNotNull( annotation ) , context_len);
@@ -221,8 +228,9 @@ public class Text {
 
 	/**
 	 * Return the content of the text without the xml tag
-	 * @return
+	 * @return Text content without xml tag
 	 */
+	@SuppressWarnings("unused")
 	public String getContentWithoutTag(){
 		String content = "";
 
@@ -234,6 +242,13 @@ public class Text {
 		return content;
 	}
 
+	/**
+	 * Do unit is contained in turn?
+	 * @param annotation annotation corresponding to turn and unit
+	 * @param turn turn to test
+	 * @param unit unit to search in turn
+	 * @return true if unit is in turn or false
+	 */
 	public boolean isCorresponding( Annotation annotation, Turn turn, Unit unit ){
 		String contentOfUnit = this.getContentFromUnit(annotation, unit);
 		if( turn.getContent().contains( contentOfUnit ) ){
@@ -251,6 +266,12 @@ public class Text {
 		return false;
 	}
 
+	/**
+	 * Get the turn of the unit
+	 * @param annotation
+	 * @param unit
+	 * @return the turn of the unit
+	 */
 	public Turn getTurnCorresponding( Annotation annotation, Unit unit ){
 		List<Turn> turnList = this.trans.getEpisode().getSection().getTurn();
 		for(int t = 0; t < turnList.size(); t++){

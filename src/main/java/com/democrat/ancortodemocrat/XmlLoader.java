@@ -9,13 +9,17 @@ import javax.xml.bind.JAXB;
 
 import com.democrat.ancortodemocrat.element.Annotation;
 
+/**
+ * Loading Xml
+ * @author Alexis Puret
+ */
 public class XmlLoader {
 
 
 	/**
 	 * Load all anotation from xml file (.aa Glozz) 
-	 * @param xmlFile
-	 * @return
+	 * @param xmlFileName xml file to load
+	 * @return Annotation containing xml file data
 	 */
 	public static Annotation loadAnnotationFromFile(String xmlFileName) {
 		InputStream xmlStream = null;

@@ -7,7 +7,11 @@ import org.apache.log4j.Logger;
 import java.io.IOException;
 import java.time.format.DateTimeFormatter;
 
-
+/**
+ * Experience manager
+ * java -jar ancor2.jar expes <expe>
+ * @author Augustin Voisin-Marras
+ */
 public class Expes {
     private Experience expe;
 

@@ -9,12 +9,16 @@ import weka.core.converters.ArffSaver;
 import java.io.*;
 import java.nio.file.FileAlreadyExistsException;
 
+/**
+ * Classification class
+ * @author Augustin Voisin-Marras
+ */
 public class Classification {
     private static Logger logger = Logger.getLogger(Classification.class);
 
     /**
-     * Appeler depuis la command model <b>classify</b>
-     * @param args
+     * Constructor with command line args
+     * @param args command line args
      */
     public Classification(String[] args) {
         try {
@@ -27,10 +31,21 @@ public class Classification {
         }
     }
 
+    /**
+     * Constructor with detailes parameters
+     * @param in_arff
+     * @param out_arff
+     * @param model
+     * @param force
+     */
     public Classification(String in_arff, String out_arff, String model, boolean force){
         work(new ClassifArgs(in_arff,out_arff,model,force));
     }
 
+    /**
+     * Classification task
+     * @param cargs classification args manager
+     */
     public void work(ClassifArgs cargs) {
         try{
 
@@ -126,6 +141,10 @@ public class Classification {
 
     }
 
+    /**
+     * Classification arguments manager
+     * @author Augustin Voisin-Marras
+     */
     private static class ClassifArgs {
         private final String in_arff;
         private final String out_arff;

@@ -15,6 +15,10 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 
+/**
+ * @author Maëlle Brassier
+ * @deprecated Not used in project
+ */
 public class ComparaisonResult implements Runnable {
 
 	private String outputPath;

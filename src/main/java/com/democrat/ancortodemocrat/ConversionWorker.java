@@ -17,6 +17,8 @@ import com.democrat.ancortodemocrat.treetagger.TokenConvertRelationHandler;
 /**
  * Classe permettant de convertir un corpus en première mention
  * vers un corpus en chaîne
+ *
+ * @author Alexis Puret
  */
 public class ConversionWorker implements Runnable{
 

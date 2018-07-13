@@ -10,24 +10,45 @@ import java.io.*;
 import java.nio.file.FileAlreadyExistsException;
 import java.util.*;
 
+/**
+ * Chaining class
+ * @author Alexis Puret
+ * @author Augustin Voisin-Marras
+ */
 public class Chaining {
 
 	private Logger logger = Logger.getLogger(Chaining.class);
 
 
 	/**
-	 * @param args Liste des arguments passé dans la ligne de commande
+	 * @param args Command line arguments
 	 */
 	public Chaining(String[] args) throws InvalidArffAttributes, IOException {
 		scorerTask(new ScorerArgs(args));
 	}
 
+	/**
+	 * Constructor with detailed parameters
+	 * @param aux_output
+	 * @param in_gold
+	 * @param in_system
+	 * @param output
+	 * @param force
+	 * @throws IOException
+	 * @throws InvalidArffAttributes
+	 */
 	public Chaining(List<String> aux_output, String in_gold, String in_system, String output,
 			boolean force) throws IOException, InvalidArffAttributes {
 
 		scorerTask(new ScorerArgs(aux_output,in_gold,in_system,output,force));
 	}
 
+	/**
+	 * Task creating chains
+	 * @param sargs Arguments
+	 * @throws IOException
+	 * @throws InvalidArffAttributes
+	 */
 	private void scorerTask(ScorerArgs sargs) throws IOException, InvalidArffAttributes {
 
 		String goldArffName = sargs.in_gold;
@@ -419,6 +440,10 @@ public class Chaining {
 		}
 	}
 
+	/**
+	 * Class managing chaining args
+	 * @author Augustin Voisin-Marras
+	 */
 	private class ScorerArgs {
 
 		private final String in_gold;

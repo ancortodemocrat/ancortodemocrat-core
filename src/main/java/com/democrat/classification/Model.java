@@ -12,6 +12,11 @@ import weka.core.Attribute;
 import weka.core.Instances;
 import weka.core.SerializationHelper;
 
+/**
+ * Model class
+ * @author Alexis Puret
+ * @author Augustin Voisin-Marras
+ */
 public class Model {
 
 	/**
@@ -23,6 +28,10 @@ public class Model {
 	private String path;
 
 
+	/**
+	 *
+	 * @param classifier to use for this model
+	 */
 	private Model(AbstractClassifier classifier){
 		this.classifier = classifier;
 
@@ -103,6 +112,7 @@ public class Model {
 	/**
 	 * le model retrouve la classe de chaque instance donnée
 	 * @param unlabeled: Liste des instances à classifier
+	 * @return Instances object containing classified instances
 	 */
 	public void classifyInstance(Instances unlabeled){
 		// set class attribute
@@ -126,6 +136,7 @@ public class Model {
 	 * le model retrouve la probabilité que la classe soit COREF
 	 *  pour chaque instance donnée
 	 * @param unlabeled : Liste des instances à classifier
+	 * @return Instances object containing classified instances with classification score
 	 */
 	public Instances classifyInstanceProba(Instances unlabeled){
 		// set class attribute

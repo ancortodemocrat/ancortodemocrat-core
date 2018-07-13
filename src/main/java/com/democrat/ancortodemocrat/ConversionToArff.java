@@ -15,12 +15,30 @@ import com.democrat.ancortodemocrat.element.Relation;
 import com.democrat.ancortodemocrat.element.Unit;
 import com.democrat.ancortodemocrat.feature.CalculateFeature;
 
+/**
+ * Class Used to convert corpus into arff files
+ * @author Alexis Puret
+ * @author Maëlle Brassier
+ * @author Augustin Voisin-Marras
+ */
 public class ConversionToArff implements Runnable{
 
 	private final SUFFIX sfx;
 
+	/**
+	 * Suffix for Arff files
+	 */
 	public enum SUFFIX{
+		/**
+		 * No suffix.
+		 * Old arffs with same name will be overwrited
+		 */
 		NONE,
+		/**
+		 * Add DateTime at the end of filename
+		 * Usefull if you want to keep all arffs generated with same name
+		 * (It won't overwrite old files)
+		 */
 		DATE_TIME
 	}
 	
@@ -104,18 +122,23 @@ public class ConversionToArff implements Runnable{
 	private List<String> fileOuput = new ArrayList<String>();
 	private int split;
 
+	/**
+	 * Constructor
+	 * @param corpus corpus to convert from
+	 * @param sfx Suffix to add for arff file name
+	 */
 	public ConversionToArff(Corpus corpus,SUFFIX sfx){
-
 		this.corpusList.add( corpus );
 		this.sfx = sfx;
 	}
 
 	/**
-	 *  @param positif nombre d'instance de relation positive voulue
-	 * @param negatif nombre d'instance de négative voulue
-	 * @param param Paramètre indiquant si on garde ou non les associatives
-	 * @param outputPath chemin de sortie du fichier arff
-	 * @param sfx
+	 * Constructor
+	 * @param positif target number of coref instances
+	 * @param negatif target number of not_coref instances
+	 * @param param boolean to keep or not associatives corefs
+	 * @param outputPath arff output path
+	 * @param sfx Suffix to add for arff file name
 	 */
 	private ConversionToArff(int positif, int negatif, ParamToArff param,
 							 String outputPath, int split, SUFFIX sfx){
@@ -127,12 +150,32 @@ public class ConversionToArff implements Runnable{
 		this.sfx = sfx;
 	}
 
+	/**
+	 *
+	 * @param corpus corpus to convert from
+	 * @param positif target number of coref instances
+	 * @param negatif target number of not_coref instances
+	 * @param param boolean to keep or not associatives corefs
+	 * @param outputPath arff output path
+	 * @param split Split number
+	 * @param sfx Suffix to add for arff file name
+	 */
 	public ConversionToArff(Corpus corpus, int positif, int negatif, ParamToArff param,
 							String outputPath, int split, SUFFIX sfx){
 		this(positif, negatif, param, outputPath, split ,sfx);
 		this.corpusList.add( corpus );
 	}
 
+	/**
+	 *
+	 * @param corpusList corpus list to convert from
+	 * @param positif target number of coref instances
+	 * @param negatif target number of not_coref instances
+	 * @param param boolean to keep or not associatives corefs
+	 * @param outputPath arff output path
+	 * @param split Split number
+	 * @param sfx Suffix to add for arff file name
+	 */
 	public ConversionToArff(List<Corpus> corpusList, int positif, int negatif,
 							ParamToArff param,  String outputPath, int split, SUFFIX sfx){
 		this(positif, negatif, param, outputPath, split ,sfx);
@@ -140,6 +183,10 @@ public class ConversionToArff implements Runnable{
 	}
 
 
+	/**
+	 * Getter for created arff file names
+	 * @return list of files name
+	 */
 	public List<String> getFileOuput() {
 		return fileOuput;
 	}
@@ -149,7 +196,7 @@ public class ConversionToArff implements Runnable{
 	 * des valeurs de ses traits, et renvoie cette ligne.
 	 * @param annotation Annotation nécessaire qui contient la relation pour récupérer les traits
 	 * @param relation Relation concernée où les traits seront extraits
-	 * @return
+	 * @return String containing relation features
 	 */
 	private String makeRelation( Annotation annotation, Relation relation ){
 		String line = "";
@@ -297,14 +344,28 @@ public class ConversionToArff implements Runnable{
 	}
 
 
+	/**
+	 * Getter for coref relations
+	 * @return a map containing each relation selected with it's annotation
+	 * @deprecated Not used
+	 */
 	public Map<Relation, Annotation> getPositiveRelationSelected() {
 		return positiveRelationSelected;
 	}
 
+
+	/**
+	 * Getter for not_coref relations
+	 * @return a map containing each relation selected with it's annotation
+	 * @deprecated Not used
+	 */
 	public Map<Relation, Annotation> getNegativeRelationSelected() {
 		return negativeRelationSelected;
 	}
 
+	/**
+	 * Sorting selected instances
+	 */
 	public void sortInstance(){
 		for(Corpus corpus : corpusList){
 			logger.info("corpus ==> " + corpus.getName() );
@@ -349,7 +410,7 @@ public class ConversionToArff implements Runnable{
 	}
 
 	/**
-	 * Séléctionne les instances positives et négatives selon les paramètres
+	 * Sélectionne les instances positives et négatives selon les paramètres
 	 * dans la liste de ceux trouvées dans les corpus
 	 */
 	public void selectInstance(){
@@ -430,6 +491,9 @@ public class ConversionToArff implements Runnable{
 		}
 	}
 
+	/**
+	 * Write instances to files
+	 */
 	public void writeInstance(){
 		PrintWriter writer = null;
 		PrintWriter writer_links = null;
@@ -744,7 +808,11 @@ public class ConversionToArff implements Runnable{
 		//return null;
 	}
 
-@Override
+	/**
+	 * implementation of Runnable interface run method:
+	 * loading corpus(es) annotations and texts and call to work() method
+	 */
+	@Override
 	public void run() {
 		//charger chaque corpus..
 

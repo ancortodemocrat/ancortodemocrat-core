@@ -82,8 +82,19 @@ public class Unit extends Element {
 		return false;
 	}
 
-
+	/**
+	 * @deprecated see {@link #getStart()}
+	 */
 	public int getStart(  Annotation annotation  ){
+		return getStart();
+	}
+
+	/**
+	 * Position getter
+	 *
+	 * @return Start index for this unit
+	 */
+	public int getStart(){
 		try{
 			return this.getPositioning().getStart().getSinglePosition().getIndex();
 		} catch (NullPointerException e){
@@ -93,7 +104,19 @@ public class Unit extends Element {
 		}
 	}
 
+	/**
+	 * @deprecated see {@link #getEnd()}
+	 */
 	public int getEnd( Annotation annotation ){
+		return getEnd();
+	}
+
+	/**
+	 *	Position getter
+	 * @return End index of this unit
+	 */
+	public int getEnd()
+	{
 		return this.getPositioning().getEnd().getSinglePosition().getIndex();
 	}
 

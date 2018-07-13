@@ -28,6 +28,12 @@ import com.democrat.ancortodemocrat.treetagger.TreeTagger;
 import com.democrat.classification.Chaining;
 
 
+/**
+ * MainClass
+ * @author Alexis Puret
+ * @author Maëlle Brassier
+ * @author Augustin Voisin-Marras
+ */
 public class AncorToDemocrat {
 
 	private static Logger logger = Logger.getLogger(AncorToDemocrat.class);
@@ -35,6 +41,10 @@ public class AncorToDemocrat {
 	public static TreeTagger treeTagger;
 	public final static String[] help = new String[]{};
 
+	/**
+	 * Main method
+	 * @param args Arguments from command line
+	 */
 	public static void main(String[] args) {
 
 		//configure logger
@@ -514,6 +524,9 @@ public class AncorToDemocrat {
 		}
 	}
 
+	/**
+	 * Used to Convert featured corpus(es) to arff file(s)
+	 */
 	public static void generateCorpusArff(){
 		//loading corpus
 		List<String> corpusPath = fileManager.loadPathFile();
@@ -540,6 +553,11 @@ public class AncorToDemocrat {
 		}
 	}
 
+	@SuppressWarnings("unused")
+	/**
+	 * Add string in list if it does not already contain this string.
+	 * @deprecated A Set shall be used instead of list
+	 */
 	private static void addListIfNotContains(List<String> list, String str){
 		if(! list.contains(str)){
 			list.add(str);
@@ -547,8 +565,8 @@ public class AncorToDemocrat {
 	}
 
 	/**
-	 * select randomly nb positive instance, and
-	 * nb negative instance from other arff file
+	 * Select randomly nb coreferences instance, and
+	 * nb not coref instance from other arff file
 	 * and generate one file with the name,
 	 * 
 	 * @param folderName chemin d'entrée
@@ -722,12 +740,16 @@ public class AncorToDemocrat {
 	 * 
 	 * @param min including
 	 * @param max including
-	 * @return
+	 * @return random number between min & max
 	 */
 	public static int randomNumber(int min, int max){
 		return min + (int)(Math.random() * ((max - min) + 1));
 	}
 
+	/**
+	 * Prints documentation of specified Options
+	 * @param opt The Options to print documentation
+	 */
 	public static void documentation(Options opt){
 		String header = "Generate chains from input classified instances";
 		String footer = "Please submit issues to https://gitlab.com/augustinvoima/ancor2/issues";
@@ -736,6 +758,10 @@ public class AncorToDemocrat {
 		System.exit(1);
 	}
 
+	/**
+	 * Sigleton-like static FileManager getter
+	 * @return Static FileManager
+	 */
 	public static FileManager getFileManager() {
 		if(null == fileManager)
 			fileManager = new FileManager();

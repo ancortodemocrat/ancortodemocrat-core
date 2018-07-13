@@ -4,6 +4,11 @@ import com.democrat.expes.Experience;
 
 import java.io.IOException;
 
+/**
+ * Parent class for the experiments made for TALN-CORIA RJC 2018
+ *
+ * @author Augustin Voisin-Marras *
+ */
 public class RJC18 implements Experience {
     public static final String EXPE_PREFIX = "rjc18";
     private Experience expe;
