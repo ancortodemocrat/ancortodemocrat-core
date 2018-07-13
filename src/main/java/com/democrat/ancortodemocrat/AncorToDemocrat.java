@@ -752,7 +752,7 @@ public class AncorToDemocrat {
 	 */
 	public static void documentation(Options opt){
 		String header = "Generate chains from input classified instances";
-		String footer = "Please submit issues to https://gitlab.com/augustinvoima/ancor2/issues";
+		String footer = "Please submit issues to https://github.com/ancortodemocrat/ancortodemocrat-core/issues";
 		HelpFormatter formatter = new HelpFormatter();
 		formatter.printHelp("java -jar ancor2.jar", header, opt , footer, true);
 		System.exit(1);
